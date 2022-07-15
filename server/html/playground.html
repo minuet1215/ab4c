@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Plan B</title>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://mrdoob.github.io/stats.js/build/stats.min.js"></script>
+    <style>
+      .row {
+        display: flex;
+      }
+
+      .gum {
+        transform: scaleX(-1);
+        display: none;
+      }
+      .mirror {
+        transform: scaleX(-1);
+      }
+      .senderControl {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <div>
+          <select name="devices" id="devices" class="senderControl"></select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <video id="gum_video" autoplay muted playsinline class="gum"></video>
+        </div>
+        <br />
+        <div>
+          <canvas id="transparent_canvas" class="mirror"></canvas>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>
