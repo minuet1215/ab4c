@@ -1,3 +1,4 @@
+import Kakao from "../../../controller/Kakao";
 import React, { useEffect } from "react";
 import axios from "axios";
 import { Space, Typography, Button } from "antd";
@@ -9,11 +10,11 @@ function LandingPage() {
   const navigate = useNavigate();
   const { Title } = Typography;
 
-  useEffect(() => {
-    axios.get("/api/hello").then((response) => {
-      console.log(response);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get("/api/hello").then((response) => {
+  //     console.log(response);
+  //   });
+  // }, []);
 
   const onClickHandler = () => {
     axios.get(`/api/users/logout`).then((response) => {
@@ -40,6 +41,7 @@ function LandingPage() {
       >
         <Title>안방네컷</Title>
         <img src={mainImagePath} />
+        <Kakao/>
         <Button type="primary" onClick={() => navigate("/login")}>
           로그인
         </Button>

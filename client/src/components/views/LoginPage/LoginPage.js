@@ -26,6 +26,7 @@ function LoginPage() {
     let body = {
       email: Email,
       password: Password,
+      isLocal : true
     };
 
     dispatch(loginUser(body)).then((response) => {
