@@ -1,0 +1,19 @@
+.displaynone {
+  display: none;
+}
+
+.box {
+  position: relative;
+}
+
+.myBox {
+  position: absolute;
+}
+
+.remoteBox {
+  position: absolute;
+}
+
+.mirror {
+  transform: scaleX(-1);
+}
