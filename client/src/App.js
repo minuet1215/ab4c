@@ -6,9 +6,8 @@ import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import LobbyPage from "./components/views/LobbyPage/LobbyPage";
 import VideoCallPage from "./components/views/VideoCallPage/VideoCallPage";
+import GroupPage from "./components/views/GroupPage/GroupPage";
 import Auth from "./hoc/auth";
-
-// import TestPage from "./components/views/Test/Test";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -30,7 +29,7 @@ function App() {
             path="/video_call/:room_name"
             element={<AuthVideoCallPage />}
           />
-          {/* <Route exact path="/test" element={<TestPage />} /> */}
+          <Route exact path="/group" element={<GroupPage />} />
         </Routes>
       </div>
     </Router>

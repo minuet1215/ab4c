@@ -7,8 +7,8 @@ const config = require("./config/key");
 const { auth } = require("./middleware/auth");
 const { User } = require("./models/User");
 const path = require("path");
-// const cors = require("cors");
-// app.use(cors());
+const cors = require("cors");
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -27,13 +27,18 @@ mongoose
 
 // ====================== < bg rm test > ====================== //
 
+// todo : 리엑트화 (지금은 server side rendering)
 // backend 포트로 바로 들어와서 요청해야함
 app.use("/js", express.static(__dirname + "/js"));
-app.use("/modules", express.static(__dirname + "/modules"));
+app.use("/modules", express.static(__dirname + "/js/modules"));
 app.get("/test", (_, res) => {
   console.log("im in test");
   res.sendFile(__dirname + "/html/playground.html");
 });
+// app.get("/noom", (_, res) => {
+//   console.log("im in noom");
+//   res.sendFile(__dirname + "/html/noom.html");
+// });
 
 // ====================== < REACT 연결 > ====================== //
 
@@ -47,7 +52,11 @@ app.get("/", (_, res) => {
 // ========================= < API > ========================= //
 
 //boiler-plate
-app.get("/api/hello", (_, res) => res.send("landing page check"));
+app.get(
+  "/api/hello",
+  (_, res) => {}
+  // res.send("landing page check")
+);
 
 // ------------------------- < users > ------------------------- //
 app.post("/api/users/register", (req, res) => {
@@ -132,7 +141,7 @@ app.post("/api/rooms/enter", auth, (req, res) => {
   }
 });
 
-// ------------------------- < socket > ------------------------- //
+// ========================= < WebRTC > ========================= //
 let http = require("http");
 let server = http.createServer(app, {
   cors: { origin: "*" },
@@ -140,6 +149,7 @@ let server = http.createServer(app, {
 let socketio = require("socket.io");
 let io = socketio.listen(server);
 
+// ==================== group call < SOCKET > ==================== //
 let users = {};
 
 let socketToRoom = {};
@@ -147,11 +157,7 @@ let socketToRoom = {};
 const maximum = 2; // 최대 인원수
 
 io.on("connection", (socket) => {
-  // console.log("소켓 연결됨");
-
-  socket.on("ping_test", (data) => {
-    console.log("ping test socket: ", data);
-  }); // test
+  console.log("소켓 연결됨");
 
   socket.on("join_room", (data) => {
     if (users[data.room]) {
@@ -207,10 +213,6 @@ io.on("connection", (socket) => {
     }
     socket.broadcast.to(room).emit("user_exit", { id: socket.id });
     console.log(users);
-  });
-
-  socket.on("take_photo", (room_name) => {
-    socket.to(room_name).emit("take_photo");
   });
 });
 

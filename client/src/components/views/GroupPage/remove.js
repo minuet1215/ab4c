@@ -1,7 +1,7 @@
 import { segment } from "./segment.mjs";
 import { addShader } from "./wegbl-transparency.mjs";
 
-export default function remove() {
+export default function Remove() {
   const videoElement = document.querySelector("video#my_face");
   const greenScreenCanvas = document.querySelector("canvas#mygreen");
   const webglCanvas = document.querySelector("canvas#mytrans");

@@ -1,33 +1,19 @@
 import React, { useEffect } from "react";
-import UseImportScript from "../../../hooks/UseImportScript";
+
 import { Typography, Button, Select, Input } from "antd";
 import styles from "./GroupPage.module.css";
-// import app from "./app.js";
+import app from "./app.js";
 import remove from "./remove.js";
-// import remove2 from "./remove2.js";
-
-// <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+import remove2 from "./remove2.js";
 
 function GroupPage() {
-  // console.log(__dirname);
   const { Title } = Typography;
-  UseImportScript(
-    "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"
-  ); // crossorigin="anonymous"
-  UseImportScript(
-    "https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
-  ); // crossorigin="anonymous"
-  UseImportScript("https://mrdoob.github.io/stats.js/build/stats.min.js");
-  // UseImportScript("/socket.io/socket.io.js");
-  UseImportScript("https://cdn.socket.io/4.5.0/socket.io.min.js");
-  // UseImportScript("./app.js");
-  // UseImportScript("./remove.js"); // type = "module"
-  // UseImportScript("./remove2.js"); // type = "module"
-  // app();
-  // remove2();
+
   useEffect(() => {
+    app();
     remove();
-  }, []);
+    remove2();
+  });
 
   return (
     <div>
@@ -41,7 +27,6 @@ function GroupPage() {
         </div>
         <div id="call">
           <div id="control">
-            <Button id="take_photo">Take Photo</Button>
             <Select id="cameras"></Select>
             <Button id="mute">Mute</Button>
             <Button id="camera">Turn Camera Off</Button>

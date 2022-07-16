@@ -1,4 +1,6 @@
+import { SelfieSegmentation } from "@mediapipe/selfie_segmentation";
 // ToDo: make this a class
+
 let height, width;
 
 function greenScreen(results, ctx) {
