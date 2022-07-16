@@ -1,12 +1,12 @@
 import io from "socket.io-client";
 
-const socket = io("http://localhost:5001"); // todo
-
 export default function App() {
+  const socket = io.connect("http://localhost:5001"); // todo
+
   const my_face = document.getElementById("my_face");
   const remote = document.getElementById("remote");
-  const remoteGreen = document.getElementById("remotegreen");
-  const remotetrans = document.getElementById("remotetrans");
+  // const remoteGreen = document.getElementById("remotegreen");
+  // const remotetrans = document.getElementById("remotetrans");
   const mute_btn = document.getElementById("mute");
   const camera_btn = document.getElementById("camera");
   const cameras_select = document.getElementById("cameras");
@@ -14,7 +14,6 @@ export default function App() {
   call.hidden = true;
 
   let my_stream;
-  let image_capture;
   let muted = false;
   let camera_off = false;
   let room_name;
@@ -63,17 +62,10 @@ export default function App() {
     }
   }
 
-  // Control
+  // ================== Control ================== //
   mute_btn.addEventListener("click", handleMuteClick);
   camera_btn.addEventListener("click", handleCameraClick);
   cameras_select.addEventListener("input", handleCameraChange);
-
-  function takePhoto() {
-    const photo_canvas = document.getElementById("photo");
-    const context = photo_canvas.getContext("2d");
-    context.drawImage(my_face, 0, 0, my_face.width, my_face.height);
-    const photo_data = photo_canvas.toDataURL("image/png");
-  }
 
   function handleMuteClick() {
     my_stream
@@ -115,10 +107,11 @@ export default function App() {
     }
   }
 
-  // Welcome form (join a room)
+  // =============== Welcome form =============== //
 
   const welcome = document.getElementById("welcome");
   const welcomeForm = welcome.querySelector("form");
+  // const enter_room_btn = welcome.getElementById("enter_room");
 
   welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 
@@ -126,6 +119,7 @@ export default function App() {
     event.preventDefault();
     const input = welcomeForm.querySelector("input");
     room_name = input.value;
+    console.log(room_name);
     await initCall();
     socket.emit("join_room", room_name, socket.id);
     input.value = "";
@@ -163,7 +157,7 @@ export default function App() {
   });
 
   socket.on("offer", async (offer, remote_socket_id, remote_index) => {
-    // console.log(`offer ${remote_socket_id}`);
+    console.log(`receive offer ${remote_socket_id}`);
     try {
       makeConnection();
       const index = peer_connection_object_Array.length - 1;
@@ -185,24 +179,21 @@ export default function App() {
   });
 
   socket.on("answer", (answer, remote_index, index) => {
+    console.log("receive answer");
     peer_connection_object_Array[index].connection.setRemoteDescription(answer);
     peer_connection_object_Array[index].remote_index = remote_index;
   });
 
   socket.on("ice", async (ice, index) => {
+    console.log("received ice");
     if (index) {
       await peer_connection_object_Array[index].connection.addIceCandidate(ice);
     }
   });
 
   socket.on("leave_room", (remote_socket_id) => {
-    // console.log(`${remote_socket_id} left the room`);
+    console.log(`${remote_socket_id} left the room`);
     removeVideo(remote_socket_id);
-  });
-
-  socket.on("take_photo", () => {
-    // console.log("take photo: ", socket.id);
-    takePhoto();
   });
 
   // RTC code
