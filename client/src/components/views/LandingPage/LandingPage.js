@@ -54,6 +54,9 @@ function LandingPage() {
         <Button type="primary" onClick={onClickHandler}>
           로그아웃
         </Button>
+        <Button type="primary" onClick={() => navigate("/invitePage")}>
+          초대하기
+        </Button>
       </Space>
     </div>
   );

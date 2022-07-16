@@ -9,6 +9,7 @@ import VideoCallPage from "./components/views/VideoCallPage/VideoCallPage";
 import Auth from "./hoc/auth";
 import KakaoAuth from "./controller/KakaoAuth";
 import Profile from "./controller/Profile";
+import invitePage from "./components/views/invitePage/invitePage";
 
 // import TestPage from "./components/views/Test/Test";
 
@@ -19,7 +20,7 @@ function App() {
   const AuthLobbyPage = Auth(LobbyPage, true);
   const AuthVideoCallPage = Auth(VideoCallPage, true);
   const KakaoAuthPage = Auth(KakaoAuth,false);
-
+  const AuthInvtePage = Auth(invitePage, null);
   return (
     <Router>
       <div>
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/login" element={<AuthLoginPage />} />
           <Route exact path="/register" element={<AuthRegisterPage />} />
           <Route exact path="/lobby" element={<AuthLobbyPage />} />
+          <Route exact path = '/invitePage' element={<AuthInvtePage/>}/>
           <Route
             exact
             path="/video_call/:room_name"
