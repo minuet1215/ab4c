@@ -9,6 +9,7 @@ const { User } = require("./models/User");
 const path = require("path");
 // const cors = require("cors");
 // app.use(cors());
+const mailController = require("./js/modules/mailSender");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -230,6 +231,8 @@ io.on("connection", (socket) => {
     socket.to(room_name).emit("take_photo");
   });
 });
+// ------------------<invite>---------------------------//
+app.use("/invite", mailController);
 
 app.get("*", (_, res) => res.send("404 Not Found"));
 server.listen(port, () => console.log(`백엔드 서버 실행 (포트번호) ${port}`));
