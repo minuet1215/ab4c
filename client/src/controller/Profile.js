@@ -29,7 +29,7 @@ const Profile = () => {
           dispatch(loginUser(body)) // 로그인 과정을 거침
             .then((response) => {
               // console.log("login success!!!");
-              navigate("/");
+              navigate("/main");
             });
         });
     } catch (err) {}
