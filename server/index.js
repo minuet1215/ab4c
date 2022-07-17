@@ -144,40 +144,74 @@ app.post("/api/rooms/enter", auth, (req, res) => {
 // ========================= < WebRTC > ========================= //
 let http = require("http");
 let server = http.createServer(app, {
-  cors: { origin: "*" },
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
 });
 const io = require("socket.io")(server);
 
 // ==================== group call < SOCKET > ==================== //
 
-let currennt_room_name;
+let users = {};
+let socketToRoom = {};
+const maximum = 2;
 
 io.on("connection", (socket) => {
-  socket.on("join_room", (room_name, local_socket_id) => {
-    // console.log(`join_room: ( ${room_name} ) ${local_socket_id}`);
-    currennt_room_name = room_name;
-    socket.join(room_name);
-    socket.to(room_name).emit("welcome", local_socket_id);
-  });
-  socket.on("offer", (offer, local_socket_id, remote_socket_id, index) => {
-    // console.log("get offer");
-    socket.to(remote_socket_id).emit("offer", offer, local_socket_id, index);
-  });
-  socket.on("answer", (answer, remote_socket_id, localIndex, remote_index) => {
-    // console.log("get answer");
-    socket
-      .to(remote_socket_id)
-      .emit("answer", answer, localIndex, remote_index);
-  });
-  socket.on("ice", (ice, remote_socket_id, index) => {
-    // console.log("get ice candidate");
-    socket.to(remote_socket_id).emit("ice", ice, index);
+  socket.on("join_room", (data) => {
+    if (users[data.room]) {
+      const length = users[data.room].length;
+      if (length === maximum) {
+        socket.to(socket.id).emit("room_full");
+        return;
+      }
+      users[data.room].push({ id: socket.id });
+    } else {
+      users[data.room] = [{ id: socket.id }];
+    }
+    socketToRoom[socket.id] = data.room;
+
+    socket.join(data.room);
+    console.log(`[${socketToRoom[socket.id]}]: ${socket.id} enter`);
+
+    const usersInThisRoom = users[data.room].filter(
+      (user) => user.id !== socket.id
+    );
+
+    console.log(usersInThisRoom);
+
+    io.sockets.to(socket.id).emit("all_users", usersInThisRoom);
   });
 
-  // leave room
-  socket.on("disconnecting", (reason) => {
-    // console.log(`disconnecting ( ${currennt_room_name} ): ${reason}`);
-    socket.to(currennt_room_name).emit("leave_room", socket.id);
+  socket.on("offer", (sdp) => {
+    console.log("offer: " + socket.id);
+    socket.broadcast.emit("getOffer", sdp);
+  });
+
+  socket.on("answer", (sdp) => {
+    console.log("answer: " + socket.id);
+    socket.broadcast.emit("getAnswer", sdp);
+  });
+
+  socket.on("candidate", (candidate) => {
+    console.log("candidate: " + socket.id);
+    socket.broadcast.emit("getCandidate", candidate);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`[${socketToRoom[socket.id]}]: ${socket.id} exit`);
+    const roomID = socketToRoom[socket.id];
+    let room = users[roomID];
+    if (room) {
+      room = room.filter((user) => user.id !== socket.id);
+      users[roomID] = room;
+      if (room.length === 0) {
+        delete users[roomID];
+        return;
+      }
+    }
+    socket.broadcast.to(room).emit("user_exit", { id: socket.id });
+    console.log(users);
   });
 });
 

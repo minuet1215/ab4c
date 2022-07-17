@@ -1,7 +1,7 @@
 import io from "socket.io-client";
 
 export default function App() {
-  const socket = io.connect("http://localhost:5001"); // todo
+  const socket = io.connect("https://13.125.70.158/5001"); // todo
 
   const my_face = document.getElementById("my_face");
   const remote = document.getElementById("remote");
@@ -261,14 +261,6 @@ export default function App() {
 
   // video control
   function removeVideo(target_socket_id) {
-    // console.log(`>>> remove video ${target_socket_id}`);
-    const streams = document.querySelector("#streams");
-    const videos_div = streams.querySelectorAll("div");
-    videos_div.forEach((video_div) => {
-      if (video_div.id === target_socket_id) {
-        // console.log(`>> find video ${target_socket_id}`);
-        streams.removeChild(video_div);
-      }
-    });
+    //삭제 구현?
   }
 }

@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     "/api",
     createProxyMiddleware({
-      target: "http://localhost:5001/", // todo
+      target: "http://13.125.70.158:5001/", // todo
       changeOrigin: true,
     })
   );
