@@ -41,6 +41,7 @@ function RegisterPage() {
       email: Email,
       password: Password,
       name: Name,
+      loginType: "local",
     };
 
     dispatch(registerUser(body)).then((response) => {

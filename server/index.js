@@ -7,14 +7,48 @@ const config = require("./config/key");
 const { auth } = require("./middleware/auth");
 const { User } = require("./models/User");
 const path = require("path");
+const env = require("dotenv");
+const multer = require("multer");
+const mailController = require("./js/modules/mailSender");
 const cors = require("cors");
-app.use(cors());
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// ====================== < DB > ====================== //
+/* ========================= S3 ========================*/
+const AWS = require("aws-sdk");
+const multerS3 = require("multer-s3");
+
+const s3 = new AWS.S3({
+  accessKeyId: config.AWS_ACCESSKEY_ID,
+  secretAccessKey: config.AWS_SECRET_ACCESSKEY,
+  region: config.AWS_REGION,
+});
+
+const imageUpload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: "ab4c-image-bucket",
+    key: function (req, file, cb) {
+      var ext = file.mimetype.split("/")[1];
+      if (!["png", "jpg", "jpeg", "gif", "bmp"].includes(ext)) {
+        return cb(new Error("Only images are allowed"));
+      }
+      cb(null, Date.now() + "." + file.originalname.split(".").pop());
+    },
+  }),
+  acl: "public-read-write",
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
+
+// 이미지 업로드 요청
+app.post("/api/test/img", imageUpload.single("file"), async (req, res) => {
+  res.status(200).json({ location: req.file.location });
+});
+
+/* =================== S3 End ================*/
 
 const mongoose = require("mongoose");
 mongoose
@@ -67,6 +101,20 @@ app.post("/api/users/register", (req, res) => {
     }
   });
 });
+app.post("/api/users/check", (req, res) => {
+  //요청된 이메일을 데이터베이스에서 있는지 찾는다.
+  User.findOne({ email: req.body.email }, (err, userInfo) => {
+    if (!userInfo) {
+      return res.json({
+        isUser: false,
+      });
+    } else {
+      return res.json({
+        isUser: true,
+      });
+    }
+  });
+});
 
 app.post("/api/users/login", (req, res) => {
   //요청된 이메일을 데이터베이스에서 있는지 찾는다.
@@ -79,24 +127,41 @@ app.post("/api/users/login", (req, res) => {
     }
 
     //요청된 이메일이 데이터 베이스에 있다면 비밀번호가 맞는 비밀번호 인지 확인.
-    userInfo.comparePassword(req.body.password, (err, isMatch) => {
-      if (!isMatch)
-        return res.json({
-          loginSuccess: false,
-          message: "비밀번호가 틀렸습니다.",
-        });
+    if (userInfo.loginType === "local" && req.body.isLocal) {
+      userInfo.comparePassword(req.body.password, (err, isMatch) => {
+        if (!isMatch)
+          return res.json({
+            loginSuccess: false,
+            message: "비밀번호가 틀렸습니다.",
+          });
 
-      //비밀번호 까지 맞다면 토큰을 생성하기.
+        //비밀번호 까지 맞다면 토큰을 생성하기.
+        userInfo.generateToken((err, user) => {
+          if (err) return res.status(400).send(err);
+          // 쿠키 (or 로컳스토리지)에 토큰을 저장한다.
+          res
+            .cookie("x_auth", user.token)
+            .status(200)
+            .json({ loginSuccess: true, userId: user._id });
+        });
+      });
+    } else if (
+      userInfo.loginType === "kakao" &&
+      req.body.isLocal === undefined
+    ) {
       userInfo.generateToken((err, user) => {
         if (err) return res.status(400).send(err);
-
         // 쿠키 (or 로컳스토리지)에 토큰을 저장한다.
         res
           .cookie("x_auth", user.token)
           .status(200)
           .json({ loginSuccess: true, userId: user._id });
       });
-    });
+    } else {
+      res.send("<script>alert('로그인 실패')</script>");
+    }
+    // console.log(req.body.isLocal);
+    // console.log(userInfo.loginType);
   });
 });
 
@@ -209,6 +274,25 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("user_exit", { id: socket.id });
     console.log(users);
   });
+});
+// ------------------<invite>---------------------------//
+app.use("/invite", mailController);
+
+// ------------------<image save for Local>---------------------------//
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      cb(null, "uploads/"); //cb 콜백함수를 통해 전송된 파일을 'uploads' 폴더에 저장
+    },
+    filename(req, file, cb) {
+      const ext = path.extname(file.originalname); // 파일확장자
+      cb(
+        null,
+        path.basename(file.originalname, ext) + new Date().valueOf() + ext
+      ); // cb 콜백함수를 통해 전송된 파일 이름 설정(파일명 + 업로드시간 + 확장자)
+    },
+  }),
 });
 
 app.get("*", (_, res) => res.send("404 Not Found"));
