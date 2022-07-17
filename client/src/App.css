@@ -1,0 +1,199 @@
+@import "~antd/dist/antd.css";
+
+/* .App {
+  text-align: center;
+} */
+
+/* // */
+.main_page {
+  width: 80%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.main_title {
+  display: block;
+  /* position: relative; */
+  text-align: center;
+  font-size: 50px;
+}
+.main_img {
+  display: block;
+  width: 100%;
+}
+
+.buttons {
+  display: block;
+  width: 100%;
+}
+.buttons button + button {
+  margin-top: 10px;
+}
+
+.button {
+  border-radius: 10px;
+  border: 0;
+  width: 100%;
+  height: 40px;
+  box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
+}
+.sign_in {
+  background-color: #fc8da1;
+  color: white;
+}
+.sign_in_kakao {
+  background-color: #f0d030;
+  color: black;
+}
+.sign_up {
+  background-color: rgba(255, 247, 251);
+  color: black;
+}
+
+/* main */
+.box {
+  width: 80%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.box a {
+  display: block;
+}
+.box a + a {
+  margin-top: 20px;
+}
+.btn {
+  border-radius: 15px;
+  border: 0;
+  width: 100%;
+  height: 150px;
+  box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
+}
+.btn_bg1 {
+  background-color: #fc8da1;
+  color: white;
+  font-size: 30px;
+}
+.btn_bg2 {
+  background-color: rgba(255, 247, 251);
+  color: black;
+  font-size: 30px;
+}
+
+/* lobby */
+.lobby_page {
+  width: 80%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.waiting {
+  margin-top: 10px;
+  margin-bottom: 100px;
+  border-radius: 10px;
+  border: 0;
+  background-color: rgba(255, 247, 251);
+  box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.profile_img {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  background-color: aqua;
+}
+.name_tag {
+}
+.host_tag {
+  height: 40px;
+  width: 40px;
+  background-color: rgb(255, 255, 255);
+}
+
+.admission {
+  background-color: #fc8da1;
+  color: white;
+}
+.invite {
+  background-color: rgba(255, 247, 251);
+}
+
+/* camera */
+.camera_page {
+  position: relative;
+}
+.camera_display {
+  display: block;
+  /* position: absolute; */
+  display: flex;
+  width: 100%;
+  height: 300px;
+}
+
+.chooses {
+  display: block;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  /* position: fixed; */
+}
+
+.scroll_content {
+  position: relative;
+}
+.contents {
+  justify-content: center;
+  text-align: center;
+  margin: 5% 0 0 0;
+}
+.contentStyle {
+  /* position: absolute; */
+  border-radius: 10%;
+  /* margin-top: 3%; */
+  width: 28%;
+  margin: auto;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 5%;
+}
+.wrapper_col {
+  justify-content: flex-start;
+  bottom: 30px;
+}
+.shutter {
+  position: relative;
+  border-radius: 50%;
+  height: 80px;
+  width: 80px;
+  background-color: #fc8da1;
+}
+.shutter_num {
+  margin-top: 40%;
+  font-size: 30px;
+}
+.shutter_img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.change_camera {
+  margin-top: 40%;
+}
+
+/* frame */
+.frame_style {
+  overflow: auto;
+}
+
+/* camera */

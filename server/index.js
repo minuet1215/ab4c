@@ -7,6 +7,9 @@ const config = require("./config/key");
 const { auth } = require("./middleware/auth");
 const { User } = require("./models/User");
 const path = require("path");
+const env = require('dotenv');
+
+
 // const cors = require("cors");
 // app.use(cors());
 const mailController = require("./js/modules/mailSender");
@@ -17,6 +20,7 @@ app.use(cookieParser());
 
 // ====================== < DB > ====================== //
 
+process.env.mongoURI
 const mongoose = require("mongoose");
 mongoose
   .connect(config.mongoURI, {
@@ -233,6 +237,23 @@ io.on("connection", (socket) => {
 });
 // ------------------<invite>---------------------------//
 app.use("/invite", mailController);
+
+
+// ------------------<image save for Local>---------------------------//
+const multer = require('multer');
+const upload = multer({
+  storage : multer.diskStorage({
+    destination(req, file ,cb) {
+      cb(null, "uploads/"); //cb 콜백함수를 통해 전송된 파일을 'uploads' 폴더에 저장
+    },
+    filename(req, file, cb) {
+      const ext = path.extname(file.originalname); // 파일확장자
+      cb (
+        null,
+        path.basename(file.originalname, ext) + new Date().valueOf() + ext); // cb 콜백함수를 통해 전송된 파일 이름 설정(파일명 + 업로드시간 + 확장자)
+    }
+  })
+});
 
 app.get("*", (_, res) => res.send("404 Not Found"));
 server.listen(port, () => console.log(`백엔드 서버 실행 (포트번호) ${port}`));

@@ -26,12 +26,12 @@ function LoginPage() {
     let body = {
       email: Email,
       password: Password,
-      isLocal : true
+      isLocal: true,
     };
 
     dispatch(loginUser(body)).then((response) => {
       if (response.payload.loginSuccess) {
-        navigate("/"); // 페이지 이동
+        navigate("/main"); // 페이지 이동
       } else {
         alert("로그인 실패");
       }
@@ -66,10 +66,16 @@ function LoginPage() {
             <Button
               type="primary"
               htmlType="submit"
-              style={{ width: "100%" }}
+              style={{
+                width: "100%",
+                color: "white",
+                background: "#fc8da1",
+                // radius: "10px",
+                border: "0",
+              }}
               onClick={onSubmitHandler}
             >
-              Login
+              로그인
             </Button>
           </Form.Item>
         </Form>
