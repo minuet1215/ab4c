@@ -11,12 +11,6 @@ function LandingPage() {
   const navigate = useNavigate();
   const { Title } = Typography;
 
-  // useEffect(() => {
-  //   axios.get("/api/hello").then((response) => {
-  //     console.log(response);
-  //   });
-  // }, []);
-
   const onClickHandler = () => {
     axios.get(`/api/users/logout`).then((response) => {
       if (response.data.success) {
@@ -65,10 +59,18 @@ function LandingPage() {
           >
             사진 찍기
           </button>
+          <Button type="primary" onClick={() => navigate("/group")}>
+          누끼 사진 찍기
+          </Button>
           <button type="primary" className="button" onClick={onClickHandler}>
             로그아웃
           </button>
         </div>
+
+
+        
+
+
       </Space>
     </div>
   );
