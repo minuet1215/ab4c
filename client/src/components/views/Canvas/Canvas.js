@@ -1,65 +1,58 @@
 import React, { Component } from "react";
 import { fabric } from "fabric";
 
-import bg from "../../../img/myPhoto1.jpeg";
+import bg from "../../../img/frame.jpeg";
+import troll from "../../../img/angryTroll.png";
+import Header from "../Header/Header";
 
-
-class Canvas2 extends Component {
+class Canvas extends Component {
   componentDidMount() {
-    const canvas2 = new fabric.Canvas("canvas2");
-    canvas2.setDimensions({ width: 800, height: 600 });
+    const canvas = new fabric.Canvas("canvas");
+    canvas.setDimensions({ width: 380, height: 600 });
 
     fabric.Image.fromURL(bg, function (myImg) {
       const bg = myImg.set({
         left: 0,
         top: 0,
-        width: 800,
+        width: 354,
         angle: 0,
-        height: 600,
-        layer: 0
+        height: 900,
+        layer: 0,
       });
-      canvas2.add(bg);
-      canvas2.sendBackwards(bg);
+      canvas.add(bg);
+      canvas.sendBackwards(bg);
     });
 
     fabric.Image.fromURL(troll, function (myImg) {
       const img1 = myImg.set({
         left: 150,
         top: 50,
-        width: 300,
+        width: 500,
         angle: 30,
-        height: 400,
-        layer: 1
+        height: 500,
+        layer: 1,
       });
-      canvas2.add(img1);
-      canvas2.bringToFront(img1);
-    });
-
-    fabric.Image.fromURL(wizard, function (myImg) {
-      const img2 = myImg.set({
-        left: 450,
-        top: 50,
-        width: 300,
-        angle: 0,
-        height: 400
-      });
-      canvas2.add(img2);
-      canvas2.bringToFront(img2);
+      canvas.add(img1);
+      canvas.bringToFront(img1);
     });
   }
 
   render() {
     const canvas_style = {
-      border: "2px solid red"
+      border: "2px solid black",
+      padding: "2px",
     };
 
     return (
-      <div>
-        <h4>canvas2 DEMO adding image to canvas</h4>
-        <canvas id="canvas2" style={canvas_style} width="600" height="400" />
-      </div>
+      <>
+        <div>
+          <Header />
+          <h4>나의 사진 수정하기</h4>
+          <canvas id="canvas" style={canvas_style} width="354" height="600" />
+        </div>
+      </>
     );
   }
 }
 
-export default Canvas2;
+export default Canvas;
