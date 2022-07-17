@@ -7,8 +7,7 @@ const config = require("./config/key");
 const { auth } = require("./middleware/auth");
 const { User } = require("./models/User");
 const path = require("path");
-const env = require('dotenv');
-
+const env = require("dotenv");
 
 // const cors = require("cors");
 // app.use(cors());
@@ -20,7 +19,7 @@ app.use(cookieParser());
 
 // ====================== < DB > ====================== //
 
-process.env.mongoURI
+process.env.mongoURI;
 const mongoose = require("mongoose");
 mongoose
   .connect(config.mongoURI, {
@@ -64,6 +63,20 @@ app.post("/api/users/register", (req, res) => {
       return res.json({ success: false, err });
     } else {
       return res.status(200).json({ success: true });
+    }
+  });
+});
+app.post("/api/users/check", (req, res) => {
+  //요청된 이메일을 데이터베이스에서 있는지 찾는다.
+  User.findOne({ email: req.body.email }, (err, userInfo) => {
+    if (!userInfo) {
+      return res.json({
+        isUser: false,
+      });
+    } else {
+      return res.json({
+        isUser: true,
+      });
     }
   });
 });
@@ -238,21 +251,21 @@ io.on("connection", (socket) => {
 // ------------------<invite>---------------------------//
 app.use("/invite", mailController);
 
-
 // ------------------<image save for Local>---------------------------//
-const multer = require('multer');
+const multer = require("multer");
 const upload = multer({
-  storage : multer.diskStorage({
-    destination(req, file ,cb) {
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
       cb(null, "uploads/"); //cb 콜백함수를 통해 전송된 파일을 'uploads' 폴더에 저장
     },
     filename(req, file, cb) {
       const ext = path.extname(file.originalname); // 파일확장자
-      cb (
+      cb(
         null,
-        path.basename(file.originalname, ext) + new Date().valueOf() + ext); // cb 콜백함수를 통해 전송된 파일 이름 설정(파일명 + 업로드시간 + 확장자)
-    }
-  })
+        path.basename(file.originalname, ext) + new Date().valueOf() + ext
+      ); // cb 콜백함수를 통해 전송된 파일 이름 설정(파일명 + 업로드시간 + 확장자)
+    },
+  }),
 });
 
 app.get("*", (_, res) => res.send("404 Not Found"));

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser, registerUser } from "../_actions/user_action";
+import { loginUser, registerUser, isUser } from "../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -21,17 +21,35 @@ const Profile = () => {
         imageUrl: data.properties.profile_image,
         loginType: "kakao",
       };
-
-      // kakao user 정보 backend로 보내는 파트
-      dispatch(registerUser(body)) // 우선 user 데이터를 db에 저장
-        .then((response) => {
-          // 저장에 성공할 경우
-          dispatch(loginUser(body)) // 로그인 과정을 거침
+      dispatch(isUser(body)).then((response) => {
+        if (!response.payload.isUser) {
+          dispatch(registerUser(body)).then((res) => {
+            dispatch(loginUser(body)) // 로그인 과정을 거침
             .then((response) => {
               // console.log("login success!!!");
               navigate("/main");
             });
-        });
+          });
+        }else {
+          dispatch(loginUser(body)) // 로그인 과정을 거침
+          .then((response) => {
+            // console.log("login success!!!");
+            navigate("/main");
+          });
+        }
+      });
+
+      // kakao user 정보 backend로 보내는 파트
+      // dispatch(registerUser(body)) // 우선 user 데이터를 db에 저장
+      //   .then((response) => {
+      //     // 저장에 성공할 경우
+      //     dispatch(loginUser(body)) // 로그인 과정을 거침
+      //       .then((response) => {
+      //         // console.log("login success!!!");
+      //         navigate("/main");
+      //       });
+      //   });
+
     } catch (err) {}
   };
 

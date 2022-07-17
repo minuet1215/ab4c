@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema({
   image: String,
   token: String,
   tokenExp: Number,
-  loginType : String,
+  loginType: String,
 });
 
 UserSchema.pre("save", function (next) {
