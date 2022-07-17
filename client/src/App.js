@@ -9,11 +9,12 @@ import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import LobbyPage from "./components/views/LobbyPage/LobbyPage";
 import VideoCallPage from "./components/views/VideoCallPage/VideoCallPage";
+import Main from "./components/views/testImage/image";
 import Auth from "./hoc/auth";
 import KakaoAuth from "./controller/KakaoAuth";
 import Profile from "./controller/Profile";
 import invitePage from "./components/views/invitePage/invitePage";
-import AlbumPage from "./components/views/Album/Album"
+import AlbumPage from "./components/views/Album/Album";
 
 // import TestPage from "./components/views/Test/Test";
 
@@ -27,7 +28,7 @@ function App() {
   const KakaoAuthPage = Auth(KakaoAuth, false);
   const AuthInvitePage = Auth(invitePage, null);
   const AuthAlbumPage = Auth(AlbumPage, true);
-  
+
   return (
     <Router>
       <div>
@@ -38,7 +39,8 @@ function App() {
           <Route exact path="/register" element={<AuthRegisterPage />} />
           <Route exact path="/lobby" element={<AuthLobbyPage />} />
           <Route exact path="/invitePage" element={<AuthInvitePage />} />
-          <Route exact path="/album" element={<AuthAlbumPage/>} />
+          <Route exact path="/album" element={<AuthAlbumPage />} />
+          <Route exact path="/testImage" element={<Main />} />
           <Route
             exact
             path="/video_call/:room_name"

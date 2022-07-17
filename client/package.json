@@ -24,6 +24,7 @@
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.4.1",
     "socket.io-client": "^2.3.0",
+    "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

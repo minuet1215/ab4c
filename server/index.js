@@ -8,6 +8,8 @@ const { auth } = require("./middleware/auth");
 const { User } = require("./models/User");
 const path = require("path");
 const env = require("dotenv");
+const multer = require("multer");
+
 
 // const cors = require("cors");
 // app.use(cors());
@@ -17,9 +19,39 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// ====================== < DB > ====================== //
+/* ========================= S3 ========================*/
+const AWS = require("aws-sdk");
+const multerS3 = require("multer-s3");
 
-process.env.mongoURI;
+const s3 = new AWS.S3({
+  accessKeyId: config.AWS_ACCESSKEY_ID,
+  secretAccessKey: config.AWS_SECRET_ACCESSKEY,
+  region: config.AWS_REGION,
+});
+
+const imageUpload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: "ab4c-image-bucket",
+    key: function (req, file, cb) {
+      var ext = file.mimetype.split("/")[1];
+      if (!["png", "jpg", "jpeg", "gif", "bmp"].includes(ext)) {
+        return cb(new Error("Only images are allowed"));
+      }
+      cb(null, Date.now() + "." + file.originalname.split(".").pop());
+    },
+  }),
+  acl: "public-read-write",
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
+
+// 이미지 업로드 요청
+app.post("/api/test/img", imageUpload.single("file"), async (req, res) => {
+  res.status(200).json({ location: req.file.location });
+});
+
+/* =================== S3 End ================*/
+
 const mongoose = require("mongoose");
 mongoose
   .connect(config.mongoURI, {
@@ -252,7 +284,7 @@ io.on("connection", (socket) => {
 app.use("/invite", mailController);
 
 // ------------------<image save for Local>---------------------------//
-const multer = require("multer");
+
 const upload = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
