@@ -8,7 +8,7 @@ import html2canvas from "html2canvas";
 function GroupPage() {
   const { Title } = Typography;
   let roomName = "1234";
-  let [leave, setLeave] = useState(false); //상대방 나갔는지 체크
+  let [leave, setLeave] = useState(true); //상대방 나갔는지 체크
   const pc_config = {
     iceServers: [
       {
@@ -22,8 +22,8 @@ function GroupPage() {
       },
     ],
   };
-  // const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
-  const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
+  const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
+  // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
   const socketRef = useRef();
   const pcRef = useRef();
   const localVideoRef = useRef(null);
@@ -54,6 +54,7 @@ function GroupPage() {
         console.log("add remotetrack success");
         if (remoteVideoRef.current) {
           remoteVideoRef.current.srcObject = ev.streams[0];
+          setLeave(false);
         }
       };
       socketRef.current.emit("join_room", {
@@ -165,8 +166,6 @@ function GroupPage() {
             <canvas className={styles.mirror} id="mytrans"></canvas>
             {!leave ? <canvas id="remotetrans"></canvas> : undefined}
           </div>
-
-          {/* <div id="streams"> */}
           <video
             className={styles.displaynone}
             id="my_face"
@@ -187,7 +186,6 @@ function GroupPage() {
           ></video>
           <canvas className={styles.displaynone} id="remotegreen"></canvas>
           <canvas className={styles.displaynone} id="mygreen"></canvas>
-          {/* </div> */}
         </div>
       </main>
     </div>
