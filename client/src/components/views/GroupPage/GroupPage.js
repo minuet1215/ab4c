@@ -7,6 +7,7 @@ import io from "socket.io-client";
 function GroupPage() {
   const { Title } = Typography;
   let roomName = "1234";
+  let [leave, setLeave] = useState(false); //상대방 나갔는지 체크
   const pc_config = {
     iceServers: [
       {
@@ -114,6 +115,9 @@ function GroupPage() {
       await pcRef.current.addIceCandidate(new RTCIceCandidate(candidate));
       console.log("candidate add success");
     });
+    socketRef.current.on("user_exit", (e) => {
+      setLeave(true);
+    });
     setVideoTracks();
     remove();
     remove2();
@@ -147,7 +151,9 @@ function GroupPage() {
               <canvas className={styles.mirror} id="mytrans"></canvas>
             </div>
             <div className={styles.remoteBox}>
-              <canvas className={styles.mirror} id="remotetrans"></canvas>
+              {!leave ? (
+                <canvas className={styles.mirror} id="remotetrans"></canvas>
+              ) : undefined}
             </div>
           </div>
 

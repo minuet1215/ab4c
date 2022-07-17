@@ -210,7 +210,7 @@ io.on("connection", (socket) => {
         return;
       }
     }
-    socket.broadcast.to(room).emit("user_exit", { id: socket.id });
+    socket.broadcast.emit("user_exit", { id: socket.id });
     console.log(users);
   });
 });
