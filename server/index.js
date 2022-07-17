@@ -52,11 +52,7 @@ app.get("/", (_, res) => {
 // ========================= < API > ========================= //
 
 //boiler-plate
-app.get(
-  "/api/hello",
-  (_, res) => {}
-  // res.send("landing page check")
-);
+// app.get("/api/hello", (_, res) => res.send("landing page check")); // test
 
 // ------------------------- < users > ------------------------- //
 app.post("/api/users/register", (req, res) => {
