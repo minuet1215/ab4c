@@ -10,6 +10,7 @@ const path = require("path");
 const env = require("dotenv");
 const multer = require("multer");
 
+
 // const cors = require("cors");
 // app.use(cors());
 const mailController = require("./js/modules/mailSender");
@@ -94,6 +95,20 @@ app.post("/api/users/register", (req, res) => {
       return res.json({ success: false, err });
     } else {
       return res.status(200).json({ success: true });
+    }
+  });
+});
+app.post("/api/users/check", (req, res) => {
+  //요청된 이메일을 데이터베이스에서 있는지 찾는다.
+  User.findOne({ email: req.body.email }, (err, userInfo) => {
+    if (!userInfo) {
+      return res.json({
+        isUser: false,
+      });
+    } else {
+      return res.json({
+        isUser: true,
+      });
     }
   });
 });
