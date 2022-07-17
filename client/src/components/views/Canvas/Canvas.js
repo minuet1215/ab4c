@@ -8,7 +8,7 @@ import Header from "../Header/Header";
 class Canvas extends Component {
   componentDidMount() {
     const canvas = new fabric.Canvas("canvas");
-    canvas.setDimensions({ width: 380, height: 600 });
+    canvas.setDimensions({ width: 380, height: 700 });
 
     fabric.Image.fromURL(bg, function (myImg) {
       const bg = myImg.set({
@@ -20,7 +20,8 @@ class Canvas extends Component {
         layer: 0,
       });
       canvas.add(bg);
-      canvas.sendBackwards(bg);
+      // canvas.sendBackwards(bg);
+      canvas.bringForward(bg);
     });
 
     fabric.Image.fromURL(troll, function (myImg) {
@@ -36,6 +37,7 @@ class Canvas extends Component {
       canvas.bringToFront(img1);
     });
   }
+
 
   render() {
     const canvas_style = {
