@@ -4,16 +4,11 @@
 
 .box {
   position: relative;
-}
-
-.myBox {
-  position: absolute;
-}
-
-.remoteBox {
-  position: absolute;
+  width: 640px;
+  height: 480px;
 }
 
 .mirror {
+  position: absolute;
   transform: scaleX(-1);
 }

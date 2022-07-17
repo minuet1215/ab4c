@@ -4,6 +4,7 @@ import styles from "./GroupPage.module.css";
 import remove from "./remove.js";
 import remove2 from "./remove2.js";
 import io from "socket.io-client";
+import html2canvas from "html2canvas";
 function GroupPage() {
   const { Title } = Typography;
   let roomName = "1234";
@@ -130,48 +131,62 @@ function GroupPage() {
       }
     };
   }, []);
-
+  const onCapture = () => {
+    html2canvas(document.querySelector("#capture"), {}).then((canvas) => {
+      OnSaveAs(canvas.toDataURL(), "image.png");
+    });
+  };
+  const OnSaveAs = (uri, filename) => {
+    let link = document.createElement("a");
+    if (typeof link.download === "string") {
+      link.href = uri;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(uri);
+    }
+  };
   return (
     <div>
       <Title>Group</Title>
       <main>
         <div id="call">
-          <div className={styles.box}>
-            <video
-              className={styles.displaynone}
-              id="my_face"
-              autoPlay
-              playsInline
-              width="640"
-              height="480"
-              ref={localVideoRef}
-            ></video>
-            <canvas className={styles.displaynone} id="mygreen"></canvas>
-            <div className={styles.myBox}>
-              <canvas className={styles.mirror} id="mytrans"></canvas>
-            </div>
-            <div className={styles.remoteBox}>
-              {!leave ? (
-                <canvas className={styles.mirror} id="remotetrans"></canvas>
-              ) : undefined}
-            </div>
+          <button
+            onClick={() => {
+              onCapture();
+            }}
+          >
+            캡쳐
+          </button>
+          <div className={styles.box} id="capture">
+            <canvas className={styles.mirror} id="mytrans"></canvas>
+            {!leave ? <canvas id="remotetrans"></canvas> : undefined}
           </div>
 
-          <div id="streams">
-            <video
-              className={styles.displaynone}
-              id="remote"
-              autoPlay
-              playsInline
-              width="640"
-              height="480"
-              ref={remoteVideoRef}
-            ></video>
-            <canvas className={styles.displaynone} id="remotegreen"></canvas>
-          </div>
-          <div id="photos">
-            <canvas id="photo"></canvas>
-          </div>
+          {/* <div id="streams"> */}
+          <video
+            className={styles.displaynone}
+            id="my_face"
+            autoPlay
+            playsInline
+            width="640"
+            height="480"
+            ref={localVideoRef}
+          ></video>
+          <video
+            className={styles.displaynone}
+            id="remote"
+            autoPlay
+            playsInline
+            width="640"
+            height="480"
+            ref={remoteVideoRef}
+          ></video>
+          <canvas className={styles.displaynone} id="remotegreen"></canvas>
+          <canvas className={styles.displaynone} id="mygreen"></canvas>
+          {/* </div> */}
         </div>
       </main>
     </div>

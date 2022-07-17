@@ -47,7 +47,10 @@ const shader = `
   `;
 
 export function addShader(source, target) {
-  const gl = target.getContext("webgl", { premultipliedAlpha: false });
+  const gl = target.getContext("webgl", {
+    premultipliedAlpha: false,
+    preserveDrawingBuffer: true,
+  });
 
   const vs = gl.createShader(gl.VERTEX_SHADER);
   gl.shaderSource(
