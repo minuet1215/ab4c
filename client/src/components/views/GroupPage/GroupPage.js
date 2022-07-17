@@ -8,6 +8,7 @@ import html2canvas from "html2canvas";
 function GroupPage() {
   const { Title } = Typography;
   let roomName = "1234";
+  let [leave, setLeave] = useState(true);
   const pc_config = {
     iceServers: [
       {
@@ -53,7 +54,7 @@ function GroupPage() {
         console.log("add remotetrack success");
         if (remoteVideoRef.current) {
           remoteVideoRef.current.srcObject = ev.streams[0];
-          document.getElementById("remotetrans").style.display = ""; //들어오면 보이기
+          setLeave(false);
         }
       };
       socketRef.current.emit("join_room", {
@@ -118,7 +119,8 @@ function GroupPage() {
       console.log("candidate add success");
     });
     socketRef.current.on("user_exit", (e) => {
-      document.getElementById("remotetrans").style.display = "none"; //나가면 사라지기
+      setLeave(true);
+      console.log("나감");
     });
     setVideoTracks();
     remove();
@@ -163,7 +165,10 @@ function GroupPage() {
           </button>
           <div className={styles.box} id="capture">
             <canvas className={styles.mirror} id="mytrans"></canvas>
-            <canvas className={styles.mirror} id="remotetrans"></canvas>
+            <canvas
+              className={leave ? styles.displaynone : styles.mirror}
+              id="remotetrans"
+            ></canvas>
           </div>
           <video
             className={styles.displaynone}
