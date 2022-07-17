@@ -10,9 +10,10 @@ function LandingPage() {
   const { Title } = Typography;
 
   useEffect(() => {
-    axios.get("/api/hello").then((response) => {
-      console.log(response);
-    });
+    // test
+    // axios.get("/api/hello").then((response) => {
+    //   console.log(response);
+    // });
   }, []);
 
   const onClickHandler = () => {
@@ -48,6 +49,9 @@ function LandingPage() {
         </Button>
         <Button type="primary" onClick={() => navigate("/lobby")}>
           사진 찍기
+        </Button>
+        <Button type="primary" onClick={() => navigate("/group")}>
+          누끼 사진 찍기
         </Button>
         <Button type="primary" onClick={onClickHandler}>
           로그아웃
