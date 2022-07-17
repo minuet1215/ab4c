@@ -164,7 +164,7 @@ function GroupPage() {
           </button>
           <div className={styles.box} id="capture">
             <canvas className={styles.mirror} id="mytrans"></canvas>
-            {!leave ? <canvas id="remotetrans"></canvas> : undefined}
+            <canvas className={styles.mirror} id="remotetrans"></canvas>
           </div>
           <video
             className={styles.displaynone}
