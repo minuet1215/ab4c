@@ -22,7 +22,8 @@ function GroupPage() {
       },
     ],
   };
-  const SOCKET_SERVER_URL = "http://localhost:5001";
+  // const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
+  const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
   const socketRef = useRef();
   const pcRef = useRef();
   const localVideoRef = useRef(null);
