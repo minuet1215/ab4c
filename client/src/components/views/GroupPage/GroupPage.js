@@ -6,12 +6,14 @@ import remove2 from "./remove2.js";
 import io from "socket.io-client";
 import html2canvas from "html2canvas";
 import url from "socket.io-client/lib/url";
+import makeGif from "./makeGIF.js";
 function GroupPage() {
+  let IMGS = new Array();
   const { Title } = Typography;
   let roomName = "1234";
   let [leave, setLeave] = useState(true);
   let [imgUrl, setImgUrl] = useState("");
-  let [isMute, setMute] = useState(false);
+  let isMute = false;
   const pc_config = {
     iceServers: [
       {
@@ -141,8 +143,11 @@ function GroupPage() {
     html2canvas(document.querySelector("#capture"), {
       allowTaint: false,
       useCORS: true,
+      scale: 1,
     }).then((canvas) => {
-      OnSaveAs(canvas.toDataURL(), "image.png");
+      let DATA_URL = canvas.toDataURL();
+      OnSaveAs(DATA_URL, "image.png");
+      IMGS.push(DATA_URL);
     });
   }
   const OnSaveAs = (uri, filename) => {
@@ -157,9 +162,10 @@ function GroupPage() {
       window.open(uri);
     }
   };
-  let bg = "https://image.zdnet.co.kr/2016/02/03/jh7253_CkazYWM5dUPvW.jpg"; // 뒷배경
+  let bg =
+    "https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg"; // 뒷배경
   function changeMuteButton() {
-    setMute(!isMute);
+    isMute = !isMute;
     localVideoRef.current.muted = isMute;
     document.getElementById("muteButton").innerText = isMute
       ? "unMute"
@@ -185,6 +191,13 @@ function GroupPage() {
           >
             Mute
           </button>
+          <button
+            onClick={() => {
+              makeGif(IMGS);
+            }}
+          >
+            Make a Gif
+          </button>
           <div
             className={styles.box}
             id="capture"
@@ -200,6 +213,7 @@ function GroupPage() {
               id="remotetrans"
             ></canvas>
           </div>
+          <img id="result-image" />
           <video
             className={styles.displaynone}
             id="my_face"
