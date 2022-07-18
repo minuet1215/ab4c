@@ -10,6 +10,7 @@ import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import LobbyPage from "./components/views/LobbyPage/LobbyPage";
 import VideoCallPage from "./components/views/VideoCallPage/VideoCallPage";
 import Main from "./components/views/testImage/image";
+import GroupPage from "./components/views/GroupPage/GroupPage";
 import Auth from "./hoc/auth";
 import KakaoAuth from "./controller/KakaoAuth";
 import Profile from "./controller/Profile";
@@ -43,6 +44,7 @@ function App() {
           <Route exact path="/album" element={<AuthAlbumPage />} />
           <Route exact path="/testImage" element={<Main />} />
           <Route exact path="/editPhoto" element={<AuthEditPhotoPage />} />
+          <Route exact path="/group" element={<GroupPage />} />
           <Route
             exact
             path="/video_call/:room_name"

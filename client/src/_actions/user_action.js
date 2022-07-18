@@ -24,9 +24,7 @@ export function registerUser(dataToSubmit) {
 }
 
 export function auth() {
-  const request = axios
-    .get("/api/users/auth")
-    .then((response) => response.data);
+  const request = axios.get("/api/user/auth").then((response) => response.data);
 
   return {
     type: AUTH_USER,
@@ -36,11 +34,11 @@ export function auth() {
 
 export function isUser(dataToSubmit) {
   const request = axios
-  .post("/api/users/check", dataToSubmit)
-  .then((response) => response.data);
+    .post("/api/users/check", dataToSubmit)
+    .then((response) => response.data);
 
-return {
-  type: IS_USER,
-  payload: request,
-};
+  return {
+    type: IS_USER,
+    payload: request,
+  };
 }

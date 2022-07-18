@@ -1,0 +1,14 @@
+.displaynone {
+  display: none;
+}
+
+.box {
+  position: relative;
+  width: 640px;
+  height: 480px;
+}
+
+.mirror {
+  position: absolute;
+  transform: scaleX(-1);
+}

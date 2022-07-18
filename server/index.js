@@ -9,12 +9,10 @@ const { User } = require("./models/User");
 const path = require("path");
 const env = require("dotenv");
 const multer = require("multer");
-
-
-// const cors = require("cors");
-// app.use(cors());
 const mailController = require("./js/modules/mailSender");
+const cors = require("cors");
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -61,15 +59,20 @@ mongoose
   .then(() => console.log("MongoDB 연결"))
   .catch((err) => console.log(err));
 
-// ====================== < bg rm test > ====================== //
+// ====================== < direct html routing test > ====================== //
 
+// todo : 리엑트화 (지금은 server side rendering)
 // backend 포트로 바로 들어와서 요청해야함
-app.use("/js", express.static(__dirname + "/js"));
-app.use("/modules", express.static(__dirname + "/modules"));
-app.get("/test", (_, res) => {
-  console.log("im in test");
-  res.sendFile(__dirname + "/html/playground.html");
-});
+// app.use("/js", express.static(__dirname + "/js"));
+// app.use("/modules", express.static(__dirname + "/js/modules"));
+// app.get("/test", (_, res) => {
+//   console.log("im in test");
+//   res.sendFile(__dirname + "/html/playground.html");
+// });
+// app.get("/noom", (_, res) => {
+//   console.log("im in noom");
+//   res.sendFile(__dirname + "/html/noom.html");
+// });
 
 // ====================== < REACT 연결 > ====================== //
 
@@ -83,12 +86,12 @@ app.get("/", (_, res) => {
 // ========================= < API > ========================= //
 
 //boiler-plate
-app.get("/api/hello", (_, res) => res.send("landing page check"));
+// app.get("/api/hello", (_, res) => res.send("landing page check")); // test
 
 // ------------------------- < users > ------------------------- //
 app.post("/api/users/register", (req, res) => {
   const user = new User(req.body);
-
+  console.log("회원가입");
   user.save((err, userInfo) => {
     console.log(err);
     if (err) {
@@ -162,7 +165,7 @@ app.post("/api/users/login", (req, res) => {
   });
 });
 
-app.get("/api/users/auth", auth, (req, res) => {
+app.get("/api/user/auth", auth, (req, res) => {
   //여기까지 미들웨어를 통과해 왔다 ==> Authentication 이 True 라는 말.
   res.status(200).json({
     _id: req.user._id,
@@ -199,27 +202,23 @@ app.post("/api/rooms/enter", auth, (req, res) => {
   }
 });
 
-// ------------------------- < socket > ------------------------- //
+// ========================= < WebRTC > ========================= //
 let http = require("http");
 let server = http.createServer(app, {
-  cors: { origin: "*" },
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
 });
-let socketio = require("socket.io");
-let io = socketio.listen(server);
+const io = require("socket.io")(server);
+
+// ==================== group call < SOCKET > ==================== //
 
 let users = {};
-
 let socketToRoom = {};
-
-const maximum = 2; // 최대 인원수
+const maximum = 2;
 
 io.on("connection", (socket) => {
-  // console.log("소켓 연결됨");
-
-  socket.on("ping_test", (data) => {
-    console.log("ping test socket: ", data);
-  }); // test
-
   socket.on("join_room", (data) => {
     if (users[data.room]) {
       const length = users[data.room].length;
@@ -272,12 +271,8 @@ io.on("connection", (socket) => {
         return;
       }
     }
-    socket.broadcast.to(room).emit("user_exit", { id: socket.id });
+    socket.broadcast.emit("user_exit", { id: socket.id });
     console.log(users);
-  });
-
-  socket.on("take_photo", (room_name) => {
-    socket.to(room_name).emit("take_photo");
   });
 });
 // ------------------<invite>---------------------------//

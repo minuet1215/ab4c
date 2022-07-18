@@ -19,9 +19,10 @@ class Canvas extends Component {
         height: 900,
         layer: 0,
       });
+      canvas.setBackgroundImage(bg, canvas.renderAll.bind(canvas));
       canvas.add(bg);
       // canvas.sendBackwards(bg);
-      canvas.bringForward(bg);
+      // canvas.bringForward(bg);
     });
 
     fabric.Image.fromURL(troll, function (myImg) {
@@ -37,7 +38,6 @@ class Canvas extends Component {
       canvas.bringToFront(img1);
     });
   }
-
 
   render() {
     const canvas_style = {

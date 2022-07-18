@@ -3,10 +3,11 @@
 
 ## 로컬에서 돌리기
 
-1. `npm i`
-2. client > `npm run build`
-3. `npm run backend`
-4. "http://localhost:5001/" 로 접속
+1. server/ > `npm i`
+2. client/ > `yarn install`
+3. client/ > `npm run build`
+4. server/ > `npm run backend`
+5. "http://localhost:5001/" 로 접속
 
 
 ## 개발용으로 돌리기

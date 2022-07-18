@@ -7,7 +7,7 @@ const { Text } = Typography;
 const { Header, Content, Footer } = Layout;
 
 const io = require("socket.io-client");
-const SOCKET_SERVER_URL = "http://localhost:5001";
+const SOCKET_SERVER_URL = "http://13.125.70.158:5001";
 const pc_config = {
   iceServers: [
     {
