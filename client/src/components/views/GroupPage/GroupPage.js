@@ -11,6 +11,7 @@ function GroupPage() {
   let roomName = "1234";
   let [leave, setLeave] = useState(true);
   let [imgUrl, setImgUrl] = useState("");
+  let [isMute, setMute] = useState(false);
   const pc_config = {
     iceServers: [
       {
@@ -157,6 +158,13 @@ function GroupPage() {
     }
   };
   let bg = "https://image.zdnet.co.kr/2016/02/03/jh7253_CkazYWM5dUPvW.jpg"; // 뒷배경
+  function changeMuteButton() {
+    setMute(!isMute);
+    localVideoRef.current.muted = isMute;
+    document.getElementById("muteButton").innerText = isMute
+      ? "unMute"
+      : "Mute";
+  }
   return (
     <div>
       <Title>Group</Title>
@@ -168,6 +176,14 @@ function GroupPage() {
             }}
           >
             캡쳐
+          </button>
+          <button
+            id="muteButton"
+            onClick={() => {
+              changeMuteButton();
+            }}
+          >
+            Mute
           </button>
           <div
             className={styles.box}
