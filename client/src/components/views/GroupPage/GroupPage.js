@@ -5,10 +5,12 @@ import remove from "./remove.js";
 import remove2 from "./remove2.js";
 import io from "socket.io-client";
 import html2canvas from "html2canvas";
+import url from "socket.io-client/lib/url";
 function GroupPage() {
   const { Title } = Typography;
   let roomName = "1234";
   let [leave, setLeave] = useState(true);
+  let [imgUrl, setImgUrl] = useState("");
   const pc_config = {
     iceServers: [
       {
@@ -134,11 +136,14 @@ function GroupPage() {
       }
     };
   }, []);
-  const onCapture = () => {
-    html2canvas(document.querySelector("#capture"), {}).then((canvas) => {
+  function onCapture() {
+    html2canvas(document.querySelector("#capture"), {
+      allowTaint: false,
+      useCORS: true,
+    }).then((canvas) => {
       OnSaveAs(canvas.toDataURL(), "image.png");
     });
-  };
+  }
   const OnSaveAs = (uri, filename) => {
     let link = document.createElement("a");
     if (typeof link.download === "string") {
@@ -151,6 +156,7 @@ function GroupPage() {
       window.open(uri);
     }
   };
+  let bg = "https://image.zdnet.co.kr/2016/02/03/jh7253_CkazYWM5dUPvW.jpg"; // 뒷배경
   return (
     <div>
       <Title>Group</Title>
@@ -163,7 +169,15 @@ function GroupPage() {
           >
             캡쳐
           </button>
-          <div className={styles.box} id="capture">
+          <div
+            className={styles.box}
+            id="capture"
+            style={{
+              backgroundImage: `url(${bg})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}
+          >
             <canvas className={styles.mirror} id="mytrans"></canvas>
             <canvas
               className={leave ? styles.displaynone : styles.mirror}
