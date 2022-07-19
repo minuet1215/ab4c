@@ -7,10 +7,14 @@ import io from "socket.io-client";
 import html2canvas from "html2canvas";
 import url from "socket.io-client/lib/url";
 import makeGif from "./makeGIF.js";
+
+import CameraTabs from "./CameraTab";
+import CameraBottom from "./CameraBottom";
+
 function GroupPage() {
   let IMGS = new Array();
   const { Title } = Typography;
-  let roomName = "1234";
+  let roomName = "123455";
   let [leave, setLeave] = useState(true);
   const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
   const [imgFile, setImgFile] = useState(null); // 파일 전송을 위한 state
@@ -28,8 +32,8 @@ function GroupPage() {
       },
     ],
   };
-  // const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
-  const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
+  const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
+  // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
   const socketRef = useRef();
   const pcRef = useRef();
   const localVideoRef = useRef(null);
@@ -194,72 +198,73 @@ function GroupPage() {
   };
   return (
     <div>
-      <Title>Group</Title>
-      <main>
-        <div id="call">
-          <button
-            onClick={() => {
-              onCapture();
-            }}
-          >
-            캡쳐
-          </button>
-          <button
-            id="muteButton"
-            onClick={() => {
-              changeMuteButton();
-            }}
-          >
-            Mute
-          </button>
-          <button
-            onClick={() => {
-              makeGif(IMGS);
-            }}
-          >
-            Make a Gif
-          </button>
-          <input type="file" id="imgFile" onChange={handleChangeFile} />
-          <div
-            className={styles.box}
-            id="capture"
-            style={{
-              backgroundImage: ImgBase64
-                ? `url(${ImgBase64})`
-                : "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)",
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-            }}
-          >
-            <canvas className={styles.mirror} id="mytrans"></canvas>
-            <canvas
-              className={leave ? styles.displaynone : styles.mirror}
-              id="remotetrans"
-            ></canvas>
-          </div>
-          <img id="result-image" />
-          <video
-            className={styles.displaynone}
-            id="my_face"
-            autoPlay
-            playsInline
-            width="640"
-            height="480"
-            ref={localVideoRef}
-          ></video>
-          <video
-            className={styles.displaynone}
-            id="remote"
-            autoPlay
-            playsInline
-            width="640"
-            height="480"
-            ref={remoteVideoRef}
-          ></video>
-          <canvas className={styles.displaynone} id="remotegreen"></canvas>
-          <canvas className={styles.displaynone} id="mygreen"></canvas>
+      <button
+        onClick={() => {
+          onCapture();
+        }}
+      >
+        캡쳐
+      </button>
+      <button
+        id="muteButton"
+        onClick={() => {
+          changeMuteButton();
+        }}
+      >
+        Mute
+      </button>
+      <button
+        onClick={() => {
+          makeGif(IMGS);
+        }}
+      >
+        Make a Gif
+      </button>
+      <input type="file" id="imgFile" onChange={handleChangeFile} />
+      <div>
+        <div
+          className={styles.box}
+          id="capture"
+          style={{
+            backgroundImage: ImgBase64
+              ? `url(${ImgBase64})`
+              : "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)",
+          }}
+        >
+          <canvas className={styles.mirror} id="mytrans"></canvas>
+          <canvas
+            className={leave ? styles.displaynone : styles.mirror}
+            id="remotetrans"
+          ></canvas>
         </div>
-      </main>
+        <div className="camera_tab">
+          <CameraTabs />
+        </div>
+        <div className="camera_bottom">
+          <CameraBottom />
+        </div>
+      </div>
+      <img id="result-image" />
+      <video
+        className={styles.displaynone}
+        id="my_face"
+        autoPlay
+        playsInline
+        width="640"
+        height="480"
+        ref={localVideoRef}
+      ></video>
+      <video
+        className={styles.displaynone}
+        id="remote"
+        autoPlay
+        playsInline
+        width="640"
+        height="480"
+        ref={remoteVideoRef}
+      ></video>
+      <canvas className={styles.displaynone} id="remotegreen"></canvas>
+      <canvas className={styles.displaynone} id="mygreen"></canvas>
     </div>
   );
 }
