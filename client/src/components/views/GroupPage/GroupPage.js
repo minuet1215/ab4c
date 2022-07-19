@@ -12,7 +12,8 @@ function GroupPage() {
   const { Title } = Typography;
   let roomName = "1234";
   let [leave, setLeave] = useState(true);
-  let [imgUrl, setImgUrl] = useState("");
+  const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
+  const [imgFile, setImgFile] = useState(null); // 파일 전송을 위한 state
   let isMute = false;
   const pc_config = {
     iceServers: [
@@ -164,8 +165,6 @@ function GroupPage() {
       window.open(uri);
     }
   };
-  let bg =
-    "https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg"; // 뒷배경
   function changeMuteButton() {
     isMute = !isMute;
     localVideoRef.current.muted = isMute;
@@ -173,6 +172,26 @@ function GroupPage() {
       ? "unMute"
       : "Mute";
   }
+  // 뒷배경 바꾸기
+  const handleChangeFile = (event) => {
+    let reader = new FileReader();
+
+    reader.onloadend = (e) => {
+      // 2. 읽기가 완료되면 아래 코드 실행
+      const base64 = reader.result;
+      if (base64) {
+        // 파일 base64 상태 업데이트
+        setImgBase64(base64.toString());
+      }
+    };
+    if (event.target.files[0]) {
+      // 1. 파일을 읽어 버퍼에 저장
+      reader.readAsDataURL(event.target.files[0]);
+      // 파일 상태 업데이트
+      setImgFile(event.target.files[0]);
+      console.log(imgFile);
+    }
+  };
   return (
     <div>
       <Title>Group</Title>
@@ -200,11 +219,14 @@ function GroupPage() {
           >
             Make a Gif
           </button>
+          <input type="file" id="imgFile" onChange={handleChangeFile} />
           <div
             className={styles.box}
             id="capture"
             style={{
-              backgroundImage: `url(${bg})`,
+              backgroundImage: ImgBase64
+                ? `url(${ImgBase64})`
+                : "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)",
               backgroundPosition: "center",
               backgroundSize: "cover",
             }}
