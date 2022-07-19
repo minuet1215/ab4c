@@ -6,8 +6,6 @@ import main_img from "../../../img/dog.png";
 import Logout from "../Logout/Logout";
 
 function LandingPage() {
-  // const REST_API_KEY = "1c16cb196a174ddce815876521f0b5d4";
-
   const navigate = useNavigate();
   const { Title } = Typography;
 
