@@ -5,9 +5,9 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const config = require("./config/key");
 const { auth } = require("./middleware/auth");
-const { User } = require("./models/User");
+
 const path = require("path");
-const env = require("dotenv");
+// const env = require("dotenv");
 const multer = require("multer");
 const mailController = require("./js/modules/mailSender");
 const cors = require("cors");
@@ -59,21 +59,6 @@ mongoose
   .then(() => console.log("MongoDB 연결"))
   .catch((err) => console.log(err));
 
-// ====================== < direct html routing test > ====================== //
-
-// todo : 리엑트화 (지금은 server side rendering)
-// backend 포트로 바로 들어와서 요청해야함
-// app.use("/js", express.static(__dirname + "/js"));
-// app.use("/modules", express.static(__dirname + "/js/modules"));
-// app.get("/test", (_, res) => {
-//   console.log("im in test");
-//   res.sendFile(__dirname + "/html/playground.html");
-// });
-// app.get("/noom", (_, res) => {
-//   console.log("im in noom");
-//   res.sendFile(__dirname + "/html/noom.html");
-// });
-
 // ====================== < REACT 연결 > ====================== //
 
 // react 로 생성된 파일을 접속하면 index.html을 보여줌
@@ -89,108 +74,9 @@ app.get("/", (_, res) => {
 // app.get("/api/hello", (_, res) => res.send("landing page check")); // test
 
 // ------------------------- < users > ------------------------- //
-app.post("/api/users/register", (req, res) => {
-  const user = new User(req.body);
-  console.log("회원가입");
-  user.save((err, userInfo) => {
-    console.log(err);
-    if (err) {
-      return res.json({ success: false, err });
-    } else {
-      return res.status(200).json({ success: true });
-    }
-  });
-});
-app.post("/api/users/check", (req, res) => {
-  //요청된 이메일을 데이터베이스에서 있는지 찾는다.
-  User.findOne({ email: req.body.email }, (err, userInfo) => {
-    if (!userInfo) {
-      return res.json({
-        isUser: false,
-      });
-    } else {
-      return res.json({
-        isUser: true,
-      });
-    }
-  });
-});
 
-app.post("/api/users/login", (req, res) => {
-  //요청된 이메일을 데이터베이스에서 있는지 찾는다.
-  User.findOne({ email: req.body.email }, (err, userInfo) => {
-    if (!userInfo) {
-      return res.json({
-        loginSuccess: false,
-        message: "제공된 이메일에 해당하는 유저가 없습니다.",
-      });
-    }
-
-    //요청된 이메일이 데이터 베이스에 있다면 비밀번호가 맞는 비밀번호 인지 확인.
-    if (userInfo.loginType === "local" && req.body.isLocal) {
-      userInfo.comparePassword(req.body.password, (err, isMatch) => {
-        if (!isMatch)
-          return res.json({
-            loginSuccess: false,
-            message: "비밀번호가 틀렸습니다.",
-          });
-
-        //비밀번호 까지 맞다면 토큰을 생성하기.
-        userInfo.generateToken((err, user) => {
-          if (err) return res.status(400).send(err);
-          // 쿠키 (or 로컳스토리지)에 토큰을 저장한다.
-          res
-            .cookie("x_auth", user.token)
-            .status(200)
-            .json({ loginSuccess: true, userId: user._id });
-        });
-      });
-    } else if (
-      userInfo.loginType === "kakao" &&
-      req.body.isLocal === undefined
-    ) {
-      userInfo.generateToken((err, user) => {
-        if (err) return res.status(400).send(err);
-        // 쿠키 (or 로컳스토리지)에 토큰을 저장한다.
-        res
-          .cookie("x_auth", user.token)
-          .status(200)
-          .json({ loginSuccess: true, userId: user._id });
-      });
-    } else {
-      res.send("<script>alert('로그인 실패')</script>");
-    }
-    // console.log(req.body.isLocal);
-    // console.log(userInfo.loginType);
-  });
-});
-
-app.get("/api/users/authen", auth, (req, res) => {
-  //여기까지 미들웨어를 통과해 왔다 ==> Authentication 이 True 라는 말.
-  res.status(200).json({
-    _id: req.user._id,
-    // role 0: 일반유저,  role 0이 아니면: 관리자
-    isAdmin: req.user.role === 0 ? false : true,
-    isAuth: true,
-    email: req.user.email,
-    name: req.user.name,
-    lastname: req.user.lastname,
-    // role 1: 어드민, role 2: 특정 부서 어드민
-    role: req.user.role,
-    image: req.user.image,
-    loginType : req.user.loginType
-  });
-});
-
-app.get("/api/users/logout1", auth, (req, res) => {
-  // 토큰 삭제
-  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).send({
-      success: true,
-    });
-  });
-});
+const users_route = require("./routes/users");
+app.use("/api/users", users_route);
 
 // ------------------------- < rooms > ------------------------- //
 app.post("/api/rooms/enter", auth, (req, res) => {
@@ -202,6 +88,10 @@ app.post("/api/rooms/enter", auth, (req, res) => {
     return res.status(200).json({ success: true, roomNumber: roomNumber });
   }
 });
+// ------------------------- < image local save > ------------------------- //
+
+const image_route = require("./routes/image");
+app.use("/api/image", image_route);
 
 // ========================= < WebRTC > ========================= //
 let http = require("http");

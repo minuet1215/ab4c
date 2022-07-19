@@ -16,6 +16,7 @@ import KakaoAuth from "./controller/KakaoAuth";
 import Profile from "./controller/Profile";
 import invitePage from "./components/views/invitePage/invitePage";
 import AlbumPage from "./components/views/Album/Album";
+import PhotoEditPage from "./components/views/PhotoEditPage/PhotoEditPage";
 import Editor from "./components/views/EditPhoto/ImageEditor";
 import CameraPage from "./components/views/Camera/Camera";
 
@@ -60,6 +61,9 @@ function App() {
           />
           {/* <KakaoAuth/> */}
           <Route path="/profile" element={<Profile />} />
+          
+          <Route path="/edit" element={<PhotoEditPage />} />
+          
         </Routes>
       </div>
     </Router>
