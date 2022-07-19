@@ -16,11 +16,3 @@ function Kakao() {
   );
 }
 export default Kakao;
-
-/* <button
-type="primary"
-className="button sign_in_kakao"
-onClick={() => }
->
-카카오로 로그인
-</button> */

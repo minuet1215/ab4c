@@ -36,11 +36,11 @@ export function auth() {
 
 export function isUser(dataToSubmit) {
   const request = axios
-  .post("/api/users/check", dataToSubmit)
-  .then((response) => response.data);
+    .post("/api/users/check", dataToSubmit)
+    .then((response) => response.data);
 
-return {
-  type: IS_USER,
-  payload: request,
-};
+  return {
+    type: IS_USER,
+    payload: request,
+  };
 }

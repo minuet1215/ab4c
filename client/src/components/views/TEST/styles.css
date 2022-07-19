@@ -1,0 +1,56 @@
+html,
+body {
+  margin: 0;
+}
+
+.Editor {
+  font-family: sans-serif;
+  text-align: center;
+  height: 100vh;
+}
+
+/* [id^="sb__open-sandbox"] {
+  display: none;
+} */
+
+.tui-image-editor-header {
+  display: none;
+}
+
+/* .tui-image-editor-item.tie-btn-delete,
+.tui-image-editor-item.tie-btn-deleteAll {
+  display: none !important;
+} */
+
+.tui-image-editor {
+  max-width: 100vw;
+}
+
+.tui-image-editor-container .tui-image-editor-menu {
+  white-space: normal;
+}
+
+.tui-image-editor-container .tui-image-editor-controls {
+  background-color: whitesmoke !important;
+}
+
+.tui-image-editor-container .tui-image-editor {
+  padding: 10px !important;
+}
+
+.tui-image-editor-submenu-item {
+    background-color: rgba(241, 135, 135, 0.424);
+}
+/* .tui-image-editor-menu-filter li:first-child, */
+/* .tui-image-editor-menu-filter li:last-child, */
+/* .tui-image-editor-menu-filter li:nth-child(5), */
+.tui-image-editor-menu-filter .tui-image-editor-partition,
+.tui-image-editor-menu-filter
+  li:nth-child(3)
+  .tui-image-editor-checkbox-group:first-child,
+.tui-image-editor-menu-filter
+  li:nth-child(3)
+  .tui-image-editor-checkbox-group:last-child {
+  display: none !important;
+}
+/* .tui-image-editor-submenu-item */
