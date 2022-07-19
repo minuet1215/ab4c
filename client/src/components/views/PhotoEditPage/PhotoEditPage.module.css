@@ -1,0 +1,18 @@
+/* @import "~antd/dist/antd.css"; */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+.bg_menu_scroll {
+  background-color: papayawhip;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.img_container {
+  position: relative;
+  margin: 40px;
+}

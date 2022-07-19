@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Typography, Button, Select, Input } from "antd";
+import { Typography } from "antd";
 import styles from "./GroupPage.module.css";
 import remove from "./remove.js";
 import remove2 from "./remove2.js";
@@ -22,8 +22,8 @@ function GroupPage() {
       },
     ],
   };
-  const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
-  // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
+  // const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
+  const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
   const socketRef = useRef();
   const pcRef = useRef();
   const localVideoRef = useRef(null);

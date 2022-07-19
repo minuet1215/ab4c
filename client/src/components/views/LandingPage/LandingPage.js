@@ -60,17 +60,15 @@ function LandingPage() {
             사진 찍기
           </button>
           <Button type="primary" onClick={() => navigate("/group")}>
-          누끼 사진 찍기
+            누끼 사진 찍기
+          </Button>
+          <Button type="primary" onClick={() => navigate("/edit")}>
+            프레임 수정 및 서버에 이미지 저장
           </Button>
           <button type="primary" className="button" onClick={onClickHandler}>
             로그아웃
           </button>
         </div>
-
-
-        
-
-
       </Space>
     </div>
   );
