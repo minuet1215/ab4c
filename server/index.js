@@ -296,5 +296,7 @@ const upload = multer({
   }),
 });
 
-app.get("*", (_, res) => res.send("404 Not Found"));
+app.get("*", (_, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 server.listen(port, () => console.log(`백엔드 서버 실행 (포트번호) ${port}`));

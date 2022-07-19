@@ -17,7 +17,7 @@ import Profile from "./controller/Profile";
 import invitePage from "./components/views/invitePage/invitePage";
 import AlbumPage from "./components/views/Album/Album";
 import Editor from "./components/views/EditPhoto/ImageEditor";
-// import TestPage from "./components/views/Test/Test";
+import CameraPage from "./components/views/Camera/Camera";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -30,6 +30,7 @@ function App() {
   const AuthInvitePage = Auth(invitePage, null);
   const AuthAlbumPage = Auth(AlbumPage, true);
   const AuthEditPhotoPage = Auth(Editor, null);
+  const AuthCameraPage = Auth(CameraPage, true);
 
   return (
     <Router>
@@ -45,6 +46,7 @@ function App() {
           <Route exact path="/testImage" element={<Main />} />
           <Route exact path="/editPhoto" element={<AuthEditPhotoPage />} />
           <Route exact path="/group" element={<GroupPage />} />
+          <Route exact path="/camera" element={<AuthCameraPage />} />
           <Route
             exact
             path="/video_call/:room_name"
