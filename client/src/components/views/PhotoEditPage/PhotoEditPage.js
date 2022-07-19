@@ -1,12 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
-import styles from "./PhotoEditPage.module.css";
 import axios from "axios";
+import styles from "./PhotoEditPage.module.css";
+import MyHeader from "../Header/Header";
+import { Drawer } from "antd";
 
 import img1 from "../../../img/1.jpg";
 import img2 from "../../../img/2.jpg";
 import img3 from "../../../img/3.jpg";
 import img4 from "../../../img/4.jpg";
-import bgImg1 from "../../../img/5.jpg";
+import defaultBg from "../../../img/default_background.jpg";
 import bgImg2 from "../../../img/6.jpg";
 const img_width = 550;
 const img_height = 370;
@@ -23,13 +25,22 @@ function PhotoEditPage() {
     { src: img4, x: gap, y: 3 * (img_height + gap) + gap },
   ];
   const bgImages = [
-    { src: bgImg1, alt: "1" },
-    { src: bgImg2, alt: "2" },
+    { src: defaultBg, alt: "default" },
+    { src: bgImg2, alt: "spring" },
   ];
   // ================= dummy data ================= //
 
   const canvasRef = useRef(null);
-  const [bgChange, setBgChange] = useState();
+  const [bgChange, setBgChange] = useState(defaultBg);
+  const [visible, setVisible] = useState(false);
+
+  const showDrawer = () => {
+    setVisible(true);
+  };
+
+  const onClose = () => {
+    setVisible(false);
+  };
 
   useEffect(() => {
     let now = new Date();
@@ -40,14 +51,12 @@ function PhotoEditPage() {
     ctx.clearRect(0, 0, frame_width, frame_height);
     writeText(ctx, date_time);
 
-    if (bgChange) {
-      let img = new Image();
-      img.src = bgChange;
-      img.onload = function () {
-        ctx.drawImage(img, 0, 0, frame_width, frame_height);
-        writeText(ctx, date_time);
-      };
-    }
+    let img = new Image();
+    img.src = bgChange;
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, frame_width, frame_height);
+      writeText(ctx, date_time);
+    };
 
     images.map((image) => {
       let img = new Image();
@@ -56,7 +65,7 @@ function PhotoEditPage() {
         ctx.drawImage(img, image.x, image.y, img_width, img_height);
       };
     });
-  }, [canvasRef, bgChange]);
+  }, [canvasRef, bgChange, visible]);
 
   function writeText(ctx, text) {
     ctx.font = "25px sans-serif";
@@ -65,13 +74,14 @@ function PhotoEditPage() {
     ctx.fillText(text, frame_width / 2, frame_height - 100);
   }
 
+  // todo: save to server (실행 시점 바뀌어야 함! => 프레임 변경 후 화면전환시? 아니면 앨범에 저장 버튼으로 추가?)
   const onUploadImg = (e) => {
     e.preventDefault();
 
-    const canvas = document.getElementById("4cutImg");
+    const canvas = document.getElementById("canvas");
     canvas.toBlob(
       function (blob) {
-        const file = new File([blob], "4cut.jpeg", {
+        const file = new File([blob], "4cut.png", {
           lastModified: new Date().getTime(),
           type: blob.type,
         });
@@ -92,33 +102,33 @@ function PhotoEditPage() {
       1.0
     );
   };
+  // save to local
+  const OnSave = () => {
+    let now = new Date();
+    const date_time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}_${now.getHours()}${now.getMinutes()}`;
+    const canvas = document.getElementById("canvas");
+    const dataUrl = canvas.toDataURL();
+    const filename = "4cut_" + date_time + ".png";
+    let link = document.createElement("a");
+    if (typeof link.download === "string") {
+      link.href = dataUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(dataUrl);
+    }
+  };
+  // todo : 공유하기 기능 추가 필요
 
   return (
-    <div className={styles.container}>
-      <h1>사진 수정</h1>
-      <div>
-        <button onClick={onUploadImg}>이미지 저장</button>
-        {/* <h3>문구 수정</h3>
-        <input id="input_text" type="text" placeholder="안 방 네 컷" /> */}
-        <h3>배경 선택</h3>
-        <div className={styles.bg_menu_scroll}>
-          {bgImages.map((bgImage) => {
-            return (
-              <img
-                src={bgImage.src}
-                key={bgImage.alt}
-                alt={bgImage.alt}
-                onClick={() => setBgChange(bgImage.src)}
-                width="100px"
-                style={{ padding: "10px" }}
-              ></img>
-            );
-          })}
-        </div>
-      </div>
-      <div className={styles.img_container}>
+    <div width="100%" height="100vh">
+      <MyHeader subTitle="사진 화면" onBackUrl="/" />
+
+      <div className={styles.canvas_container}>
         <canvas
-          id="4cutImg"
+          id="canvas"
           width={frame_width}
           height={frame_height}
           style={{
@@ -129,6 +139,39 @@ function PhotoEditPage() {
           Your browser does not support the HTML5 canvas tag.
         </canvas>
       </div>
+      <div id="control-menu" className={styles.control_container}>
+        <button className={styles.btn_default}>공유</button>
+        <button className={styles.btn_default} onClick={showDrawer}>
+          프레임 변경
+        </button>
+        <button className={styles.btn_pink} onClick={OnSave}>
+          저장
+        </button>
+      </div>
+      <Drawer
+        title="프레임 선택"
+        placement="bottom"
+        closable={true}
+        onClose={onClose}
+        visible={visible}
+        height="30%"
+      >
+        <div className={styles.bg_menu_scroll}>
+          {bgImages.map((bgImage) => {
+            return (
+              <img
+                src={bgImage.src}
+                key={bgImage.alt}
+                alt={bgImage.alt}
+                onClick={() => setBgChange(bgImage.src)}
+                width="100px"
+                height="150px"
+                style={{ padding: "10px" }}
+              ></img>
+            );
+          })}
+        </div>
+      </Drawer>
     </div>
   );
 }
