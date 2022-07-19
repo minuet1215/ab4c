@@ -146,10 +146,12 @@ function GroupPage() {
       scale: 1,
     }).then((canvas) => {
       let DATA_URL = canvas.toDataURL();
-      OnSaveAs(DATA_URL, "image.png");
+      // OnSaveAs(DATA_URL, "image.png");
+      document.getElementById("result-image").src = DATA_URL;
       IMGS.push(DATA_URL);
     });
   }
+  //로컬 저장하는 함수, 안씀
   const OnSaveAs = (uri, filename) => {
     let link = document.createElement("a");
     if (typeof link.download === "string") {

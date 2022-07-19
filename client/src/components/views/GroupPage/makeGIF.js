@@ -2,7 +2,6 @@ import GIF from "gif.js.optimized";
 import workerStr from "./gifWorker";
 
 export default function makeGif(imgArray) {
-  console.log(imgArray);
   const workerBlob = new Blob([workerStr], {
     type: "application/javascript",
   });
@@ -10,18 +9,33 @@ export default function makeGif(imgArray) {
   const gif = new GIF({
     workers: 2,
     workerScript: URL.createObjectURL(workerBlob),
-    quality: 10,
+    quality: 5,
   });
-  imgArray.forEach((imgUrl) => {
-    const img = new Image();
-    img.src = imgUrl;
-    img.width = 640;
-    img.height = 480;
-    gif.addFrame(img, { delay: 300 });
+  function waitForImagesLoaded(imageURLs, callback) {
+    var imageElements = [];
+    var remaining = imageURLs.length;
+    var onEachImageLoad = function () {
+      if (--remaining === 0 && callback) {
+        callback(imageElements);
+      }
+    };
+
+    for (var i = 0, len = imageURLs.length; i < len; i++) {
+      var img = new Image();
+      img.onload = onEachImageLoad;
+      img.src = imageURLs[i];
+      imageElements.push(img);
+    }
+  }
+  waitForImagesLoaded(imgArray, function (images) {
+    for (var i = 0; i < images.length; i++) {
+      gif.addFrame(images[i], { delay: 100 });
+    }
+    gif.render();
   });
+  console.log(gif);
   gif.on("finished", (blob) => {
     const url = URL.createObjectURL(blob);
     document.getElementById("result-image").src = url;
   });
-  gif.render();
 }
