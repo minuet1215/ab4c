@@ -1,8 +1,8 @@
-import Kakao from "../../../controller/Kakao";
+import Kakao from "../../controller/Kakao";
 import React from "react";
 import { Space, Typography, Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import main_img from "../../../img/dog.png";
+import main_img from "../../img/dog.png";
 import Logout from "../Logout/Logout";
 
 function LandingPage() {
@@ -44,11 +44,9 @@ function LandingPage() {
           </button>
           <Button type="primary" onClick={() => navigate("/group")}>
             누끼 사진 찍기
-
           </Button>
           <Button type="primary" onClick={() => navigate("/edit")}>
             프레임 수정 및 서버에 이미지 저장
-
           </Button>
           <Logout />
         </div>

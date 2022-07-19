@@ -1,55 +1,29 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
-const port = 5001; // 백엔드 포트 // todo
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const config = require("./config/key");
-const { auth } = require("./middleware/auth");
-
 const path = require("path");
-// const env = require("dotenv");
 const multer = require("multer");
-const mailController = require("./js/modules/mailSender");
 const cors = require("cors");
 
+/* Router */
+const usersRouter = require("./routes/usersRouter");
+const mailRouter = require("./routes/mailRouter");
+const imageRouter = require("./routes/imageRouter");
+const roomsRouter = require("./routes/roomsRouter");
+
+/* Config */
+const { PORT } = process.env;
+
+/* Middleware*/
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-/* ========================= S3 ========================*/
-const AWS = require("aws-sdk");
-const multerS3 = require("multer-s3");
-
-const s3 = new AWS.S3({
-  accessKeyId: config.AWS_ACCESSKEY_ID,
-  secretAccessKey: config.AWS_SECRET_ACCESSKEY,
-  region: config.AWS_REGION,
-});
-
-const imageUpload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: "ab4c-image-bucket",
-    key: function (req, file, cb) {
-      var ext = file.mimetype.split("/")[1];
-      if (!["png", "jpg", "jpeg", "gif", "bmp"].includes(ext)) {
-        return cb(new Error("Only images are allowed"));
-      }
-      cb(null, Date.now() + "." + file.originalname.split(".").pop());
-    },
-  }),
-  acl: "public-read-write",
-  limits: { fileSize: 5 * 1024 * 1024 },
-});
-
-// 이미지 업로드 요청
-app.post("/api/test/img", imageUpload.single("file"), async (req, res) => {
-  res.status(200).json({ location: req.file.location });
-});
-
-/* =================== S3 End ================*/
-
+/* DB 연결 */
 const mongoose = require("mongoose");
 mongoose
   .connect(config.mongoURI, {
@@ -68,30 +42,12 @@ app.get("/", (_, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-// ========================= < API > ========================= //
+// ========================= < API Router > ========================= //
 
-//boiler-plate
-// app.get("/api/hello", (_, res) => res.send("landing page check")); // test
-
-// ------------------------- < users > ------------------------- //
-
-const users_route = require("./routes/users");
-app.use("/api/users", users_route);
-
-// ------------------------- < rooms > ------------------------- //
-app.post("/api/rooms/enter", auth, (req, res) => {
-  // todo: DB에서 방 번호 찾기 (검증)
-  const roomNumber = req.body.roomNumber;
-  if (!roomNumber) {
-    return res.status(400).json({ success: false, err: "잘못된 요청" });
-  } else {
-    return res.status(200).json({ success: true, roomNumber: roomNumber });
-  }
-});
-// ------------------------- < image local save > ------------------------- //
-
-const image_route = require("./routes/image");
-app.use("/api/image", image_route);
+app.use("/api/users", usersRouter);
+app.use("/api/rooms", roomsRouter);
+app.use("/api/image", imageRouter);
+app.use("/invite", mailRouter);
 
 // ========================= < WebRTC > ========================= //
 let http = require("http");
@@ -166,8 +122,6 @@ io.on("connection", (socket) => {
     console.log(users);
   });
 });
-// ------------------<invite>---------------------------//
-app.use("/invite", mailController);
 
 // ------------------<image save for Local>---------------------------//
 
@@ -189,4 +143,5 @@ const upload = multer({
 app.get("*", (_, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
-server.listen(port, () => console.log(`백엔드 서버 실행 (포트번호) ${port}`));
+
+server.listen(PORT, () => console.log(`백엔드 서버 실행 (포트번호) ${PORT}`));

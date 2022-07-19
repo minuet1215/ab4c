@@ -4,12 +4,12 @@ import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
 import { Drawer } from "antd";
 
-import img1 from "../../../img/1.jpg";
-import img2 from "../../../img/2.jpg";
-import img3 from "../../../img/3.jpg";
-import img4 from "../../../img/4.jpg";
-import defaultBg from "../../../img/default_background.jpg";
-import bgImg2 from "../../../img/6.jpg";
+import img1 from "../../img/1.jpg";
+import img2 from "../../img/2.jpg";
+import img3 from "../../img/3.jpg";
+import img4 from "../../img/4.jpg";
+import defaultBg from "../../img/default_background.jpg";
+import bgImg2 from "../../img/6.jpg";
 const img_width = 550;
 const img_height = 370;
 const gap = 20;

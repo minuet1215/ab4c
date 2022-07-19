@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { enterRoom } from "../../../_actions/room_action";
+import { enterRoom } from "../../_actions/room_action";
 // import { Layout, Menu, Form, Input, Button } from "antd";
 // import MyHeader from "../Header/Header";
 
-function userMain() {
+function UserMain() {
   // const dispatch = useDispatch();
   // const navigate = useNavigate();
 
@@ -50,4 +50,4 @@ function userMain() {
   );
 }
 
-export default userMain;
+export default UserMain;
