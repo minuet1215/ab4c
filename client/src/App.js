@@ -16,7 +16,7 @@ import KakaoAuth from "./controller/KakaoAuth";
 import Profile from "./controller/Profile";
 import invitePage from "./components/views/invitePage/invitePage";
 import AlbumPage from "./components/views/Album/Album";
-import Editor from "./components/views/TOAST/ImageEditor";
+import Editor from "./components/views/EditPhoto/ImageEditor";
 // import TestPage from "./components/views/Test/Test";
 
 function App() {
