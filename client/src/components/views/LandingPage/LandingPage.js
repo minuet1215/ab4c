@@ -1,11 +1,8 @@
 import Kakao from "../../../controller/Kakao";
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { Space, Typography, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import main_img from "../../../img/dog.png";
-import { useDispatch } from "react-redux";
-import { auth } from "../../../_actions/user_action";
 import Logout from "../Logout/Logout";
 
 function LandingPage() {
