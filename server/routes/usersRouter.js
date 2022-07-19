@@ -1,8 +1,8 @@
-const route = require("express").Router();
+const usersRouter = require("express").Router();
 const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
 
-route.post("/register", (req, res) => {
+usersRouter.post("/register", (req, res) => {
   const user = new User(req.body);
 
   user.save((err, userInfo) => {
@@ -14,7 +14,7 @@ route.post("/register", (req, res) => {
     }
   });
 });
-route.post("/check", (req, res) => {
+usersRouter.post("/check", (req, res) => {
   //요청된 이메일을 데이터베이스에서 있는지 찾는다.
   User.findOne({ email: req.body.email }, (err, userInfo) => {
     if (!userInfo) {
@@ -29,7 +29,7 @@ route.post("/check", (req, res) => {
   });
 });
 
-route.post("/login", (req, res) => {
+usersRouter.post("/login", (req, res) => {
   //요청된 이메일을 데이터베이스에서 있는지 찾는다.
   User.findOne({ email: req.body.email }, (err, userInfo) => {
     if (!userInfo) {
@@ -73,12 +73,10 @@ route.post("/login", (req, res) => {
     } else {
       res.send("<script>alert('로그인 실패')</script>");
     }
-    // console.log(req.body.isLocal);
-    // console.log(userInfo.loginType);
   });
 });
 
-route.get("/authen", auth, (req, res) => {
+usersRouter.get("/authen", auth, (req, res) => {
   //여기까지 미들웨어를 통과해 왔다 ==> Authentication 이 True 라는 말.
   res.status(200).json({
     _id: req.user._id,
@@ -88,13 +86,14 @@ route.get("/authen", auth, (req, res) => {
     email: req.user.email,
     name: req.user.name,
     lastname: req.user.lastname,
+    loginType: req.user.loginType,
     // role 1: 어드민, role 2: 특정 부서 어드민
     role: req.user.role,
     image: req.user.image,
   });
 });
 
-route.get("/logout", auth, (req, res) => {
+usersRouter.get("/logout", auth, (req, res) => {
   // 토큰 삭제
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
@@ -104,4 +103,4 @@ route.get("/logout", auth, (req, res) => {
   });
 });
 
-module.exports = route;
+module.exports = usersRouter;

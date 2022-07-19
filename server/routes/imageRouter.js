@@ -1,11 +1,11 @@
-const route = require("express").Router();
+const imageRouter = require("express").Router();
 
 // todo: auth middleware 추가 필요
 // const { auth } = require("../middleware/auth");
 
 const { upload } = require("../utils/file");
 
-route.post("/upload", (req, res) => {
+imageRouter.post("/upload", (req, res) => {
   upload.single("user-file")(req, res, (err) => {
     if (err) {
       return res.json({ success: false, err });
@@ -17,4 +17,4 @@ route.post("/upload", (req, res) => {
   });
 });
 
-module.exports = route;
+module.exports = imageRouter;

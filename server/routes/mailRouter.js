@@ -1,9 +1,8 @@
-const express = require("express");
+const mailRouter = require("express").Router();
 const nodemailer = require("nodemailer");
-const router = express.Router();
-const senderInfo = require("../../config/senderInfo.json");
+const senderInfo = require("../config/senderInfo.json");
 
-router.post("/", function (req, res, next) {
+mailRouter.post("/", function (req, res, next) {
   let to_email = req.body.email;
   let to_nickname = req.body.nickname;
   let roomHost = req.body.host;
@@ -22,7 +21,7 @@ router.post("/", function (req, res, next) {
       pass: senderInfo.pass,
     },
   };
-  
+
   // 메일 내용
   const content = {
     from: `${senderInfo.user}`,
@@ -39,8 +38,6 @@ router.post("/", function (req, res, next) {
         if (err) {
           console.log(err);
         } else {
-          // console.log(info);
-          // console.log(info.response);
           console.log("발송 성공");
           return info.response;
         }
@@ -50,5 +47,4 @@ router.post("/", function (req, res, next) {
   res.redirect("/");
 });
 
-module.exports = router;
-
+module.exports = mailRouter;
