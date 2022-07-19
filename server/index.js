@@ -140,8 +140,5 @@ const upload = multer({
   }),
 });
 
-app.get("*", (_, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
 
 server.listen(PORT, () => console.log(`백엔드 서버 실행 (포트번호) ${PORT}`));
