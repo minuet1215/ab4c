@@ -13,7 +13,6 @@ export default function hoc(SpecificComponent, option, adminRoute = null) {
   function AuthenticationCheck() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
     useEffect(() => {
       dispatch(auth()).then((response) => {
         // console.log(response);

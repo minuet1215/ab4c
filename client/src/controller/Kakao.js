@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import kakao_logo from "../img/kakao_login.png";
+// import { Link } from "react-router-dom";
+// import kakao_logo from "../img/kakao_login.png";
 
 function Kakao() {
   const REST_API_KEY = "1c16cb196a174ddce815876521f0b5d4";
@@ -16,11 +16,3 @@ function Kakao() {
   );
 }
 export default Kakao;
-
-/* <button
-type="primary"
-className="button sign_in_kakao"
-onClick={() => }
->
-카카오로 로그인
-</button> */

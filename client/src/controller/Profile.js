@@ -7,6 +7,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // 127.0.0.1
   const getProfile = async () => {
     try {
       // Kakao SDK API를 이용해 사용자 정보 획득
@@ -21,35 +22,25 @@ const Profile = () => {
         imageUrl: data.properties.profile_image,
         loginType: "kakao",
       };
+      console.log(body);
+
       dispatch(isUser(body)).then((response) => {
         if (!response.payload.isUser) {
           dispatch(registerUser(body)).then((res) => {
             dispatch(loginUser(body)) // 로그인 과정을 거침
+              .then((response) => {
+                // console.log("login success!!!");
+                navigate("/main");
+              });
+          });
+        } else {
+          dispatch(loginUser(body)) // 로그인 과정을 거침
             .then((response) => {
               // console.log("login success!!!");
               navigate("/main");
             });
-          });
-        }else {
-          dispatch(loginUser(body)) // 로그인 과정을 거침
-          .then((response) => {
-            // console.log("login success!!!");
-            navigate("/main");
-          });
         }
       });
-
-      // kakao user 정보 backend로 보내는 파트
-      // dispatch(registerUser(body)) // 우선 user 데이터를 db에 저장
-      //   .then((response) => {
-      //     // 저장에 성공할 경우
-      //     dispatch(loginUser(body)) // 로그인 과정을 거침
-      //       .then((response) => {
-      //         // console.log("login success!!!");
-      //         navigate("/main");
-      //       });
-      //   });
-
     } catch (err) {}
   };
 

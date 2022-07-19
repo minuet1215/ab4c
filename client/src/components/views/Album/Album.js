@@ -3,7 +3,7 @@ import { render } from "react-dom";
 import Gallery from "react-photo-gallery";
 import Carousel, { Modal, ModalGateway } from "react-images";
 import MyHeader from "../Header/Header";
-import { photos } from "./photos";
+import { photos } from "./src_photos";
 
 function MyGallery() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -20,7 +20,7 @@ function MyGallery() {
   };
   return (
     <div className="container">
-        <MyHeader/>
+      <MyHeader />
       <Gallery photos={photos} onClick={openLightbox} />
       <ModalGateway>
         {viewerIsOpen ? (

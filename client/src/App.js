@@ -17,6 +17,8 @@ import Profile from "./controller/Profile";
 import invitePage from "./components/views/invitePage/invitePage";
 import AlbumPage from "./components/views/Album/Album";
 import PhotoEditPage from "./components/views/PhotoEditPage/PhotoEditPage";
+import Editor from "./components/views/EditPhoto/ImageEditor";
+import CameraPage from "./components/views/Camera/Camera";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -28,6 +30,8 @@ function App() {
   const KakaoAuthPage = Auth(KakaoAuth, false);
   const AuthInvitePage = Auth(invitePage, null);
   const AuthAlbumPage = Auth(AlbumPage, true);
+  const AuthEditPhotoPage = Auth(Editor, null);
+  const AuthCameraPage = Auth(CameraPage, true);
 
   return (
     <Router>
@@ -41,7 +45,9 @@ function App() {
           <Route exact path="/invitePage" element={<AuthInvitePage />} />
           <Route exact path="/album" element={<AuthAlbumPage />} />
           <Route exact path="/testImage" element={<Main />} />
+          <Route exact path="/editPhoto" element={<AuthEditPhotoPage />} />
           <Route exact path="/group" element={<GroupPage />} />
+          <Route exact path="/camera" element={<AuthCameraPage />} />
           <Route
             exact
             path="/video_call/:room_name"
@@ -55,7 +61,9 @@ function App() {
           />
           {/* <KakaoAuth/> */}
           <Route path="/profile" element={<Profile />} />
+          
           <Route path="/edit" element={<PhotoEditPage />} />
+          
         </Routes>
       </div>
     </Router>
