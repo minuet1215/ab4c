@@ -178,10 +178,11 @@ app.get("/api/users/authen", auth, (req, res) => {
     // role 1: 어드민, role 2: 특정 부서 어드민
     role: req.user.role,
     image: req.user.image,
+    loginType : req.user.loginType
   });
 });
 
-app.get("/api/users/logout", auth, (req, res) => {
+app.get("/api/users/logout1", auth, (req, res) => {
   // 토큰 삭제
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });

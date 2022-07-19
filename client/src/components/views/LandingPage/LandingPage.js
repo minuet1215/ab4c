@@ -6,18 +6,33 @@ import { useNavigate } from "react-router-dom";
 import MyHeader from "../Header/Header";
 // const mainImagePath = process.env.PUBLIC_URL + "/logo192.png";
 import main_img from "../../../img/dog.png";
+import { useDispatch } from "react-redux";
+import { auth } from "../../../_actions/user_action";
+import KakaoLogout from "../../../controller/KakaoLogout";
 
 function LandingPage() {
+  const REST_API_KEY = "1c16cb196a174ddce815876521f0b5d4";
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { Title } = Typography;
 
   const onClickHandler = () => {
-    axios.get(`/api/users/logout`).then((response) => {
-      if (response.data.success) {
-        navigate("/login");
-      } else {
-        alert("로그아웃 하는데 실패 했습니다.");
+    dispatch(auth()).then((response) => {
+      if (response.payload.loginType == "kakao") {
+        window.Kakao.init(REST_API_KEY);
+        window.Kakao.Auth.logout(() => {
+          localStorage.clear();
+        });
       }
+      axios.get(`/api/users/logout1`).then((response) => {
+        if (response.data.success) {
+          alert("로그아웃 되었습니다.");
+          navigate("/login");
+        } else {
+          alert("로그아웃 하는데 실패 했습니다.");
+        }
+      });
     });
   };
 
@@ -26,11 +41,6 @@ function LandingPage() {
       <Space
         className="main_page"
         style={{
-          // display: "flex",
-          // justifyContent: "center",
-          // alignItems: "center",
-          // width: "100%",
-          // height: "100vh",
           flexDirection: "column",
         }}
       >
@@ -60,17 +70,12 @@ function LandingPage() {
             사진 찍기
           </button>
           <Button type="primary" onClick={() => navigate("/group")}>
-          누끼 사진 찍기
+            누끼 사진 찍기
           </Button>
           <button type="primary" className="button" onClick={onClickHandler}>
             로그아웃
           </button>
         </div>
-
-
-        
-
-
       </Space>
     </div>
   );

@@ -16,7 +16,7 @@ import KakaoAuth from "./controller/KakaoAuth";
 import Profile from "./controller/Profile";
 import invitePage from "./components/views/invitePage/invitePage";
 import AlbumPage from "./components/views/Album/Album";
-import EditPhoto from "./components/views/Canvas/EditPhoto";
+import Editor from "./components/views/TOAST/ImageEditor";
 // import TestPage from "./components/views/Test/Test";
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
   const KakaoAuthPage = Auth(KakaoAuth, false);
   const AuthInvitePage = Auth(invitePage, null);
   const AuthAlbumPage = Auth(AlbumPage, true);
-  const AuthEditPhotoPage = Auth(EditPhoto, null);
+  const AuthEditPhotoPage = Auth(Editor, null);
 
   return (
     <Router>

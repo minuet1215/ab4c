@@ -19,8 +19,6 @@ export default function hoc(SpecificComponent, option, adminRoute = null) {
         //로그인 하지 않은 상태
         if (!response.payload.isAuth) {
           if (option) {
-            console.log('안돼애애애애애애애');
-            console.log(response)
             navigate("/login");
           }
         } else {
