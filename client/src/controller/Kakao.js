@@ -10,7 +10,7 @@ function Kakao() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   return (
-    <button className="button_gap sign_in_kakao">
+    <button className="button button_gap sign_in_kakao">
       <a style={{ color: "#555555" }} href={KAKAO_AUTH_URL}>
         <div> 카카오 로그인</div>
       </a>

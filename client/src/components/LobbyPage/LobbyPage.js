@@ -46,12 +46,12 @@ function LobbyPage() {
         <div className={styles.member_container}></div>
         <div style={{ paddingBottom: "5%" }}>
           <button
-            className="button_gap btn_1"
+            className="button button_gap btn_1"
             onClick={() => navigate("/group")}
           >
             입장
           </button>
-          <button className="button_gap btn_2">초대</button>
+          <button className="button button_gap btn_2">초대</button>
         </div>
       </div>
     </div>

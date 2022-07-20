@@ -38,10 +38,16 @@ function UserMain() {
     <div className="container">
       <MyHeader subTitle="메인 화면" />
       <div className="contents_container center">
-        <button className="button_gap btn_1" onClick={() => navigate("/group")}>
+        <button
+          className="button button_gap btn_1"
+          onClick={() => navigate("/group")}
+        >
           촬영하기
         </button>
-        <button className="button_gap btn_2" onClick={() => navigate("/album")}>
+        <button
+          className="button button_gap btn_2"
+          onClick={() => navigate("/album")}
+        >
           내 앨범
         </button>
       </div>

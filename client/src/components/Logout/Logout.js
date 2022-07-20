@@ -32,7 +32,7 @@ function Logout() {
   };
 
   return (
-    <button className="button_gap" onClick={onClickHandler}>
+    <button className="button button_gap" onClick={onClickHandler}>
       로그아웃
     </button>
   );
