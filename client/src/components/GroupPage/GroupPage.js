@@ -5,11 +5,16 @@ import makeGif from "./makeGIF.js";
 import Socket from "./Socket";
 import useInterval from "./useInterval";
 import { useNavigate } from "react-router";
-let IMGS = new Array();
+let IMGS = [];
 
 function GroupPage() {
   const navigate = useNavigate();
-  const localVideoRef = useRef(null);
+  const refs = {
+    localVideoRef: useRef(null),
+    socketRef: useRef(null),
+    pcRef: useRef(null),
+    remoteVideoRef: useRef(null),
+  };
   let roomName = "1234"; //룸이름
   const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
   const [imgFile, setImgFile] = useState(null); // 파일 전송을 위한 state
@@ -17,14 +22,18 @@ function GroupPage() {
   const [countDown, setCount] = useState(5); // 카운트다운
   const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
   const [photoCount, setPhotoCount] = useState(0); // 4장만 찍을 수 있다.
-
   // 4장 찍으면 edit페이지로 이동
   useEffect(() => {
-    if (photoCount == 4) {
+    if (photoCount === 4) {
+      refs.socketRef.current.disconnect();
+      refs.pcRef.current.close();
+      let stream = refs.localVideoRef.current.srcObject;
+      stream.getTracks().forEach(function (track) {
+        track.stop();
+      });
       navigate("/edit", { state: { images: IMGS } });
-      console.log(IMGS);
     }
-  }, [photoCount]);
+  }, [photoCount, refs.socketRef, refs.pcRef, navigate, refs.localVideoRef]);
   // 1초마다 초세기. startCapture State가 true가 되면 자동으로 돌아감
   useInterval(
     () => {
@@ -53,25 +62,11 @@ function GroupPage() {
       setPhotoCount(photoCount + 1);
     });
   }
-
-  //로컬 저장하는 함수, 아직은 안씀
-  const OnSaveAs = (uri, filename) => {
-    let link = document.createElement("a");
-    if (typeof link.download === "string") {
-      link.href = uri;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      window.open(uri);
-    }
-  };
-
   // 음소거 버튼
   function changeMuteButton() {
     isMute = !isMute;
-    localVideoRef.current.muted = isMute;
+    refs.localVideoRef.current.muted = isMute;
+
     document.getElementById("muteButton").innerText = isMute
       ? "unMute"
       : "Mute";
@@ -99,7 +94,7 @@ function GroupPage() {
   };
   return (
     <div>
-      {photoCount < 4 ? (
+      {!startCapture ? (
         <button
           onClick={() => {
             setCapture(true);
@@ -134,11 +129,10 @@ function GroupPage() {
             : "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)",
         }}
       >
-        <Socket roomName={roomName} ref={localVideoRef}></Socket>
+        <Socket roomName={roomName} ref={refs}></Socket>
       </div>
       {startCapture && <h2>{countDown}</h2>}
       <p>{photoCount}/4</p>
-      <img id="result-image" />
     </div>
   );
 }
