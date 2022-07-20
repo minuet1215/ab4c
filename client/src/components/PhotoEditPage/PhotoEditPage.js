@@ -14,7 +14,6 @@ const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
   const { state } = useLocation();
-  console.log(state);
   // ================= dummy data ================= //
   const images = [
     { src: state.images[0], x: gap, y: gap },
@@ -22,7 +21,6 @@ function PhotoEditPage() {
     { src: state.images[2], x: gap, y: 2 * (img_height + gap) + gap },
     { src: state.images[3], x: gap, y: 3 * (img_height + gap) + gap },
   ];
-  console.log(images);
   const bgImages = [
     { src: defaultBg, alt: "default" },
     { src: bgImg2, alt: "spring" },
@@ -55,15 +53,14 @@ function PhotoEditPage() {
     img.onload = function () {
       ctx.drawImage(img, 0, 0, frame_width, frame_height);
       writeText(ctx, date_time);
+      images.map((image) => {
+        let img = new Image();
+        img.src = image.src;
+        img.onload = function () {
+          ctx.drawImage(img, image.x, image.y, img_width, img_height);
+        };
+      });
     };
-
-    images.map((image) => {
-      let img = new Image();
-      img.src = image.src;
-      img.onload = function () {
-        ctx.drawImage(img, image.x, image.y, img_width, img_height);
-      };
-    });
   }, [canvasRef, bgChange, visible]);
 
   function writeText(ctx, text) {
