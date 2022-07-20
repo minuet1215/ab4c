@@ -5,8 +5,8 @@ import remove2 from "./remove2.js";
 import io from "socket.io-client";
 
 const Socket = forwardRef((props, ref) => {
-  const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
-  // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
+  // const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
+  const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
   let [leave, setLeave] = useState(true); //나가면 상대방 삭제되게 하는 State
   const pc_config = {
     iceServers: [

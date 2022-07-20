@@ -4,11 +4,13 @@ import html2canvas from "html2canvas";
 import makeGif from "./makeGIF.js";
 import Socket from "./Socket";
 import useInterval from "./useInterval";
+import { useNavigate } from "react-router";
+let IMGS = new Array();
 
 function GroupPage() {
+  const navigate = useNavigate();
   const localVideoRef = useRef(null);
-  let IMGS = new Array();
-  let roomName = "123455"; //룸이름
+  let roomName = "1234"; //룸이름
   const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
   const [imgFile, setImgFile] = useState(null); // 파일 전송을 위한 state
   let isMute = false; // 음소거 변수
@@ -16,6 +18,13 @@ function GroupPage() {
   const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
   const [photoCount, setPhotoCount] = useState(0); // 4장만 찍을 수 있다.
 
+  // 4장 찍으면 edit페이지로 이동
+  useEffect(() => {
+    if (photoCount == 4) {
+      navigate("/edit", { state: { images: IMGS } });
+      console.log(IMGS);
+    }
+  }, [photoCount]);
   // 1초마다 초세기. startCapture State가 true가 되면 자동으로 돌아감
   useInterval(
     () => {
@@ -36,7 +45,7 @@ function GroupPage() {
     }).then((canvas) => {
       let DATA_URL = canvas.toDataURL();
       // OnSaveAs(DATA_URL, "image.png");
-      document.getElementById("result-image").src = DATA_URL;
+      // document.getElementById("result-image").src = DATA_URL;
       IMGS.push(DATA_URL);
       // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
       setCapture(false);

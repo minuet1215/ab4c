@@ -1,13 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
 import { Drawer } from "antd";
-
-import img1 from "../../img/1.jpg";
-import img2 from "../../img/2.jpg";
-import img3 from "../../img/3.jpg";
-import img4 from "../../img/4.jpg";
 import defaultBg from "../../img/default_background.jpg";
 import bgImg2 from "../../img/6.jpg";
 const img_width = 550;
@@ -17,13 +13,16 @@ const frame_width = img_width + 2 * gap;
 const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
+  const { state } = useLocation();
+  console.log(state);
   // ================= dummy data ================= //
   const images = [
-    { src: img1, x: gap, y: gap },
-    { src: img2, x: gap, y: 1 * (img_height + gap) + gap },
-    { src: img3, x: gap, y: 2 * (img_height + gap) + gap },
-    { src: img4, x: gap, y: 3 * (img_height + gap) + gap },
+    { src: state.images[0], x: gap, y: gap },
+    { src: state.images[1], x: gap, y: 1 * (img_height + gap) + gap },
+    { src: state.images[2], x: gap, y: 2 * (img_height + gap) + gap },
+    { src: state.images[3], x: gap, y: 3 * (img_height + gap) + gap },
   ];
+  console.log(images);
   const bgImages = [
     { src: defaultBg, alt: "default" },
     { src: bgImg2, alt: "spring" },
