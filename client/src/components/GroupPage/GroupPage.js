@@ -6,6 +6,7 @@ import Socket from "./Socket";
 import useInterval from "./useInterval";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 let IMGS = [];
 
@@ -115,13 +116,14 @@ function GroupPage() {
       >
         Mute
       </button>
-      <button
-        onClick={() => {
-          makeGif(IMGS);
+      <CopyToClipboard
+        text={window.document.location.href}
+        onCopy={() => {
+          alert("복사완료");
         }}
       >
-        Make a Gif
-      </button>
+        <button>초대링크복사</button>
+      </CopyToClipboard>
       <input type="file" id="imgFile" onChange={handleChangeFile} />
       <div
         className={styles.box}
