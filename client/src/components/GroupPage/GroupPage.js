@@ -5,9 +5,13 @@ import makeGif from "./makeGIF.js";
 import Socket from "./Socket";
 import useInterval from "./useInterval";
 import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
+
 let IMGS = [];
 
 function GroupPage() {
+  let { roomname } = useParams();
+  let roomName = roomname; //룸이름
   const navigate = useNavigate();
   const refs = {
     localVideoRef: useRef(null),
@@ -15,7 +19,6 @@ function GroupPage() {
     pcRef: useRef(null),
     remoteVideoRef: useRef(null),
   };
-  let roomName = "1234"; //룸이름
   const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
   const [imgFile, setImgFile] = useState(null); // 파일 전송을 위한 state
   let isMute = false; // 음소거 변수
@@ -33,7 +36,7 @@ function GroupPage() {
       });
       navigate("/edit", { state: { images: IMGS } });
     }
-  }, [photoCount, refs.socketRef, refs.pcRef, navigate, refs.localVideoRef]);
+  }, [photoCount]); // eslint-disable-line react-hooks/exhaustive-deps
   // 1초마다 초세기. startCapture State가 true가 되면 자동으로 돌아감
   useInterval(
     () => {
