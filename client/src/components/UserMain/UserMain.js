@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { enterRoom } from "../../_actions/room_action";
-// import { Layout, Menu, Form, Input, Button } from "antd";
-// import MyHeader from "../Header/Header";
+import MyHeader from "../Header/Header";
 
 function UserMain() {
   // const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // const [RoomNumber, setRoomNumber] = useState("");
   // const onRoomNumberHandler = (event) => {
@@ -37,14 +35,15 @@ function UserMain() {
   // };
 
   return (
-    <div className="box">
-      <div>
-        <Link to="/lobby">
-          <button className="btn btn_bg1"> 촬영하기 </button>
-        </Link>
-        <Link to="/album">
-          <button className="btn btn_bg2"> 내 앨범</button>
-        </Link>
+    <div className="container">
+      <MyHeader subTitle="메인 화면" />
+      <div className="contents_container center">
+        <button className="button_gap btn_1" onClick={() => navigate("/group")}>
+          촬영하기
+        </button>
+        <button className="button_gap btn_2" onClick={() => navigate("/album")}>
+          내 앨범
+        </button>
       </div>
     </div>
   );

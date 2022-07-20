@@ -122,55 +122,56 @@ function PhotoEditPage() {
   // todo : 공유하기 기능 추가 필요
 
   return (
-    <div width="100%" height="100vh">
+    <div className="container">
       <MyHeader subTitle="사진 화면" onBackUrl="/" />
-
-      <div className={styles.canvas_container}>
-        <canvas
-          id="canvas"
-          width={frame_width}
-          height={frame_height}
-          style={{
-            backgroundColor: "black",
-          }}
-          ref={canvasRef}
-        >
-          Your browser does not support the HTML5 canvas tag.
-        </canvas>
-      </div>
-      <div id="control-menu" className={styles.control_container}>
-        <button className={styles.btn_default}>공유</button>
-        <button className={styles.btn_default} onClick={showDrawer}>
-          프레임 변경
-        </button>
-        <button className={styles.btn_pink} onClick={OnSave}>
-          저장
-        </button>
-      </div>
-      <Drawer
-        title="프레임 선택"
-        placement="bottom"
-        closable={true}
-        onClose={onClose}
-        visible={visible}
-        height="30%"
-      >
-        <div className={styles.bg_menu_scroll}>
-          {bgImages.map((bgImage) => {
-            return (
-              <img
-                src={bgImage.src}
-                key={bgImage.alt}
-                alt={bgImage.alt}
-                onClick={() => setBgChange(bgImage.src)}
-                width="100px"
-                height="150px"
-                style={{ padding: "10px" }}
-              ></img>
-            );
-          })}
+      <div className="contents_container">
+        <div className={styles.canvas_container}>
+          <canvas
+            id="canvas"
+            width={frame_width}
+            height={frame_height}
+            style={{
+              backgroundColor: "black",
+            }}
+            ref={canvasRef}
+          >
+            Your browser does not support the HTML5 canvas tag.
+          </canvas>
         </div>
-      </Drawer>
+        <div id="control-menu" className={styles.control_container}>
+          <button className={styles.btn_default}>공유</button>
+          <button className={styles.btn_default} onClick={showDrawer}>
+            프레임 변경
+          </button>
+          <button className={styles.btn_pink} onClick={OnSave}>
+            저장
+          </button>
+        </div>
+        <Drawer
+          title="프레임 선택"
+          placement="bottom"
+          closable={true}
+          onClose={onClose}
+          visible={visible}
+          height="30%"
+        >
+          <div className={styles.bg_menu_scroll}>
+            {bgImages.map((bgImage) => {
+              return (
+                <img
+                  src={bgImage.src}
+                  key={bgImage.alt}
+                  alt={bgImage.alt}
+                  onClick={() => setBgChange(bgImage.src)}
+                  width="100px"
+                  height="150px"
+                  style={{ padding: "10px" }}
+                ></img>
+              );
+            })}
+          </div>
+        </Drawer>
+      </div>
     </div>
   );
 }
