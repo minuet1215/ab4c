@@ -20,7 +20,7 @@ export default function StickerRow({ onStickerSelected }) {
           <img
             key={i}
             onClick={() => onStickerSelected(path)}
-            src={path}z
+            src={path}
             alt="sticker"
           />
         ))}
