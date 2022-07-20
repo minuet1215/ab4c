@@ -14,6 +14,7 @@ function GroupPage() {
   let isMute = false; // 음소거 변수
   const [countDown, setCount] = useState(5); // 카운트다운
   const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
+  const [photoCount, setPhotoCount] = useState(0); // 4장만 찍을 수 있다.
 
   // 1초마다 초세기. startCapture State가 true가 되면 자동으로 돌아감
   useInterval(
@@ -40,6 +41,7 @@ function GroupPage() {
       // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
       setCapture(false);
       setCount(5);
+      setPhotoCount(photoCount + 1);
     });
   }
 
@@ -88,13 +90,16 @@ function GroupPage() {
   };
   return (
     <div>
-      <button
-        onClick={() => {
-          setCapture(true);
-        }}
-      >
-        캡쳐
-      </button>
+      {photoCount < 4 ? (
+        <button
+          onClick={() => {
+            setCapture(true);
+          }}
+        >
+          캡쳐
+        </button>
+      ) : undefined}
+
       <button
         id="muteButton"
         onClick={() => {
@@ -123,6 +128,7 @@ function GroupPage() {
         <Socket roomName={roomName} ref={localVideoRef}></Socket>
       </div>
       {startCapture && <h2>{countDown}</h2>}
+      <p>{photoCount}/4</p>
       <img id="result-image" />
     </div>
   );
