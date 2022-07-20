@@ -29,14 +29,12 @@ const Profile = () => {
           dispatch(registerUser(body)).then((res) => {
             dispatch(loginUser(body)) // 로그인 과정을 거침
               .then((response) => {
-                // console.log("login success!!!");
                 navigate("/main");
               });
           });
         } else {
           dispatch(loginUser(body)) // 로그인 과정을 거침
             .then((response) => {
-              // console.log("login success!!!");
               navigate("/main");
             });
         }

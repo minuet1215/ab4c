@@ -1,0 +1,57 @@
+/* @import "~antd/dist/antd.css"; */
+
+.canvas_container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 100vw;
+  height: calc(100vh - 2 * 74px);
+  padding-top: 5%;
+  padding-bottom: 10%;
+}
+
+.control_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 74px;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 10%;
+}
+.control_btn {
+  margin: 3%;
+}
+
+.bg_menu_scroll {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.btn_pink {
+  background-color: #fc8da1;
+  font-size: 100%;
+  font-weight: 700;
+  color: white;
+  border-radius: 10px;
+  border: 0;
+  width: 30%;
+  height: 50px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  margin: 1%;
+}
+
+.btn_default {
+  font-size: 100%;
+  font-weight: 500;
+  color: #555555;
+  border-radius: 10px;
+  border: 0;
+  width: 30%;
+  height: 50px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  margin: 1%;
+}
