@@ -1,19 +1,16 @@
-# 4-cut-dev
-기본 로그인(REACT) + 동영상 누끼
-
-## 로컬에서 돌리기
+## for Dev
 1. server/ > `npm i`
 2. client/ > `yarn install`
 3. client/ > `npm run build`
 4. server/ > `npm run dev`
 
-## 개발용으로 돌리기
+📌 **주의사항**
+**`.env 파일` 확인 잘하세요! **
 
-`npm run dev`
+<hr>
 
-
-## 간단한 파일 구조 설명
-
+## Folder Structure
+### Client
 > `client` : Front-End (REACT)
 >
 >> `package.json` : 프론트 관련 모듈, 스크립트 등등
@@ -24,15 +21,30 @@
 >>
 >>> `components/views` : 각 화면들
 
-
-> `server` : Back-End
+### Server
+> `server/` : Back-End (Node-Express)
 >>
 >>`index.js`: server 메인
+>>
+>>`mail.js`: mail service
+>>
+>>`config/` : 환경변수 관련 (리팩토링 필요)
+>>
+>>`middleware/` : 미들웨어
+>>
+>>`models/`: DB Schema
+>>
+>>`routes/`: route 관리
 >
 > `package.json` : 백 관련 모듈, 스크립트 등등
 
-### 비고
+<hr>
+
+### Note
 
 * 컴포넌트 스타일 설정에 antd 사용하고 있음 (그냥 개발용으로 볼때 예쁘라고 썼는데 편한 듯)
   https://ant.design/docs/react/introduce
-* 데이터베이스는 일단은 로컬 DB로 설정되어있음
+
+* back, front 실행 시 주의해야 할 변수
+* MONGO_URI, PORT, setupProxy.js (from client/), ...
+  * Dev, Prod, ~~Local~~ 분리 필요
