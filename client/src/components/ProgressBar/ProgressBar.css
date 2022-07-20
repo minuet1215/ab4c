@@ -1,0 +1,16 @@
+.progress-bar-boundary {
+    border: 1px solid black;
+    margin-bottom: 10px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.progress-bar-boundary div {
+    background-color: rgb(122, 236, 122);
+    height: 30px;
+    padding-top: 10px;
+    border-radius: 10px;
+    text-align: center;
+    color: black;
+    transition: 0.3s;
+}

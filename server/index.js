@@ -19,8 +19,10 @@ const { PORT } = process.env;
 
 /* Middleware*/
 app.use(cors());
+app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.json());
 app.use(cookieParser());
 
 /* DB 연결 */
@@ -46,7 +48,7 @@ app.get("/", (_, res) => {
 
 app.use("/api/users", usersRouter);
 app.use("/api/rooms", roomsRouter);
-app.use("/api/image", imageRouter);
+app.use("/images", imageRouter);
 app.use("/invite", mailRouter);
 
 // ========================= < WebRTC > ========================= //
@@ -123,22 +125,10 @@ io.on("connection", (socket) => {
   });
 });
 
-// ------------------<image save for Local>---------------------------//
+/* =========== Socket End =============*/
 
-const upload = multer({
-  storage: multer.diskStorage({
-    destination(req, file, cb) {
-      cb(null, "uploads/"); //cb 콜백함수를 통해 전송된 파일을 'uploads' 폴더에 저장
-    },
-    filename(req, file, cb) {
-      const ext = path.extname(file.originalname); // 파일확장자
-      cb(
-        null,
-        path.basename(file.originalname, ext) + new Date().valueOf() + ext
-      ); // cb 콜백함수를 통해 전송된 파일 이름 설정(파일명 + 업로드시간 + 확장자)
-    },
-  }),
+app.get("*", (_, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
-
 
 server.listen(PORT, () => console.log(`백엔드 서버 실행 (포트번호) ${PORT}`));

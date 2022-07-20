@@ -2,13 +2,10 @@
 기본 로그인(REACT) + 동영상 누끼
 
 ## 로컬에서 돌리기
-
 1. server/ > `npm i`
 2. client/ > `yarn install`
 3. client/ > `npm run build`
-4. server/ > `npm run backend`
-5. "http://localhost:5001/" 로 접속
-
+4. server/ > `npm run dev`
 
 ## 개발용으로 돌리기
 
@@ -26,7 +23,8 @@
 >> `src` : 프론트 소스
 >>
 >>> `components/views` : 각 화면들
->
+
+
 > `server` : Back-End
 >>
 >>`index.js`: server 메인
@@ -35,6 +33,6 @@
 
 ### 비고
 
-* 컴포넌트 스타일 설정에 antd 사용하고 있음 (그냥 개발용으로 볼때 예쁘라고 썻는데 편한듯)
+* 컴포넌트 스타일 설정에 antd 사용하고 있음 (그냥 개발용으로 볼때 예쁘라고 썼는데 편한 듯)
   https://ant.design/docs/react/introduce
 * 데이터베이스는 일단은 로컬 DB로 설정되어있음
