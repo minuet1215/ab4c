@@ -8,7 +8,7 @@ import AlbumPage from "./components/Album/Album";
 import CameraPage from "./components/Camera/Camera";
 import GroupPage from "./components/GroupPage/GroupPage";
 import LandingPage from "./components/LandingPage/LandingPage";
-import ImageEditor from "./components/ImageEditor/ImageEditor";
+// import Editor from "./components/ImageEditor/ImageEditor";
 import LobbyPage from "./components/LobbyPage/LobbyPage";
 import LoginPage from "./components/LoginPage/LoginPage";
 import PhotoEditPage from "./components/PhotoEditPage/PhotoEditPage";
@@ -29,7 +29,11 @@ function App() {
   const AuthVideoCallPage = Auth(VideoCallPage, true);
   const KakaoAuthPage = Auth(KakaoAuth, false);
   const AuthAlbumPage = Auth(AlbumPage, true);
+<<<<<<< HEAD
   const AuthEditPhotoPage = Auth(Editor, null);
+=======
+  // const AuthEditPhotoPage = Auth(Editor, null);
+>>>>>>> d10c12c11dc1aa45318d6248d50e18bf0038ef5c
   const AuthCameraPage = Auth(CameraPage, true);
 
   return (
