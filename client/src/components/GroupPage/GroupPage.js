@@ -1,146 +1,43 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Typography } from "antd";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./GroupPage.module.css";
-import remove from "./remove.js";
-import remove2 from "./remove2.js";
-import io from "socket.io-client";
 import html2canvas from "html2canvas";
-import url from "socket.io-client/lib/url";
 import makeGif from "./makeGIF.js";
+import Socket from "./Socket";
+import useInterval from "./useInterval";
+import { useNavigate } from "react-router";
+let IMGS = new Array();
+
 function GroupPage() {
-  let IMGS = new Array();
-  const { Title } = Typography;
-  let roomName = "1234";
-  let [leave, setLeave] = useState(true);
+  const navigate = useNavigate();
+  const localVideoRef = useRef(null);
+  let roomName = "1234"; //룸이름
   const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
   const [imgFile, setImgFile] = useState(null); // 파일 전송을 위한 state
-  let isMute = false;
-  const pc_config = {
-    iceServers: [
-      {
-        urls: [
-          "stun:stun.l.google.com:19302",
-          "stun:stun1.l.google.com:19302",
-          "stun:stun2.l.google.com:19302",
-          "stun:stun3.l.google.com:19302",
-          "stun:stun4.l.google.com:19302",
-        ],
-      },
-    ],
-  };
-  // const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
-  const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
-  const socketRef = useRef();
-  const pcRef = useRef();
-  const localVideoRef = useRef(null);
-  const remoteVideoRef = useRef(null);
-  const setVideoTracks = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-      if (localVideoRef.current) localVideoRef.current.srcObject = stream;
-      if (!(pcRef.current && socketRef.current)) return;
-      stream.getTracks().forEach((track) => {
-        if (!pcRef.current) return;
-        pcRef.current.addTrack(track, stream);
-      });
-      pcRef.current.onicecandidate = (e) => {
-        if (e.candidate) {
-          if (!socketRef.current) return;
-          console.log("onicecandidate");
-          socketRef.current.emit("candidate", e.candidate);
-        }
-      };
-      pcRef.current.oniceconnectionstatechange = (e) => {
-        console.log(e);
-      };
-      pcRef.current.ontrack = (ev) => {
-        console.log("add remotetrack success");
-        if (remoteVideoRef.current) {
-          remoteVideoRef.current.srcObject = ev.streams[0];
-          setLeave(false);
-        }
-      };
-      socketRef.current.emit("join_room", {
-        room: roomName,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-  const createOffer = async () => {
-    console.log("create offer");
-    if (!(pcRef.current && socketRef.current)) return;
-    try {
-      const sdp = await pcRef.current.createOffer({
-        offerToReceiveAudio: true,
-        offerToReceiveVideo: true,
-      });
-      await pcRef.current.setLocalDescription(new RTCSessionDescription(sdp));
-      socketRef.current.emit("offer", sdp);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-  const createAnswer = async (sdp) => {
-    if (!(pcRef.current && socketRef.current)) return;
-    try {
-      await pcRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
-      console.log("answer set remote description success");
-      const mySdp = await pcRef.current.createAnswer({
-        offerToReceiveVideo: true,
-        offerToReceiveAudio: true,
-      });
-      console.log("create answer");
-      await pcRef.current.setLocalDescription(new RTCSessionDescription(mySdp));
-      socketRef.current.emit("answer", mySdp);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  let isMute = false; // 음소거 변수
+  const [countDown, setCount] = useState(5); // 카운트다운
+  const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
+  const [photoCount, setPhotoCount] = useState(0); // 4장만 찍을 수 있다.
 
+  // 4장 찍으면 edit페이지로 이동
   useEffect(() => {
-    socketRef.current = io.connect(SOCKET_SERVER_URL);
-    pcRef.current = new RTCPeerConnection(pc_config);
-    socketRef.current.on("all_users", (allUsers) => {
-      if (allUsers.length > 0) {
-        createOffer();
+    if (photoCount == 4) {
+      navigate("/edit", { state: { images: IMGS } });
+      console.log(IMGS);
+    }
+  }, [photoCount]);
+  // 1초마다 초세기. startCapture State가 true가 되면 자동으로 돌아감
+  useInterval(
+    () => {
+      setCount(countDown - 1);
+      if (countDown <= 1) {
+        startCap();
       }
-    });
-    socketRef.current.on("getOffer", (sdp) => {
-      //console.log(sdp);
-      console.log("get offer");
-      createAnswer(sdp);
-    });
-    socketRef.current.on("getAnswer", (sdp) => {
-      console.log("get answer");
-      if (!pcRef.current) return;
-      pcRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
-    });
-    socketRef.current.on("getCandidate", async (candidate) => {
-      if (!pcRef.current) return;
-      await pcRef.current.addIceCandidate(new RTCIceCandidate(candidate));
-      console.log("candidate add success");
-    });
-    socketRef.current.on("user_exit", (e) => {
-      setLeave(true);
-      console.log("나감");
-    });
-    setVideoTracks();
-    remove();
-    remove2();
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-      if (pcRef.current) {
-        pcRef.current.close();
-      }
-    };
-  }, []);
-  function onCapture() {
+    },
+    startCapture ? 1000 : null
+  );
+
+  // 캡쳐하는 함수
+  function startCap() {
     html2canvas(document.querySelector("#capture"), {
       allowTaint: false,
       useCORS: true,
@@ -148,11 +45,16 @@ function GroupPage() {
     }).then((canvas) => {
       let DATA_URL = canvas.toDataURL();
       // OnSaveAs(DATA_URL, "image.png");
-      document.getElementById("result-image").src = DATA_URL;
+      // document.getElementById("result-image").src = DATA_URL;
       IMGS.push(DATA_URL);
+      // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
+      setCapture(false);
+      setCount(5);
+      setPhotoCount(photoCount + 1);
     });
   }
-  //로컬 저장하는 함수, 안씀
+
+  //로컬 저장하는 함수, 아직은 안씀
   const OnSaveAs = (uri, filename) => {
     let link = document.createElement("a");
     if (typeof link.download === "string") {
@@ -165,6 +67,8 @@ function GroupPage() {
       window.open(uri);
     }
   };
+
+  // 음소거 버튼
   function changeMuteButton() {
     isMute = !isMute;
     localVideoRef.current.muted = isMute;
@@ -172,6 +76,7 @@ function GroupPage() {
       ? "unMute"
       : "Mute";
   }
+
   // 뒷배경 바꾸기
   const handleChangeFile = (event) => {
     let reader = new FileReader();
@@ -194,72 +99,46 @@ function GroupPage() {
   };
   return (
     <div>
-      <Title>Group</Title>
-      <main>
-        <div id="call">
-          <button
-            onClick={() => {
-              onCapture();
-            }}
-          >
-            캡쳐
-          </button>
-          <button
-            id="muteButton"
-            onClick={() => {
-              changeMuteButton();
-            }}
-          >
-            Mute
-          </button>
-          <button
-            onClick={() => {
-              makeGif(IMGS);
-            }}
-          >
-            Make a Gif
-          </button>
-          <input type="file" id="imgFile" onChange={handleChangeFile} />
-          <div
-            className={styles.box}
-            id="capture"
-            style={{
-              backgroundImage: ImgBase64
-                ? `url(${ImgBase64})`
-                : "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)",
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-            }}
-          >
-            <canvas className={styles.mirror} id="mytrans"></canvas>
-            <canvas
-              className={leave ? styles.displaynone : styles.mirror}
-              id="remotetrans"
-            ></canvas>
-          </div>
-          <img id="result-image" />
-          <video
-            className={styles.displaynone}
-            id="my_face"
-            autoPlay
-            playsInline
-            width="640"
-            height="480"
-            ref={localVideoRef}
-          ></video>
-          <video
-            className={styles.displaynone}
-            id="remote"
-            autoPlay
-            playsInline
-            width="640"
-            height="480"
-            ref={remoteVideoRef}
-          ></video>
-          <canvas className={styles.displaynone} id="remotegreen"></canvas>
-          <canvas className={styles.displaynone} id="mygreen"></canvas>
-        </div>
-      </main>
+      {photoCount < 4 ? (
+        <button
+          onClick={() => {
+            setCapture(true);
+          }}
+        >
+          캡쳐
+        </button>
+      ) : undefined}
+
+      <button
+        id="muteButton"
+        onClick={() => {
+          changeMuteButton();
+        }}
+      >
+        Mute
+      </button>
+      <button
+        onClick={() => {
+          makeGif(IMGS);
+        }}
+      >
+        Make a Gif
+      </button>
+      <input type="file" id="imgFile" onChange={handleChangeFile} />
+      <div
+        className={styles.box}
+        id="capture"
+        style={{
+          backgroundImage: ImgBase64
+            ? `url(${ImgBase64})`
+            : "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)",
+        }}
+      >
+        <Socket roomName={roomName} ref={localVideoRef}></Socket>
+      </div>
+      {startCapture && <h2>{countDown}</h2>}
+      <p>{photoCount}/4</p>
+      <img id="result-image" />
     </div>
   );
 }
