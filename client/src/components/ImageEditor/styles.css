@@ -1,0 +1,83 @@
+html,
+body {
+  margin: 0;
+}
+
+.Editor {
+  font-family: sans-serif;
+  text-align: center;
+  height: 100vh;
+}
+
+/* .tui-image-editor-header {
+  display: none;
+} */
+
+.tui-image-editor-header-logo,
+.tui-image-editor-load-btn {
+  display: none;
+}
+
+.tui-image-editor-container .tui-image-editor-help-menu.top {
+  display: none;
+}
+
+
+.tui-image-editor-item.tie-btn-deleteAll {
+  display: none !important;
+}
+::v-deep #tui-image-editor .tie-btn-delete {
+  display: none;
+}
+
+.tui-image-editor {
+  max-width: 100vw;
+}
+
+.tui-image-editor-container .tui-image-editor-menu {
+  white-space: normal;
+}
+
+.tui-image-editor-container .tui-image-editor-controls {
+  background-color: whitesmoke !important;
+}
+
+.tui-image-editor-container .tui-image-editor {
+  padding: 10px !important;
+}
+
+.tui-image-editor-submenu-item {
+  background-color: rgba(155, 148, 148, 0.424);
+}
+/* .tui-image-editor-menu-filter li:first-child, */
+/* .tui-image-editor-menu-filter li:last-child, */
+/* .tui-image-editor-menu-filter li:nth-child(5), */
+/* .tui-image-editor-menu-filter .tui-image-editor-partition,
+.tui-image-editor-menu-filter
+  li:nth-child(3)
+  .tui-image-editor-checkbox-group:first-child,
+.tui-image-editor-menu-filter
+  li:nth-child(3)
+  .tui-image-editor-checkbox-group:last-child {
+  display: none !important;
+} */
+.tui-image-editor-container.bottom .tui-image-editor-submenu > div {
+  padding: 0px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.sticker-container {
+  min-height: 50px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+}
+
+.sticker-container img {
+  width: 80px;
+}

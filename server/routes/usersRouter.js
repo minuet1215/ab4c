@@ -93,7 +93,7 @@ usersRouter.get("/authen", auth, (req, res) => {
   });
 });
 
-usersRouter.get("/logout", auth, (req, res) => {
+usersRouter.get("/logout1", auth, (req, res) => {
   // 토큰 삭제
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });

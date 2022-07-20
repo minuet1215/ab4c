@@ -8,7 +8,7 @@ import AlbumPage from "./components/Album/Album";
 import CameraPage from "./components/Camera/Camera";
 import GroupPage from "./components/GroupPage/GroupPage";
 import LandingPage from "./components/LandingPage/LandingPage";
-// import Editor from "./components/ImageEditor/ImageEditor";
+import Editor from "./components/ImageEditor/ImageEditor";
 import LobbyPage from "./components/LobbyPage/LobbyPage";
 import LoginPage from "./components/LoginPage/LoginPage";
 import PhotoEditPage from "./components/PhotoEditPage/PhotoEditPage";
@@ -29,7 +29,7 @@ function App() {
   const AuthVideoCallPage = Auth(VideoCallPage, true);
   const KakaoAuthPage = Auth(KakaoAuth, false);
   const AuthAlbumPage = Auth(AlbumPage, true);
-  // const AuthEditPhotoPage = Auth(Editor, null);
+  const AuthEditPhotoPage = Auth(Editor, null);
   const AuthCameraPage = Auth(CameraPage, true);
 
   return (
@@ -42,7 +42,7 @@ function App() {
           <Route exact path="/register" element={<AuthRegisterPage />} />
           <Route exact path="/lobby" element={<AuthLobbyPage />} />
           <Route exact path="/album" element={<AuthAlbumPage />} />
-          {/* <Route exact path="/editPhoto" element={<AuthEditPhotoPage />} /> */}
+          <Route exact path="/editPhoto" element={<AuthEditPhotoPage />} />
           <Route exact path="/group" element={<GroupPage />} />
           <Route exact path="/camera" element={<AuthCameraPage />} />
           <Route

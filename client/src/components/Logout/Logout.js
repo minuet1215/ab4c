@@ -20,7 +20,7 @@ function Logout() {
           localStorage.clear();
         });
       }
-      axios.get("/api/users/logout").then((response) => {
+      axios.get("/api/users/logout1").then((response) => {
         if (response.data.success) {
           alert("로그아웃 되었습니다.");
           navigate("/login");
