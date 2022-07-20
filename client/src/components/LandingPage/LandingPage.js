@@ -6,6 +6,7 @@ import styles from "./LandingPage.module.css";
 
 function LandingPage() {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   return (
     <div className="container">
@@ -20,19 +21,22 @@ function LandingPage() {
           <img className={styles.main_img} src={main_img} />
         </div>
         <div className={styles.control_container}>
-          <button
-            className="button button_gap btn_1"
-            onClick={() => navigate("/login")}
-          >
-            로그인
-          </button>
-
-          <button
-            className="button button_gap btn_2"
-            onClick={() => navigate("/register")}
-          >
-            회원가입
-          </button>
+          {!token && (
+            <>
+              <button
+                className="button button_gap btn_1"
+                onClick={() => navigate("/login")}
+              >
+                로그인
+              </button>
+              <button
+                className="button button_gap btn_2"
+                onClick={() => navigate("/register")}
+              >
+                회원가입
+              </button>
+            </>
+          )}
           <Logout />
           {/* 
           <Button type="primary" onClick={() => navigate("/group")}>

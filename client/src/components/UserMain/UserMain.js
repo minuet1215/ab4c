@@ -7,32 +7,7 @@ import MyHeader from "../Header/Header";
 function UserMain() {
   // const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // const [RoomNumber, setRoomNumber] = useState("");
-  // const onRoomNumberHandler = (event) => {
-  //   setRoomNumber(event.currentTarget.value);
-  // };
-
-  // const onEnterRoomBtnHandler = (event) => {
-  //   event.preventDefault();
-
-  //   console.log(RoomNumber);
-  //   if (!RoomNumber) {
-  //     return alert("> 그룹에 참가할 수 없습니다.");
-  //   }
-
-  //   let body = {
-  //     roomNumber: RoomNumber,
-  //   };
-
-  //   dispatch(enterRoom(body)).then((response) => {
-  //     if (response.payload.success) {
-  //       navigate("/video_call/" + body.roomNumber); // 페이지 이동
-  //     } else {
-  //       alert("그룹에 참가할 수 없습니다.");
-  //     }
-  //   });
-  // };
+  const token = localStorage.getItem("token");
 
   return (
     <div className="container">
@@ -40,7 +15,7 @@ function UserMain() {
       <div className="contents_container center">
         <button
           className="button button_gap btn_1"
-          onClick={() => navigate("/group")}
+          onClick={() => navigate(`/group/${token}`)}
         >
           촬영하기
         </button>

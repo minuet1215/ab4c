@@ -20,6 +20,7 @@
     "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-images": "^1.2.0-beta.7",
     "react-kakao-login": "^2.1.0",

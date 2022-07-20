@@ -43,7 +43,7 @@ function App() {
           <Route exact path="/lobby" element={<AuthLobbyPage />} />
           <Route exact path="/album" element={<AuthAlbumPage />} />
           <Route exact path="/editPhoto" element={<AuthEditPhotoPage />} />
-          <Route exact path="/group" element={<GroupPage />} />
+          <Route exact path="/group/:roomname" element={<GroupPage />} />
           <Route exact path="/camera" element={<AuthCameraPage />} />
           <Route
             exact

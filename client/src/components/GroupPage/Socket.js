@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useRef, forwardRef } from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 import styles from "./GroupPage.module.css";
 import remove from "./remove.js";
 import remove2 from "./remove2.js";
 import io from "socket.io-client";
 
 const Socket = forwardRef((props, ref) => {
-  // const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
-  const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
+  const { localVideoRef, socketRef, pcRef, remoteVideoRef } = ref;
+  const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
+  // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
   let [leave, setLeave] = useState(true); //나가면 상대방 삭제되게 하는 State
   const pc_config = {
     iceServers: [
@@ -21,10 +22,10 @@ const Socket = forwardRef((props, ref) => {
       },
     ],
   };
-  const socketRef = useRef();
-  const pcRef = useRef();
-  const localVideoRef = ref;
-  const remoteVideoRef = useRef(null);
+  // const socketRef = useRef();
+  // const pcRef = useRef();
+  // const localVideoRef = ref;
+  // const remoteVideoRef = useRef(null);
   const setVideoTracks = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
