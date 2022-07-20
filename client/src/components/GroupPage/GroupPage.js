@@ -12,18 +12,20 @@ function GroupPage() {
   const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
   const [imgFile, setImgFile] = useState(null); // 파일 전송을 위한 state
   let isMute = false; // 음소거 변수
-  const [countDown, setCount] = useState(5);
-  const [startCapture, setCapture] = useState(false);
+  const [countDown, setCount] = useState(5); // 카운트다운
+  const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
+
+  // 1초마다 초세기. startCapture State가 true가 되면 자동으로 돌아감
   useInterval(
     () => {
       setCount(countDown - 1);
-      console.log(countDown);
       if (countDown <= 1) {
         startCap();
       }
     },
     startCapture ? 1000 : null
   );
+
   // 캡쳐하는 함수
   function startCap() {
     html2canvas(document.querySelector("#capture"), {
@@ -40,6 +42,7 @@ function GroupPage() {
       setCount(5);
     });
   }
+
   //로컬 저장하는 함수, 아직은 안씀
   const OnSaveAs = (uri, filename) => {
     let link = document.createElement("a");
@@ -53,6 +56,7 @@ function GroupPage() {
       window.open(uri);
     }
   };
+
   // 음소거 버튼
   function changeMuteButton() {
     isMute = !isMute;
@@ -61,6 +65,7 @@ function GroupPage() {
       ? "unMute"
       : "Mute";
   }
+
   // 뒷배경 바꾸기
   const handleChangeFile = (event) => {
     let reader = new FileReader();
