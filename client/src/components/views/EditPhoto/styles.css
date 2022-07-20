@@ -39,7 +39,7 @@ body {
 }
 
 .tui-image-editor-submenu-item {
-    background-color: rgba(241, 135, 135, 0.424);
+  background-color: rgba(155, 148, 148, 0.424);
 }
 /* .tui-image-editor-menu-filter li:first-child, */
 /* .tui-image-editor-menu-filter li:last-child, */
@@ -53,4 +53,23 @@ body {
   .tui-image-editor-checkbox-group:last-child {
   display: none !important;
 }
-/* .tui-image-editor-submenu-item */
+.tui-image-editor-container.bottom .tui-image-editor-submenu > div {
+  padding: 0px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.sticker-container {
+  min-height: 50px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+}
+
+.sticker-container img {
+  width: 80px;
+}
