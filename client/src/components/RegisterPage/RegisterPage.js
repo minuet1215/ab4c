@@ -53,20 +53,20 @@ function RegisterPage() {
     });
   };
   return (
-    <div>
+    <div className="container">
       <MyHeader subTitle="회원 가입 화면" />
       <div
+        className="contents_container"
         style={{
           display: "flex",
-          justifyContent: "center",
           alignItems: "center",
-          width: "100%",
-          height: "100vh",
+          justifyContent: "center",
+          paddingBottom: "15%",
         }}
       >
-        <Form style={{ display: "flex", flexDirection: "column" }}>
+        <Form layout="vertical" style={{ width: "50%" }}>
           <Form.Item
-            label="Email"
+            label="이메일"
             rules={[
               {
                 type: "email",
@@ -77,7 +77,7 @@ function RegisterPage() {
             <Input value={Email} onChange={onEmailHandler} />
           </Form.Item>
           <Form.Item
-            label="Name"
+            label="닉네임"
             rules={[
               {
                 required: true,
@@ -87,7 +87,7 @@ function RegisterPage() {
             <Input type="text" value={Name} onChange={onNameHandler} />
           </Form.Item>
           <Form.Item
-            label="Password"
+            label="비밀번호"
             rules={[
               {
                 required: true,
@@ -101,7 +101,7 @@ function RegisterPage() {
             />
           </Form.Item>
           <Form.Item
-            label="Confirm Password"
+            label="비밀번호 확인"
             rules={[
               {
                 required: true,
@@ -115,9 +115,14 @@ function RegisterPage() {
             />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" onClick={onSubmitHandler}>
+          <button
+            type="submit"
+            className="button button_gap btn_1"
+            style={{ marginTop: "10px" }}
+            onClick={onSubmitHandler}
+          >
             회원 가입
-          </Button>
+          </button>
         </Form>
       </div>
     </div>

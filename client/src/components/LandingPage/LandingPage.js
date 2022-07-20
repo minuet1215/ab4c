@@ -21,14 +21,14 @@ function LandingPage() {
         </div>
         <div className={styles.control_container}>
           <button
-            className="button_gap btn_1"
+            className="button button_gap btn_1"
             onClick={() => navigate("/login")}
           >
             로그인
           </button>
 
           <button
-            className="button_gap btn_2"
+            className="button button_gap btn_2"
             onClick={() => navigate("/register")}
           >
             회원가입
