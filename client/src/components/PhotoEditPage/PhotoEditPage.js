@@ -92,7 +92,7 @@ function PhotoEditPage() {
   // save to local
   const OnSave = () => {
     let now = new Date();
-    const date_time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}_${now.getHours()}${now.getMinutes()}`;
+    const date_time = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}_${now.getHours()}${now.getMinutes()}`;
     const canvas = document.getElementById("canvas");
     const dataUrl = canvas.toDataURL();
     const filename = "4cut_" + date_time + ".png";
