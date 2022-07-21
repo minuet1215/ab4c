@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN_USER, REGISTER_USER, AUTH_USER, IS_USER } from "./types";
+import { LOGIN_USER, REGISTER_USER, AUTH_USER, IS_USER, KAKAO_LOGOUT } from "./types";
 
 export function loginUser(dataToSubmit) {
   const request = axios
@@ -41,6 +41,16 @@ export function isUser(dataToSubmit) {
 
   return {
     type: IS_USER,
+    payload: request,
+  };
+}
+
+export function kakaoLogout(dataToSubmit) {
+  const request = axios
+  .post("/api/users/kakaologout", dataToSubmit)
+  .then((response) => response.data);
+  return {
+    type: KAKAO_LOGOUT,
     payload: request,
   };
 }
