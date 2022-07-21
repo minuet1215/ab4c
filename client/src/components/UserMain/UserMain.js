@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { enterRoom } from "../../_actions/room_action";
 import MyHeader from "../Header/Header";
-// import AutoSlides from "./AutoSlides";
+import AutoSlides from "./AutoSlides";
 
 function UserMain() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -27,7 +27,7 @@ function UserMain() {
           내 앨범
         </button>
       </div>
-      {/* <AutoSlides /> */}
+      <AutoSlides />
     </div>
   );
 }
