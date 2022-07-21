@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../_actions/user_action";
+import { auth, kakaoLogout } from "../../_actions/user_action";
 import { Typography } from "antd";
 
 function Logout() {
@@ -15,13 +15,13 @@ function Logout() {
   const onClickHandler = () => {
     dispatch(auth()).then((response) => {
       if (response.payload.loginType === "kakao") {
-        window.Kakao.init(REST_API_KEY);
-        window.Kakao.Auth.logout(() => {
-          localStorage.clear();
-        });
+        const myAccessKey = localStorage.getItem("token");
+        dispatch(kakaoLogout({ token: myAccessKey })).then((response) => {});
       }
       axios.get("/api/users/logout1").then((response) => {
         if (response.data.success) {
+          localStorage.clear();
+          sessionStorage.clear();
           alert("로그아웃 되었습니다.");
           navigate("/login");
         } else {

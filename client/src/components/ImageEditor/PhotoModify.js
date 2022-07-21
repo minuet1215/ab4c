@@ -6,7 +6,6 @@ function PhotoModify(props) {
     const navigate = useNavigate();
 
     const modifyHandler = () => {
-        // TODO : state로 선택한 img 주소 넘겨주기
         navigate('/editPhoto', {state : {path : props.img}});
     }
     return (

@@ -23,7 +23,7 @@ const Profile = () => {
         imageUrl: data.properties.profile_image,
         loginType: "kakao",
       };
-      console.log(body);
+      // console.log(body);
 
       dispatch(isUser(body)).then((response) => {
         if (!response.payload.isUser) {
