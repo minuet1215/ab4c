@@ -16,10 +16,22 @@ function PhotoEditPage() {
   const { state } = useLocation();
   // ================= dummy data ================= //
   const images = [
-    { src: state.images[0], x: gap, y: gap },
-    { src: state.images[1], x: gap, y: 1 * (img_height + gap) + gap },
-    { src: state.images[2], x: gap, y: 2 * (img_height + gap) + gap },
-    { src: state.images[3], x: gap, y: 3 * (img_height + gap) + gap },
+    { src: state.images[state.images.length - 4], x: gap, y: gap },
+    {
+      src: state.images[state.images.length - 3],
+      x: gap,
+      y: 1 * (img_height + gap) + gap,
+    },
+    {
+      src: state.images[state.images.length - 2],
+      x: gap,
+      y: 2 * (img_height + gap) + gap,
+    },
+    {
+      src: state.images[state.images.length - 1],
+      x: gap,
+      y: 3 * (img_height + gap) + gap,
+    },
   ];
   const bgImages = [
     { src: defaultBg, alt: "default" },

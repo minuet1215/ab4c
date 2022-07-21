@@ -12,7 +12,6 @@ let IMGS = [];
 
 function GroupPage() {
   let { roomname } = useParams();
-  let roomName = roomname; //룸이름
   const navigate = useNavigate();
   const refs = {
     localVideoRef: useRef(null),
@@ -61,7 +60,6 @@ function GroupPage() {
       // document.getElementById("result-image").src = DATA_URL;
       IMGS.push(DATA_URL);
       // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
-      setCapture(false);
       setCount(5);
       setPhotoCount(photoCount + 1);
     });
@@ -134,9 +132,9 @@ function GroupPage() {
             : "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)",
         }}
       >
-        <Socket roomName={roomName} ref={refs}></Socket>
+        <Socket roomName={roomname} ref={refs}></Socket>
       </div>
-      {startCapture && <h2>{countDown}</h2>}
+      {startCapture && <p style={{ fontSize: "xx-large" }}>{countDown}</p>}
       <p>{photoCount}/4</p>
     </div>
   );
