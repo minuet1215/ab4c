@@ -48,7 +48,7 @@ app.get("/", (_, res) => {
 
 app.use("/api/users", usersRouter);
 app.use("/api/rooms", roomsRouter);
-app.use("/images", imageRouter);
+app.use("/api/images", imageRouter);
 app.use("/invite", mailRouter);
 
 // ========================= < WebRTC > ========================= //

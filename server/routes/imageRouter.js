@@ -1,6 +1,7 @@
 const imageRouter = require("express").Router();
 const Image = require("../models/Image");
-const { upload } = require("../middleware/ImageUpload");
+// const { upload } = require("../middleware/ImageUpload");
+const { upload } = require("../utils/file");
 const fs = require("fs");
 const { promisify } = require("util");
 const mongoose = require("mongoose");
