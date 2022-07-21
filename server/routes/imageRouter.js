@@ -1,7 +1,6 @@
 const imageRouter = require("express").Router();
 const Image = require("../models/Image");
-// const { upload } = require("../middleware/ImageUpload");
-const { upload } = require("../utils/file");
+const { upload } = require("../middleware/ImageUpload");
 const fs = require("fs");
 const { promisify } = require("util");
 const mongoose = require("mongoose");
@@ -30,8 +29,12 @@ const fileUnlink = promisify(fs.unlink);
 // });
 
 imageRouter.post("/test", upload.single("file"), async (req, res) => {
-  console.log(req.data);
-  res.status(200);
+  try {
+    if (!req.token) throw new Error("권한이 없습니다.");
+    res.status(200).send("앨범 저장에 성공했습니다.");
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
 
 imageRouter.get("/", async (req, res) => {
