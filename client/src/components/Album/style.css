@@ -67,7 +67,7 @@ code {
 }
 .overlay-arrows_left {
   display: flex;
-  background-color: #6d6d6d;
+  background-color: #6d6d6d00;
   justify-content: space-between;
   position: absolute;
   top: 50%;
@@ -89,7 +89,7 @@ code {
 
 .overlay-arrows_right {
   display: flex;
-  background-color: #6d6d6d;
+  background-color: #6d6d6d00;
   justify-content: space-between;
   position: absolute;
   right: 0;

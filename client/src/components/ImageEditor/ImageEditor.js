@@ -12,27 +12,69 @@ import "./styles.css";
 import { Button } from "antd";
 import { useLocation } from "react-router-dom";
 
+import axios from "axios";
+
 export default function Editor() {
   const editorRef = useRef();
   const location = useLocation();
 
-  // TODO : 넘겨받은 img 주소를 아래 path에 넣어주기
   const img_path = location.state.path;
-  console.log(img_path);
 
   const addSticker = (path) => {
     const editorInstance = editorRef.current.getInstance();
     editorInstance.addImageObject(path);
   };
 
-  const savePhoto = () => {
-    let dataURL = editorRef.current.getInstance().toDataURL("jpeg", "0.75");
-    console.log(dataURL);
+  const onUploadImg = (e) => {
+    e.preventDefault();
+
+    const canvas = document.getElementsByClassName("lower-canvas")[0];
+    canvas.toBlob(
+      function (blob) {
+        const file = new File([blob], "4cut.png", {
+          lastModified: new Date().getTime(),
+          type: blob.type,
+        });
+        const formData = new FormData();
+        const config = {
+          header: { "content-type": "multipart/form-data" },
+        };
+        formData.append("user-file", file);
+        axios.post("/api/images/uploads", formData, config).then((res) => {
+          if (res.status === 200) {
+            console.log("업로드 성공!");
+          } else {
+            console.log("업로드 실패...");
+          }
+        });
+      },
+      "image/jpeg",
+      1.0
+    );
+  };
+
+  const OnSave = () => {
+    let now = new Date();
+    const date_time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}_${now.getHours()}${now.getMinutes()}`;
+    const canvas = document.getElementsByClassName("lower-canvas")[0];
+    const dataUrl = canvas.toDataURL();
+    const filename = "4cut_" + date_time + ".png";
+    let link = document.createElement("a");
+    if (typeof link.download === "string") {
+      link.href = dataUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(dataUrl);
+    }
   };
 
   return (
     <>
       <Header />
+      <Button onClick={OnSave}>저장</Button>
       <ImageEditor
         ref={editorRef}
         includeUI={{
@@ -42,7 +84,7 @@ export default function Editor() {
           },
           theme: whiteTheme,
           menu: ["text", "filter"],
-          initMenu: "filter",
+          // initMenu: "filter",
           uiSize: {
             //   width: "500px",
             height: "900px",
@@ -58,7 +100,6 @@ export default function Editor() {
         usageStatistics={false}
       />
       <Sticker onStickerSelected={(path) => addSticker(path)} />
-      <Button onClick={savePhoto}>저장</Button>
     </>
   );
 }

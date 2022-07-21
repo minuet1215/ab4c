@@ -17,7 +17,7 @@ function MyAlbum() {
   // 모달창에서 앞뒤로 이동하기
   const handleRotationRight = () => {
     const totalLength = data.data.length;
-    if (currentIndex + 1 > totalLength) {
+    if (currentIndex + 1 >= totalLength) {
       setCurrentIndex(0);
       const newUrl = data.data[0].link;
       setClickedImg(newUrl);
