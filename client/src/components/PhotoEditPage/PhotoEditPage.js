@@ -13,6 +13,8 @@ const frame_width = img_width + 2 * gap;
 const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
+  const [isPublic, SetIsPublic] = useState(true);
+
   const { state } = useLocation();
   // ================= dummy data ================= //
   const images = [
@@ -82,34 +84,7 @@ function PhotoEditPage() {
     ctx.fillText(text, frame_width / 2, frame_height - 100);
   }
 
-  // todo: save to server (실행 시점 바뀌어야 함! => 프레임 변경 후 화면전환시? 아니면 앨범에 저장 버튼으로 추가?)
-  const onUploadImg = (e) => {
-    e.preventDefault();
 
-    const canvas = document.getElementById("canvas");
-    canvas.toBlob(
-      function (blob) {
-        const file = new File([blob], "4cut.png", {
-          lastModified: new Date().getTime(),
-          type: blob.type,
-        });
-        const formData = new FormData();
-        const config = {
-          header: { "content-type": "multipart/form-data" },
-        };
-        formData.append("user-file", file);
-        axios.post("/api/image/upload", formData, config).then((res) => {
-          if (res.data.success) {
-            console.log("업로드 성공!");
-          } else {
-            console.log("업로드 실패...");
-          }
-        });
-      },
-      "image/jpeg",
-      1.0
-    );
-  };
   // save to local
   const OnSave = () => {
     let now = new Date();
@@ -128,7 +103,32 @@ function PhotoEditPage() {
       window.open(dataUrl);
     }
   };
-  // todo : 공유하기 기능 추가 필요
+
+  const forTest = (e) => {
+    e.preventDefault();
+
+    const canvas = document.getElementById("canvas");
+    canvas.toBlob(
+      async function (blob) {
+        const file = new File([blob], "4cut.png", {
+          lastModified: new Date().getTime(),
+          type: blob.type,
+        });
+        const formData = new FormData();
+
+        formData.append("file", file);
+        await axios.post("/api/images/test", formData).then((res) => {
+          if (res) {
+            console.log("업로드 성공!");
+          } else {
+            console.log("업로드 실패...");
+          }
+        });
+      },
+      "image/jpeg",
+      1.0
+    );
+  };
 
   return (
     <div className="container">
@@ -155,7 +155,29 @@ function PhotoEditPage() {
           <button className={styles.btn_pink} onClick={OnSave}>
             저장
           </button>
+
+          <form onSubmit={forTest}>
+            <input
+              type="checkbox"
+              id="public-check"
+              value={!isPublic}
+              onChange={() => SetIsPublic(!isPublic)}
+            ></input>
+            <label htmlFor="public-check">비공개</label>
+            <button
+              type="submit"
+              style={{
+                width: "100%",
+                height: 30,
+                borderRadius: 3,
+                cursor: "pointer",
+              }}
+            >
+              test
+            </button>
+          </form>
         </div>
+
         <Drawer
           title="프레임 선택"
           placement="bottom"
