@@ -16,9 +16,9 @@ function KakaoShareImageButton({ image_url, path }) {
       templateArgs: {
         TITLE: "공유",
         DESC: "안방네컷 사진이 도착했습니다!",
-        THUMB: { image_url }, // 해당 이미지의 URL 지정 필요
+        THUMB: image_url, // 해당 이미지의 URL 지정 필요
         BUTTONTITLE: "사진 보러가기",
-        PATH: { path }, // 이미지 주소 지정 필요 ('https://<도메인>/'의 밑에있는 주소)
+        PATH: path, // 이미지 주소 지정 필요 ('https://<도메인>/'의 밑에있는 주소)
       },
     });
   };
