@@ -15,7 +15,7 @@ const storage = multerS3({
   s3,
   bucket: "ab4c-image-bucket",
   key: (req, file, cb) =>
-    cb(null, `/images/minuet1215/${uuid()}.${mime.extension(file.mimetype)}`),
+    cb(null, `${uuid()}.${mime.extension(file.mimetype)}`),
 });
 
 // const upload = multer({

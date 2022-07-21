@@ -5,6 +5,7 @@ const fs = require("fs");
 const { promisify } = require("util");
 const mongoose = require("mongoose");
 const fileUnlink = promisify(fs.unlink);
+const { User } = require("../models/User");
 
 // imageRouter.post("/", upload.single("image"), async (req, res) => {
 //   // 유저 정보, public 유무 확인
@@ -29,11 +30,16 @@ const fileUnlink = promisify(fs.unlink);
 // });
 
 imageRouter.post("/test", upload.single("file"), async (req, res) => {
+  const token = req.body.token;
+  // const user = User.find({ token: token });
+  // console.log(user.name);
+  // const userId = user.id;
+  // console.log(userId);
   try {
-    if (!req.token) throw new Error("권한이 없습니다.");
-    res.status(200).send("앨범 저장에 성공했습니다.");
+    if (!req.body.token) throw new Error("권한이 없습니다.");
+    return res.json("앨범 저장에 성공했습니다.");
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: err.message });
   }
 });
 

@@ -6,6 +6,8 @@ import MyHeader from "../Header/Header";
 import { Drawer } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import bgImg2 from "../../img/6.jpg";
+import { toast } from "react-toastify";
+
 const img_width = 550;
 const img_height = 370;
 const gap = 20;
@@ -55,7 +57,10 @@ function PhotoEditPage() {
 
   useEffect(() => {
     let now = new Date();
-    const date_time = `${now.getFullYear()}.${now.getMonth()}.${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
+    const date_time = `${now.getFullYear()}.
+    ${
+      now.getMonth() + 1
+    }.${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
 
     if (!canvasRef) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -83,7 +88,6 @@ function PhotoEditPage() {
     ctx.fillStyle = "white";
     ctx.fillText(text, frame_width / 2, frame_height - 100);
   }
-
 
   // save to local
   const OnSave = () => {
@@ -116,12 +120,16 @@ function PhotoEditPage() {
         });
         const formData = new FormData();
 
+        const token = localStorage.getItem("token");
         formData.append("file", file);
+        formData.append("token", token);
+        formData.append("public", isPublic);
+        // formData.append("id", id);
         await axios.post("/api/images/test", formData).then((res) => {
           if (res) {
-            console.log("업로드 성공!");
+            toast.success("이미지 저장 성공!");
           } else {
-            console.log("업로드 실패...");
+            toast.error("이미지 저장 실패");
           }
         });
       },
