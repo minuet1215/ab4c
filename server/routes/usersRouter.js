@@ -1,6 +1,8 @@
 const usersRouter = require("express").Router();
 const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
+const axios = require("axios");
+const localStorage = require("node-localstorage");
 
 usersRouter.post("/register", (req, res) => {
   const user = new User(req.body);
@@ -97,10 +99,24 @@ usersRouter.get("/logout1", auth, (req, res) => {
   // 토큰 삭제
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
-    return res.status(200).send({
-      success: true,
-    });
+    return res.cookie("x_auth", "").status(200).json({ success: true });
   });
+});
+
+usersRouter.post("/kakaologout", async (req, res) => {
+  const userToken = req.body.token;
+  let logout;
+  try {
+    logout = await axios({
+      method: "post",
+      url: "https://kapi.kakao.com/v1/user/logout",
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 module.exports = usersRouter;
