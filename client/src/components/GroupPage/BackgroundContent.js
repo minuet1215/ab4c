@@ -1,20 +1,56 @@
-import { Card } from "antd";
-const gridStyle = {
-  width: "33.3%",
-  textAlign: "center",
-};
-const BackgroundContent = () => {
+import styles from "./GroupPage.module.css";
+import { useState } from "react";
+import img1 from "../../img/1.jpg";
+import img2 from "../../img/2.jpg";
+import img3 from "../../img/3.jpg";
+import img4 from "../../img/4.jpg";
+import addIcon from "../../img/add.jpg";
+
+// ==================== Dummy Data ====================== //
+const images = [
+  { src: img1, alt: "1" },
+  { src: img2, alt: "2" },
+  { src: img3, alt: "3" },
+  { src: img4, alt: "4" },
+];
+// ====================================================== //
+const BackgroundContent = (props) => {
+  const handleChangeFile = (event) => {
+    let reader = new FileReader();
+
+    reader.onloadend = (e) => {
+      // 2. 읽기가 완료되면 아래 코드 실행
+      const base64 = reader.result;
+      if (base64) {
+        // 파일 base64 상태 업데이트
+        props.setImgBase64(base64.toString());
+      }
+    };
+    if (event.target.files[0]) {
+      // 1. 파일을 읽어 버퍼에 저장
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
   return (
     <>
-      <Card>
-        <Card.Grid style={gridStyle}>Content</Card.Grid>
-        <Card.Grid style={gridStyle}>Content</Card.Grid>
-        <Card.Grid style={gridStyle}>Content</Card.Grid>
-        <Card.Grid style={gridStyle}>Content</Card.Grid>
-        <Card.Grid style={gridStyle}>Content</Card.Grid>
-        <Card.Grid style={gridStyle}>Content</Card.Grid>
-        <Card.Grid style={gridStyle}>Content</Card.Grid>
-      </Card>
+      <label className={styles.tab_content_input_box} for="input-file">
+        +
+      </label>
+      {images.map((image, index) => {
+        return (
+          <img
+            src={image.src}
+            alt={image.alt}
+            className={styles.tab_content_img_box}
+          ></img>
+        );
+      })}
+      <input
+        type="file"
+        id="input-file"
+        style={{ display: "none" }}
+        onChange={handleChangeFile}
+      />
     </>
   );
 };

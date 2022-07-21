@@ -3,7 +3,12 @@
 /* .App {
   text-align: center;
 } */
-
+/* 모바일 수평 스크롤 금지 */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 .container {
   position: relative;
   width: 100vw;
@@ -37,7 +42,7 @@
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
-button:hover {
+.button:hover {
   cursor: pointer;
   transform: translateY(-3px);
 }

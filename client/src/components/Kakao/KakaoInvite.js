@@ -2,7 +2,7 @@ import kakao_logo from "./kakao_logo.png";
 const JS_KEY = "5cad0b12e82f5787a5059644f0b6370e";
 
 function KakaoInviteButton({ path = "" }) {
-  console.log(path);
+  // console.log(path);
   if (window.Kakao) {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(JS_KEY);

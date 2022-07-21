@@ -3,9 +3,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const config = require("./config/key");
 const path = require("path");
-const multer = require("multer");
 const cors = require("cors");
 
 /* Router */
