@@ -6,26 +6,31 @@ const { promisify } = require("util");
 const mongoose = require("mongoose");
 const fileUnlink = promisify(fs.unlink);
 
-imageRouter.post("/", upload.single("image"), async (req, res) => {
-  // 유저 정보, public 유무 확인
-  try {
-    if (!req.user) throw new Error("권한이 없습니다.");
+// imageRouter.post("/", upload.single("image"), async (req, res) => {
+//   // 유저 정보, public 유무 확인
+//   console.log(req.body);
+//   try {
+//     // if (!req.user) throw new Error("권한이 없습니다.");
+//     // const image = await new Image({
+//     //   user: {
+//     //     _id: req.user.id, // _id를 자동으로 string으로 변환
+//     //     name: req.user.name,
+//     //     username: req.user.username,
+//     //   },
+//     //   public: req.body.public,
+//     //   key: req.file.filename,
+//     //   originalFileName: req.file.originalname,
+//     // }).save();
+//     // res.json(image);
+//   } catch (err) {
+//     console.log(err);
+//     // res.status(400).json({ message: err.message });
+//   }
+// });
 
-    const image = await new Image({
-      user: {
-        _id: req.user.id, // _id를 자동으로 string으로 변환
-        name: req.user.name,
-        username: req.user.username,
-      },
-      public: req.body.public,
-      key: req.file.filename,
-      originalFileName: req.file.originalname,
-    }).save();
-    res.json(image);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ message: err.message });
-  }
+imageRouter.post("/test", upload.single("file"), async (req, res) => {
+  console.log(req.data);
+  res.status(200);
 });
 
 imageRouter.get("/", async (req, res) => {
