@@ -1,7 +1,8 @@
 import kakao_logo from "./kakao_logo.png";
 const JS_KEY = "5cad0b12e82f5787a5059644f0b6370e";
 
-function KakaoInviteButton({ path }) {
+function KakaoInviteButton({ path = "" }) {
+  console.log(path);
   if (window.Kakao) {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(JS_KEY);
@@ -18,7 +19,7 @@ function KakaoInviteButton({ path }) {
         DESC: "안방네컷으로 같이 사진 찍어요!",
         THUMB: imgUrl, // 안방네컷 로고 생기면 그 사진 주소 지정 필요
         BUTTONTITLE: "사진 찍으러가기",
-        PATH: { path }, // 그룹페이지 주소 지정 필요 ('https://<도메인>/'의 밑에있는 주소)
+        PATH: path, // 그룹페이지 주소 지정 필요 ('https://<도메인>/'의 밑에있는 주소)
       },
     });
   };
