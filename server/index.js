@@ -15,7 +15,7 @@ const imageRouter = require("./routes/imageRouter");
 const roomsRouter = require("./routes/roomsRouter");
 
 /* Config */
-const { PORT } = process.env;
+const { PORT, mongoURI } = process.env;
 
 /* Middleware*/
 app.use(cors());
@@ -28,7 +28,7 @@ app.use(cookieParser());
 /* DB 연결 */
 const mongoose = require("mongoose");
 mongoose
-  .connect(config.mongoURI, {
+  .connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
