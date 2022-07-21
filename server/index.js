@@ -107,6 +107,12 @@ io.on("connection", (socket) => {
     console.log("candidate: " + socket.id);
     socket.broadcast.emit("getCandidate", candidate);
   });
+  socket.on("start", (roomname) => {
+    io.to(roomname).emit("start");
+  });
+  socket.on("backgroundChange", (img, roomname) => {
+    io.to(roomname).emit("backgroundChange", img);
+  });
 
   socket.on("disconnect", () => {
     console.log(`[${socketToRoom[socket.id]}]: ${socket.id} exit`);

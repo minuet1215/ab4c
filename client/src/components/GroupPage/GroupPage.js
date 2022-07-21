@@ -91,7 +91,6 @@ function GroupPage() {
       reader.readAsDataURL(event.target.files[0]);
       // 파일 상태 업데이트
       setImgFile(event.target.files[0]);
-      console.log(imgFile);
     }
   };
   return (
@@ -132,7 +131,14 @@ function GroupPage() {
             : "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)",
         }}
       >
-        <Socket roomName={roomname} ref={refs}></Socket>
+        <Socket
+          roomName={roomname}
+          isCapture={startCapture}
+          setCapture={setCapture}
+          bgimg={ImgBase64}
+          setBgImg={setImgBase64}
+          ref={refs}
+        ></Socket>
       </div>
       {startCapture && <p style={{ fontSize: "xx-large" }}>{countDown}</p>}
       <p>{photoCount}/4</p>

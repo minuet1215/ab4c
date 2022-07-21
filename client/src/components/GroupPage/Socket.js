@@ -3,8 +3,10 @@ import styles from "./GroupPage.module.css";
 import remove from "./remove.js";
 import remove2 from "./remove2.js";
 import io from "socket.io-client";
+const token = localStorage.getItem("token");
 
 const Socket = forwardRef((props, ref) => {
+  let isHost = token === props.roomName;
   const { localVideoRef, socketRef, pcRef, remoteVideoRef } = ref;
   const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
   // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
@@ -22,10 +24,6 @@ const Socket = forwardRef((props, ref) => {
       },
     ],
   };
-  // const socketRef = useRef();
-  // const pcRef = useRef();
-  // const localVideoRef = ref;
-  // const remoteVideoRef = useRef(null);
   const setVideoTracks = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -120,6 +118,12 @@ const Socket = forwardRef((props, ref) => {
       setLeave(true);
       console.log("나감");
     });
+    socketRef.current.on("start", () => {
+      props.setCapture(true);
+    });
+    socketRef.current.on("backgroundChange", (img) => {
+      props.setBgImg(img);
+    });
     setVideoTracks();
     remove();
     remove2();
@@ -132,6 +136,12 @@ const Socket = forwardRef((props, ref) => {
       }
     };
   }, []);
+  if (isHost && props.isCapture) {
+    socketRef.current.emit("start", props.roomName);
+  }
+  if (isHost && props.bgimg) {
+    socketRef.current.emit("backgroundChange", props.bgimg, props.roomName);
+  }
   return (
     <>
       <canvas className={styles.mirror} id="mytrans"></canvas>
