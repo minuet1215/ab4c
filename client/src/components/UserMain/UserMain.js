@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { enterRoom } from "../../_actions/room_action";
 import MyHeader from "../Header/Header";
+// import AutoSlides from "./AutoSlides";
 
 function UserMain() {
   // const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function UserMain() {
           내 앨범
         </button>
       </div>
+      {/* <AutoSlides /> */}
     </div>
   );
 }
