@@ -19,19 +19,24 @@ function MyAlbum() {
   };
   const dispatch = useDispatch();
 
+  /* 리팩토링 필요
+   * useEffect 계속 적용 됨
+   * 처음에 바로 userId를 못찾아냄.
+   */
   useEffect(() => {
-    dispatch(auth()).then((res) => {
-      setUserId(res.payload._id);
-    });
-    console.log(userId);
-    axios
-      .post("/api/images/album/me", userId)
-      .then((result) => {
-        setImages(result.data);
-        // console.log(result.data);
-      })
-      .catch((err) => console.log({ err }));
-  }, []);
+    const getId = async () =>
+      await dispatch(auth()).then((res) => {
+        setUserId(res.payload._id);
+        axios
+          .post("/api/images/album/me", { id: userId })
+          .then((result) => {
+            setImages(result.data);
+            return;
+          })
+          .catch((err) => console.log({ err }));
+      });
+    getId();
+  });
 
   // 모달창에서 앞뒤로 이동하기
   const handleRotationRight = () => {
@@ -71,10 +76,6 @@ function MyAlbum() {
   return (
     <>
       <Header />
-      <img
-        src="https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/images/2c3aa8aa-67c2-425a-9785-a8993951c0ab.jpeg"
-        alt="안방네컷"
-      />
       <div className="wrapper">
         {data.data.map((item, index) => (
           <div key={index} className="wrapper-images">

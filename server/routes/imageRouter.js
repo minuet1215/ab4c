@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const fileUnlink = promisify(fs.unlink);
 const { User } = require("../models/User");
 
+// 공유, 프레임 변경, 저장에서 저장버튼
 imageRouter.post("/post", upload.single("file"), async (req, res) => {
   const image = await new Image({
     user: {
@@ -29,17 +30,16 @@ imageRouter.post("/post", upload.single("file"), async (req, res) => {
 
 imageRouter.get("/album", async (req, res) => {
   // public 이미지들만 제공
-  const images = await Image.findOne({ public: false }, {}, {}); // 탐색, 수정, 옵션
-  res.json(images.key);
+  const images = await Image.find({ public: true }, {}, {}); // 탐색, 수정, 옵션
+  res.json(images);
 });
 
 imageRouter.post("/album/me", async (req, res) => {
   // 내가 찍은 사진들 제공
-  console.log(req.headers);
-  console.log("==========");
-  const images = await Image.findOne({ _id: req.body.userId }, {}, {}); // 탐색, 수정, 옵션
-  console.log(images);
-  res.json(images);
+  if (req.body.id) {
+    const images = await Image.find({ "user._id": req.body.id }); // 탐색, 수정, 옵션
+    res.json(images);
+  }
 });
 
 imageRouter.delete("/:imageId", async (req, res) => {

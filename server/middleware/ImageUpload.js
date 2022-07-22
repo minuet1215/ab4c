@@ -3,15 +3,6 @@ const { v4: uuid } = require("uuid");
 const mime = require("mime-types");
 const { s3 } = require("../data/aws");
 const multerS3 = require("multer-s3");
-const Image = require("../models/Image");
-const mongoose = require("mongoose");
-
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => cb(null, "./uploads"),
-//   filename: (req, file, cb) =>
-//     cb(null, `${uuid()}.${mime.extension(file.mimetype)}`),
-// });
-const userEmail = "";
 
 const storage = multerS3({
   s3,
@@ -20,21 +11,7 @@ const storage = multerS3({
     cb(null, `images/${uuid()}.${mime.extension(file.mimetype)}`),
 });
 
-// const upload = multer({
-//   storage: multerS3({
-//     s3: s3,
-//     bucket: "ab4c-image-bucket",
-//     key: function (req, file, cb) {
-//       let ext = file.mimetype.split("/")[1];
-//       if (!["png", "jpg", "jpeg", "gif", "bmp"].includes(ext)) {
-//         return cb(new Error("Only images are allowed"));
-//       }
-//       cb(null, Date.now() + "." + file.originalname.split(".").pop());
-//     },
-//   }),
-//   acl: "public-read-write",
-//   limits: { fileSize: 5 * 1024 * 1024 },
-// });
+
 
 const upload = multer({
   storage,
