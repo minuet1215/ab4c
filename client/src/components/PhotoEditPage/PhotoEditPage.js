@@ -64,10 +64,14 @@ function PhotoEditPage() {
 
   useEffect(() => {
     let now = new Date();
-    const date_time = `${now.getFullYear()}.
-    ${
-      now.getMonth() + 1
-    }.${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
+    let month =
+      now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
+    let date = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
+    let hour = now.getHours() < 10 ? "0" + now.getHours() : now.getHours();
+    let minute =
+      now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes();
+    const date_time =
+      now.getFullYear() + "." + month + "." + date + " " + hour + ":" + minute;
 
     if (!canvasRef) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -90,10 +94,10 @@ function PhotoEditPage() {
   }, [canvasRef, bgChange, visible]);
 
   function writeText(ctx, text) {
-    ctx.font = "25px sans-serif";
+    ctx.font = "32px sans-serif";
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
-    ctx.fillText(text, frame_width / 2, frame_height - 100);
+    ctx.fillText(text, frame_width / 2, frame_height - 80);
   }
 
   const onSave = (e) => {
