@@ -15,7 +15,7 @@ function MyAlbum() {
   const [images, setImages] = useState();
   const handleClick = (item, index) => {
     setCurrentIndex(index);
-    setClickedImg(item.link);
+    setClickedImg(item.imageUrl);
   };
   const dispatch = useDispatch();
 
@@ -43,7 +43,7 @@ function MyAlbum() {
     const totalLength = data.data.length;
     if (currentIndex + 1 >= totalLength) {
       setCurrentIndex(0);
-      const newUrl = data.data[0].link;
+      const newUrl = data.data[0].imageUrl;
       setClickedImg(newUrl);
       return;
     }
@@ -51,7 +51,7 @@ function MyAlbum() {
     const newUrl = data.data.filter((item) => {
       return data.data.indexOf(item) === newIndex;
     });
-    const newItem = newUrl[0].link;
+    const newItem = newUrl[0].imageUrl;
     setClickedImg(newItem);
     setCurrentIndex(newIndex);
   };
@@ -60,7 +60,7 @@ function MyAlbum() {
     const totalLength = data.data.length;
     if (currentIndex === 0) {
       setCurrentIndex(totalLength - 1);
-      const newUrl = data.data[totalLength - 1].link;
+      const newUrl = data.data[totalLength - 1].imageUrl;
       setClickedImg(newUrl);
       return;
     }
@@ -68,12 +68,13 @@ function MyAlbum() {
     const newUrl = data.data.filter((item) => {
       return data.data.indexOf(item) === newIndex;
     });
-    const newItem = newUrl[0].link;
+    const newItem = newUrl[0].imageUrl;
     setClickedImg(newItem);
     setCurrentIndex(newIndex);
   };
 
   return (
+
     <div className="container">
       <Header />
       <div className="contents_container">
