@@ -1,10 +1,9 @@
 import styles from "./GroupPage.module.css";
 import { useState } from "react";
-import img1 from "../../img/1.jpg";
-import img2 from "../../img/2.jpg";
-import img3 from "../../img/3.jpg";
-import img4 from "../../img/4.jpg";
-import addIcon from "../../img/add.jpg";
+import img1 from "../../img/bg1.jpeg";
+import img2 from "../../img/bg2.jpeg";
+import img3 from "../../img/bg3.jpeg";
+import img4 from "../../img/bg4.jpeg";
 
 // ==================== Dummy Data ====================== //
 const images = [
@@ -24,6 +23,7 @@ const BackgroundContent = (props) => {
       if (base64) {
         // 파일 base64 상태 업데이트
         props.setImgBase64(base64.toString());
+        images.unshift({ src: base64, alt: "userimage" });
       }
     };
     if (event.target.files[0]) {
@@ -43,6 +43,9 @@ const BackgroundContent = (props) => {
             alt={image.alt}
             key={index}
             className={styles.tab_content_img_box}
+            onClick={() => {
+              props.setImgBase64(image.src);
+            }}
           ></img>
         );
       })}

@@ -5,11 +5,14 @@ import remove2 from "./remove2.js";
 import io from "socket.io-client";
 const token = localStorage.getItem("token");
 
-const Socket = forwardRef((props, ref) => {
-  let isHost = token === props.roomName;
-  const { localVideoRef, socketRef, pcRef, remoteVideoRef } = ref;
+const VideoAREA = forwardRef((props, ref) => {
   const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
   // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
+  const DEFAULT_BACKGROUND =
+    "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)";
+  let isHost = token === props.roomName;
+  const { localVideoRef, socketRef, pcRef, remoteVideoRef, captureAreaRef } =
+    ref;
   let [leave, setLeave] = useState(true); //나가면 상대방 삭제되게 하는 State
   const pc_config = {
     iceServers: [
@@ -144,32 +147,42 @@ const Socket = forwardRef((props, ref) => {
   }
   return (
     <>
-      <canvas className={styles.mirror} id="mytrans"></canvas>
-      <canvas
-        className={leave ? styles.displaynone : styles.mirror}
-        id="remotetrans"
-      ></canvas>
-      <video
-        className={styles.displaynone}
-        id="my_face"
-        autoPlay
-        playsInline
-        width="640"
-        height="480"
-        ref={localVideoRef}
-      ></video>
-      <video
-        className={styles.displaynone}
-        id="remote"
-        autoPlay
-        playsInline
-        width="640"
-        height="480"
-        ref={remoteVideoRef}
-      ></video>
-      <canvas className={styles.displaynone} id="remotegreen"></canvas>
-      <canvas className={styles.displaynone} id="mygreen"></canvas>
+      <div
+        className={styles.box}
+        ref={captureAreaRef}
+        style={{
+          backgroundImage: props.ImgBase64
+            ? `url(${props.ImgBase64})`
+            : DEFAULT_BACKGROUND,
+        }}
+      >
+        <canvas className={styles.mirror} id="mytrans"></canvas>
+        <canvas
+          className={leave ? styles.displaynone : styles.mirror}
+          id="remotetrans"
+        ></canvas>
+        <video
+          className={styles.displaynone}
+          id="my_face"
+          autoPlay
+          playsInline
+          width="640"
+          height="480"
+          ref={localVideoRef}
+        ></video>
+        <video
+          className={styles.displaynone}
+          id="remote"
+          autoPlay
+          playsInline
+          width="640"
+          height="480"
+          ref={remoteVideoRef}
+        ></video>
+        <canvas className={styles.displaynone} id="remotegreen"></canvas>
+        <canvas className={styles.displaynone} id="mygreen"></canvas>
+      </div>
     </>
   );
 });
-export default Socket;
+export default VideoAREA;
