@@ -41,6 +41,7 @@ const BackgroundContent = (props) => {
           <img
             src={image.src}
             alt={image.alt}
+            key={index}
             className={styles.tab_content_img_box}
           ></img>
         );
