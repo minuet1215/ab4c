@@ -3,12 +3,12 @@ import { useLocation } from "react-router";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer } from "antd";
+import { Drawer, Checkbox } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import bgImg2 from "../../img/6.jpg";
 import { toast } from "react-toastify";
-import { auth } from "../../_actions/user_action";
-import { useDispatch } from "react-redux";
+// import { auth } from "../../_actions/user_action";
+// import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 const img_width = 550;
@@ -19,7 +19,7 @@ const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
   const [isPublic, SetIsPublic] = useState(true);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [user_id, setUser_id] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -63,6 +63,14 @@ function PhotoEditPage() {
   };
 
   useEffect(() => {
+    // 화면 렌더링 시 바로 유저 정보 가져오기 (TEST)
+    axios.get("/api/users/authentication").then((response) => {
+      // console.log("user data :", response.data);
+      setUserName(response.data.name);
+      setUser_id(response.data._id); // _id : ObjectID
+      setUserEmail(response.data.email);
+    });
+
     let now = new Date();
     let month =
       now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
@@ -103,11 +111,11 @@ function PhotoEditPage() {
   const onSave = (e) => {
     e.preventDefault();
 
-    dispatch(auth()).then((response) => {
-      setUserName(response.payload.name);
-      setUser_id(response.payload._id); // _id : ObjectID
-      setUserEmail(response.payload.email);
-    });
+    // dispatch(auth()).then((response) => {
+    //   setUserName(response.payload.name);
+    //   setUser_id(response.payload._id); // _id : ObjectID
+    //   setUserEmail(response.payload.email);
+    // });
 
     const canvas = document.getElementById("canvas");
     canvas.toBlob(
@@ -142,7 +150,7 @@ function PhotoEditPage() {
 
   return (
     <div className="container">
-      <MyHeader subTitle="사진 화면" onBackUrl="/" />
+      <MyHeader subTitle="사진 화면" onBackUrl="/main" />
       <div className="contents_container">
         <div className={styles.canvas_container}>
           <canvas
@@ -158,12 +166,16 @@ function PhotoEditPage() {
           </canvas>
         </div>
         <div id="control-menu" className={styles.control_container}>
-          <button className={styles.btn_default}>공유</button>
+          {/* <button className={styles.btn_default}>공유</button> */}
           <button className={styles.btn_default} onClick={showDrawer}>
             프레임 변경
           </button>
+          <button className={styles.btn_pink} onClick={onSave}>
+            앨범 저장
+          </button>
+          <Checkbox onChange={() => SetIsPublic(!isPublic)}>비공개</Checkbox>
 
-          <form onSubmit={onSave}>
+          {/* <form onSubmit={onSave}>
             <input
               type="checkbox"
               id="public-check"
@@ -174,7 +186,7 @@ function PhotoEditPage() {
             <button className={styles.btn_pink} type="submit">
               앨범 저장
             </button>
-          </form>
+          </form> */}
         </div>
 
         <Drawer
@@ -193,9 +205,7 @@ function PhotoEditPage() {
                   key={bgImage.alt}
                   alt={bgImage.alt}
                   onClick={() => setBgChange(bgImage.src)}
-                  width="100px"
-                  height="150px"
-                  style={{ padding: "10px" }}
+                  style={{ padding: "10px", width: "100px", height: "150px" }}
                 ></img>
               );
             })}

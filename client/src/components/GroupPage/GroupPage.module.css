@@ -1,15 +1,19 @@
 .camera_container {
   position: relative;
-  width: 100vw;
-  height: calc(100vw * 370 / 550); /* 이미지 크기는 550px * 370px */
+  width: 100%;
+  padding-bottom: 67.5%; /* 이미지 크기는 550px * 370px */
 }
 
 .control_container {
+  position: absolute;
+  left: 0%;
+  bottom: 0%;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 74px;
+  background-color: white;
 }
 
 .photo_count_text {
@@ -68,15 +72,15 @@
 /* 화면 높이 - 헤더 - 컨트롤 버튼 - 카메라 */
 .rest_container {
   position: relative;
-  width: 100vw;
-  height: calc(100vh - 2 * 74px - 100vw * 370 / 550);
+  width: 100%;
+  padding-bottom: 74px;
 }
+
 .tab_container {
   display: flex;
-  /* justify-content: center; */
   align-items: center;
-  width: 100vw;
-  height: 50px;
+  width: 100%;
+  /* padding-bottom: 100vh - 67.5% - 74px; */
 }
 
 .tab_contents_container {
@@ -84,36 +88,37 @@
   justify-content: center;
   align-items: center;
   overflow-y: scroll;
-  width: 100vw;
-  height: calc(100vh - 2 * 74px - 100vw * 370 / 550 - 50px);
+  width: 100%;
+  height: 20%;
+  /* height: calc(100vh - 2 * 74px - 50px); */
 }
 
 .tab_content_img_box {
-  width: calc(100vw / 3);
-  height: calc(100vw / 3);
+  width: calc(100% / 3);
+  height: 150px;
   object-fit: cover;
   padding: 10px;
-  border-radius: 20%;
+  border-radius: 30px;
 }
 .tab_content_input_box {
-  width: calc(100vw / 3);
-  height: calc(100vw / 3);
+  width: calc(100% / 3);
+  height: 150px;
   display: inline-block;
   vertical-align: middle;
   text-align: center;
   line-height: 100px;
   padding: 10px 0px;
-  border-radius: 20%;
+  border-radius: 30px;
   border: 1px black;
   font-size: x-large;
 }
 /* 선택된 이미지용 */
 .tab_content_img_box_selected {
-  width: calc(100vw / 3);
-  height: calc(100vw / 3);
+  width: calc(100% / 3);
+  height: 150px;
   object-fit: cover;
   padding: 10px;
-  border-radius: 20%;
+  border-radius: 30px;
   box-shadow: 5px 5px 5px 5px #00c3b1;
 }
 
@@ -122,7 +127,7 @@
   display: flex;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 70%);
   font-size: 100px;
   font-weight: 700;
   color: #555555;

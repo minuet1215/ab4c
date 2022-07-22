@@ -74,34 +74,36 @@ function MyAlbum() {
   };
 
   return (
-    <>
+    <div className="container">
       <Header />
-      <div className="wrapper">
-        {data.data.map((item, index) => (
-          <div key={index} className="wrapper-images">
-            <img
-              src={item.link}
-              alt={item.text}
-              onClick={() => handleClick(item, index)}
-            />
-            <div>
-              <PhotoModify img={item.link} />
-              <Button>삭제하기</Button>
+      <div className="contents_container">
+        <div className="wrapper">
+          {data.data.map((item, index) => (
+            <div key={index} className="wrapper-images">
+              <img
+                src={item.link}
+                alt={item.text}
+                onClick={() => handleClick(item, index)}
+              />
+              <div>
+                <PhotoModify img={item.link} />
+                <Button>삭제하기</Button>
+              </div>
             </div>
+          ))}
+          <div>
+            {clickedImg && (
+              <Modal
+                clickedImg={clickedImg}
+                handleRotationRight={handleRotationRight}
+                setClickedImg={setClickedImg}
+                handleRotationLeft={handleRotationLeft}
+              />
+            )}
           </div>
-        ))}
-        <div>
-          {clickedImg && (
-            <Modal
-              clickedImg={clickedImg}
-              handleRotationRight={handleRotationRight}
-              setClickedImg={setClickedImg}
-              handleRotationLeft={handleRotationLeft}
-            />
-          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

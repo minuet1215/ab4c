@@ -1,6 +1,6 @@
 const mailRouter = require("express").Router();
 const nodemailer = require("nodemailer");
-const senderInfo = require("../config/senderInfo.json");
+// const senderInfo = require("../config/senderInfo.json");
 
 mailRouter.post("/", function (req, res, next) {
   let to_email = req.body.email;
