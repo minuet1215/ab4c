@@ -7,6 +7,9 @@ import { Drawer } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import bgImg2 from "../../img/6.jpg";
 import { toast } from "react-toastify";
+import { auth } from "../../_actions/user_action";
+import { useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
 const img_width = 550;
 const img_height = 370;
@@ -16,6 +19,10 @@ const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
   const [isPublic, SetIsPublic] = useState(true);
+  const dispatch = useDispatch();
+  const [userName, setUserName] = useState("");
+  const [user_id, setUser_id] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
   const { state } = useLocation();
   // ================= dummy data ================= //
@@ -93,45 +100,34 @@ function PhotoEditPage() {
     ctx.fillText(text, frame_width / 2, frame_height - 80);
   }
 
-  // save to local
-  const OnSave = () => {
-    let now = new Date();
-    const date_time = `${now.getFullYear()}${
-      now.getMonth() + 1
-    }${now.getDate()}_${now.getHours()}${now.getMinutes()}`;
-    const canvas = document.getElementById("canvas");
-    const dataUrl = canvas.toDataURL();
-    const filename = "4cut_" + date_time + ".png";
-    let link = document.createElement("a");
-    if (typeof link.download === "string") {
-      link.href = dataUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      window.open(dataUrl);
-    }
-  };
-
-  const forTest = (e) => {
+  const onSave = (e) => {
     e.preventDefault();
+
+    dispatch(auth()).then((response) => {
+      setUserName(response.payload.name);
+      setUser_id(response.payload._id); // _id : ObjectID
+      setUserEmail(response.payload.email);
+    });
 
     const canvas = document.getElementById("canvas");
     canvas.toBlob(
       async function (blob) {
-        const file = new File([blob], "4cut.png", {
+        // uuidv4() : File Original Name
+        const file = new File([blob], uuidv4(), {
           lastModified: new Date().getTime(),
           type: blob.type,
         });
-        const formData = new FormData();
 
-        const token = localStorage.getItem("token");
+        const formData = new FormData();
+        // server req.file
         formData.append("file", file);
-        formData.append("token", token);
+
+        // server req.body
         formData.append("public", isPublic);
-        // formData.append("id", id);
-        await axios.post("/api/images/test", formData).then((res) => {
+        formData.append("id", user_id);
+        formData.append("username", userName);
+        formData.append("useremail", userEmail);
+        await axios.post("/api/images/post", formData).then((res) => {
           if (res) {
             toast.success("이미지 저장 성공!");
           } else {
@@ -166,11 +162,8 @@ function PhotoEditPage() {
           <button className={styles.btn_default} onClick={showDrawer}>
             프레임 변경
           </button>
-          <button className={styles.btn_pink} onClick={OnSave}>
-            저장
-          </button>
 
-          <form onSubmit={forTest}>
+          <form onSubmit={onSave}>
             <input
               type="checkbox"
               id="public-check"
@@ -178,15 +171,7 @@ function PhotoEditPage() {
               onChange={() => SetIsPublic(!isPublic)}
             ></input>
             <label htmlFor="public-check">비공개</label>
-            <button
-              type="submit"
-              style={{
-                width: "100%",
-                height: 30,
-                borderRadius: 3,
-                cursor: "pointer",
-              }}
-            >
+            <button className={styles.btn_pink} type="submit">
               test
             </button>
           </form>

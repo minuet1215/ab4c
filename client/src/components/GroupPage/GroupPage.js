@@ -9,6 +9,7 @@ import MyHeader from "../Header/Header";
 import CameraTab from "./CameraTab";
 import MuteBtn from "./MuteBtn";
 import CaptureBtn from "./CaptureBtn";
+import { toast } from "react-toastify";
 
 let IMGS = [];
 
@@ -34,7 +35,7 @@ function GroupPage() {
   useEffect(() => {
     //최초 페이지 진입시
     navigator.clipboard.writeText(window.document.location.href).then(() => {
-      alert("클립보드에 복사되었습니다.");
+      toast.success("초대링크가 자동으로 복사되었습니다.");
     });
   }, []);
   // 4장 찍으면 edit페이지로 이동
