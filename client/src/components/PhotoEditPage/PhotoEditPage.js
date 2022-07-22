@@ -172,7 +172,7 @@ function PhotoEditPage() {
             ></input>
             <label htmlFor="public-check">비공개</label>
             <button className={styles.btn_pink} type="submit">
-              test
+              앨범 저장
             </button>
           </form>
         </div>
