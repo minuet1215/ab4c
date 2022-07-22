@@ -3,10 +3,13 @@ import { useLocation } from "react-router";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer } from "antd";
+import { Drawer, Checkbox } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import bgImg2 from "../../img/6.jpg";
 import { toast } from "react-toastify";
+// import { auth } from "../../_actions/user_action";
+// import { useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
 const img_width = 550;
 const img_height = 370;
@@ -16,6 +19,10 @@ const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
   const [isPublic, SetIsPublic] = useState(true);
+  // const dispatch = useDispatch();
+  const [userName, setUserName] = useState("");
+  const [user_id, setUser_id] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
   const { state } = useLocation();
   // ================= dummy data ================= //
@@ -56,11 +63,23 @@ function PhotoEditPage() {
   };
 
   useEffect(() => {
+    // 화면 렌더링 시 바로 유저 정보 가져오기 (TEST)
+    axios.get("/api/users/authentication").then((response) => {
+      // console.log("user data :", response.data);
+      setUserName(response.data.name);
+      setUser_id(response.data._id); // _id : ObjectID
+      setUserEmail(response.data.email);
+    });
+
     let now = new Date();
-    const date_time = `${now.getFullYear()}.
-    ${
-      now.getMonth() + 1
-    }.${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
+    let month =
+      now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
+    let date = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
+    let hour = now.getHours() < 10 ? "0" + now.getHours() : now.getHours();
+    let minute =
+      now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes();
+    const date_time =
+      now.getFullYear() + "." + month + "." + date + " " + hour + ":" + minute;
 
     if (!canvasRef) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -83,49 +102,40 @@ function PhotoEditPage() {
   }, [canvasRef, bgChange, visible]);
 
   function writeText(ctx, text) {
-    ctx.font = "25px sans-serif";
+    ctx.font = "32px sans-serif";
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
-    ctx.fillText(text, frame_width / 2, frame_height - 100);
+    ctx.fillText(text, frame_width / 2, frame_height - 80);
   }
 
-  // save to local
-  const OnSave = () => {
-    let now = new Date();
-    const date_time = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}_${now.getHours()}${now.getMinutes()}`;
-    const canvas = document.getElementById("canvas");
-    const dataUrl = canvas.toDataURL();
-    const filename = "4cut_" + date_time + ".png";
-    let link = document.createElement("a");
-    if (typeof link.download === "string") {
-      link.href = dataUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      window.open(dataUrl);
-    }
-  };
-
-  const forTest = (e) => {
+  const onSave = (e) => {
     e.preventDefault();
+
+    // dispatch(auth()).then((response) => {
+    //   setUserName(response.payload.name);
+    //   setUser_id(response.payload._id); // _id : ObjectID
+    //   setUserEmail(response.payload.email);
+    // });
 
     const canvas = document.getElementById("canvas");
     canvas.toBlob(
       async function (blob) {
-        const file = new File([blob], "4cut.png", {
+        // uuidv4() : File Original Name
+        const file = new File([blob], uuidv4(), {
           lastModified: new Date().getTime(),
           type: blob.type,
         });
-        const formData = new FormData();
 
-        const token = localStorage.getItem("token");
+        const formData = new FormData();
+        // server req.file
         formData.append("file", file);
-        formData.append("token", token);
+
+        // server req.body
         formData.append("public", isPublic);
-        // formData.append("id", id);
-        await axios.post("/api/images/test", formData).then((res) => {
+        formData.append("id", user_id);
+        formData.append("username", userName);
+        formData.append("useremail", userEmail);
+        await axios.post("/api/images/post", formData).then((res) => {
           if (res) {
             toast.success("이미지 저장 성공!");
           } else {
@@ -140,7 +150,7 @@ function PhotoEditPage() {
 
   return (
     <div className="container">
-      <MyHeader subTitle="사진 화면" onBackUrl="/" />
+      <MyHeader subTitle="사진 화면" onBackUrl="/main" />
       <div className="contents_container">
         <div className={styles.canvas_container}>
           <canvas
@@ -156,15 +166,16 @@ function PhotoEditPage() {
           </canvas>
         </div>
         <div id="control-menu" className={styles.control_container}>
-          <button className={styles.btn_default}>공유</button>
+          {/* <button className={styles.btn_default}>공유</button> */}
           <button className={styles.btn_default} onClick={showDrawer}>
             프레임 변경
           </button>
-          <button className={styles.btn_pink} onClick={OnSave}>
-            저장
+          <button className={styles.btn_pink} onClick={onSave}>
+            앨범 저장
           </button>
+          <Checkbox onChange={() => SetIsPublic(!isPublic)}>비공개</Checkbox>
 
-          <form onSubmit={forTest}>
+          {/* <form onSubmit={onSave}>
             <input
               type="checkbox"
               id="public-check"
@@ -172,18 +183,10 @@ function PhotoEditPage() {
               onChange={() => SetIsPublic(!isPublic)}
             ></input>
             <label htmlFor="public-check">비공개</label>
-            <button
-              type="submit"
-              style={{
-                width: "100%",
-                height: 30,
-                borderRadius: 3,
-                cursor: "pointer",
-              }}
-            >
-              test
+            <button className={styles.btn_pink} type="submit">
+              앨범 저장
             </button>
-          </form>
+          </form> */}
         </div>
 
         <Drawer
@@ -202,9 +205,7 @@ function PhotoEditPage() {
                   key={bgImage.alt}
                   alt={bgImage.alt}
                   onClick={() => setBgChange(bgImage.src)}
-                  width="100px"
-                  height="150px"
-                  style={{ padding: "10px" }}
+                  style={{ padding: "10px", width: "100px", height: "150px" }}
                 ></img>
               );
             })}

@@ -5,7 +5,7 @@ const ImageSchema = new mongoose.Schema(
     user: {
       _id: { type: mongoose.Types.ObjectId, required: true, index: true },
       name: { type: String, required: true }, // 이름
-      username: { type: String, required: true }, // 아이디
+      email: { type: String, required: true }, // 아이디
     },
     likes: [{ type: mongoose.Types.ObjectId }], // 좋아요 기능
     public: { type: Boolean, required: true, default: false }, // 공개, 비공개

@@ -1,17 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "antd";
+import { useDispatch } from "react-redux";
 import data from "./images.json";
 import Modal from "./Modal/Modal";
 import Header from "../Header/Header";
 import PhotoModify from "../ImageEditor/PhotoModify";
 import "./style.css";
+import axios from "axios";
+import { auth } from "../../_actions/user_action";
 function MyAlbum() {
   const [clickedImg, setClickedImg] = useState(null);
+  const [userId, setUserId] = useState("");
   const [currentIndex, setCurrentIndex] = useState(null);
+  const [images, setImages] = useState();
   const handleClick = (item, index) => {
     setCurrentIndex(index);
     setClickedImg(item.imageUrl);
   };
+  const dispatch = useDispatch();
+
+  /* 리팩토링 필요
+   * useEffect 계속 적용 됨
+   * 처음에 바로 userId를 못찾아냄.
+   */
+  useEffect(() => {
+    const getId = async () =>
+      await dispatch(auth()).then((res) => {
+        setUserId(res.payload._id);
+        axios
+          .post("/api/images/album/me", { id: userId })
+          .then((result) => {
+            setImages(result.data);
+            return;
+          })
+          .catch((err) => console.log({ err }));
+      });
+    getId();
+  });
 
   // 모달창에서 앞뒤로 이동하기
   const handleRotationRight = () => {
@@ -49,28 +74,24 @@ function MyAlbum() {
   };
 
   return (
-    <>
+
+    <div className="container">
       <Header />
-      <div className="albumBackground">
+      <div className="contents_container">
         <div className="wrapper">
-          {data.data.map((item, index) => {
-            const { desc, imageUrl } = item;
-        
-            return (
-              <div key={index} className="wrapper-images">
-                <img
-                  src={imageUrl}
-                  alt={desc}
-                  onClick={() => handleClick(item, index)}
-                  className="card-img-top"
-                />
-                <div>
-                  <PhotoModify img={imageUrl} />
-                  <Button>삭제하기</Button>
-                </div>
+          {data.data.map((item, index) => (
+            <div key={index} className="wrapper-images">
+              <img
+                src={item.link}
+                alt={item.text}
+                onClick={() => handleClick(item, index)}
+              />
+              <div>
+                <PhotoModify img={item.link} />
+                <Button>삭제하기</Button>
               </div>
-            );
-          })}
+            </div>
+          ))}
           <div>
             {clickedImg && (
               <Modal
@@ -83,7 +104,7 @@ function MyAlbum() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

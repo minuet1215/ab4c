@@ -7,46 +7,39 @@ const mongoose = require("mongoose");
 const fileUnlink = promisify(fs.unlink);
 const { User } = require("../models/User");
 
-// imageRouter.post("/", upload.single("image"), async (req, res) => {
-//   // 유저 정보, public 유무 확인
-//   console.log(req.body);
-//   try {
-//     // if (!req.user) throw new Error("권한이 없습니다.");
-//     // const image = await new Image({
-//     //   user: {
-//     //     _id: req.user.id, // _id를 자동으로 string으로 변환
-//     //     name: req.user.name,
-//     //     username: req.user.username,
-//     //   },
-//     //   public: req.body.public,
-//     //   key: req.file.filename,
-//     //   originalFileName: req.file.originalname,
-//     // }).save();
-//     // res.json(image);
-//   } catch (err) {
-//     console.log(err);
-//     // res.status(400).json({ message: err.message });
-//   }
-// });
+// 공유, 프레임 변경, 저장에서 저장버튼
+imageRouter.post("/post", upload.single("file"), async (req, res) => {
+  const image = await new Image({
+    user: {
+      _id: req.body.id,
+      name: req.body.username,
+      email: req.body.useremail,
+    },
+    public: req.body.public,
+    key: req.file.key,
+    originalFileName: req.file.originalname,
+  }).save();
 
-imageRouter.post("/test", upload.single("file"), async (req, res) => {
-  const token = req.body.token;
-  // const user = User.find({ token: token });
-  // console.log(user.name);
-  // const userId = user.id;
-  // console.log(userId);
   try {
-    if (!req.body.token) throw new Error("권한이 없습니다.");
-    return res.json("앨범 저장에 성공했습니다.");
+    if (!req.body.username) throw new Error("권한이 없습니다.");
+    return res.json(image);
   } catch (err) {
-    return res.status(400).json({ message: err.message });
+    return res.status(400);
   }
 });
 
-imageRouter.get("/", async (req, res) => {
+imageRouter.get("/album", async (req, res) => {
   // public 이미지들만 제공
-  const images = await Image.find({ public: true }, {}, {}); // 탐색, 수정, 옵션
+  const images = await Image.find({ public: "true" }); // 탐색, 수정, 옵션
   res.json(images);
+});
+
+imageRouter.post("/album/me", async (req, res) => {
+  // 내가 찍은 사진들 제공
+  if (req.body.id) {
+    const images = await Image.find({ "user._id": req.body.id }); // 탐색, 수정, 옵션
+    res.json(images);
+  }
 });
 
 imageRouter.delete("/:imageId", async (req, res) => {
@@ -102,6 +95,18 @@ imageRouter.patch("/:imageId/unlike", async (req, res) => {
       { new: true }
     );
     res.json(image);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// 본인 사진들만 리턴 (public 유무 상관없이)
+imageRouter.get("/:id/album", async (req, res) => {
+  try {
+    if (!req.user) throw new Error("권한이 없습니다.");
+    const images = await Image.find({ "user._id": req.user.id }); // ._id는 쓸 수 없으므로 ""로 묶음 -> Mongo DB가 알아서 파싱해줌
+    res.json(images);
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: err.message });
