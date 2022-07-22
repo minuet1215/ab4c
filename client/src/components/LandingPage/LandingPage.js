@@ -18,7 +18,7 @@ function LandingPage() {
           <title className={styles.main_title}>안방네컷</title>
         </div>
         <div className={styles.img_container}>
-          <img className={styles.main_img} src={main_img} />
+          <img className={styles.main_img} src={main_img} alt="logo" />
         </div>
         <div className={styles.control_container}>
           {!token && (

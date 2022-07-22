@@ -30,7 +30,7 @@ imageRouter.post("/post", upload.single("file"), async (req, res) => {
 
 imageRouter.get("/album", async (req, res) => {
   // public 이미지들만 제공
-  const images = await Image.find({ public: true }, {}, {}); // 탐색, 수정, 옵션
+  const images = await Image.find({ public: "true" }); // 탐색, 수정, 옵션
   res.json(images);
 });
 
