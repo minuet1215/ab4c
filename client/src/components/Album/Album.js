@@ -10,16 +10,15 @@ function MyAlbum() {
   const [currentIndex, setCurrentIndex] = useState(null);
   const handleClick = (item, index) => {
     setCurrentIndex(index);
-    setClickedImg(item.link);
+    setClickedImg(item.imageUrl);
   };
-
 
   // 모달창에서 앞뒤로 이동하기
   const handleRotationRight = () => {
     const totalLength = data.data.length;
     if (currentIndex + 1 >= totalLength) {
       setCurrentIndex(0);
-      const newUrl = data.data[0].link;
+      const newUrl = data.data[0].imageUrl;
       setClickedImg(newUrl);
       return;
     }
@@ -27,7 +26,7 @@ function MyAlbum() {
     const newUrl = data.data.filter((item) => {
       return data.data.indexOf(item) === newIndex;
     });
-    const newItem = newUrl[0].link;
+    const newItem = newUrl[0].imageUrl;
     setClickedImg(newItem);
     setCurrentIndex(newIndex);
   };
@@ -36,7 +35,7 @@ function MyAlbum() {
     const totalLength = data.data.length;
     if (currentIndex === 0) {
       setCurrentIndex(totalLength - 1);
-      const newUrl = data.data[totalLength - 1].link;
+      const newUrl = data.data[totalLength - 1].imageUrl;
       setClickedImg(newUrl);
       return;
     }
@@ -44,39 +43,46 @@ function MyAlbum() {
     const newUrl = data.data.filter((item) => {
       return data.data.indexOf(item) === newIndex;
     });
-    const newItem = newUrl[0].link;
+    const newItem = newUrl[0].imageUrl;
     setClickedImg(newItem);
     setCurrentIndex(newIndex);
   };
 
   return (
     <>
-    <Header/>
-    <div className="wrapper">
-      {data.data.map((item, index) => (
-        <div key={index} className="wrapper-images">
-          <img
-            src={item.link}
-            alt={item.text}
-            onClick={() => handleClick(item, index)}
-          />
+      <Header />
+      <div className="albumBackground">
+        <div className="wrapper">
+          {data.data.map((item, index) => {
+            const { desc, imageUrl } = item;
+        
+            return (
+              <div key={index} className="wrapper-images">
+                <img
+                  src={imageUrl}
+                  alt={desc}
+                  onClick={() => handleClick(item, index)}
+                  className="card-img-top"
+                />
+                <div>
+                  <PhotoModify img={imageUrl} />
+                  <Button>삭제하기</Button>
+                </div>
+              </div>
+            );
+          })}
           <div>
-          <PhotoModify img={item.link}/>
-          <Button>삭제하기</Button>
+            {clickedImg && (
+              <Modal
+                clickedImg={clickedImg}
+                handleRotationRight={handleRotationRight}
+                setClickedImg={setClickedImg}
+                handleRotationLeft={handleRotationLeft}
+              />
+            )}
           </div>
         </div>
-      ))}
-      <div>
-        {clickedImg && (
-          <Modal
-            clickedImg={clickedImg}
-            handleRotationRight={handleRotationRight}
-            setClickedImg={setClickedImg}
-            handleRotationLeft={handleRotationLeft}
-          />
-        )}
       </div>
-    </div>
     </>
   );
 }

@@ -17,6 +17,7 @@ import PhotoEditPage from "./components/PhotoEditPage/PhotoEditPage";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
 import UserMain from "./components/UserMain/UserMain";
 import VideoCallPage from "./components/VideoCallPage/VideoCallPage";
+import InfinityScroll from "./components/InfiniteScroll/InfiniteScroll";
 
 import Auth from "./hoc/auth";
 import KakaoAuth from "./controller/KakaoAuth";
@@ -33,6 +34,7 @@ function App() {
   const AuthAlbumPage = Auth(AlbumPage, true);
   const AuthEditPhotoPage = Auth(Editor, null);
   const AuthCameraPage = Auth(CameraPage, true);
+  const AuthScrollPage = Auth(InfinityScroll, null);
 
   return (
     <Router>
@@ -48,6 +50,7 @@ function App() {
           <Route exact path="/editPhoto" element={<AuthEditPhotoPage />} />
           <Route exact path="/group/:roomname" element={<GroupPage />} />
           <Route exact path="/camera" element={<AuthCameraPage />} />
+          <Route exact path="scroll" element={<AuthScrollPage/>}/>
           <Route
             exact
             path="/video_call/:room_name"
