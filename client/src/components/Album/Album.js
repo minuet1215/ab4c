@@ -19,6 +19,7 @@ function MyAlbum() {
     setClickedImg(item.imageUrl);
   };
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(auth()).then((res) => {
       axios
@@ -28,7 +29,7 @@ function MyAlbum() {
         })
         .catch((err) => console.log({ err }));
     });
-  }, []);
+  }, [images]);
 
   let data = { datas: [] };
   const url = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/";

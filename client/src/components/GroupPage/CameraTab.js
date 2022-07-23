@@ -3,7 +3,6 @@ import Nav from "react-bootstrap/Nav";
 import styles from "./GroupPage.module.css";
 import BackgroundContent from "./BackgroundContent";
 import SelfUploadBgContent from "./SelfUploadBgContent";
-import EffectContent from "../Camera/EffectContent";
 
 const CameraTabs = forwardRef((props, ref) => {
   let [tab, setTab] = useState(0);

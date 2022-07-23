@@ -7,16 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 /* Components */
 import AlbumPage from "./components/Album/Album";
-import CameraPage from "./components/Camera/Camera";
 import GroupPage from "./components/GroupPage/GroupPage";
 import LandingPage from "./components/LandingPage/LandingPage";
 import Editor from "./components/ImageEditor/ImageEditor";
-import LobbyPage from "./components/LobbyPage/LobbyPage";
 import LoginPage from "./components/LoginPage/LoginPage";
 import PhotoEditPage from "./components/PhotoEditPage/PhotoEditPage";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
 import UserMain from "./components/UserMain/UserMain";
-import VideoCallPage from "./components/VideoCallPage/VideoCallPage";
 
 import Auth from "./hoc/auth";
 import KakaoAuth from "./controller/KakaoAuth";
@@ -27,12 +24,9 @@ function App() {
   const AuthUserMain = Auth(UserMain, true);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthRegisterPage = Auth(RegisterPage, false);
-  const AuthLobbyPage = Auth(LobbyPage, true);
-  const AuthVideoCallPage = Auth(VideoCallPage, true);
   const KakaoAuthPage = Auth(KakaoAuth, false);
   const AuthAlbumPage = Auth(AlbumPage, true);
   const AuthEditPhotoPage = Auth(Editor, null);
-  const AuthCameraPage = Auth(CameraPage, true);
 
   return (
     <Router>
@@ -43,16 +37,9 @@ function App() {
           <Route exact path="/main" element={<AuthUserMain />} />
           <Route exact path="/login" element={<AuthLoginPage />} />
           <Route exact path="/register" element={<AuthRegisterPage />} />
-          <Route exact path="/lobby" element={<AuthLobbyPage />} />
           <Route exact path="/album" element={<AuthAlbumPage />} />
           <Route exact path="/editPhoto" element={<AuthEditPhotoPage />} />
           <Route exact path="/group/:roomname" element={<GroupPage />} />
-          <Route exact path="/camera" element={<AuthCameraPage />} />
-          <Route
-            exact
-            path="/video_call/:room_name"
-            element={<AuthVideoCallPage />}
-          />
 
           <Route
             exact

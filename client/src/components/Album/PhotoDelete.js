@@ -5,7 +5,6 @@ import {toast} from "react-toastify"
 
 function PhotoDelete(props) {
   const deleteHandler = async () => {
-    console.log(props);
     axios.delete("/api/images/album/delete/", { data: props }).then((res) => {
         toast.success(res.message)
     }).catch((err) => toast.error(err.message));
