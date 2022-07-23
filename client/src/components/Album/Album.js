@@ -18,11 +18,24 @@ function MyAlbum() {
     setCurrentIndex(index);
     setClickedImg(item.imageUrl);
   };
+
   const dispatch = useDispatch();
   /* 리팩토링 필요
    * useEffect 계속 적용 됨
    * 처음에 바로 userId를 못찾아냄.
    */
+  useEffect(()=>{
+    axios.get('/api/users/authen').then((response) => {
+      setUserId(response.data._id);
+    })
+    console.log(userId)
+    axios.post("/api/images/album/me", {id : userId})
+    .then((result) => {
+      setImages(result.data);
+    })
+  },[])
+  console.log(images)
+
   // useEffect(() => {
   //   const getId = async () =>
   //     await dispatch(auth()).then((res) => {
@@ -36,7 +49,7 @@ function MyAlbum() {
   //         .catch((err) => console.log({ err }));
   //     });
   //   getId();
-  // });
+  // },[]);
   // console.log(images);
 
   // 모달창에서 앞뒤로 이동하기

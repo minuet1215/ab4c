@@ -1,3 +1,4 @@
+import styles from "../Album.module.css";
 const Modal = ({
     clickedImg,
     setClickedImg,
@@ -12,12 +13,12 @@ const Modal = ({
   
     return (
       <>
-        <div className="overlay dismiss" onClick={handleClick}>
+        <div className={styles.overlay} onClick={handleClick}>
           <img src={clickedImg} alt="bigger pic" />
           <span className="dismiss" onClick={handleClick}>
             X
           </span>
-          <div onClick={handleRotationLeft} className="overlay-arrows_left">
+          <div onClick={handleRotationLeft} className={styles.overlay_arrows_left}>
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +34,7 @@ const Modal = ({
               </svg>
             </div>
           </div>
-          <div onClick={handleRotationRight} className="overlay-arrows_right">
+          <div onClick={handleRotationRight} className={styles.overlay_arrows_right}>
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
