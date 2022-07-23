@@ -3,7 +3,7 @@ import { useLocation } from "react-router";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer, Checkbox } from "antd";
+import { Drawer, Checkbox, Input, Button } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import bgImg2 from "../../img/6.jpg";
 import { toast } from "react-toastify";
@@ -23,6 +23,7 @@ function PhotoEditPage() {
   const [userName, setUserName] = useState("");
   const [user_id, setUser_id] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const { state } = useLocation();
   // ================= dummy data ================= //
@@ -52,14 +53,17 @@ function PhotoEditPage() {
 
   const canvasRef = useRef(null);
   const [bgChange, setBgChange] = useState(defaultBg);
-  const [visible, setVisible] = useState(false);
+  const [isFrameDrawerVisible, setFrameDrawerVisible] = useState(false);
+  const [isMessageDrawerVisible, setMessageDrawerVisible] = useState(false);
 
-  const showDrawer = () => {
-    setVisible(true);
+  const showDrawer = (type) => {
+    type === "Frame"
+      ? setFrameDrawerVisible(true)
+      : setMessageDrawerVisible(true);
   };
 
-  const onClose = () => {
-    setVisible(false);
+  const handleChange = (event) => {
+    setMessage(event.target.value);
   };
 
   useEffect(() => {
@@ -84,13 +88,13 @@ function PhotoEditPage() {
     if (!canvasRef) return;
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, frame_width, frame_height);
-    writeText(ctx, date_time);
 
     let img = new Image();
     img.src = bgChange;
     img.onload = function () {
       ctx.drawImage(img, 0, 0, frame_width, frame_height);
-      writeText(ctx, date_time);
+      writeDate(ctx, date_time);
+      writeMessage(ctx, message);
       images.map((image) => {
         let img = new Image();
         img.src = image.src;
@@ -99,13 +103,20 @@ function PhotoEditPage() {
         };
       });
     };
-  }, [canvasRef, bgChange, visible]);
+  }, [canvasRef, bgChange, isMessageDrawerVisible]);
 
-  function writeText(ctx, text) {
+  function writeDate(ctx, text) {
     ctx.font = "32px sans-serif";
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
     ctx.fillText(text, frame_width / 2, frame_height - 80);
+  }
+
+  function writeMessage(ctx, message) {
+    ctx.font = "32px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+    ctx.fillText(message, frame_width / 2, frame_height - 120);
   }
 
   const onSave = (e) => {
@@ -167,8 +178,21 @@ function PhotoEditPage() {
         </div>
         <div id="control-menu" className={styles.control_container}>
           {/* <button className={styles.btn_default}>공유</button> */}
-          <button className={styles.btn_default} onClick={showDrawer}>
+          <button
+            className={styles.btn_default}
+            onClick={() => {
+              showDrawer("Frame");
+            }}
+          >
             프레임 변경
+          </button>
+          <button
+            className={styles.btn_default}
+            onClick={() => {
+              showDrawer("Message");
+            }}
+          >
+            메모하기
           </button>
           <button className={styles.btn_pink} onClick={onSave}>
             앨범 저장
@@ -193,8 +217,10 @@ function PhotoEditPage() {
           title="프레임 선택"
           placement="bottom"
           closable={true}
-          onClose={onClose}
-          visible={visible}
+          onClose={() => {
+            setFrameDrawerVisible(false);
+          }}
+          visible={isFrameDrawerVisible}
           height="30%"
         >
           <div className={styles.bg_menu_scroll}>
@@ -204,11 +230,39 @@ function PhotoEditPage() {
                   src={bgImage.src}
                   key={bgImage.alt}
                   alt={bgImage.alt}
-                  onClick={() => setBgChange(bgImage.src)}
+
+                  onClick={() => {
+                    setBgChange(bgImage.src);
+                    setFrameDrawerVisible(false);
+                  }}
+
                   style={{ padding: "10px", width: "100px", height: "150px" }}
                 ></img>
               );
             })}
+          </div>
+        </Drawer>
+        <Drawer
+          title="메시지입력"
+          placement="bottom"
+          closable={true}
+          onClose={() => {
+            setMessageDrawerVisible(false);
+          }}
+          visible={isMessageDrawerVisible}
+          height="30%"
+        >
+          <div>
+            <Input
+              placeholder="사진에 대한 설명을 적어주세요!"
+              onChange={handleChange}
+            />
+            <button
+              onClick={() => {
+                setMessageDrawerVisible(false);
+              }}
+            />
+            완료
           </div>
         </Drawer>
       </div>

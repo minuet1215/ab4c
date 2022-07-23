@@ -14,6 +14,7 @@ const images = [
 ];
 // ====================================================== //
 const BackgroundContent = (props) => {
+  const [getImages, setImages] = useState(images);
   const handleChangeFile = (event) => {
     let reader = new FileReader();
 
@@ -22,8 +23,10 @@ const BackgroundContent = (props) => {
       const base64 = reader.result;
       if (base64) {
         // 파일 base64 상태 업데이트
-        props.setImgBase64(base64.toString());
+        // props.setImgBase64(base64.toString());
         images.unshift({ src: base64, alt: "userimage" });
+        let copy = [...images];
+        setImages(copy);
       }
     };
     if (event.target.files[0]) {
@@ -36,7 +39,7 @@ const BackgroundContent = (props) => {
       <label className={styles.tab_content_input_box} htmlFor="input-file">
         +
       </label>
-      {images.map((image, index) => {
+      {getImages.map((image, index) => {
         return (
           <img
             src={image.src}
@@ -58,5 +61,4 @@ const BackgroundContent = (props) => {
     </>
   );
 };
-
 export default BackgroundContent;
