@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
 
 let IMGS = [];
+const token = localStorage.getItem("token");
 
 function GroupPage() {
   let { roomname } = useParams();
@@ -104,16 +105,16 @@ function GroupPage() {
               roomName={roomname}
               ref={refs}
               ImgBase64={ImgBase64}
+              setImgBase64={setImgBase64}
               isCapture={startCapture}
               setCapture={setCapture}
             ></VideoAREA>
           </div>
-
           {startCapture ? (
             <div className={styles.rest_container} id="countdown">
               <p className={styles.count_down_text}>{countDown}</p>
             </div>
-          ) : (
+          ) : roomname === token ? (
             <div className={styles.rest_container} id="cameratab">
               <CameraTab
                 ref={tabRefs}
@@ -121,11 +122,15 @@ function GroupPage() {
                 ImgBase64={ImgBase64}
               />
             </div>
-          )}
-
+          ) : undefined}
+          {/* todo : 참여자는 건들 수 없다는거 알려주기*/}
           <div className={styles.control_container}>
             <p className={styles.photo_count_text}>{photoCount}/4</p>
-            <CaptureBtn startCapture={startCapture} setCapture={setCapture} />
+            <CaptureBtn
+              startCapture={startCapture}
+              setCapture={setCapture}
+              roomname={roomname}
+            />
             <MuteBtn setIsMute={setIsMute} isMute={isMute} />
           </div>
         </div>

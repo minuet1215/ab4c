@@ -129,7 +129,7 @@ const VideoAREA = forwardRef((props, ref) => {
       props.setCapture(true);
     });
     socketRef.current.on("backgroundChange", (img) => {
-      props.setBgImg(img);
+      props.setImgBase64(img);
     });
     setVideoTracks();
     remove();
@@ -146,8 +146,8 @@ const VideoAREA = forwardRef((props, ref) => {
   if (isHost && props.isCapture) {
     socketRef.current.emit("start", props.roomName);
   }
-  if (isHost && props.bgimg) {
-    socketRef.current.emit("backgroundChange", props.bgimg, props.roomName);
+  if (isHost && props.ImgBase64) {
+    socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
   }
   return (
     <>
