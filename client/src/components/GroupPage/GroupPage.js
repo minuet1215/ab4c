@@ -10,6 +10,7 @@ import CameraTab from "./CameraTab";
 import MuteBtn from "./MuteBtn";
 import CaptureBtn from "./CaptureBtn";
 import { toast } from "react-toastify";
+import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
 
 let IMGS = [];
 
@@ -31,6 +32,7 @@ function GroupPage() {
   const [countDown, setCount] = useState(5); // 카운트다운
   const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
   const [photoCount, setPhotoCount] = useState(0); // 4장만 찍을 수 있다.
+  const [takePhotoLayer, setTakePhotoLayer] = useState({});
 
   useEffect(() => {
     //최초 페이지 진입시
@@ -67,6 +69,12 @@ function GroupPage() {
 
   // 캡쳐하는 함수
   function captureFunc() {
+    let audio = new Audio(cameraAudioSrc);
+    audio.play();
+    setTakePhotoLayer({
+      backgroundColor: "#ffffff",
+      opacity: "0.5",
+    });
     html2canvas(refs.captureAreaRef.current, {
       allowTaint: false,
       useCORS: true,
@@ -75,6 +83,7 @@ function GroupPage() {
       let DATA_URL = canvas.toDataURL();
       IMGS.push(DATA_URL);
       // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
+      setTakePhotoLayer({});
       setCount(5);
       setPhotoCount(photoCount + 1);
     });
@@ -87,35 +96,37 @@ function GroupPage() {
   }
 
   return (
-    <div className="container">
-      <MyHeader subTitle="촬영중" onBackUrl="/main" />
-      <div className="contents_container">
-        <div className={styles.camera_container}>
-          <VideoAREA
-            roomName={roomname}
-            ref={refs}
-            ImgBase64={ImgBase64}
-          ></VideoAREA>
-        </div>
-
-        {startCapture ? (
-          <div className={styles.rest_container} id="countdown">
-            <p className={styles.count_down_text}>{countDown}</p>
-          </div>
-        ) : (
-          <div className={styles.rest_container} id="cameratab">
-            <CameraTab
-              ref={tabRefs}
-              setImgBase64={setImgBase64}
+    <div className="size_fix_box">
+      <div className="container" style={takePhotoLayer}>
+        <MyHeader subTitle="촬영중" onBackUrl="/main" />
+        <div className="contents_container">
+          <div className={styles.camera_container}>
+            <VideoAREA
+              roomName={roomname}
+              ref={refs}
               ImgBase64={ImgBase64}
-            />
+            ></VideoAREA>
           </div>
-        )}
 
-        <div className={styles.control_container}>
-          <p className={styles.photo_count_text}>{photoCount}/4</p>
-          <CaptureBtn startCapture={startCapture} setCapture={setCapture} />
-          <MuteBtn changeMuteButton={changeMuteButton} isMute={isMute} />
+          {startCapture ? (
+            <div className={styles.rest_container} id="countdown">
+              <p className={styles.count_down_text}>{countDown}</p>
+            </div>
+          ) : (
+            <div className={styles.rest_container} id="cameratab">
+              <CameraTab
+                ref={tabRefs}
+                setImgBase64={setImgBase64}
+                ImgBase64={ImgBase64}
+              />
+            </div>
+          )}
+
+          <div className={styles.control_container}>
+            <p className={styles.photo_count_text}>{photoCount}/4</p>
+            <CaptureBtn startCapture={startCapture} setCapture={setCapture} />
+            <MuteBtn changeMuteButton={changeMuteButton} isMute={isMute} />
+          </div>
         </div>
       </div>
     </div>

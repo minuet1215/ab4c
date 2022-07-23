@@ -21,6 +21,7 @@ body {
 .container {
   position: relative;
   width: 100%;
+  /* ! : 큰 화면 조정 */
   max-width: 600px;
   border: 1px solid gainsboro;
 }

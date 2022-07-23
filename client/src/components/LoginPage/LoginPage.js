@@ -40,7 +40,7 @@ function LoginPage() {
   };
 
   return (
-    <div>
+    <div className="container">
       <MyHeader subTitle="로그인 화면" />
       <div className="contents_container">
         <div
