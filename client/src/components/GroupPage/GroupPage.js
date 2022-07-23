@@ -37,9 +37,11 @@ function GroupPage() {
 
   useEffect(() => {
     //최초 페이지 진입시
-    navigator.clipboard.writeText(window.document.location.href).then(() => {
-      toast.success("초대링크가 자동으로 복사되었습니다.");
-    });
+    if (token === roomname) {
+      navigator.clipboard.writeText(window.document.location.href).then(() => {
+        toast.success("초대링크가 자동으로 복사되었습니다.");
+      });
+    }
   }, []);
   function cameraOff() {
     refs.socketRef.current.disconnect();
