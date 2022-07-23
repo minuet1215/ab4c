@@ -21,9 +21,8 @@ function MyAlbum() {
     setClickedImg(item.imageUrl);
   };
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
-    setLoading(true);
     dispatch(auth()).then((res) => {
       axios
         .post("/api/images/album/me", { id: res.payload._id })

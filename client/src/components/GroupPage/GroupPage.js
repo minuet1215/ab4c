@@ -41,15 +41,18 @@ function GroupPage() {
       toast.success("초대링크가 자동으로 복사되었습니다.");
     });
   }, []);
+  function cameraOff() {
+    refs.socketRef.current.disconnect();
+    refs.pcRef.current.close();
+    let stream = refs.localVideoRef.current.srcObject;
+    stream.getTracks().forEach(function (track) {
+      track.stop();
+    });
+  }
   // 4장 찍으면 edit페이지로 이동
   useEffect(() => {
     if (photoCount === 4) {
-      refs.socketRef.current.disconnect();
-      refs.pcRef.current.close();
-      let stream = refs.localVideoRef.current.srcObject;
-      stream.getTracks().forEach(function (track) {
-        track.stop();
-      });
+      cameraOff();
       navigate("/edit", { state: { images: IMGS } });
     }
   }, [photoCount]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -98,7 +101,7 @@ function GroupPage() {
   return (
     <div className="size_fix_box">
       <div className="container" style={takePhotoLayer}>
-        <MyHeader subTitle="촬영중" onBackUrl="/main" />
+        <MyHeader subTitle="촬영중" onBackUrl="/main" onClick={cameraOff} />
         <div className="contents_container">
           <div className={styles.camera_container}>
             <VideoAREA
