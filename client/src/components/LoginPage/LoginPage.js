@@ -34,7 +34,7 @@ function LoginPage() {
       if (response.payload.loginSuccess) {
         navigate("/main"); // 페이지 이동
       } else {
-        alert("로그인 실패");
+        alert(response.payload.message);
       }
     });
   };
