@@ -64,7 +64,7 @@ function PhotoEditPage() {
 
   useEffect(() => {
     // 화면 렌더링 시 바로 유저 정보 가져오기 (TEST)
-    axios.get("/api/users/authentication").then((response) => {
+    axios.get("/api/users/authen").then((response) => {
       // console.log("user data :", response.data);
       setUserName(response.data.name);
       setUser_id(response.data._id); // _id : ObjectID
@@ -204,7 +204,10 @@ function PhotoEditPage() {
                   src={bgImage.src}
                   key={bgImage.alt}
                   alt={bgImage.alt}
-                  onClick={() => setBgChange(bgImage.src)}
+                  onClick={() => {
+                    setBgChange(bgImage.src);
+                    setVisible(false);
+                  }}
                   style={{ padding: "10px", width: "100px", height: "150px" }}
                 ></img>
               );
