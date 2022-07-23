@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import main_img from "../../img/dog.png";
+import { auth } from "../../_actions/user_action";
 import Logout from "../Logout/Logout";
 import styles from "./LandingPage.module.css";
 
 function LandingPage() {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const [isAuth, setIsAuth] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(auth()).then((res) => {
+      if (res.payload.isAuth) setIsAuth(true);
+    });
+  }, [isAuth]);
 
   return (
     <div className="container">
@@ -24,7 +33,7 @@ function LandingPage() {
           <img className={styles.main_img} src={main_img} alt="logo" />
         </div>
         <div className={styles.control_container}>
-          {!token && (
+          {!isAuth && (
             <>
               <button
                 className="button button_gap btn_1"
@@ -40,7 +49,7 @@ function LandingPage() {
               </button>
             </>
           )}
-          {token && (
+          {isAuth && (
             <>
               <button
                 className="button button_gap btn_1"
