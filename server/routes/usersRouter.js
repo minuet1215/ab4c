@@ -57,7 +57,7 @@ usersRouter.post("/login", (req, res) => {
           res
             .cookie("x_auth", user.token)
             .status(200)
-            .json({ loginSuccess: true, userId: user._id });
+            .json({ loginSuccess: true, userId: user._id, token: user.token }); // token: client에서 localstorage에 토큰값 저장하기 위해 추가
         });
       });
     } else if (
