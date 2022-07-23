@@ -30,7 +30,7 @@ export default class AutoSlides extends Component {
 
   loadImage = async () => {
     axios
-      .get("/api/images/album")
+      .get("/api/images/album/top20")
       .then(({ data }) => {
         data.map((image) => {
           this.setState((state) => {

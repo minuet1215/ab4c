@@ -33,6 +33,14 @@ imageRouter.get("/album", async (req, res) => {
   res.json(images);
 });
 
+imageRouter.get("/album/top20", async (req, res) => {
+  // public 이미지들만 제공, 좋아요 순, 최대 20개
+  const images = await Image.find({ public: true })
+    .sort({ likes_count: -1 })
+    .limit(20); // 탐색, 수정, 옵션
+  res.json(images);
+});
+
 imageRouter.post("/album/me", async (req, res) => {
   // 내가 찍은 사진들 제공
   if (req.body.id) {
