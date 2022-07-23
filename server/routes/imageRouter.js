@@ -42,20 +42,21 @@ imageRouter.post("/album/me", async (req, res) => {
   }
 });
 
-imageRouter.delete("/:imageId", async (req, res) => {
+imageRouter.delete("/album/delete", async (req, res) => {
   // 1. uploads 폴더에 있는 사진 데이터를 삭제
   // 2. DB에 있는 image 문서를 삭제
+  // console.log(req.body.img.desc);
+  // console.log(req.body.img.imageUrl);
+  // console.log(req.body.img.key);
+  // console.log(req.body.img.owner);
   try {
-    if (!req.user) throw new Error("권한이 없습니다.");
-    if (!mongoose.isValidObjectId(req.params.imageId))
+    if (!req.body.img.owner) throw new Error("권한이 없습니다.");
+    if (!mongoose.isValidObjectId(req.body.img.desc))
       throw new Error("올바르지 않은 이미지 ID입니다.");
-
-    const image = await Image.findOneAndDelete({ _id: req.params.imageId });
-
+    const image = await Image.findOneAndDelete({ _id: req.body.img.desc });
     if (!image)
       return res.json({ message: "요청하신 사진은 이미 삭제되었습니다." });
-
-    await fileUnlink(`./uploads/${image.key}`); // path(경로)에 있는 파일을 지울건지, CB
+    // await fileUnlink(`./uploads/${image.key}`); // path(경로)에 있는 파일을 지울건지, CB
     res.json({ message: "요청하신 이미지가 삭제되었습니다.", image });
   } catch (err) {
     console.log(err);

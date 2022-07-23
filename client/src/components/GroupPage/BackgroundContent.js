@@ -33,7 +33,7 @@ const BackgroundContent = (props) => {
   };
   return (
     <>
-      <label className={styles.tab_content_input_box} for="input-file">
+      <label className={styles.tab_content_input_box} htmlFor="input-file">
         +
       </label>
       {images.map((image, index) => {

@@ -14,7 +14,7 @@ function CaptureBtn(props) {
             width="35"
             height="35"
             fill="currentColor"
-            class="bi bi-camera-fill"
+            className="bi bi-camera-fill"
             viewBox="0 0 16 16"
           >
             <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />

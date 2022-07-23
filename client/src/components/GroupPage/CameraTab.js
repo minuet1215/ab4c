@@ -29,7 +29,7 @@ const CameraTabs = forwardRef((props, ref) => {
                 width="25"
                 height="25"
                 fill="currentColor"
-                class="bi bi-card-image"
+                className="bi bi-card-image"
                 viewBox="0 0 16 16"
               >
                 <path
@@ -55,7 +55,7 @@ const CameraTabs = forwardRef((props, ref) => {
                 width="25"
                 height="25"
                 fill="currentColor"
-                class="bi bi-upload"
+                className="bi bi-upload"
                 viewBox="0 0 16 16"
               >
                 <path
@@ -94,7 +94,7 @@ const CameraTabs = forwardRef((props, ref) => {
                 width="25"
                 height="25"
                 fill="currentColor"
-                class="bi bi-stars"
+                className="bi bi-stars"
                 viewBox="0 0 16 16"
               >
                 <path
