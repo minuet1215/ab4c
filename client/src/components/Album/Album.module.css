@@ -11,7 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.albumBackground {
+
+.contents_container {
   background: linear-gradient(
     0deg,
     rgba(148, 187, 233, 1) 25%,
@@ -36,10 +37,10 @@ code {
   max-width: 100%;
   flex-direction: row;
   /* overflow: auto; */
-  margin : 25px 25px;
+  margin: 25px 25px;
   box-shadow: 3px 3px 5px 2px gray;
 }
-.wrapper-images img {
+.wrap_img {
   cursor: pointer;
   width: 160px;
   height: 380px;
@@ -74,7 +75,7 @@ code {
   z-index: 999;
   cursor: pointer;
 }
-.overlay-arrows_left {
+.overlay_arrows_left {
   display: flex;
   background-color: #6d6d6d00;
   justify-content: space-between;
@@ -86,17 +87,17 @@ code {
   z-index: 999;
 }
 
-.overlay-arrows_left svg {
+.overlay_arrows_left svg {
   width: 50px;
   height: 50px;
 }
 
-.overlay-arrows_right svg {
+.overlay_arrows_right svg {
   width: 50px;
   height: 50px;
 }
 
-.overlay-arrows_right {
+.overlay_arrows_right {
   display: flex;
   background-color: #6d6d6d00;
   justify-content: space-between;
