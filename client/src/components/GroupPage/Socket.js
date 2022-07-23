@@ -3,9 +3,11 @@ import styles from "./GroupPage.module.css";
 import remove from "./remove.js";
 import remove2 from "./remove2.js";
 import io from "socket.io-client";
+import Loading from "../Loading/Loading";
 const token = localStorage.getItem("token");
 
 const VideoAREA = forwardRef((props, ref) => {
+  const [loading, setLoading] = useState(true);
   const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
   // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
   const DEFAULT_BACKGROUND =
@@ -62,6 +64,7 @@ const VideoAREA = forwardRef((props, ref) => {
     } catch (e) {
       console.error(e);
     }
+    setLoading(false);
   };
   const createOffer = async () => {
     console.log("create offer");
@@ -95,6 +98,7 @@ const VideoAREA = forwardRef((props, ref) => {
   };
 
   useEffect(() => {
+    setLoading(true);
     socketRef.current = io.connect(SOCKET_SERVER_URL);
     pcRef.current = new RTCPeerConnection(pc_config);
     socketRef.current.on("all_users", (allUsers) => {
@@ -147,6 +151,7 @@ const VideoAREA = forwardRef((props, ref) => {
   }
   return (
     <>
+      <div>{loading ? <Loading /> : null}</div>
       <div
         className={styles.box}
         ref={captureAreaRef}

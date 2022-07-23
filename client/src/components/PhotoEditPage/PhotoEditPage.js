@@ -7,6 +7,13 @@ import { Drawer, Checkbox, Input, Button } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import bgImg2 from "../../img/6.jpg";
 import { toast } from "react-toastify";
+import Loading from "../Loading/Loading";
+import bgImg3 from "../../img/bgImg3.png";
+import bgImg4 from "../../img/bgImg4.png";
+import bgImg5 from "../../img/bgImg5.png";
+import bgImg6 from "../../img/bgImg6.png";
+import bgImg7 from "../../img/bgImg7.jpeg";
+import bgImg8 from "../../img/bgImg8.jpeg";
 // import { auth } from "../../_actions/user_action";
 // import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
@@ -19,6 +26,7 @@ const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
   const [isPublic, SetIsPublic] = useState(true);
+  const [loading, setLoading] = useState(false);
   // const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [user_id, setUser_id] = useState("");
@@ -48,6 +56,12 @@ function PhotoEditPage() {
   const bgImages = [
     { src: defaultBg, alt: "default" },
     { src: bgImg2, alt: "spring" },
+    { src: bgImg3, alt: "bgImg3" },
+    { src: bgImg4, alt: "bgImg4" },
+    { src: bgImg5, alt: "bgImg5" },
+    { src: bgImg6, alt: "bgImg6" },
+    { src: bgImg7, alt: "bgImg7" },
+    { src: bgImg8, alt: "bgImg8" },
   ];
   // ================= dummy data ================= //
 
@@ -86,6 +100,7 @@ function PhotoEditPage() {
       now.getFullYear() + "." + month + "." + date + " " + hour + ":" + minute;
 
     if (!canvasRef) return;
+    setLoading(false);
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, frame_width, frame_height);
 
@@ -120,47 +135,52 @@ function PhotoEditPage() {
   }
 
   const onSave = (e) => {
-    e.preventDefault();
+    try {
+      setLoading(true);
+      e.preventDefault();
 
-    // dispatch(auth()).then((response) => {
-    //   setUserName(response.payload.name);
-    //   setUser_id(response.payload._id); // _id : ObjectID
-    //   setUserEmail(response.payload.email);
-    // });
+      // dispatch(auth()).then((response) => {
+      //   setUserName(response.payload.name);
+      //   setUser_id(response.payload._id); // _id : ObjectID
+      //   setUserEmail(response.payload.email);
+      // });
 
-    const canvas = document.getElementById("canvas");
-    canvas.toBlob(
-      async function (blob) {
-        // uuidv4() : File Original Name
-        const file = new File([blob], uuidv4(), {
-          lastModified: new Date().getTime(),
-          type: blob.type,
-        });
+      const canvas = document.getElementById("canvas");
+      canvas.toBlob(
+        async function (blob) {
+          // uuidv4() : File Original Name
+          const file = new File([blob], uuidv4(), {
+            lastModified: new Date().getTime(),
+            type: blob.type,
+          });
 
-        const formData = new FormData();
-        // server req.file
-        formData.append("file", file);
+          const formData = new FormData();
+          // server req.file
+          formData.append("file", file);
 
-        // server req.body
-        formData.append("public", isPublic);
-        formData.append("id", user_id);
-        formData.append("username", userName);
-        formData.append("useremail", userEmail);
-        await axios.post("/api/images/post", formData).then((res) => {
-          if (res) {
-            toast.success("이미지 저장 성공!");
-          } else {
-            toast.error("이미지 저장 실패");
-          }
-        });
-      },
-      "image/jpeg",
-      1.0
-    );
+          // server req.body
+          formData.append("public", isPublic);
+          formData.append("id", user_id);
+          formData.append("username", userName);
+          formData.append("useremail", userEmail);
+          await axios.post("/api/images/post", formData).then((res) => {
+            setLoading(false);
+            if (res) {
+              toast.success("이미지 저장 성공!");
+            } else {
+              toast.error("이미지 저장 실패");
+            }
+          });
+        },
+        "image/jpeg",
+        1.0
+      );
+    } catch (err) {}
   };
 
   return (
     <div className="container">
+      <div>{loading ? <Loading /> : null}</div>
       <MyHeader subTitle="사진 화면" onBackUrl="/main" />
       <div className="contents_container">
         <div className={styles.canvas_container}>
@@ -221,7 +241,7 @@ function PhotoEditPage() {
             setFrameDrawerVisible(false);
           }}
           visible={isFrameDrawerVisible}
-          height="30%"
+          height="31%"
         >
           <div className={styles.bg_menu_scroll}>
             {bgImages.map((bgImage) => {
@@ -230,12 +250,10 @@ function PhotoEditPage() {
                   src={bgImage.src}
                   key={bgImage.alt}
                   alt={bgImage.alt}
-
                   onClick={() => {
                     setBgChange(bgImage.src);
                     setFrameDrawerVisible(false);
                   }}
-
                   style={{ padding: "10px", width: "100px", height: "150px" }}
                 ></img>
               );

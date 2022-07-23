@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { loginUser, registerUser, isUser } from "../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Loading from "../components/Loading/Loading";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const Profile = () => {
     getProfile();
   }, []);
 
-  return <div>로그인 중입니다...</div>;
+  return <Loading />;
 };
 
 export default Profile;
