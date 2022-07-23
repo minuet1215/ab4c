@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import { useDispatch } from "react-redux";
-import data from "./images.json";
+// import data from "./images.json";
 import Modal from "./Modal/Modal";
 import Header from "../Header/Header";
 import PhotoModify from "../ImageEditor/PhotoModify";
@@ -13,45 +13,28 @@ function MyAlbum() {
   const [clickedImg, setClickedImg] = useState(null);
   const [userId, setUserId] = useState("");
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [images, setImages] = useState();
+  const [images, setImages] = useState([]);
   const handleClick = (item, index) => {
     setCurrentIndex(index);
     setClickedImg(item.imageUrl);
   };
-
   const dispatch = useDispatch();
-  /* 리팩토링 필요
-   * useEffect 계속 적용 됨
-   * 처음에 바로 userId를 못찾아냄.
-   */
   useEffect(()=>{
-    axios.get('/api/users/authen').then((response) => {
-      setUserId(response.data._id);
-    })
-    console.log(userId)
-    axios.post("/api/images/album/me", {id : userId})
-    .then((result) => {
-      setImages(result.data);
+    dispatch(auth()).then((res)=>{
+      axios.post("/api/images/album/me", {id :res.payload._id})
+      .then((result) => {
+        setImages(result.data)
+      })
+      .catch((err) => console.log({err}))
     })
   },[])
-  console.log(images)
 
-  // useEffect(() => {
-  //   const getId = async () =>
-  //     await dispatch(auth()).then((res) => {
-  //       setUserId(res.payload._id);
-  //       axios
-  //         .post("/api/images/album/me", { id: userId })
-  //         .then((result) => {
-  //           setImages(result.data);
-  //           return;
-  //         })
-  //         .catch((err) => console.log({ err }));
-  //     });
-  //   getId();
-  // },[]);
-  // console.log(images);
-
+  let data = {"datas" : []}
+  const url = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/"
+  const myImgs = images.map((item) => {
+    data.datas.push({"desc" : item._id, "imageUrl" : url+item.key})
+  })
+  
   // 모달창에서 앞뒤로 이동하기
   const handleRotationRight = () => {
     const totalLength = data.datas.length;
@@ -97,7 +80,7 @@ function MyAlbum() {
               <img
                 className={styles.wrap_img}
                 src={item.imageUrl}
-                alt={item.desc}
+                alt={index}
                 onClick={() => handleClick(item, index)}
                 loading="lazy"
               />
