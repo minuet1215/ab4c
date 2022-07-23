@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../_actions/user_action";
+import { registerUser, isUser } from "../../_actions/user_action";
 import { Form, Input, Button } from "antd";
 import MyHeader from "../Header/Header";
+import axios from "axios";
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -30,27 +31,64 @@ function RegisterPage() {
     setConfirmPassword(event.currentTarget.value);
   };
 
+  const onCheckEmailHandler = (event) => {
+    event.preventDefault();
+    const regExp =
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    if (Email === "" || Email.match(regExp) === null) {
+      alert("올바른 이메일을 적어주세요. ");
+      return;
+    }
+    let body = {
+      email: Email,
+    };
+    dispatch(isUser(body)).then((response) => {
+      if (!response.payload.isUser) {
+        alert("사용 가능한 이메일입니다 :)");
+      } else {
+        alert("이미 사용 중인 이메일입니다. :(");
+      }
+    });
+  };
+
   const onSubmitHandler = (event) => {
     event.preventDefault();
+    const regExp =
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
     if (Password !== ConfirmPassword) {
-      return alert("비밀번호와 비밀번호 확인은 같아야 합니다.");
+      return alert("비밀번호와 비밀번호 확인은 같아야 합니다 .__.");
     }
-
+    if (Email.match(regExp) === null) {
+      alert("올바른 이메일을 적어주세요 .__. ");
+      return;
+    }
     let body = {
+      email: Email,
+    };
+
+    body = {
       email: Email,
       password: Password,
       name: Name,
       loginType: "local",
     };
-
-    dispatch(registerUser(body)).then((response) => {
-      if (response.payload.success) {
-        navigate("/login");
-      } else {
-        alert("회원가입이 실패하였습니다.");
+    dispatch(isUser(body)).then((response) => {
+      if (response.payload.isUser) {
+        alert("이미 사용 중인 이메일입니다 .__.");
+      }
+      else {
+        dispatch(registerUser(body)).then((response) => {
+          if (response.payload.success) {
+            alert("가입 성공! 로그인 해주세요 .__.");
+            navigate("/login");
+          } else {
+            alert("회원가입이 실패하였습니다.");
+          }
+        });
       }
     });
+
   };
   return (
     <div className="container">
