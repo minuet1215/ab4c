@@ -1,11 +1,10 @@
+require("dotenv").config()
 const imageRouter = require("express").Router();
 const Image = require("../models/Image");
 const { upload } = require("../middleware/ImageUpload");
-const fs = require("fs");
-const { promisify } = require("util");
 const mongoose = require("mongoose");
-const fileUnlink = promisify(fs.unlink);
-const { User } = require("../models/User");
+const { s3 } = require("../data/aws")
+const { AWS_BUCKET_NAME } = process.env;
 
 // 공유, 프레임 변경, 저장에서 저장버튼
 imageRouter.post("/post", upload.single("file"), async (req, res) => {
@@ -54,10 +53,15 @@ imageRouter.delete("/album/delete", async (req, res) => {
     if (!mongoose.isValidObjectId(req.body.img.desc))
       throw new Error("올바르지 않은 이미지 ID입니다.");
     const image = await Image.findOneAndDelete({ _id: req.body.img.desc });
+    
     if (!image)
       return res.json({ message: "요청하신 사진은 이미 삭제되었습니다." });
-    // await fileUnlink(`./uploads/${image.key}`); // path(경로)에 있는 파일을 지울건지, CB
+    
+    s3.deleteObject({ Bucket : AWS_BUCKET_NAME, Key : req.body.img.key}, (error, data) => {
+      if(error) throw error;
+    })
     res.json({ message: "요청하신 이미지가 삭제되었습니다.", image });
+
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: err.message });

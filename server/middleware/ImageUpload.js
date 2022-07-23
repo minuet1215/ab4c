@@ -1,3 +1,5 @@
+require('dotenv').config()
+const { AWS_BUCKET_NAME } = process.env
 const multer = require("multer");
 const { v4: uuid } = require("uuid");
 const mime = require("mime-types");
@@ -6,7 +8,7 @@ const multerS3 = require("multer-s3");
 
 const storage = multerS3({
   s3,
-  bucket: "ab4c-image-bucket",
+  bucket: AWS_BUCKET_NAME,
   key: (req, file, cb) =>
     cb(null, `images/${uuid()}.${mime.extension(file.mimetype)}`),
 });
