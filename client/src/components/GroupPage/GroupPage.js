@@ -105,6 +105,7 @@ function GroupPage() {
               ref={refs}
               ImgBase64={ImgBase64}
               isCapture={startCapture}
+              setCapture={setCapture}
             ></VideoAREA>
           </div>
 
