@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,6 +14,7 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import PhotoEditPage from "./components/PhotoEditPage/PhotoEditPage";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
 import UserMain from "./components/UserMain/UserMain";
+import AllAlbumPage from "./components/AllAlbum/AllAlbum";
 
 import Auth from "./hoc/auth";
 import KakaoAuth from "./controller/KakaoAuth";
@@ -27,6 +28,7 @@ function App() {
   const KakaoAuthPage = Auth(KakaoAuth, false);
   const AuthAlbumPage = Auth(AlbumPage, true);
   const AuthEditPhotoPage = Auth(Editor, null);
+  const AuthAllAlbumPage = Auth(AllAlbumPage ,true)
 
   return (
     <Router>
@@ -40,6 +42,7 @@ function App() {
           <Route exact path="/album" element={<AuthAlbumPage />} />
           <Route exact path="/editPhoto" element={<AuthEditPhotoPage />} />
           <Route exact path="/group/:roomname" element={<GroupPage />} />
+          <Route exact path="allalbum" element={<AuthAllAlbumPage />} />
 
           <Route
             exact

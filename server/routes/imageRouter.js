@@ -1,9 +1,9 @@
-require("dotenv").config()
+require("dotenv").config();
 const imageRouter = require("express").Router();
 const Image = require("../models/Image");
 const { upload } = require("../middleware/ImageUpload");
 const mongoose = require("mongoose");
-const { s3 } = require("../data/aws")
+const { s3 } = require("../data/aws");
 const { AWS_BUCKET_NAME } = process.env;
 
 // 공유, 프레임 변경, 저장에서 저장버튼
@@ -27,7 +27,7 @@ imageRouter.post("/post", upload.single("file"), async (req, res) => {
   }
 });
 
-imageRouter.get("/album", async (req, res) => {
+imageRouter.post("/album", async (req, res) => {
   // public 이미지들만 제공
   const images = await Image.find({ public: "true" }); // 탐색, 수정, 옵션
   res.json(images);
@@ -55,15 +55,17 @@ imageRouter.delete("/album/delete", async (req, res) => {
     if (!mongoose.isValidObjectId(req.body.img.desc))
       throw new Error("올바르지 않은 이미지 ID입니다.");
     const image = await Image.findOneAndDelete({ _id: req.body.img.desc });
-    
+
     if (!image)
       return res.json({ message: "요청하신 사진은 이미 삭제되었습니다." });
-    
-    s3.deleteObject({ Bucket : AWS_BUCKET_NAME, Key : req.body.img.key}, (error, data) => {
-      if(error) throw error;
-    })
-    res.json({ message: "사진이 삭제되었습니다.", image });
 
+    s3.deleteObject(
+      { Bucket: AWS_BUCKET_NAME, Key: req.body.img.key },
+      (error, data) => {
+        if (error) throw error;
+      }
+    );
+    res.json({ message: "사진이 삭제되었습니다.", image });
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: err.message });
