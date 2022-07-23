@@ -5,7 +5,7 @@ function MuteBtn(props) {
       id="muteButton"
       className={styles.mute_button}
       onClick={() => {
-        props.changeMuteButton();
+        props.setIsMute(!props.isMute);
       }}
     >
       {!props.isMute ? (

@@ -60,6 +60,11 @@ function GroupPage() {
     }
   }, [countDown]);
 
+  // 음소거 useeffect (반응 늦는 이슈 수정)
+  useEffect(() => {
+    refs.localVideoRef.current.muted = isMute;
+  }, [isMute]);
+
   useInterval(
     () => {
       setCount(countDown - 1);
@@ -87,12 +92,6 @@ function GroupPage() {
       setCount(5);
       setPhotoCount(photoCount + 1);
     });
-  }
-
-  // 음소거 버튼
-  function changeMuteButton() {
-    setIsMute(!isMute);
-    refs.localVideoRef.current.muted = isMute;
   }
 
   return (
@@ -126,7 +125,7 @@ function GroupPage() {
           <div className={styles.control_container}>
             <p className={styles.photo_count_text}>{photoCount}/4</p>
             <CaptureBtn startCapture={startCapture} setCapture={setCapture} />
-            <MuteBtn changeMuteButton={changeMuteButton} isMute={isMute} />
+            <MuteBtn setIsMute={setIsMute} isMute={isMute} />
           </div>
         </div>
       </div>
