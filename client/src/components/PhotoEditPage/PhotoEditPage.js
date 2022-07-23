@@ -15,6 +15,8 @@ import bgImg5 from "../../img/bgImg5.png";
 import bgImg6 from "../../img/bgImg6.png";
 import bgImg7 from "../../img/bgImg7.jpeg";
 import bgImg8 from "../../img/bgImg8.jpeg";
+import flowerFrame from "../../img/flower.png";
+import cloudFrame from "../../img/cloudFrame.png";
 // import { auth } from "../../_actions/user_action";
 // import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
@@ -64,6 +66,8 @@ function PhotoEditPage() {
     { src: bgImg6, alt: "bgImg6" },
     { src: bgImg7, alt: "bgImg7" },
     { src: bgImg8, alt: "bgImg8" },
+    { src: flowerFrame, alt: "bgImg9" },
+    { src: cloudFrame, alt: "cloud" },
   ];
   // ================= dummy data ================= //
 
@@ -169,7 +173,7 @@ function PhotoEditPage() {
             setLoading(false);
             if (res) {
               toast.success("이미지 저장 성공!");
-              navigate("/album")
+              navigate("/album");
             } else {
               toast.error("이미지 저장 실패");
             }
@@ -217,10 +221,7 @@ function PhotoEditPage() {
           >
             메모하기
           </button>
-          <button
-            className={styles.btn_pink}
-            onClick={onSave}
-          >
+          <button className={styles.btn_pink} onClick={onSave}>
             앨범 저장
           </button>
           <Checkbox onChange={() => SetIsPublic(!isPublic)}>비공개</Checkbox>
