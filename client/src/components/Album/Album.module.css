@@ -11,7 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.albumBackground {
+
+.contents_container {
   background: linear-gradient(
     0deg,
     rgba(148, 187, 233, 1) 25%,
@@ -31,15 +32,16 @@ code {
   gap: 1em;
 }
 
-.wrapper-images {
+.wrapper_images {
   min-height: 50px;
   max-width: 100%;
   flex-direction: row;
   /* overflow: auto; */
-  margin : 25px 25px;
+  margin: 25px 25px;
   box-shadow: 3px 3px 5px 2px gray;
 }
-.wrapper-images img {
+
+.wrap_img {
   cursor: pointer;
   width: 160px;
   height: 380px;

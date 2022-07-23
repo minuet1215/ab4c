@@ -36,7 +36,7 @@ function App() {
 
   return (
     <Router>
-      <div className="size_fix_box">
+      <div>
         <ToastContainer />
         <Routes>
           <Route exact path="/" element={<AuthLandingPage />} />

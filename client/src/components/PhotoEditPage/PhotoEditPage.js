@@ -64,7 +64,7 @@ function PhotoEditPage() {
 
   useEffect(() => {
     // 화면 렌더링 시 바로 유저 정보 가져오기 (TEST)
-    axios.get("/api/users/authentication").then((response) => {
+    axios.get("/api/users/authen").then((response) => {
       // console.log("user data :", response.data);
       setUserName(response.data.name);
       setUser_id(response.data._id); // _id : ObjectID
