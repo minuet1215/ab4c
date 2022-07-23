@@ -30,6 +30,14 @@ function UserMain() {
           >
             내 앨범
           </button>
+
+          <button
+            className="button button_gap btn_3"
+            style={{ height: "100%", margin: "10px" }}
+            onClick={() => navigate("/allalbum")}
+          >
+            전체앨범
+          </button>
         </div>
       </div>
     </div>

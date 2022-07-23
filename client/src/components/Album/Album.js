@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "antd";
 import { useDispatch } from "react-redux";
-// import data from "./images.json";
 import Modal from "./Modal/Modal";
 import Header from "../Header/Header";
 import PhotoModify from "../ImageEditor/PhotoModify";
