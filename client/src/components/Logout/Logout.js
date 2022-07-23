@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { auth, kakaoLogout } from "../../_actions/user_action";
 import { Typography } from "antd";
+import {toast} from "react-toastify";
 
 function Logout() {
   const REST_API_KEY = "1c16cb196a174ddce815876521f0b5d4";
@@ -22,10 +23,10 @@ function Logout() {
         if (response.data.success) {
           localStorage.clear();
           sessionStorage.clear();
-          alert("로그아웃 되었습니다.");
+          toast.success("로그아웃 되었습니다.");
           navigate("/login");
         } else {
-          alert("로그아웃 하는데 실패 했습니다.");
+          toast.error("로그아웃 하는데 실패 했습니다.");
         }
       });
     });
