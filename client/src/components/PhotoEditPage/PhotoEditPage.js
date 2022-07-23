@@ -138,7 +138,7 @@ function PhotoEditPage() {
 
   const onSave = (e) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       e.preventDefault();
 
       // dispatch(auth()).then((response) => {
@@ -169,6 +169,7 @@ function PhotoEditPage() {
             setLoading(false);
             if (res) {
               toast.success("이미지 저장 성공!");
+              navigate("/album")
             } else {
               toast.error("이미지 저장 실패");
             }
@@ -218,10 +219,7 @@ function PhotoEditPage() {
           </button>
           <button
             className={styles.btn_pink}
-            onClick={() => {
-              onSave();
-              navigate("/album");
-            }}
+            onClick={onSave}
           >
             앨범 저장
           </button>

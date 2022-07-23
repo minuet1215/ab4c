@@ -50,12 +50,6 @@ imageRouter.post("/album/me", async (req, res) => {
 });
 
 imageRouter.delete("/album/delete", async (req, res) => {
-  // 1. uploads 폴더에 있는 사진 데이터를 삭제
-  // 2. DB에 있는 image 문서를 삭제
-  // console.log(req.body.img.desc);
-  // console.log(req.body.img.imageUrl);
-  // console.log(req.body.img.key);
-  // console.log(req.body.img.owner);
   try {
     if (!req.body.img.owner) throw new Error("권한이 없습니다.");
     if (!mongoose.isValidObjectId(req.body.img.desc))
@@ -68,7 +62,7 @@ imageRouter.delete("/album/delete", async (req, res) => {
     s3.deleteObject({ Bucket : AWS_BUCKET_NAME, Key : req.body.img.key}, (error, data) => {
       if(error) throw error;
     })
-    res.json({ message: "요청하신 이미지가 삭제되었습니다.", image });
+    res.json({ message: "사진이 삭제되었습니다.", image });
 
   } catch (err) {
     console.log(err);
