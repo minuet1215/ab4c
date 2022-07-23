@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading/Loading";
 
 /* Redirect 주소로 전달받은 code값을 추출 */
 const KakaoAuth = () => {
@@ -42,7 +43,7 @@ const KakaoAuth = () => {
     getToken();
   }, []);
 
-  return null;
+  return <Loading />;
 };
 
 export default KakaoAuth;

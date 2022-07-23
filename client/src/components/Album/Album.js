@@ -9,8 +9,10 @@ import PhotoDelete from "./PhotoDelete";
 import styles from "./Album.module.css";
 import axios from "axios";
 import { auth } from "../../_actions/user_action";
+import Loading from "../Loading/Loading";
 
 function MyAlbum() {
+  const [loading, setLoading] = useState(true);
   const [clickedImg, setClickedImg] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [images, setImages] = useState([]);
@@ -20,11 +22,13 @@ function MyAlbum() {
   };
   const dispatch = useDispatch();
   useEffect(() => {
+    setLoading(true);
     dispatch(auth()).then((res) => {
       axios
         .post("/api/images/album/me", { id: res.payload._id })
         .then((result) => {
           setImages(result.data);
+          setLoading(false);
         })
         .catch((err) => console.log({ err }));
     });
@@ -78,6 +82,7 @@ function MyAlbum() {
 
   return (
     <div className="container">
+      <div>{loading ? <Loading /> : null}</div>
       <Header />
       <div className={styles.contents_container}>
         <div className={styles.wrapper}>
