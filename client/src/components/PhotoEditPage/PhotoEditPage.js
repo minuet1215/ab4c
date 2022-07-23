@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
@@ -25,6 +26,7 @@ const frame_width = img_width + 2 * gap;
 const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
+  const navigate = useNavigate();
   const [isPublic, SetIsPublic] = useState(true);
   const [loading, setLoading] = useState(false);
   // const dispatch = useDispatch();
@@ -214,7 +216,13 @@ function PhotoEditPage() {
           >
             메모하기
           </button>
-          <button className={styles.btn_pink} onClick={onSave}>
+          <button
+            className={styles.btn_pink}
+            onClick={() => {
+              onSave();
+              navigate("/album");
+            }}
+          >
             앨범 저장
           </button>
           <Checkbox onChange={() => SetIsPublic(!isPublic)}>비공개</Checkbox>
