@@ -105,15 +105,17 @@ function GroupPage() {
       <div className="container" style={takePhotoLayer}>
         <MyHeader subTitle="촬영중" onBackUrl="/main" onClick={cameraOff} />
         <div className="contents_container">
-          <div className={styles.camera_container}>
-            <VideoAREA
-              roomName={roomname}
-              ref={refs}
-              ImgBase64={ImgBase64}
-              setImgBase64={setImgBase64}
-              isCapture={startCapture}
-              setCapture={setCapture}
-            ></VideoAREA>
+          <div className={styles.camera_outer_div}>
+            <div className={styles.camera_container}>
+              <VideoAREA
+                roomName={roomname}
+                ref={refs}
+                ImgBase64={ImgBase64}
+                setImgBase64={setImgBase64}
+                isCapture={startCapture}
+                setCapture={setCapture}
+              ></VideoAREA>
+            </div>
           </div>
           {startCapture ? (
             <div className={styles.rest_container} id="countdown">
@@ -127,7 +129,11 @@ function GroupPage() {
                 ImgBase64={ImgBase64}
               />
             </div>
-          ) : undefined}
+          ) : (
+            <div className={styles.rest_container} id="countdown">
+              <div className={styles.member_text}>대기중</div>
+            </div>
+          )}
           {/* todo : 참여자는 건들 수 없다는거 알려주기*/}
           <div className={styles.control_container}>
             <p className={styles.photo_count_text}>{photoCount}/4</p>
