@@ -1,8 +1,10 @@
 import styles from "./GroupPage.module.css";
+const token = localStorage.getItem("token");
+
 function CaptureBtn(props) {
   return (
     <>
-      {!props.startCapture ? (
+      {!props.startCapture && props.roomname === token ? (
         <button
           className={styles.camera_button}
           onClick={() => {
