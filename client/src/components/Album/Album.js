@@ -5,13 +5,13 @@ import { useDispatch } from "react-redux";
 import Modal from "./Modal/Modal";
 import Header from "../Header/Header";
 import PhotoModify from "../ImageEditor/PhotoModify";
+import PhotoDelete from "./PhotoDelete";
 import styles from "./Album.module.css";
 import axios from "axios";
 import { auth } from "../../_actions/user_action";
 
 function MyAlbum() {
   const [clickedImg, setClickedImg] = useState(null);
-  const [userId, setUserId] = useState("");
   const [currentIndex, setCurrentIndex] = useState(null);
   const [images, setImages] = useState([]);
   const handleClick = (item, index) => {
@@ -19,22 +19,28 @@ function MyAlbum() {
     setClickedImg(item.imageUrl);
   };
   const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(auth()).then((res)=>{
-      axios.post("/api/images/album/me", {id :res.payload._id})
-      .then((result) => {
-        setImages(result.data)
-      })
-      .catch((err) => console.log({err}))
-    })
-  },[])
+  useEffect(() => {
+    dispatch(auth()).then((res) => {
+      axios
+        .post("/api/images/album/me", { id: res.payload._id })
+        .then((result) => {
+          setImages(result.data);
+        })
+        .catch((err) => console.log({ err }));
+    });
+  }, []);
 
-  let data = {"datas" : []}
-  const url = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/"
-  const myImgs = images.map((item) => {
-    data.datas.push({"desc" : item._id, "imageUrl" : url+item.key})
-  })
-  
+  let data = { datas: [] };
+  const url = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/";
+  images.map((item) => {
+    data.datas.push({
+      desc: item._id,
+      imageUrl: url + item.key,
+      key: item.key,
+      owner: item.user._id,
+    });
+  });
+
   // 모달창에서 앞뒤로 이동하기
   const handleRotationRight = () => {
     const totalLength = data.datas.length;
@@ -86,7 +92,7 @@ function MyAlbum() {
               />
               <div>
                 <PhotoModify img={item.imageUrl} />
-                <Button>삭제하기</Button>
+                <PhotoDelete img={item} />
               </div>
             </div>
           ))}

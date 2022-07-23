@@ -230,10 +230,12 @@ function PhotoEditPage() {
                   src={bgImage.src}
                   key={bgImage.alt}
                   alt={bgImage.alt}
+
                   onClick={() => {
                     setBgChange(bgImage.src);
                     setFrameDrawerVisible(false);
                   }}
+
                   style={{ padding: "10px", width: "100px", height: "150px" }}
                 ></img>
               );

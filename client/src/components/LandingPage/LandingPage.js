@@ -14,6 +14,9 @@ function LandingPage() {
         <div
           className={styles.title_container}
           onClick={() => navigate("/main")}
+          style={{
+            cursor: "pointer",
+          }}
         >
           <title className={styles.main_title}>안방네컷</title>
         </div>
@@ -37,14 +40,17 @@ function LandingPage() {
               </button>
             </>
           )}
-          <Logout />
-          {/* 
-          <Button type="primary" onClick={() => navigate("/group")}>
-            누끼 사진 찍기
-          </Button>
-          <Button type="primary" onClick={() => navigate("/edit")}>
-            프레임 수정 및 서버에 이미지 저장
-          </Button> */}
+          {token && (
+            <>
+              <button
+                className="button button_gap btn_1"
+                onClick={() => navigate("/main")}
+              >
+                입장하기
+              </button>
+              <Logout />
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -67,8 +67,8 @@ function mainSlide() {
 
   return (
     <div>
-      <div class="slide_wrapper">
-        <ul class="slides">
+      <div className="slide_wrapper">
+        <ul className="slides">
           <li>slide 01</li>
           <li>slide 02</li>
           <li>slide 03</li>
@@ -76,9 +76,9 @@ function mainSlide() {
           <li>slide 05</li>
         </ul>
       </div>
-      <p class="controls">
-        <span class="prev">prev</span>
-        <span class="next">next</span>
+      <p className="controls">
+        <span className="prev">prev</span>
+        <span className="next">next</span>
       </p>
     </div>
   );
