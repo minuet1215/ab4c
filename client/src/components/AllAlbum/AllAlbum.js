@@ -4,6 +4,8 @@ import Header from "../Header/Header";
 import axios from "axios";
 import { auth } from "../../_actions/user_action";
 import Loading from "../Loading/Loading";
+import styles from "./AllAlbum.module.css";
+import Modal from "./Modal";
 
 const url = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/";
 
@@ -32,19 +34,39 @@ function AllAlbum() {
       imageUrl: url + item.key,
       key: item.key,
       owner: item.user._id,
+      // modal용 데이터
+      ownerName: item.user.name,
+      likes: item.likes,
     });
   });
+
+  const [modalContent, setModalContent] = useState(null);
+  const showModal = (contents) => {
+    setModalContent(contents);
+  };
 
   return (
     <>
       <div className="container">
         <div>{loading ? <Loading /> : null}</div>
         <Header />
-        {data.datas.map((item, index) => (
-          <div key={index}>
-            <img src={item.imageUrl} alt={index} />
-          </div>
-        ))}
+        <div className={styles.album_container}>
+          {data.datas.map((item, index) => (
+            <div key={index} className={styles.img_container}>
+              <img
+                src={item.imageUrl}
+                alt={index}
+                onClick={() => showModal(item)}
+              />
+            </div>
+          ))}
+        </div>
+        {modalContent && (
+          <Modal
+            modalContent={modalContent}
+            setModalContent={setModalContent}
+          />
+        )}
       </div>
     </>
   );
