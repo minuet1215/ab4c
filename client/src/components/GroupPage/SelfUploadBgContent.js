@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import styles from "./GroupPage.module.css";
+// import styles from "./GroupPage.module.css";
 
 function SelfUploadBgContent() {
-  const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
+  const [_, setImgBase64] = useState(""); // 업로드 될 이미지
   const [imgFile, setImgFile] = useState(null); // 파일 전송을 위한 state
   // 뒷배경 바꾸기
   const handleChangeFile = (event) => {

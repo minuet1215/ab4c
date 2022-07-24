@@ -41,6 +41,7 @@ function MyAlbum() {
       key: item.key,
       owner: item.user._id,
     });
+    return data;
   });
 
   // 모달창에서 앞뒤로 이동하기

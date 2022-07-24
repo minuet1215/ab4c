@@ -12,8 +12,6 @@ import "./styles.css";
 import { Button } from "antd";
 import { useLocation } from "react-router-dom";
 
-import axios from "axios";
-
 export default function Editor() {
   const editorRef = useRef();
   const location = useLocation();
@@ -25,33 +23,33 @@ export default function Editor() {
     editorInstance.addImageObject(path);
   };
 
-  const onUploadImg = (e) => {
-    e.preventDefault();
+  // const onUploadImg = (e) => {
+  //   e.preventDefault();
 
-    const canvas = document.getElementsByClassName("lower-canvas")[0];
-    canvas.toBlob(
-      function (blob) {
-        const file = new File([blob], "4cut.png", {
-          lastModified: new Date().getTime(),
-          type: blob.type,
-        });
-        const formData = new FormData();
-        const config = {
-          header: { "content-type": "multipart/form-data" },
-        };
-        formData.append("user-file", file);
-        axios.post("/api/images/uploads", formData, config).then((res) => {
-          if (res.status === 200) {
-            console.log("업로드 성공!");
-          } else {
-            console.log("업로드 실패...");
-          }
-        });
-      },
-      "image/jpeg",
-      1.0
-    );
-  };
+  //   const canvas = document.getElementsByClassName("lower-canvas")[0];
+  //   canvas.toBlob(
+  //     function (blob) {
+  //       const file = new File([blob], "4cut.png", {
+  //         lastModified: new Date().getTime(),
+  //         type: blob.type,
+  //       });
+  //       const formData = new FormData();
+  //       const config = {
+  //         header: { "content-type": "multipart/form-data" },
+  //       };
+  //       formData.append("user-file", file);
+  //       axios.post("/api/images/uploads", formData, config).then((res) => {
+  //         if (res.status === 200) {
+  //           console.log("업로드 성공!");
+  //         } else {
+  //           console.log("업로드 실패...");
+  //         }
+  //       });
+  //     },
+  //     "image/jpeg",
+  //     1.0
+  //   );
+  // };
 
   const OnSave = () => {
     let now = new Date();

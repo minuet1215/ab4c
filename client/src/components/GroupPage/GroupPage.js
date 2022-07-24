@@ -43,6 +43,7 @@ function GroupPage() {
       });
     }
   }, []);
+
   function cameraOff() {
     refs.socketRef.current.disconnect();
     refs.pcRef.current.close();
