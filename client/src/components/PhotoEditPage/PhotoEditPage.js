@@ -184,7 +184,7 @@ function PhotoEditPage() {
   };
 
   return (
-    <div className="container">
+    <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>
       <MyHeader subTitle="사진 화면" onBackUrl="/main" />
       <div className="contents_container">

@@ -47,7 +47,7 @@ function AllAlbum() {
 
   return (
     <>
-      <div className="container">
+      <div className="outer_container">
         <div>{loading ? <Loading /> : null}</div>
         <Header />
         <div className={styles.album_container}>

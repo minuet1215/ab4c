@@ -8,7 +8,7 @@ function UserMain() {
   const token = localStorage.getItem("token");
 
   return (
-    <div className="container">
+    <div className="outer_container">
       <MyHeader subTitle="메인 화면" />
       <div className="contents_container center">
         <AutoSlides />

@@ -102,50 +102,48 @@ function GroupPage() {
   }
 
   return (
-    <div className="size_fix_box">
-      <div className="container" style={takePhotoLayer}>
-        <MyHeader subTitle="촬영중" onBackUrl="/main" onClick={cameraOff} />
-        <div className="contents_container">
-          <div className={styles.camera_outer_div}>
-            <div className={styles.camera_container}>
-              <VideoAREA
-                roomName={roomname}
-                ref={refs}
-                ImgBase64={ImgBase64}
-                setImgBase64={setImgBase64}
-                isCapture={startCapture}
-                setCapture={setCapture}
-                token={token}
-              ></VideoAREA>
-            </div>
-          </div>
-          {startCapture ? (
-            <div className={styles.rest_container} id="countdown">
-              <p className={styles.count_down_text}>{countDown}</p>
-            </div>
-          ) : roomname === token ? (
-            <div className={styles.rest_container} id="cameratab">
-              <CameraTab
-                ref={tabRefs}
-                setImgBase64={setImgBase64}
-                ImgBase64={ImgBase64}
-              />
-            </div>
-          ) : (
-            <div className={styles.rest_container} id="countdown">
-              <div className={styles.member_text}>대기중</div>
-            </div>
-          )}
-          <div className={styles.control_container}>
-            <p className={styles.photo_count_text}>{photoCount}/4</p>
-            <CaptureBtn
-              startCapture={startCapture}
+    <div className="outer_container" style={takePhotoLayer}>
+      <MyHeader subTitle="촬영중" onBackUrl="/main" onClick={cameraOff} />
+      <div className="contents_container">
+        <div className={styles.camera_outer_div}>
+          <div className={styles.camera_container}>
+            <VideoAREA
+              roomName={roomname}
+              ref={refs}
+              ImgBase64={ImgBase64}
+              setImgBase64={setImgBase64}
+              isCapture={startCapture}
               setCapture={setCapture}
-              roomname={roomname}
               token={token}
-            />
-            <MuteBtn setIsMute={setIsMute} isMute={isMute} />
+            ></VideoAREA>
           </div>
+        </div>
+        {startCapture ? (
+          <div className={styles.rest_container} id="countdown">
+            <p className={styles.count_down_text}>{countDown}</p>
+          </div>
+        ) : roomname === token ? (
+          <div className={styles.rest_container} id="cameratab">
+            <CameraTab
+              ref={tabRefs}
+              setImgBase64={setImgBase64}
+              ImgBase64={ImgBase64}
+            />
+          </div>
+        ) : (
+          <div className={styles.rest_container} id="countdown">
+            <div className={styles.member_text}>대기중</div>
+          </div>
+        )}
+        <div className={styles.control_container}>
+          <p className={styles.photo_count_text}>{photoCount}/4</p>
+          <CaptureBtn
+            startCapture={startCapture}
+            setCapture={setCapture}
+            roomname={roomname}
+            token={token}
+          />
+          <MuteBtn setIsMute={setIsMute} isMute={isMute} />
         </div>
       </div>
     </div>

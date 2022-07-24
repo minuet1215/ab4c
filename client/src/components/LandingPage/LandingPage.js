@@ -18,7 +18,7 @@ function LandingPage() {
   }, [isAuth]);
 
   return (
-    <div className="container">
+    <div className="outer_container">
       <div className="center">
         <div
           className={styles.title_container}
