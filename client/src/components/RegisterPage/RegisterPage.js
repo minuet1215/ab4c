@@ -88,7 +88,7 @@ function RegisterPage() {
     });
   };
   return (
-    <div className="container">
+    <div className="outer_container">
       <MyHeader subTitle="회원 가입 화면" />
       <div
         className="contents_container"
