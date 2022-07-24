@@ -8,7 +8,7 @@ function Header({ subTitle, onBackUrl = "/", onClick = undefined }) {
     <PageHeader
       style={{ border: "1px solid rgb(235, 237, 240)" }}
       onBack={() => {
-        if (onClick != undefined) onClick();
+        if (onClick !== undefined) onClick();
         navigate(onBackUrl);
       }}
       title="안방 네컷"

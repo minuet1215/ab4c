@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { auth, kakaoLogout } from "../../_actions/user_action";
-import { Typography } from "antd";
-import {toast} from "react-toastify";
+// import { Typography } from "antd";
+import { toast } from "react-toastify";
 
 function Logout() {
-  const REST_API_KEY = "1c16cb196a174ddce815876521f0b5d4";
-
+  // const REST_API_KEY = "1c16cb196a174ddce815876521f0b5d4";
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { Title } = Typography;
+  // const { Title } = Typography;
 
   const onClickHandler = () => {
     dispatch(auth()).then((response) => {

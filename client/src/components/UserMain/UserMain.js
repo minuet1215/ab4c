@@ -1,12 +1,9 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { enterRoom } from "../../_actions/room_action";
 import MyHeader from "../Header/Header";
 import AutoSlides from "./AutoSlides";
 
 function UserMain() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 

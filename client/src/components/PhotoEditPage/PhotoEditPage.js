@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer, Checkbox, Input, Button } from "antd";
+import { Drawer, Checkbox, Input } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import bgImg2 from "../../img/6.jpg";
 import { toast } from "react-toastify";
@@ -17,8 +17,6 @@ import bgImg7 from "../../img/bgImg7.jpeg";
 import bgImg8 from "../../img/bgImg8.jpeg";
 import flowerFrame from "../../img/flower.png";
 import cloudFrame from "../../img/cloudFrame.png";
-// import { auth } from "../../_actions/user_action";
-// import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 const img_width = 550;

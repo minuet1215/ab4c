@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser, registerUser, isUser } from "../_actions/user_action";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Loading from "../components/Loading/Loading";
 
 const Profile = () => {
@@ -24,7 +23,6 @@ const Profile = () => {
         imageUrl: data.properties.profile_image,
         loginType: "kakao",
       };
-      // console.log(body);
 
       dispatch(isUser(body)).then((response) => {
         if (!response.payload.isUser) {
