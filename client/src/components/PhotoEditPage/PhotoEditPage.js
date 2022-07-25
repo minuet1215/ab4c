@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer, Checkbox, Input } from "antd";
+import { Drawer, Checkbox, Input, Button } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import bgImg2 from "../../img/6.jpg";
 import { toast } from "react-toastify";
@@ -29,7 +29,7 @@ const frame_height = 4 * (img_height + gap) + 300;
 function PhotoEditPage() {
   const navigate = useNavigate();
   const [isPublic, SetIsPublic] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   // const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [user_id, setUser_id] = useState("");
@@ -82,6 +82,9 @@ function PhotoEditPage() {
       ? "none"
       : "";
   }, [isGifMode]);
+  useEffect(() => {
+    document.getElementById("Loading").style.display = isLoading ? "" : "none";
+  }, [isLoading]);
   const showDrawer = (type) => {
     type === "Frame"
       ? setFrameDrawerVisible(true)
@@ -94,6 +97,7 @@ function PhotoEditPage() {
   const isAuth = document.cookie;
 
   useEffect(() => {
+    setLoading(true);
     // 화면 렌더링 시 바로 유저 정보 가져오기 (TEST)
     axios.get("/api/users/authen").then((response) => {
       // console.log("user data :", response.data);
@@ -141,7 +145,8 @@ function PhotoEditPage() {
         console.log(state.gifFrames);
         for await (const elements of state.gifFrames) {
           let j = -1;
-          for await (const elem of elements) {
+          let slicingArray = elements.slice(-4);
+          for await (const elem of slicingArray) {
             await temp(elem)
               .then(async (img) => {
                 await ctx.drawImage(
@@ -156,8 +161,9 @@ function PhotoEditPage() {
           }
           frames.push(await canvasRef.current.toDataURL());
         }
-        makeGif(frames);
+        setLoading(!makeGif(frames));
       }
+      if (!isGifMode) setLoading(false);
     };
   }, [canvasRef, bgChange, isMessageDrawerVisible, isGifMode]);
 
@@ -192,7 +198,6 @@ function PhotoEditPage() {
         .catch((e) => console.log(e));
     } else {
       try {
-        // setLoading(true);
         const canvas = document.getElementById("canvas");
         canvas.toBlob(async (blob) => sendFormData(blob), "image/jpeg", 1.0);
       } catch (err) {}
@@ -208,7 +213,7 @@ function PhotoEditPage() {
     const formData = setFormData(file);
 
     await axios.post("/api/images/post", formData).then((res) => {
-      setLoading(false);
+      isLoading = false;
       if (res) {
         toast.success("이미지 저장 성공!");
         navigate("/album");
@@ -252,7 +257,9 @@ function PhotoEditPage() {
 
   return (
     <div className="outer_container">
-      <div>{loading ? <Loading /> : null}</div>
+      <div id="Loading">
+        <Loading />
+      </div>
       <MyHeader subTitle="사진 화면" onBackUrl="/main" />
       <div className="contents_container">
         <div
@@ -355,13 +362,18 @@ function PhotoEditPage() {
             <Input
               placeholder="사진에 대한 설명을 적어주세요!"
               onChange={handleChange}
+              style={{ width: "85%" }}
             />
-            <button
+            <Button
               onClick={() => {
                 setMessageDrawerVisible(false);
               }}
-            />
-            완료
+              style={{
+                position: "absolute",
+              }}
+            >
+              완료
+            </Button>
           </div>
         </Drawer>
       </div>
