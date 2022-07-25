@@ -5,6 +5,7 @@ import styles from "./GroupPage.module.css";
 import VideoAREA from "./Socket";
 import useInterval from "./useInterval";
 import html2canvas from "html2canvas";
+import domtoimage from "dom-to-image-improved";
 import MyHeader from "../Header/Header";
 import CameraTab from "./CameraTab";
 import MuteBtn from "./MuteBtn";
@@ -13,6 +14,7 @@ import { toast } from "react-toastify";
 import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
 
 let IMGS = [];
+let gifFrames = [];
 
 function GroupPage() {
   const [token] = useState(localStorage.getItem("token"));
@@ -65,6 +67,7 @@ function GroupPage() {
     if (countDown === 0) {
       captureFunc();
     }
+    silentCapture(); // 1초마다 사진 따로 찍음
   }, [countDown]);
 
   // 음소거 useeffect (반응 늦는 이슈 수정)
@@ -81,24 +84,30 @@ function GroupPage() {
 
   // 캡쳐하는 함수
   function captureFunc() {
-    let audio = new Audio(cameraAudioSrc);
-    audio.play();
     setTakePhotoLayer({
       backgroundColor: "#ffffff",
       opacity: "0.5",
     });
-    html2canvas(refs.captureAreaRef.current, {
-      allowTaint: false,
-      useCORS: true,
-      scale: 1,
-    }).then((canvas) => {
-      let DATA_URL = canvas.toDataURL();
-      IMGS.push(DATA_URL);
+    let audio = new Audio(cameraAudioSrc);
+    audio.play();
+    domtoimage.toPng(refs.captureAreaRef.current).then(function (dataUrl) {
+      IMGS.push(dataUrl);
       // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
-      setTakePhotoLayer({});
       setCount(5);
       setPhotoCount(photoCount + 1);
+      setCapture(false);
+      setTakePhotoLayer({});
     });
+  }
+  function silentCapture() {
+    domtoimage
+      .toPng(refs.captureAreaRef.current)
+      .then(function (dataUrl) {
+        gifFrames.push(dataUrl);
+      })
+      .catch(function (error) {
+        console.error("oops, something went wrong!", error);
+      });
   }
 
   return (
