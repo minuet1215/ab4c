@@ -13,6 +13,9 @@ import Reducer from "./_reducers";
 
 import "antd/dist/antd.min.css";
 
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration"
+serviceWorkerRegistration.register();
+
 const store = configureStore({
   reducer: Reducer,
   middleware: [promiseMiddleware, ReduxThunk],
