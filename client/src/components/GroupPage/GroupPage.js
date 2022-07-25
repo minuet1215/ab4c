@@ -11,10 +11,10 @@ import CameraTab from "./CameraTab";
 import MuteBtn from "./MuteBtn";
 import CaptureBtn from "./CaptureBtn";
 import { toast } from "react-toastify";
-import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
+import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원s
 
 let IMGS = [];
-let gifFrames = [[], [], [], []];
+let gifFrames = [[], [], [], [], [], [], []];
 
 function GroupPage() {
   const [token] = useState(localStorage.getItem("token"));
@@ -67,8 +67,8 @@ function GroupPage() {
     if (countDown === 0) {
       captureFunc();
     }
-    if (countDown > 0 && countDown < 5) {
-      silentCapture(countDown - 1);
+    if (countDown > 0 && countDown < 4) {
+      silentCapture(2 * countDown - 1);
     }
   }, [countDown]);
 
@@ -83,9 +83,9 @@ function GroupPage() {
 
   useInterval(
     () => {
-      setCount(countDown - 1);
+      setCount(countDown - 0.5);
     },
-    startCapture && countDown > 0 ? 1000 : null
+    startCapture && countDown > 0 ? 500 : null
   );
 
   // 캡쳐하는 함수
@@ -135,7 +135,7 @@ function GroupPage() {
         </div>
         {startCapture ? (
           <div className={styles.rest_container} id="countdown">
-            <p className={styles.count_down_text}>{countDown}</p>
+            <p className={styles.count_down_text}>{Math.floor(countDown)}</p>
           </div>
         ) : roomname === token ? (
           <div className={styles.rest_container} id="cameratab">
