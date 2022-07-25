@@ -18,6 +18,7 @@ import bgImg8 from "../../img/bgImg8.jpeg";
 import flowerFrame from "../../img/flower.png";
 import cloudFrame from "../../img/cloudFrame.png";
 import { v4 as uuidv4 } from "uuid";
+import makeGif from "./makeGIF";
 
 const img_width = 550;
 const img_height = 370;
@@ -34,7 +35,9 @@ function PhotoEditPage() {
   const [user_id, setUser_id] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [isGifMode, setGifMode] = useState(false);
   const { state } = useLocation();
+  
   // ================= dummy data ================= //
   const images = [
     { src: state.images[state.images.length - 4], x: gap, y: gap },
@@ -73,6 +76,12 @@ function PhotoEditPage() {
   const [isFrameDrawerVisible, setFrameDrawerVisible] = useState(false);
   const [isMessageDrawerVisible, setMessageDrawerVisible] = useState(false);
 
+  useEffect(() => {
+    document.getElementById("canvas").style.display = isGifMode ? "none" : "";
+    document.getElementById("result-image").style.display = !isGifMode
+      ? "none"
+      : "";
+  }, [isGifMode]);
   const showDrawer = (type) => {
     type === "Frame"
       ? setFrameDrawerVisible(true)
@@ -103,25 +112,54 @@ function PhotoEditPage() {
       now.getFullYear() + "." + month + "." + date + " " + hour + ":" + minute;
 
     if (!canvasRef) return;
-    setLoading(false);
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, frame_width, frame_height);
 
     let img = new Image();
     img.src = bgChange;
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0, frame_width, frame_height);
+    img.onload = async function () {
+      await ctx.drawImage(img, 0, 0, frame_width, frame_height);
       writeDate(ctx, date_time);
       writeMessage(ctx, message);
-      images.map((image) => {
-        let img = new Image();
-        img.src = image.src;
-        img.onload = function () {
-          ctx.drawImage(img, image.x, image.y, img_width, img_height);
-        };
-      });
+      // 기본 이미지
+      if (!isGifMode) {
+        images.map((image) => {
+          let img = new Image();
+          img.src = image.src;
+          img.onload = function () {
+            ctx.drawImage(img, image.x, image.y, img_width, img_height);
+          };
+        });
+      } else {
+        // gif 만들기.
+        let frames = [];
+        async function temp(e) {
+          let img = new Image();
+          img.src = e;
+          return img;
+        }
+        console.log(state.gifFrames);
+        for await (const elements of state.gifFrames) {
+          let j = -1;
+          for await (const elem of elements) {
+            await temp(elem)
+              .then(async (img) => {
+                await ctx.drawImage(
+                  img,
+                  gap,
+                  j * (img_height + gap) + gap,
+                  img_width,
+                  img_height
+                );
+              })
+              .then(j++);
+          }
+          frames.push(await canvasRef.current.toDataURL());
+        }
+        makeGif(frames);
+      }
     };
-  }, [canvasRef, bgChange, isMessageDrawerVisible]);
+  }, [canvasRef, bgChange, isMessageDrawerVisible, isGifMode]);
 
   function writeDate(ctx, text) {
     ctx.font = "32px sans-serif";
@@ -205,7 +243,13 @@ function PhotoEditPage() {
       <div>{loading ? <Loading /> : null}</div>
       <MyHeader subTitle="사진 화면" onBackUrl="/main" />
       <div className="contents_container">
-        <div className={styles.canvas_container}>
+        <div
+          className={styles.canvas_container}
+          onClick={() => {
+            console.log("click");
+            setGifMode(!isGifMode);
+          }}
+        >
           <canvas
             id="canvas"
             width={frame_width}
@@ -217,6 +261,7 @@ function PhotoEditPage() {
           >
             Your browser does not support the HTML5 canvas tag.
           </canvas>
+          <img id="result-image"></img>
         </div>
         {isAuth && (
           <div id="control-menu" className={styles.control_container}>
