@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function HeartButton({ modalContent, setModalContent }) {
-  const [totalLike, setTotalLike] = useState(0);
+  const [totalLike, setTotalLike] = useState(modalContent.likes_count);
   const [like, setLike] = useState(modalContent.isLiked);
 
   const likeAction = () => {
@@ -18,13 +18,14 @@ function HeartButton({ modalContent, setModalContent }) {
   };
 
   return (
-    <>
+    <div style={{}}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="30"
-        height="30"
+        width="37"
+        height="37"
         fill="currentColor"
         viewBox="0 0 16 16"
+        style={{}}
       >
         <path
           d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
@@ -32,7 +33,16 @@ function HeartButton({ modalContent, setModalContent }) {
           onClick={likeAction}
         />
       </svg>
-    </>
+      <span
+        style={{
+          marginLeft: 7,
+          fontWeight: "bold",
+          fontSize: "24px",
+        }}
+      >
+        {totalLike}
+      </span>
+    </div>
   );
 }
 

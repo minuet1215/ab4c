@@ -42,6 +42,7 @@ function AllAlbum() {
       likes: item.likes,
       user: userId,
       isLiked: item.likes.includes(userId),
+      likes_count: item.likes_count,
     });
   });
 
