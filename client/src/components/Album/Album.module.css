@@ -21,6 +21,7 @@ code {
     rgba(238, 174, 202, 1) 85%,
     rgba(242, 212, 212, 1) 100%
   );
+  height: 100vh;
 }
 .wrapper {
   max-width: 800px;
