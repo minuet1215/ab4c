@@ -72,50 +72,54 @@ imageRouter.delete("/album/delete", async (req, res) => {
   }
 });
 
-imageRouter.patch("/:imageId/like", async (req, res) => {
-  // 유저 권한 확인
-  // like 중복 확인
-  try {
-    if (!req.user) throw new Error("좋아요 권한이 없습니다.");
-    if (!mongoose.isValidObjectId(req.params.imageId))
-      throw new Error("올바르지 않은 이미지ID 입니다.");
-    const image = await Image.findOneAndUpdate(
-      { _id: req.params.imageId },
-      { $addToSet: { likes: req.user.id } },
-      { new: true }
-    );
-    res.json(image);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ message: err.message });
-  }
-});
-
-imageRouter.patch("/:imageId/unlike", async (req, res) => {
-  // 유저 권한 확인
-  // like 중복 취소 확인
-  try {
-    if (!req.user) throw new Error("좋아요 권한이 없습니다.");
-    if (!mongoose.isValidObjectId(req.params.imageId))
-      throw new Error("올바르지 않은 이미지ID 입니다.");
-    const image = await Image.findOneAndUpdate(
-      { _id: req.params.imageId },
-      { $pull: { likes: req.user.id } },
-      { new: true }
-    );
-    res.json(image);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ message: err.message });
-  }
-});
-
 // 본인 사진들만 리턴 (public 유무 상관없이)
 imageRouter.get("/:id/album", async (req, res) => {
   try {
     if (!req.user) throw new Error("권한이 없습니다.");
     const images = await Image.find({ "user._id": req.user.id }); // ._id는 쓸 수 없으므로 ""로 묶음 -> Mongo DB가 알아서 파싱해줌
     res.json(images);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: err.message });
+  }
+});
+
+imageRouter.get("/:imageId/:userId", async (req, res) => {
+  const image = await Image.find({
+    _id: req.params.imageId,
+    likes: req.params.userId,
+  });
+  if (image.length !== 0) res.json({ isLiked: true });
+});
+
+imageRouter.patch("/:imageId/like", async (req, res) => {
+  try {
+    if (!req.body.user) throw new Error("좋아요 권한이 없습니다.");
+    if (!mongoose.isValidObjectId(req.body.imageId))
+      throw new Error("올바르지 않은 이미지ID 입니다.");
+    const image = await Image.findOne({
+      _id: req.body.imageId,
+      likes: req.body.user,
+    });
+
+    if (image === null) {
+      const image = await Image.findOneAndUpdate(
+        { _id: req.body.imageId },
+        {
+          $addToSet: { likes: req.body.user },
+          $inc: { likes_count: 1 },
+        },
+        { new: true }
+      );
+      res.json(image);
+    } else {
+      const image = await Image.findOneAndUpdate(
+        { _id: req.body.imageId },
+        { $pull: { likes: req.body.user }, $inc: { likes_count: -1 } },
+        { new: true, _id: false }
+      );
+      res.json(image);
+    }
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: err.message });
