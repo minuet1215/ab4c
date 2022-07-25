@@ -8,7 +8,7 @@ const ImageSchema = new mongoose.Schema(
       email: { type: String, required: true }, // 아이디
     },
     likes: [{ type: mongoose.Types.ObjectId }], // 좋아요 기능
-    likes_count: [{type:Number, default: 0}],
+    likes_count: { type: Number, default: 0 },
     public: { type: Boolean, required: true, default: false }, // 공개, 비공개
     key: { type: String, required: true }, //
     originalFileName: { type: String, required: true }, //

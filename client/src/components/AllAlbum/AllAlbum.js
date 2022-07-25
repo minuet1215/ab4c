@@ -13,12 +13,14 @@ function AllAlbum() {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     dispatch(auth()).then((res) => {
       axios
         .post("/api/images/album", { id: res.payload._id })
         .then((result) => {
+          setUserId(res.payload._id);
           setImages(result.data);
           setLoading(false);
         })
@@ -34,9 +36,12 @@ function AllAlbum() {
       imageUrl: url + item.key,
       key: item.key,
       owner: item.user._id,
+
       // modal용 데이터
       ownerName: item.user.name,
       likes: item.likes,
+      user: userId,
+      isLiked: item.likes.includes(userId),
     });
   });
 
@@ -50,23 +55,29 @@ function AllAlbum() {
       <div className="outer_container">
         <div>{loading ? <Loading /> : null}</div>
         <Header />
-        <div className={styles.album_container}>
-          {data.datas.map((item, index) => (
-            <div key={index} className={styles.img_container}>
-              <img
-                src={item.imageUrl}
-                alt={index}
-                onClick={() => showModal(item)}
-              />
-            </div>
-          ))}
+
+        <div className={styles.contents_container}>
+          <div className={styles.album_container}>
+            {data.datas.map((item, index) => (
+              <div key={index} className={styles.img_container}>
+                <img
+                  src={item.imageUrl}
+                  alt={index}
+                  onClick={() => showModal(item)}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+          {modalContent && (
+            <Modal
+              modalContent={modalContent}
+              setModalContent={setModalContent}
+            />
+          )}
         </div>
-        {modalContent && (
-          <Modal
-            modalContent={modalContent}
-            setModalContent={setModalContent}
-          />
-        )}
       </div>
     </>
   );

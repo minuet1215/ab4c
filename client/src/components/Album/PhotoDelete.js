@@ -5,12 +5,15 @@ import { toast } from "react-toastify";
 
 function PhotoDelete(props) {
   const deleteHandler = async () => {
-    axios
-      .delete("/api/images/album/delete/", { data: props })
-      .then((res) => {
-        return toast.success(res.data.message);
-      })
-      .catch((err) => toast.error(err.message));
+    const confirmDelete = window.confirm("삭제 하시겠습니까?");
+    if (confirmDelete === true) {
+      axios
+        .delete("/api/images/album/delete/", { data: props })
+        .then((res) => {
+          return toast.success(res.data.message);
+        })
+        .catch((err) => toast.error(err.message));
+    }
   };
   return <Button onClick={deleteHandler}>삭제하기</Button>;
 }

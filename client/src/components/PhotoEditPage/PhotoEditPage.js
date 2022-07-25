@@ -36,8 +36,8 @@ function PhotoEditPage() {
   const [userEmail, setUserEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isGifMode, setGifMode] = useState(false);
-
   const { state } = useLocation();
+  
   // ================= dummy data ================= //
   const images = [
     { src: state.images[state.images.length - 4], x: gap, y: gap },
@@ -91,7 +91,8 @@ function PhotoEditPage() {
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
-
+  const isAuth = document.cookie;
+  
   useEffect(() => {
     // 화면 렌더링 시 바로 유저 정보 가져오기 (TEST)
     axios.get("/api/users/authen").then((response) => {
@@ -100,7 +101,6 @@ function PhotoEditPage() {
       setUser_id(response.data._id); // _id : ObjectID
       setUserEmail(response.data.email);
     });
-
     let now = new Date();
     let month =
       now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
@@ -220,6 +220,24 @@ function PhotoEditPage() {
     } catch (err) {}
   };
 
+  const OnLocalSave = () => {
+    let now = new Date();
+    const date_time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}_${now.getHours()}${now.getMinutes()}`;
+    const canvas = document.getElementById("canvas");
+    const dataUrl = canvas.toDataURL();
+    const filename = "4cut_" + date_time + ".png";
+    let link = document.createElement("a");
+    if (typeof link.download === "string") {
+      link.href = dataUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(dataUrl);
+    }
+  };
+
   return (
     <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>
@@ -245,42 +263,42 @@ function PhotoEditPage() {
           </canvas>
           <img id="result-image"></img>
         </div>
-        <div id="control-menu" className={styles.control_container}>
-          {/* <button className={styles.btn_default}>공유</button> */}
-          <button
-            className={styles.btn_default}
-            onClick={() => {
-              showDrawer("Frame");
-            }}
-          >
-            프레임 변경
-          </button>
-          <button
-            className={styles.btn_default}
-            onClick={() => {
-              showDrawer("Message");
-            }}
-          >
-            메모하기
-          </button>
-          <button className={styles.btn_pink} onClick={onSave}>
-            앨범 저장
-          </button>
-          <Checkbox onChange={() => SetIsPublic(!isPublic)}>비공개</Checkbox>
-
-          {/* <form onSubmit={onSave}>
-            <input
-              type="checkbox"
-              id="public-check"
-              value={!isPublic}
-              onChange={() => SetIsPublic(!isPublic)}
-            ></input>
-            <label htmlFor="public-check">비공개</label>
-            <button className={styles.btn_pink} type="submit">
+        {isAuth && (
+          <div id="control-menu" className={styles.control_container}>
+            {/* <button className={styles.btn_default}>공유</button> */}
+            <button
+              className={styles.btn_default}
+              onClick={() => {
+                showDrawer("Frame");
+              }}
+            >
+              프레임 변경
+            </button>
+            <button
+              className={styles.btn_default}
+              onClick={() => {
+                showDrawer("Message");
+              }}
+            >
+              메모하기
+            </button>
+            <button className={styles.btn_pink} onClick={onSave}>
               앨범 저장
             </button>
-          </form> */}
-        </div>
+            <Checkbox onChange={() => SetIsPublic(!isPublic)}>비공개</Checkbox>
+          </div>
+        )}
+        {!isAuth && (
+          <div id="control-menu" className={styles.control_container}>
+            <button
+              className={styles.btn_default}
+              onClick={OnLocalSave}
+            >핸드폰 저장</button>
+              <button className={styles.btn_pink} onClick={() => navigate("/login")}>
+                로그인 하기
+            </button>
+          </div>
+        )}
 
         <Drawer
           title="프레임 선택"
