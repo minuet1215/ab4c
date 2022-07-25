@@ -50,26 +50,30 @@ function AllAlbum() {
       <div className="outer_container">
         <div>{loading ? <Loading /> : null}</div>
         <Header />
-        <div className={styles.album_container}>
-          {data.datas.map((item, index) => (
-            <div key={index} className={styles.img_container}>
-              <img
-                src={item.imageUrl}
-                alt={index}
-                onClick={() => showModal(item)}
-                style={{
+        
+        <div className={styles.contents_container}>
+          <div className={styles.album_container}>
+            {data.datas.map((item, index) => (
+              <div key={index} className={styles.img_container}>
+                <img
+                  src={item.imageUrl}
+                  alt={index}
+                  onClick={() => showModal(item)}
+                  style={{
                   cursor: "pointer",
-                }}
-              />
-            </div>
-          ))}
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+          {modalContent && (
+            <Modal
+              modalContent={modalContent}
+              setModalContent={setModalContent}
+            />
+          )}
+
         </div>
-        {modalContent && (
-          <Modal
-            modalContent={modalContent}
-            setModalContent={setModalContent}
-          />
-        )}
       </div>
     </>
   );

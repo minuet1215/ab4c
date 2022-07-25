@@ -13,22 +13,25 @@ function Logout() {
   // const { Title } = Typography;
 
   const onClickHandler = () => {
-    dispatch(auth()).then((response) => {
-      if (response.payload.loginType === "kakao") {
-        const myAccessKey = localStorage.getItem("token");
-        dispatch(kakaoLogout({ token: myAccessKey })).then((response) => {});
-      }
-      axios.get("/api/users/logout1").then((response) => {
-        if (response.data.success) {
-          localStorage.clear();
-          sessionStorage.clear();
-          toast.success("로그아웃 되었습니다.");
-          navigate("/login");
-        } else {
-          toast.error("로그아웃 하는데 실패 했습니다.");
+    const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
+    if (confirmLogout === true){
+      dispatch(auth()).then((response) => {
+        if (response.payload.loginType === "kakao") {
+          const myAccessKey = localStorage.getItem("token");
+          dispatch(kakaoLogout({ token: myAccessKey })).then((response) => {});
         }
+        axios.get("/api/users/logout1").then((response) => {
+          if (response.data.success) {
+            localStorage.clear();
+            sessionStorage.clear();
+            toast.success("로그아웃 되었습니다.");
+            navigate("/login");
+          } else {
+            toast.error("로그아웃 하는데 실패 했습니다.");
+          }
+        });
       });
-    });
+    }
   };
 
   return (
