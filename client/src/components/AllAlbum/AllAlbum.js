@@ -57,6 +57,9 @@ function AllAlbum() {
                 src={item.imageUrl}
                 alt={index}
                 onClick={() => showModal(item)}
+                style={{
+                  cursor: "pointer",
+                }}
               />
             </div>
           ))}
