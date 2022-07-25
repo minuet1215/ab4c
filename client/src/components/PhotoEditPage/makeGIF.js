@@ -29,12 +29,13 @@ export default function makeGif(imgArray) {
   }
   waitForImagesLoaded(imgArray, function (images) {
     for (var i = 0; i < images.length; i++) {
-      gif.addFrame(images[i], { delay: 100 });
+      gif.addFrame(images[i], { delay: 200 });
     }
     gif.render();
   });
   console.log(gif);
   gif.on("finished", (blob) => {
+    console.log("완료");
     const url = URL.createObjectURL(blob);
     document.getElementById("result-image").src = url;
   });

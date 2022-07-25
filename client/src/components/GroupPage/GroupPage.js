@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
 
 let IMGS = [];
-let gifFrames = [];
+let gifFrames = [[], [], [], []];
 
 function GroupPage() {
   const [token] = useState(localStorage.getItem("token"));
@@ -34,7 +34,7 @@ function GroupPage() {
   const [isMute, setIsMute] = useState(false); // 음소거 변수
   const [countDown, setCount] = useState(5); // 카운트다운
   const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
-  const [photoCount, setPhotoCount] = useState(0); // 4장만 찍을 수 있다.
+  const [photoCount, setPhotoCount] = useState(1); // 4장만 찍을 수 있다.
   const [takePhotoLayer, setTakePhotoLayer] = useState({});
 
   useEffect(() => {
@@ -56,9 +56,9 @@ function GroupPage() {
   }
   // 4장 찍으면 edit페이지로 이동
   useEffect(() => {
-    if (photoCount === 4) {
+    if (photoCount === 5) {
       cameraOff();
-      navigate("/edit", { state: { images: IMGS } });
+      navigate("/edit", { state: { images: IMGS, gifFrames: gifFrames } });
     }
   }, [photoCount]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -67,7 +67,9 @@ function GroupPage() {
     if (countDown === 0) {
       captureFunc();
     }
-    silentCapture(); // 1초마다 사진 따로 찍음
+    if (countDown > 0 && countDown < 5) {
+      silentCapture(countDown - 1);
+    }
   }, [countDown]);
 
   // 음소거 useeffect (반응 늦는 이슈 수정)
@@ -99,11 +101,11 @@ function GroupPage() {
       setTakePhotoLayer({});
     });
   }
-  function silentCapture() {
+  function silentCapture(index) {
     domtoimage
       .toPng(refs.captureAreaRef.current)
       .then(function (dataUrl) {
-        gifFrames.push(dataUrl);
+        gifFrames[index].push(dataUrl);
       })
       .catch(function (error) {
         console.error("oops, something went wrong!", error);
