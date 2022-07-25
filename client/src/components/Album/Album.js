@@ -84,9 +84,9 @@ function MyAlbum() {
       <div>{loading ? <Loading /> : null}</div>
       <Header />
       <div className={styles.contents_container}>
-        <div className={styles.wrapper}>
+        <div className={styles.album_container}>
           {data.datas.map((item, index) => (
-            <div key={index} className={styles.wrapper_images}>
+            <div key={index} className={styles.img_container}>
               <img
                 className={styles.wrap_img}
                 src={item.imageUrl}
@@ -94,7 +94,7 @@ function MyAlbum() {
                 onClick={() => handleClick(item, index)}
                 loading="lazy"
               />
-              <div>
+              <div className={styles.submit_btns}>
                 <PhotoModify img={item.imageUrl} />
                 <PhotoDelete img={item} />
               </div>
