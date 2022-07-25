@@ -37,7 +37,7 @@ function PhotoEditPage() {
   const [message, setMessage] = useState("");
   const [isGifMode, setGifMode] = useState(false);
   const { state } = useLocation();
-  
+
   // ================= dummy data ================= //
   const images = [
     { src: state.images[state.images.length - 4], x: gap, y: gap },
@@ -92,7 +92,7 @@ function PhotoEditPage() {
     setMessage(event.target.value);
   };
   const isAuth = document.cookie;
-  
+
   useEffect(() => {
     // 화면 렌더링 시 바로 유저 정보 가져오기 (TEST)
     axios.get("/api/users/authen").then((response) => {
@@ -176,49 +176,61 @@ function PhotoEditPage() {
   }
 
   const onSave = (e) => {
-    try {
-      // setLoading(true);
-      e.preventDefault();
+    e.preventDefault();
 
-      // dispatch(auth()).then((response) => {
-      //   setUserName(response.payload.name);
-      //   setUser_id(response.payload._id); // _id : ObjectID
-      //   setUserEmail(response.payload.email);
-      // });
-
-      const canvas = document.getElementById("canvas");
-      canvas.toBlob(
-        async function (blob) {
-          // uuidv4() : File Original Name
-          const file = new File([blob], uuidv4(), {
-            lastModified: new Date().getTime(),
-            type: blob.type,
-          });
-
-          const formData = new FormData();
-          // server req.file
-          formData.append("file", file);
-
-          // server req.body
-          formData.append("public", isPublic);
-          formData.append("id", user_id);
-          formData.append("username", userName);
-          formData.append("useremail", userEmail);
-          await axios.post("/api/images/post", formData).then((res) => {
-            setLoading(false);
-            if (res) {
-              toast.success("이미지 저장 성공!");
-              navigate("/album");
-            } else {
-              toast.error("이미지 저장 실패");
-            }
-          });
-        },
-        "image/jpeg",
-        1.0
-      );
-    } catch (err) {}
+    // isGifMode -> gif, !isGifMode -> png 판단
+    if (isGifMode) {
+      const gifImg = document.getElementById("result-image");
+      fetch(gifImg.src)
+        .then((r) => {
+          r.blob()
+            .then(async (blob) => sendFormData(blob))
+            .catch((e) => {
+              console.log(e);
+            });
+        })
+        .catch((e) => console.log(e));
+    } else {
+      try {
+        // setLoading(true);
+        const canvas = document.getElementById("canvas");
+        canvas.toBlob(async (blob) => sendFormData(blob), "image/jpeg", 1.0);
+      } catch (err) {}
+    }
   };
+
+  async function sendFormData(blob) {
+    // uuidv4() : File Original Name
+    const file = new File([blob], uuidv4(), {
+      lastModified: new Date().getTime(),
+      type: blob.type,
+    });
+    const formData = setFormData(file);
+
+    await axios.post("/api/images/post", formData).then((res) => {
+      setLoading(false);
+      if (res) {
+        toast.success("이미지 저장 성공!");
+        navigate("/album");
+      } else {
+        toast.error("이미지 저장 실패");
+      }
+    });
+  }
+
+  function setFormData(file) {
+    const formData = new FormData();
+    // server req.file
+    formData.append("file", file);
+
+    // server req.body
+    formData.append("public", isPublic);
+    formData.append("id", user_id);
+    formData.append("username", userName);
+    formData.append("useremail", userEmail);
+
+    return formData;
+  }
 
   const OnLocalSave = () => {
     let now = new Date();
@@ -290,12 +302,14 @@ function PhotoEditPage() {
         )}
         {!isAuth && (
           <div id="control-menu" className={styles.control_container}>
+            <button className={styles.btn_default} onClick={OnLocalSave}>
+              핸드폰 저장
+            </button>
             <button
-              className={styles.btn_default}
-              onClick={OnLocalSave}
-            >핸드폰 저장</button>
-              <button className={styles.btn_pink} onClick={() => navigate("/login")}>
-                로그인 하기
+              className={styles.btn_pink}
+              onClick={() => navigate("/login")}
+            >
+              로그인 하기
             </button>
           </div>
         )}

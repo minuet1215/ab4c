@@ -1,5 +1,5 @@
-require('dotenv').config()
-const { AWS_BUCKET_NAME } = process.env
+require("dotenv").config();
+const { AWS_BUCKET_NAME } = process.env;
 const multer = require("multer");
 const { v4: uuid } = require("uuid");
 const mime = require("mime-types");
@@ -13,12 +13,14 @@ const storage = multerS3({
     cb(null, `images/${uuid()}.${mime.extension(file.mimetype)}`),
 });
 
-
-
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    if (["image/png", "image/jpeg", "image/jpg"].includes(file.mimetype))
+    if (
+      ["image/png", "image/jpeg", "image/jpg", "image/gif"].includes(
+        file.mimetype
+      )
+    )
       cb(null, true); // [] 안의 파일만 저장
     else cb(new Error("invalid file type"), false); // 다른 확장자는 저장 안함
   },
