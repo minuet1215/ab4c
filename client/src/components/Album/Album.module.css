@@ -23,29 +23,24 @@ code {
   );
   height: 100vh;
 }
-.wrapper {
-  max-width: 800px;
-  padding: 50px 60px;
-  margin: auto;
+
+.album_container {
   display: flex;
   justify-content: center;
+  align-content: flex-start;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 1em;
+  height: calc(100% - 74px);
+  overflow-y: scroll;
 }
 
-.wrapper-images {
-  min-height: 50px;
-  max-width: 100%;
-  flex-direction: row;
-  /* overflow: auto; */
-  margin: 25px 25px;
-  box-shadow: 3px 3px 5px 2px gray;
+.img_container {
+  width: 200px;
+  padding: 20px;
 }
-.wrap_img {
-  cursor: pointer;
-  width: 160px;
-  height: 380px;
-  border-radius: 5px;
+
+.submit_btns {
+  display: flex;
 }
 
 /* modal */
