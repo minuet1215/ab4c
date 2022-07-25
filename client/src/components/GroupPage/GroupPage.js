@@ -31,7 +31,7 @@ function GroupPage() {
     captureAreaRef: useRef(null),
   };
   const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
-  const [isMute, setIsMute] = useState(false); // 음소거 변수
+  const [isMute, setIsMute] = useState(true); // 음소거 변수
   const [countDown, setCount] = useState(5); // 카운트다운
   const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
   const [photoCount, setPhotoCount] = useState(1); // 4장만 찍을 수 있다.
@@ -74,7 +74,11 @@ function GroupPage() {
 
   // 음소거 useeffect (반응 늦는 이슈 수정)
   useEffect(() => {
-    refs.localVideoRef.current.muted = isMute;
+    if (refs.localVideoRef.current.srcObject) {
+      // refs.localVideoRef.current.srcObject.getTracks()[0].stop();
+      console.log(refs.localVideoRef.current.srcObject.getTracks()[0].enabled);
+      refs.localVideoRef.current.srcObject.getTracks()[0].enabled = isMute;
+    }
   }, [isMute]);
 
   useInterval(
