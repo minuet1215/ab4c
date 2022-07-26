@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { registerUser, isUser } from "../../_actions/user_action";
 import { Form, Input } from "antd";
 import MyHeader from "../Header/Header";
+import { toast } from "react-toastify";
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -54,14 +55,14 @@ function RegisterPage() {
     };
     dispatch(isUser(body)).then((response) => {
       if (response.payload.isUser) {
-        alert("이미 사용 중인 이메일입니다 .__.");
+        toast.error("이미 사용 중인 이메일입니다 .__.");
       } else {
         dispatch(registerUser(body)).then((response) => {
           if (response.payload.success) {
-            alert("가입 성공! 로그인 해주세요 .__.");
+            toast.success("가입 성공! 로그인 해주세요 .__.");
             navigate("/login");
           } else {
-            alert("회원가입이 실패하였습니다.");
+            toast.error("회원가입이 실패하였습니다.");
           }
         });
       }
