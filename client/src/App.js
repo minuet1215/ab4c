@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,11 +28,11 @@ function App() {
   const KakaoAuthPage = Auth(KakaoAuth, false);
   const AuthAlbumPage = Auth(AlbumPage, true);
   const AuthEditPhotoPage = Auth(Editor, null);
-  const AuthAllAlbumPage = Auth(AllAlbumPage ,true)
+  const AuthAllAlbumPage = Auth(AllAlbumPage, true);
 
   return (
     <Router>
-      <div>
+      <div className="size_fix_box">
         <ToastContainer />
         <Routes>
           <Route exact path="/" element={<AuthLandingPage />} />
