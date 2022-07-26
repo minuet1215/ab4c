@@ -75,6 +75,7 @@ const VideoAREA = forwardRef((props, ref) => {
         offerToReceiveAudio: true,
         offerToReceiveVideo: true,
       });
+      remove2();
       await pcRef.current.setLocalDescription(new RTCSessionDescription(sdp));
       socketRef.current.emit("offer", sdp);
     } catch (e) {
