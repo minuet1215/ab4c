@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer, Checkbox, Input, Button } from "antd";
+import { Drawer, Checkbox, Input, Button, Modal } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import { toast } from "react-toastify";
 import Loading from "../Loading/Loading";
@@ -32,7 +32,8 @@ const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
   const navigate = useNavigate();
-  const [isPublic, SetIsPublic] = useState(true);
+  // const [isPublic, SetIsPublic] = useState(true);
+  let isPublic = true;
   const [isLoading, setLoading] = useState(true);
   // const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
@@ -80,6 +81,17 @@ function PhotoEditPage() {
   const [bgChange, setBgChange] = useState(defaultBg);
   const [isFrameDrawerVisible, setFrameDrawerVisible] = useState(false);
   const [isMessageDrawerVisible, setMessageDrawerVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const showModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleModalCancel = () => {
+    // console.log("Clicked cancel button");
+    setModalVisible(false);
+  };
 
   useEffect(() => {
     document.getElementById("canvas").style.display = isGifMode ? "none" : "";
@@ -188,6 +200,9 @@ function PhotoEditPage() {
 
   const onSave = (e) => {
     e.preventDefault();
+    isPublic = e.target.value; // 공개/비공개 설정
+    // console.log(isPublic);
+    setConfirmLoading(true); // 모달 열어두기
 
     // isGifMode -> gif, !isGifMode -> png 판단
     if (isGifMode) {
@@ -220,6 +235,8 @@ function PhotoEditPage() {
     await axios.post("/api/images/post", formData).then((res) => {
       // isLoading = false;
       setLoading(false);
+      setModalVisible(false); // 모달 닫기
+      setConfirmLoading(false); // 모달 닫기
       if (res) {
         toast.success("이미지 저장 성공!");
         navigate("/album");
@@ -320,7 +337,7 @@ function PhotoEditPage() {
             </button>
             <button
               className={styles.btn_pink}
-              onClick={onSave}
+              onClick={showModal}
               style={{
                 fontSize: "1.4em",
                 fontWeight: "bold",
@@ -328,7 +345,6 @@ function PhotoEditPage() {
             >
               앨범 저장
             </button>
-            <Checkbox onChange={() => SetIsPublic(!isPublic)}>비공개</Checkbox>
           </div>
         )}
         {!isAuth && (
@@ -344,6 +360,41 @@ function PhotoEditPage() {
             </button>
           </div>
         )}
+        <Modal
+          title="저장할 사진의 공개 설정을 선택해 주세요!"
+          visible={isModalVisible}
+          confirmLoading={confirmLoading}
+          onCancel={handleModalCancel}
+          footer={null}
+          centered={true}
+        >
+          <div style={{ display: "flex" }}>
+            <button
+              className="button btn_3"
+              value={false}
+              onClick={onSave}
+              style={{
+                fontSize: "1.4em",
+                fontWeight: "bold",
+                margin: "1rem",
+              }}
+            >
+              나만 보기
+            </button>
+            <button
+              className="button btn_1"
+              value={true}
+              onClick={onSave}
+              style={{
+                fontSize: "1.4em",
+                fontWeight: "bold",
+                margin: "1rem",
+              }}
+            >
+              다같이 보기
+            </button>
+          </div>
+        </Modal>
 
         <Drawer
           title="프레임 선택"
