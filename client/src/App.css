@@ -166,3 +166,21 @@ body {
 .frame_style {
   overflow: auto;
 }
+
+/* ImageEditor */
+
+.AlbumBtn {
+  border-radius: 10px;
+  border: 0;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  padding: 5% 15% 5% 15%;
+  margin: 3% 0 0 0;
+}
+.EditBtn {
+  background-color: #fc8da1;
+  color: #fefefa;
+}
+.DelBtn {
+  background-color: #fefefa;
+  color: #555555;
+}
