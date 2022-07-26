@@ -213,7 +213,8 @@ function PhotoEditPage() {
     const formData = setFormData(file);
 
     await axios.post("/api/images/post", formData).then((res) => {
-      isLoading = false;
+      // isLoading = false;
+      setLoading(false);
       if (res) {
         toast.success("이미지 저장 성공!");
         navigate("/album");
