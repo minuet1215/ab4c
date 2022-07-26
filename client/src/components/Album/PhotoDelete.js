@@ -15,6 +15,10 @@ function PhotoDelete(props) {
         .catch((err) => toast.error(err.message));
     }
   };
-  return <Button onClick={deleteHandler}>삭제하기</Button>;
+  return (
+    <button className="AlbumBtn DelBtn" onClick={deleteHandler}>
+      삭제
+    </button>
+  );
 }
 export default PhotoDelete;

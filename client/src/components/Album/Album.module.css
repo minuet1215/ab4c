@@ -39,7 +39,7 @@ code {
 
 .album_container::-webkit-scrollbar-thumb {
   height: 25%; /* 스크롤바의 길이 */
-  background: rgb(255, 139, 182); /* 스크롤바의 색상 */
+  background: #fc8da1; /* 스크롤바의 색상 */
 
   border-radius: 10px;
 }
@@ -54,7 +54,10 @@ code {
 }
 
 .submit_btns {
-  display: flex;
+  text-align: center;
+}
+.submit_btns button + button {
+  margin-left: 5%;
 }
 
 /* modal */
