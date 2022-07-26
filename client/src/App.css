@@ -82,7 +82,6 @@ body {
 }
 .btn_3 {
   background-color: #efefef;
-  /*  */
   color: #555555;
 }
 .sign_in_kakao {
@@ -174,14 +173,16 @@ body {
   border-radius: 10px;
   border: 0;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-  padding: 5% 15% 5% 15%;
+  padding: 1.5% 13% 1.5% 13%;
   margin: 3% 0 0 0;
 }
 .EditBtn {
   background-color: #fc8da1;
   color: #fefefa;
+  font-size: 18px;
 }
 .DelBtn {
   background-color: #fefefa;
   color: #555555;
+  font-size: 18px;
 }
