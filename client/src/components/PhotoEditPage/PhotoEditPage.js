@@ -20,6 +20,9 @@ import flowerFrame from "../../img/flower.png";
 import cloudFrame from "../../img/cloudFrame.png";
 import { v4 as uuidv4 } from "uuid";
 import makeGif from "./makeGIF";
+import frame from "../../img/frame.png";
+import memo from "../../img/memo.png";
+import album from "../../img/album.png";
 
 const img_width = 550;
 const img_height = 370;
@@ -65,7 +68,7 @@ function PhotoEditPage() {
     { src: bgImg3, alt: "bgImg3" },
     { src: bgImg4, alt: "bgImg4" },
     { src: bgImg5, alt: "bgImg5" },
-    { src: flowerFrame, alt: "bgImg9" },
+    { src: flowerFrame, alt: "flower" },
     { src: cloudFrame, alt: "cloud" },
     { src: bgImg7, alt: "bgImg7" },
     { src: bgImg11, alt: "bgImg11" },
@@ -279,6 +282,7 @@ function PhotoEditPage() {
             style={{
               backgroundColor: "black",
             }}
+            className={styles.result_image}
             ref={canvasRef}
           >
             Your browser does not support the HTML5 canvas tag.
@@ -294,6 +298,7 @@ function PhotoEditPage() {
                 showDrawer("Frame");
               }}
             >
+              {/* <img src={frame} style={{ height: "100%" }} /> */}
               프레임 변경
             </button>
             <button
@@ -302,9 +307,11 @@ function PhotoEditPage() {
                 showDrawer("Message");
               }}
             >
-              메모하기
+              {/* <img src={memo} style={{ height: "100%" }} /> */}
+              메모 하기
             </button>
             <button className={styles.btn_pink} onClick={onSave}>
+              {/* <img src={album} style={{ height: "100%" }} /> */}
               앨범 저장
             </button>
             <Checkbox onChange={() => SetIsPublic(!isPublic)}>비공개</Checkbox>
@@ -345,14 +352,14 @@ function PhotoEditPage() {
                     setBgChange(bgImage.src);
                     setFrameDrawerVisible(false);
                   }}
-                  style={{ padding: "10px", width: "100px", height: "150px" }}
+                  style={{ padding: "10px", width: "flex", height: "150px" }}
                 ></img>
               );
             })}
           </div>
         </Drawer>
         <Drawer
-          title="메시지입력"
+          title="메시지 입력"
           placement="bottom"
           closable={true}
           onClose={() => {
