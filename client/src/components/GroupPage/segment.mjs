@@ -40,4 +40,5 @@ export async function segment(videoElement, greenCanvas) {
     greenScreen(results, greenCtx);
   });
   await selfieSegmentation.send({ image: videoElement });
+  document.getElementById("my_face").volume = 0;
 }

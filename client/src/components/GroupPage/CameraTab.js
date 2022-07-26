@@ -120,14 +120,6 @@ function TabContent(props) {
         ImgBase64={props.ImgBase64}
         setImgBase64={props.setImgBase64}
       />
-      <button
-        onClick={() => {
-          let v = document.getElementById("my_face");
-          v.muted = true;
-        }}
-      >
-        소리 테스트
-      </button>
     </div>,
     <div className={styles.tab_contents_container}>
       <SelfUploadBgContent />

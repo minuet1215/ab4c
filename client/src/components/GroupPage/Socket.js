@@ -65,6 +65,7 @@ const VideoAREA = forwardRef((props, ref) => {
       console.error(e);
     }
     setLoading(false);
+    remove();
   };
   const createOffer = async () => {
     console.log("create offer");
@@ -89,6 +90,7 @@ const VideoAREA = forwardRef((props, ref) => {
         offerToReceiveVideo: true,
         offerToReceiveAudio: true,
       });
+      remove2();
       console.log("create answer");
       await pcRef.current.setLocalDescription(new RTCSessionDescription(mySdp));
       socketRef.current.emit("answer", mySdp);
@@ -132,8 +134,7 @@ const VideoAREA = forwardRef((props, ref) => {
       props.setImgBase64(img);
     });
     setVideoTracks();
-    remove();
-    remove2();
+
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();

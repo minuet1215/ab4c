@@ -75,8 +75,6 @@ function GroupPage() {
   // 음소거 useeffect (반응 늦는 이슈 수정)
   useEffect(() => {
     if (refs.localVideoRef.current.srcObject) {
-      // refs.localVideoRef.current.srcObject.getTracks()[0].stop();
-      console.log(refs.localVideoRef.current.srcObject.getTracks()[0]);
       refs.localVideoRef.current.srcObject.getTracks()[0].enabled = isMute;
     }
   }, [isMute]);
