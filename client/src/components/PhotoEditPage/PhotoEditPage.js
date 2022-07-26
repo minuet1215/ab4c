@@ -142,7 +142,7 @@ function PhotoEditPage() {
           img.src = e;
           return img;
         }
-        console.log(state.gifFrames);
+
         for await (const elements of state.gifFrames) {
           let j = -1;
           let slicingArray = elements.slice(-4);
@@ -168,17 +168,17 @@ function PhotoEditPage() {
   }, [canvasRef, bgChange, isMessageDrawerVisible, isGifMode]);
 
   function writeDate(ctx, text) {
-    ctx.font = "32px sans-serif";
+    ctx.font = "36px Times New Roman";
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
-    ctx.fillText(text, frame_width / 2, frame_height - 80);
+    ctx.fillText(text, frame_width / 2, frame_height - 60);
   }
 
   function writeMessage(ctx, message) {
-    ctx.font = "32px sans-serif";
+    ctx.font = "40px sans-serif";
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
-    ctx.fillText(message, frame_width / 2, frame_height - 120);
+    ctx.fillText(message, frame_width / 2, frame_height - 150);
   }
 
   const onSave = (e) => {
