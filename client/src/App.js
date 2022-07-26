@@ -48,7 +48,7 @@ function App() {
             exact
             path="/oauth/kakao/callback"
             element={<KakaoAuthPage />}
-          />
+          />ㅌ
 
           {/* <KakaoAuth/> */}
           <Route path="/profile" element={<Profile />} />
