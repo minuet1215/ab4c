@@ -33,7 +33,7 @@ function Modal({ modalContent, setModalContent }) {
           />
           <button
             className="button"
-            style={{ width: "100px" }}
+            style={{ width: "100px", fontSize: "22px" }}
             onClick={() => closeModal()}
           >
             닫기

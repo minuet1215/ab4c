@@ -8,8 +8,6 @@ import "tui-image-editor/dist/tui-image-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import whiteTheme from "./theme";
 import "./styles.css";
-
-// import { Button } from "antd";
 import { useLocation } from "react-router-dom";
 
 export default function Editor() {
@@ -17,39 +15,11 @@ export default function Editor() {
   const location = useLocation();
 
   const img_path = location.state.path;
-  console.log(img_path);
+  // console.log(img_path);
   const addSticker = (path) => {
     const editorInstance = editorRef.current.getInstance();
     editorInstance.addImageObject(path);
   };
-
-  // const onUploadImg = (e) => {
-  //   e.preventDefault();
-
-  //   const canvas = document.getElementsByClassName("lower-canvas")[0];
-  //   canvas.toBlob(
-  //     function (blob) {
-  //       const file = new File([blob], "4cut.png", {
-  //         lastModified: new Date().getTime(),
-  //         type: blob.type,
-  //       });
-  //       const formData = new FormData();
-  //       const config = {
-  //         header: { "content-type": "multipart/form-data" },
-  //       };
-  //       formData.append("user-file", file);
-  //       axios.post("/api/images/uploads", formData, config).then((res) => {
-  //         if (res.status === 200) {
-  //           console.log("업로드 성공!");
-  //         } else {
-  //           console.log("업로드 실패...");
-  //         }
-  //       });
-  //     },
-  //     "image/jpeg",
-  //     1.0
-  //   );
-  // };
 
   const OnSave = () => {
     let now = new Date();
@@ -81,7 +51,6 @@ export default function Editor() {
           },
           theme: whiteTheme,
           menu: ["text", "filter"],
-          // initMenu: "filter",
           uiSize: {
             // width: "100%",
             height: "calc(100vh - 2 * 74px - 80px)",

@@ -33,14 +33,33 @@ code {
   height: 100%;
   overflow-y: scroll;
 }
+.album_container::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+.album_container::-webkit-scrollbar-thumb {
+  height: 25%; /* 스크롤바의 길이 */
+  background: #fc8da1; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+.album_container::-webkit-scrollbar-track {
+  background: rgb(255, 206, 224); /*스크롤바 뒷 배경 색상*/
+}
 
 .img_container {
   width: 200px;
   padding: 20px;
 }
-
+.wrap_img {
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5);
+}
 .submit_btns {
-  display: flex;
+  text-align: center;
+}
+.submit_btns button + button {
+  margin-left: 3%;
 }
 
 /* modal */
@@ -60,7 +79,7 @@ code {
   max-width: 60%;
   max-height: 80%;
   margin: 60px auto;
-  box-shadow: 3px 5px 7px rgba(0, 0, 0, 0.5);
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5);
 }
 .overlay > span {
   position: absolute;
