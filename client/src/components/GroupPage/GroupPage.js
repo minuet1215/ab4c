@@ -76,7 +76,7 @@ function GroupPage() {
   useEffect(() => {
     if (refs.localVideoRef.current.srcObject) {
       // refs.localVideoRef.current.srcObject.getTracks()[0].stop();
-      console.log(refs.localVideoRef.current.srcObject.getTracks()[0].enabled);
+      console.log(refs.localVideoRef.current.srcObject.getTracks()[0]);
       refs.localVideoRef.current.srcObject.getTracks()[0].enabled = isMute;
     }
   }, [isMute]);
