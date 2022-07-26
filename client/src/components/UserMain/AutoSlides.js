@@ -16,6 +16,7 @@ const ImageContainer = styled.div`
 const Image = styled.img`
   max-width: 100%;
   max-height: 100%;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
 `;
 
 const tempUrl = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/"; // todo: s3 url prefix

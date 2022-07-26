@@ -6,15 +6,16 @@ import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
 import { Drawer, Checkbox, Input, Button } from "antd";
 import defaultBg from "../../img/default_background.jpg";
-import bgImg2 from "../../img/6.jpg";
 import { toast } from "react-toastify";
 import Loading from "../Loading/Loading";
-import bgImg3 from "../../img/bgImg3.png";
-import bgImg4 from "../../img/bgImg4.png";
+import bgImg1 from "../../img/bgImg1.jpg";
+import bgImg2 from "../../img/bgImg2.jpg";
+import bgImg3 from "../../img/bgImg3.jpg";
+import bgImg4 from "../../img/bgImg4.jpg";
 import bgImg5 from "../../img/bgImg5.png";
-import bgImg6 from "../../img/bgImg6.png";
-import bgImg7 from "../../img/bgImg7.jpeg";
-import bgImg8 from "../../img/bgImg8.jpeg";
+import bgImg7 from "../../img/bgImg7.png";
+import bgImg11 from "../../img/bgImg11.png";
+import bgImg12 from "../../img/bgImg12.png";
 import flowerFrame from "../../img/flower.png";
 import cloudFrame from "../../img/cloudFrame.png";
 import { v4 as uuidv4 } from "uuid";
@@ -59,15 +60,16 @@ function PhotoEditPage() {
   ];
   const bgImages = [
     { src: defaultBg, alt: "default" },
-    { src: bgImg2, alt: "spring" },
+    { src: bgImg1, alt: "bgImg1" },
+    { src: bgImg2, alt: "bgImg2" },
     { src: bgImg3, alt: "bgImg3" },
     { src: bgImg4, alt: "bgImg4" },
     { src: bgImg5, alt: "bgImg5" },
-    { src: bgImg6, alt: "bgImg6" },
-    { src: bgImg7, alt: "bgImg7" },
-    { src: bgImg8, alt: "bgImg8" },
     { src: flowerFrame, alt: "bgImg9" },
     { src: cloudFrame, alt: "cloud" },
+    { src: bgImg7, alt: "bgImg7" },
+    { src: bgImg11, alt: "bgImg11" },
+    { src: bgImg12, alt: "bgImg12" },
   ];
   // ================= dummy data ================= //
 

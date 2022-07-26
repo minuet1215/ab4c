@@ -4,6 +4,14 @@ import img1 from "../../img/bg1.jpeg";
 import img2 from "../../img/bg2.jpeg";
 import img3 from "../../img/bg3.jpeg";
 import img4 from "../../img/bg4.jpeg";
+import img5 from "../../img/bg5.jpg";
+import img6 from "../../img/bg6.jpg";
+import img7 from "../../img/bg7.jpg";
+import img8 from "../../img/bg8.jpg";
+import img9 from "../../img/bg9.jpg";
+import img10 from "../../img/bg10.jpg";
+import img11 from "../../img/bg11.jpg";
+import img12 from "../../img/bg12.jpg";
 
 // ==================== Dummy Data ====================== //
 const images = [
@@ -11,6 +19,14 @@ const images = [
   { src: img2, alt: "2" },
   { src: img3, alt: "3" },
   { src: img4, alt: "4" },
+  { src: img5, alt: "5" },
+  { src: img6, alt: "6" },
+  { src: img7, alt: "7" },
+  { src: img8, alt: "8" },
+  { src: img9, alt: "9" },
+  { src: img10, alt: "10" },
+  { src: img11, alt: "11" },
+  { src: img12, alt: "12" },
 ];
 // ====================================================== //
 const BackgroundContent = (props) => {
