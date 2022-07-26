@@ -54,7 +54,14 @@ code {
 }
 .wrap_img {
   box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s linear;
 }
+
+.wrap_img:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+}
+
 .submit_btns {
   text-align: center;
 }
