@@ -46,6 +46,7 @@ body {
 .contents_container {
   width: 100%;
   height: calc(100vh - 74px);
+  /* margin-top: -10%; */
 }
 
 /* BUTTON */
@@ -175,11 +176,13 @@ body {
   padding: 1.5% 13% 1.5% 13%;
   margin: 3% 0 0 0;
 }
+
 .EditBtn {
   background-color: #fc8da1;
   color: #fefefa;
   font-size: 18px;
 }
+
 .DelBtn {
   background-color: #fefefa;
   color: #555555;

@@ -297,6 +297,10 @@ function PhotoEditPage() {
               onClick={() => {
                 showDrawer("Frame");
               }}
+              style={{
+                fontSize: "1.4em",
+                fontWeight: "bold",
+              }}
             >
               {/* <img src={frame} style={{ height: "100%" }} /> */}
               프레임 변경
@@ -306,12 +310,22 @@ function PhotoEditPage() {
               onClick={() => {
                 showDrawer("Message");
               }}
+              style={{
+                fontSize: "1.4em",
+                fontWeight: "bold",
+              }}
             >
               {/* <img src={memo} style={{ height: "100%" }} /> */}
               메모 하기
             </button>
-            <button className={styles.btn_pink} onClick={onSave}>
-              {/* <img src={album} style={{ height: "100%" }} /> */}
+            <button
+              className={styles.btn_pink}
+              onClick={onSave}
+              style={{
+                fontSize: "1.4em",
+                fontWeight: "bold",
+              }}
+            >
               앨범 저장
             </button>
             <Checkbox onChange={() => SetIsPublic(!isPublic)}>비공개</Checkbox>

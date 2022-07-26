@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
+import "./AutoSlide.css";
 import { Badge } from "antd";
 
 const Container = styled.div`
@@ -97,7 +98,7 @@ export default class AutoSlides extends Component {
     };
     return (
       <Container>
-        <h2># BEST 10</h2>
+        <span id="best10">#BEST_10</span>
         <Slider {...settings}>
           {images.map((image, index) => {
             return (
