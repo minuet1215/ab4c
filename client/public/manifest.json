@@ -71,7 +71,8 @@
     }
   ],
   "start_url": "/",
-  "display": "browser",
+  "display": "standalone",
+  "scope": "/",
   "theme_color": "#031230",
   "background_color": "#ffffff"
 }
