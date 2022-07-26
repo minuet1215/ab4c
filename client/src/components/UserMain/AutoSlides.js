@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
+import { Badge } from "antd";
 
 const Container = styled.div`
   overflow: hidden;
@@ -19,6 +20,21 @@ const Image = styled.img`
 `;
 
 const tempUrl = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/"; // todo: s3 url prefix
+const badgeColors = [
+  "#fccc14", // gold
+  "#a9aaae", // silver
+  "#d47a5b", // bronze
+  //  "gold",
+  //  "gold",
+  //  "gold",
+  "#fc8da1",
+  "#fc8da1",
+  "#fc8da1",
+  "#fc8da1",
+  "#fc8da1",
+  "#fc8da1",
+  "#fc8da1",
+];
 
 export default class AutoSlides extends Component {
   constructor(props) {
@@ -30,7 +46,7 @@ export default class AutoSlides extends Component {
 
   loadImage = async () => {
     axios
-      .get("/api/images/album/top20")
+      .get("/api/images/album/top10")
       .then(({ data }) => {
         data.map((image) => {
           this.setState((state) => {
@@ -80,13 +96,19 @@ export default class AutoSlides extends Component {
     };
     return (
       <Container>
-        <h2># BEST 20</h2>
+        <h2># BEST 10</h2>
         <Slider {...settings}>
-          {images.map((image) => {
+          {images.map((image, index) => {
             return (
               <div>
                 <ImageContainer>
-                  <Image src={image.url} key={image.id} />
+                  <Badge.Ribbon
+                    text={index + 1}
+                    color={badgeColors[index]}
+                    placement="start"
+                  >
+                    <Image src={image.url} key={image.id} />
+                  </Badge.Ribbon>
                 </ImageContainer>
               </div>
             );
