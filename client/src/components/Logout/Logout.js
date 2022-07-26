@@ -14,7 +14,7 @@ function Logout() {
 
   const onClickHandler = () => {
     const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
-    if (confirmLogout === true){
+    if (confirmLogout === true) {
       dispatch(auth()).then((response) => {
         if (response.payload.loginType === "kakao") {
           const myAccessKey = localStorage.getItem("token");
@@ -35,7 +35,7 @@ function Logout() {
   };
 
   return (
-    <button className="button button_gap" onClick={onClickHandler}>
+    <button className="button button_gap btn_3" onClick={onClickHandler}>
       로그아웃
     </button>
   );

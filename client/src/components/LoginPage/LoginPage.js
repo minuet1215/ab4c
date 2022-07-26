@@ -69,7 +69,7 @@ function LoginPage() {
           </Form>
           <button
             type="submit"
-            className="button button_gap"
+            className="button button_gap btn_3"
             style={{ width: "200px" }}
             onClick={onSubmitHandler}
           >

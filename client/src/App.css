@@ -29,7 +29,7 @@ body {
 .outer_container {
   width: 100vw;
   height: 100vh;
-  /* max-width: 600px; */
+  max-width: 600px;
   position: relative;
   border: 1px solid gainsboro;
 }
@@ -51,9 +51,9 @@ body {
 /* BUTTON */
 .button {
   width: 100%;
-  height: 40px;
+  height: 50px;
   /* margin: 5px; */
-  font-size: 1rem;
+  font-size: 18px;
   font-weight: 600;
   color: #555555;
   border-radius: 10px;
@@ -77,6 +77,11 @@ body {
 }
 .btn_2 {
   background-color: #fefefa;
+  color: #555555;
+}
+.btn_3 {
+  background-color: #efefef;
+  /*  */
   color: #555555;
 }
 .sign_in_kakao {

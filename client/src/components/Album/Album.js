@@ -82,7 +82,7 @@ function MyAlbum() {
   return (
     <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>
-      <Header />
+      <Header subTitle="내 앨범" onBackUrl="/main" />
       <div className={styles.contents_container}>
         <div className={styles.album_container}>
           {data.datas.map((item, index) => (

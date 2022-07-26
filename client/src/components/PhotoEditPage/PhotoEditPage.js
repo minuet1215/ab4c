@@ -213,7 +213,8 @@ function PhotoEditPage() {
     const formData = setFormData(file);
 
     await axios.post("/api/images/post", formData).then((res) => {
-      isLoading = false;
+      // isLoading = false;
+      setLoading(false);
       if (res) {
         toast.success("이미지 저장 성공!");
         navigate("/album");
@@ -363,6 +364,9 @@ function PhotoEditPage() {
               placeholder="사진에 대한 설명을 적어주세요!"
               onChange={handleChange}
               style={{ width: "85%" }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") setMessageDrawerVisible(false);
+              }}
             />
             <Button
               onClick={() => {
@@ -372,7 +376,7 @@ function PhotoEditPage() {
                 position: "absolute",
               }}
             >
-              완료
+              저장
             </Button>
           </div>
         </Drawer>

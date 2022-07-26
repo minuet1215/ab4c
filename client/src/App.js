@@ -32,7 +32,7 @@ function App() {
 
   return (
     <Router>
-      <div>
+      <div className="size_fix_box">
         <ToastContainer autoClose={2000} limit={1} />
         <Routes>
           <Route exact path="/" element={<AuthLandingPage />} />
