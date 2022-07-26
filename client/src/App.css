@@ -8,7 +8,6 @@ html,
 body {
   max-width: 100%;
   overflow-x: hidden;
-  cursor: url(https://cur.cursors-4u.net/cursors/cur-9/cur271.cur), auto !important;
 }
 .size_fix_box {
   display: flex;
