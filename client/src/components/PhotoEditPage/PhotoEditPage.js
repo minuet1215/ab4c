@@ -364,6 +364,9 @@ function PhotoEditPage() {
               placeholder="사진에 대한 설명을 적어주세요!"
               onChange={handleChange}
               style={{ width: "85%" }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") setMessageDrawerVisible(false);
+              }}
             />
             <Button
               onClick={() => {
@@ -373,7 +376,7 @@ function PhotoEditPage() {
                 position: "absolute",
               }}
             >
-              완료
+              저장
             </Button>
           </div>
         </Drawer>

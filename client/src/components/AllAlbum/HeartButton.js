@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import Heart from "react-animated-heart";
 
 function HeartButton({ modalContent, setModalContent }) {
   const [totalLike, setTotalLike] = useState(modalContent.likes_count);
   const [like, setLike] = useState(modalContent.isLiked);
+  const [isClick, setClick] = useState(like);
 
   const likeAction = () => {
     const params = {
@@ -18,24 +20,29 @@ function HeartButton({ modalContent, setModalContent }) {
   };
 
   return (
-    <div style={{}}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="37"
-        height="37"
-        fill="currentColor"
-        viewBox="0 0 16 16"
-        style={{}}
-      >
-        <path
-          d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-          fill={like ? "#fc8da1" : "#959595"}
-          onClick={likeAction}
-        />
-      </svg>
+    <div
+      style={{
+        justifyContent: "center",
+        alignContent: "center",
+        display: "flex",
+        justifyItems: "center",
+        alignItem: "center",
+      }}
+    >
+      <Heart
+        isClick={isClick}
+        onClick={() => {
+          setLike(!like);
+          setClick(!isClick);
+          likeAction();
+        }}
+      />
+
       <span
         style={{
-          marginLeft: 7,
+          margin: "auto",
+          marginLeft: -20,
+          // display: "absolute",
           fontWeight: "bold",
           fontSize: "24px",
         }}
