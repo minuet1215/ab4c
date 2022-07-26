@@ -9,7 +9,7 @@ import "tui-color-picker/dist/tui-color-picker.css";
 import whiteTheme from "./theme";
 import "./styles.css";
 
-import { Button } from "antd";
+// import { Button } from "antd";
 import { useLocation } from "react-router-dom";
 
 export default function Editor() {
@@ -70,9 +70,8 @@ export default function Editor() {
   };
 
   return (
-    <>
-      <Header />
-      <Button onClick={OnSave}>저장</Button>
+    <div className="outer_container">
+      <Header subTitle="사진 꾸미기" onBackUrl="/album" />
       <ImageEditor
         ref={editorRef}
         includeUI={{
@@ -84,8 +83,8 @@ export default function Editor() {
           menu: ["text", "filter"],
           // initMenu: "filter",
           uiSize: {
-            //   width: "500px",
-            height: '700px',
+            // width: "100%",
+            height: "calc(100vh - 2 * 74px - 80px)",
           },
           menuBarPosition: "bottom",
         }}
@@ -97,7 +96,25 @@ export default function Editor() {
         }}
         usageStatistics={false}
       />
-      <Sticker onStickerSelected={(path) => addSticker(path)} />
-    </>
+      <div style={{ height: "80px", display: "flex" }}>
+        <Sticker onStickerSelected={(path) => addSticker(path)} />
+      </div>
+      <div
+        style={{
+          height: "74px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <button
+          className="button btn_1 "
+          style={{ width: "200px", height: "50px" }}
+          onClick={OnSave}
+        >
+          저장
+        </button>
+      </div>
+    </div>
   );
 }

@@ -55,7 +55,7 @@ function AllAlbum() {
     <>
       <div className="outer_container">
         <div>{loading ? <Loading /> : null}</div>
-        <Header />
+        <Header subTitle="전체 앨범" onBackUrl="/main" />
 
         <div className={styles.contents_container}>
           <div className={styles.album_container}>
