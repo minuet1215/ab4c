@@ -16,6 +16,8 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  background-color: #574144;
+  /* ! : 배경색 수정은 이 부분!! */
 }
 
 /* ! : container => 이상하게 적용되서 아래로 바꿈 */
@@ -32,6 +34,7 @@ body {
   max-width: 600px;
   position: relative;
   border: 1px solid gainsboro;
+  background-color: white;
 }
 .center {
   width: 100%;
