@@ -85,7 +85,7 @@ export default function Editor() {
           // initMenu: "filter",
           uiSize: {
             //   width: "500px",
-            height: "900px",
+            height: '700px',
           },
           menuBarPosition: "bottom",
         }}

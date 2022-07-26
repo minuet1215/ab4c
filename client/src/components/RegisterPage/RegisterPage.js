@@ -30,26 +30,6 @@ function RegisterPage() {
     setConfirmPassword(event.currentTarget.value);
   };
 
-  const onCheckEmailHandler = (event) => {
-    event.preventDefault();
-    const regExp =
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    if (Email === "" || Email.match(regExp) === null) {
-      alert("올바른 이메일을 적어주세요. ");
-      return;
-    }
-    let body = {
-      email: Email,
-    };
-    dispatch(isUser(body)).then((response) => {
-      if (!response.payload.isUser) {
-        alert("사용 가능한 이메일입니다 :)");
-      } else {
-        alert("이미 사용 중인 이메일입니다. :(");
-      }
-    });
-  };
-
   const onSubmitHandler = (event) => {
     event.preventDefault();
     const regExp =
