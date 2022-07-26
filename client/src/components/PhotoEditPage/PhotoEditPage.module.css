@@ -9,7 +9,9 @@
   padding-top: 5%;
   padding-bottom: 10%;
 }
-
+.result_image {
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5);
+}
 .control_container {
   display: flex;
   justify-content: center;
@@ -29,6 +31,20 @@
   overflow-y: hidden;
   /* overflow: auto; */
   white-space: nowrap;
+}
+.bg_menu_scroll::-webkit-scrollbar {
+  width: 4px; /* 스크롤바의 너비 */
+}
+
+.bg_menu_scroll::-webkit-scrollbar-thumb {
+  height: 25%; /* 스크롤바의 길이 */
+  background: #fc8da1; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+.bg_menu_scroll::-webkit-scrollbar-track {
+  background: rgb(255, 206, 224); /*스크롤바 뒷 배경 색상*/
 }
 
 .btn_pink {
