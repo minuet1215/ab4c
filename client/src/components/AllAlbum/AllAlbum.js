@@ -62,6 +62,7 @@ function AllAlbum() {
             {data.datas.map((item, index) => (
               <div key={index} className={styles.img_container}>
                 <img
+                  className={styles.wrap_img}
                   src={item.imageUrl}
                   alt={index}
                   onClick={() => showModal(item)}

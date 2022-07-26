@@ -65,6 +65,7 @@ const VideoAREA = forwardRef((props, ref) => {
       console.error(e);
     }
     setLoading(false);
+    remove();
   };
   const createOffer = async () => {
     console.log("create offer");
@@ -74,6 +75,7 @@ const VideoAREA = forwardRef((props, ref) => {
         offerToReceiveAudio: true,
         offerToReceiveVideo: true,
       });
+      remove2();
       await pcRef.current.setLocalDescription(new RTCSessionDescription(sdp));
       socketRef.current.emit("offer", sdp);
     } catch (e) {
@@ -89,6 +91,7 @@ const VideoAREA = forwardRef((props, ref) => {
         offerToReceiveVideo: true,
         offerToReceiveAudio: true,
       });
+      remove2();
       console.log("create answer");
       await pcRef.current.setLocalDescription(new RTCSessionDescription(mySdp));
       socketRef.current.emit("answer", mySdp);
@@ -132,8 +135,7 @@ const VideoAREA = forwardRef((props, ref) => {
       props.setImgBase64(img);
     });
     setVideoTracks();
-    remove();
-    remove2();
+
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();
@@ -166,6 +168,7 @@ const VideoAREA = forwardRef((props, ref) => {
           className={leave ? styles.displaynone : styles.mirror}
           id="remotetrans"
         ></canvas>
+        <canvas id="myStar"></canvas>
         <video
           className={styles.displaynone}
           id="my_face"

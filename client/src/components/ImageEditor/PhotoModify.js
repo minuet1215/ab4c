@@ -9,6 +9,10 @@ function PhotoModify(props) {
     console.log(props.img);
     navigate("/editPhoto", { state: { path: props.img } });
   };
-  return <Button onClick={modifyHandler}>수정하기</Button>;
+  return (
+    <button className="AlbumBtn EditBtn" onClick={modifyHandler}>
+      수정
+    </button>
+  );
 }
 export default PhotoModify;

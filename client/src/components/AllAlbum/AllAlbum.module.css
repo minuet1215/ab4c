@@ -12,6 +12,20 @@
   height: 100%;
   overflow-y: scroll;
 }
+.album_container::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+.album_container::-webkit-scrollbar-thumb {
+  height: 25%; /* 스크롤바의 길이 */
+  background: #fc8da1; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+.album_container::-webkit-scrollbar-track {
+  background: rgb(255, 206, 224); /*스크롤바 뒷 배경 색상*/
+}
 
 .img_container {
   width: 200px;

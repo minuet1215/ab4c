@@ -20,10 +20,8 @@ function GroupPage() {
   const [token] = useState(localStorage.getItem("token"));
   let { roomname } = useParams();
   const navigate = useNavigate();
-  const tabRefs = {
-    backgroundSrcRef: useRef(null),
-  };
   const refs = {
+    backgroundSrcRef: useRef(null),
     localVideoRef: useRef(null),
     socketRef: useRef(null),
     pcRef: useRef(null),
@@ -75,8 +73,6 @@ function GroupPage() {
   // 음소거 useeffect (반응 늦는 이슈 수정)
   useEffect(() => {
     if (refs.localVideoRef.current.srcObject) {
-      // refs.localVideoRef.current.srcObject.getTracks()[0].stop();
-      console.log(refs.localVideoRef.current.srcObject.getTracks()[0].enabled);
       refs.localVideoRef.current.srcObject.getTracks()[0].enabled = isMute;
     }
   }, [isMute]);
@@ -140,7 +136,7 @@ function GroupPage() {
         ) : roomname === token ? (
           <div className={styles.rest_container} id="cameratab">
             <CameraTab
-              ref={tabRefs}
+              ref={refs}
               setImgBase64={setImgBase64}
               ImgBase64={ImgBase64}
             />

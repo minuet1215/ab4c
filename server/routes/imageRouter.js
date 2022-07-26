@@ -29,22 +29,26 @@ imageRouter.post("/post", upload.single("file"), async (req, res) => {
 
 imageRouter.post("/album", async (req, res) => {
   // public 이미지들만 제공
-  const images = await Image.find({ public: "true" }); // 탐색, 수정, 옵션
+  const images = await Image.find({ public: "true" }).sort({
+    createdAt: -1,
+  }); // 탐색, 수정, 옵션
   res.json(images);
 });
 
-imageRouter.get("/album/top20", async (req, res) => {
+imageRouter.get("/album/top10", async (req, res) => {
   // public 이미지들만 제공, 좋아요 순, 최대 20개
   const images = await Image.find({ public: true })
-    .sort({ likes_count: -1 })
-    .limit(20); // 탐색, 수정, 옵션
+    .sort({ likes_count: -1, createdAt: -1 })
+    .limit(10); // 탐색, 수정, 옵션
   res.json(images);
 });
 
 imageRouter.post("/album/me", async (req, res) => {
   // 내가 찍은 사진들 제공
   if (req.body.id) {
-    const images = await Image.find({ "user._id": req.body.id }); // 탐색, 수정, 옵션
+    const images = await Image.find({ "user._id": req.body.id }).sort({
+      createdAt: -1,
+    }); // 탐색, 수정, 옵션
     res.json(images);
   }
 });
@@ -125,5 +129,10 @@ imageRouter.patch("/:imageId/like", async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
+// imageRouter.post("/test", multer, async (req, res) => {
+//   console.log(req.body);
+//   res.json({ message: "test" });
+// });
 
 module.exports = imageRouter;

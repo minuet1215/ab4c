@@ -33,7 +33,7 @@ function App() {
   return (
     <Router>
       <div className="size_fix_box">
-        <ToastContainer />
+        <ToastContainer autoClose={2000} limit={1} />
         <Routes>
           <Route exact path="/" element={<AuthLandingPage />} />
           <Route exact path="/main" element={<AuthUserMain />} />
@@ -48,7 +48,7 @@ function App() {
             exact
             path="/oauth/kakao/callback"
             element={<KakaoAuthPage />}
-          />
+          />ㅌ
 
           {/* <KakaoAuth/> */}
           <Route path="/profile" element={<Profile />} />
