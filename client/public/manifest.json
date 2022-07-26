@@ -71,7 +71,9 @@
     }
   ],
   "start_url": "/",
-  "display": "standalone",
+  "scope" : "/",
+  "display": "fullscreen",
   "theme_color": "#031230",
-  "background_color": "#031230"
+  "background_color": "#ffffff"
+
 }

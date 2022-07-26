@@ -126,4 +126,8 @@ imageRouter.patch("/:imageId/like", async (req, res) => {
   }
 });
 
+imageRouter.post("/removebg", async(req, res) => {
+  console.log(req);
+})
+
 module.exports = imageRouter;
