@@ -3,6 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import styles from "./GroupPage.module.css";
 import BackgroundContent from "./BackgroundContent";
 import SelfUploadBgContent from "./SelfUploadBgContent";
+import WithStar from "./WithStar";
 const CameraTabs = forwardRef((props, ref) => {
   let [tab, setTab] = useState(0);
 
@@ -108,12 +109,13 @@ const CameraTabs = forwardRef((props, ref) => {
         tab={tab}
         ImgBase64={props.ImgBase64}
         setImgBase64={props.setImgBase64}
+        ref={ref}
       />
     </div>
   );
 });
 
-function TabContent(props) {
+const TabContent = forwardRef((props, ref) => {
   return [
     <div className={styles.tab_contents_container}>
       <BackgroundContent
@@ -125,9 +127,9 @@ function TabContent(props) {
       <SelfUploadBgContent />
     </div>,
     <div className={styles.tab_contents_container}>
-      <BackgroundContent />
+      <WithStar ref={ref} />
     </div>,
   ][props.tab];
-}
+});
 
 export default CameraTabs;

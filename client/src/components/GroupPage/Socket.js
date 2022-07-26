@@ -168,6 +168,7 @@ const VideoAREA = forwardRef((props, ref) => {
           className={leave ? styles.displaynone : styles.mirror}
           id="remotetrans"
         ></canvas>
+        <canvas id="myStar"></canvas>
         <video
           className={styles.displaynone}
           id="my_face"
