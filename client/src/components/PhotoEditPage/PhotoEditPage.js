@@ -419,6 +419,14 @@ function PhotoEditPage() {
           }}
           visible={isFrameDrawerVisible}
           height="31%"
+          style={
+            window.innerWidth > 600
+              ? {
+                  width: "600px",
+                  marginLeft: `calc(50vw - 300px)`,
+                }
+              : {}
+          }
         >
           <div className={styles.bg_menu_scroll}>
             {bgImages.map((bgImage) => {
@@ -446,6 +454,14 @@ function PhotoEditPage() {
           }}
           visible={isMessageDrawerVisible}
           height="30%"
+          style={
+            window.innerWidth > 600
+              ? {
+                  width: "600px",
+                  marginLeft: `calc(50vw - 300px)`,
+                }
+              : {}
+          }
         >
           <div>
             <Input
