@@ -137,8 +137,17 @@ function GroupPage() {
             </div>
           </div>
           {startCapture ? (
-            <div className={styles.rest_container} id="countdown">
-              <p className={styles.count_down_text}>{Math.floor(countDown)}</p>
+            <div
+              className={styles.rest_container}
+              id="countdown"
+              style={{
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {/* <p className={styles.count_down_text}>{Math.floor(countDown)}</p> */}
+              <CountDown />
             </div>
           ) : roomname === token ? (
             <div className={styles.rest_container} id="cameratab">

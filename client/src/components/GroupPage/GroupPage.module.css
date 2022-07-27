@@ -28,6 +28,7 @@
 }
 
 .photo_count_text {
+  display: none;
   position: absolute;
   display: flex;
   left: 15%;
@@ -35,6 +36,16 @@
   font-size: 30px;
   font-weight: 600;
   color: #555555;
+}
+.count_down_image {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20%;
+  /* 
+  margin: 20% 20% 20% 20%; */
 }
 .camera_button {
   position: absolute;
@@ -168,4 +179,5 @@
   color: white;
   font-weight: 700;
   font-size: 20px;
+  background-color: rgb(15, 140, 249);
 }
