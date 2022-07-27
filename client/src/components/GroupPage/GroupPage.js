@@ -12,8 +12,7 @@ import MuteBtn from "./MuteBtn";
 import CaptureBtn from "./CaptureBtn";
 import { toast } from "react-toastify";
 import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
-import CountDown from "../CountDown/CountDown";
-
+// import CountDown from "../CountDown/CountDown";
 
 let IMGS = [];
 let gifFrames = [[], [], [], [], [], [], []];
@@ -148,8 +147,8 @@ function GroupPage() {
                 alignItems: "center",
               }}
             >
-              {/* <p className={styles.count_down_text}>{Math.floor(countDown)}</p> */}
-              <CountDown />
+              <p className={styles.count_down_text}>{Math.floor(countDown)}</p>
+              {/* <CountDown /> */}
             </div>
           ) : roomname === token ? (
             <div className={styles.rest_container} id="cameratab">
