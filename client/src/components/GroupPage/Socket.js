@@ -4,7 +4,6 @@ import remove from "./remove.js";
 import remove2 from "./remove2.js";
 import io from "socket.io-client";
 import Loading from "../Loading/Loading";
-const token = localStorage.getItem("token");
 
 const VideoAREA = forwardRef((props, ref) => {
   const [loading, setLoading] = useState(true);
@@ -12,7 +11,7 @@ const VideoAREA = forwardRef((props, ref) => {
   // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
   const DEFAULT_BACKGROUND =
     "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)";
-  let isHost = token === props.roomName;
+  let isHost = props.token === props.roomName;
   const { localVideoRef, socketRef, pcRef, remoteVideoRef, captureAreaRef } =
     ref;
   let [leave, setLeave] = useState(true); //나가면 상대방 삭제되게 하는 State
@@ -129,9 +128,11 @@ const VideoAREA = forwardRef((props, ref) => {
       console.log("나감");
     });
     socketRef.current.on("start", () => {
+      console.log("start");
       props.setCapture(true);
     });
     socketRef.current.on("backgroundChange", (img) => {
+      console.log("backgroundChange");
       props.setImgBase64(img);
     });
     setVideoTracks();
