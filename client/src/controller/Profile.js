@@ -23,22 +23,15 @@ const Profile = () => {
         imageUrl: data.properties.profile_image,
         loginType: "kakao",
       };
-
-      dispatch(isUser(body)).then((response) => {
-        if (!response.payload.isUser) {
-          dispatch(registerUser(body)).then((res) => {
-            dispatch(loginUser(body)) // 로그인 과정을 거침
-              .then((response) => {
-                navigate("/main");
-              });
-          });
-        } else {
-          dispatch(loginUser(body)) // 로그인 과정을 거침
-            .then((response) => {
-              navigate("/main");
-            });
-        }
-      });
+      
+      let checkUser = await isUser(body);
+      
+      if (!checkUser.payload.isUser){
+        let doRegister = await registerUser(body)
+      }
+      dispatch(loginUser(body)).then((res) => {
+        navigate('/main');
+      })
     } catch (err) {}
   };
 
