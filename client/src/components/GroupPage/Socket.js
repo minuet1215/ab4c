@@ -128,11 +128,11 @@ const VideoAREA = forwardRef((props, ref) => {
       console.log("나감");
     });
     socketRef.current.on("start", () => {
-      console.log("start");
+      console.log("recieve : start");
       props.setCapture(true);
     });
     socketRef.current.on("backgroundChange", (img) => {
-      console.log("backgroundChange");
+      console.log("recieve : backgroundChange");
       props.setImgBase64(img);
     });
     setVideoTracks();
@@ -147,9 +147,11 @@ const VideoAREA = forwardRef((props, ref) => {
     };
   }, []);
   if (isHost && props.isCapture) {
+    console.log("I'm Host: emit start");
     socketRef.current.emit("start", props.roomName);
   }
   if (isHost && props.ImgBase64) {
+    console.log("I'm Host: emit BG change");
     socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
   }
   return (
