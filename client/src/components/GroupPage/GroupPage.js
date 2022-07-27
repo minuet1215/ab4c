@@ -140,7 +140,6 @@ function GroupPage() {
               alignItems: "center",
             }}
           >
-            {/* <p className={styles.count_down_text}>{Math.floor(countDown)}</p> */}
             <CountDown />
           </div>
         ) : roomname === token ? (
@@ -150,6 +149,7 @@ function GroupPage() {
               setImgBase64={setImgBase64}
               ImgBase64={ImgBase64}
             />
+            {/*  */}
           </div>
         ) : (
           <div className={styles.rest_container} id="countdown">
