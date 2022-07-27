@@ -36,13 +36,15 @@ function RegisterPage() {
     const regExp =
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
-    if (Password !== ConfirmPassword) {
-      return alert("비밀번호와 비밀번호 확인은 같아야 합니다 .__.");
-    }
     if (Email.match(regExp) === null) {
-      alert("올바른 이메일을 적어주세요 .__. ");
+      toast.error("올바른 이메일을 적어주세요 .__. ");
       return;
     }
+
+    if (Password !== ConfirmPassword) {
+      return toast.error("비밀번호와 비밀번호 확인은 같아야 합니다 .__.");
+    }
+
     let body = {
       email: Email,
     };

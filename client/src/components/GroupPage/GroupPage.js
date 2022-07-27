@@ -39,7 +39,7 @@ function GroupPage() {
     //최초 페이지 진입시
     if (token === roomname) {
       navigator.clipboard.writeText(window.document.location.href).then(() => {
-        toast.success("초대링크가 자동으로 복사되었습니다.");
+        toast.success(<div>초대링크가 자동으로 복사되었습니다. <br /> 함께 할 친구를 초대해보세요!</div>, { position: toast.POSITION.UPPER_RIGHT });
       });
     }
   }, []);
