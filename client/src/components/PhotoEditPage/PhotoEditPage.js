@@ -288,25 +288,33 @@ function PhotoEditPage() {
       <MyHeader subTitle="사진 화면" onBackUrl="/main" />
       <div className="contents_container">
         <div
-          className={styles.canvas_container}
-          onClick={() => {
-            console.log("click");
-            setGifMode(!isGifMode);
+          style={{
+            justifyContent: "center",
+            display: "flex",
+            marginBottom: "5%",
           }}
         >
-          <canvas
-            id="canvas"
-            width={frame_width}
-            height={frame_height}
-            style={{
-              backgroundColor: "black",
+          <div
+            className={styles.canvas_container}
+            onClick={(e) => {
+              e.preventDefault();
+              setGifMode(!isGifMode);
             }}
-            className={styles.result_image}
-            ref={canvasRef}
           >
-            Your browser does not support the HTML5 canvas tag.
-          </canvas>
-          <img id="result-image"></img>
+            <canvas
+              id="canvas"
+              width={frame_width}
+              height={frame_height}
+              style={{
+                backgroundColor: "black",
+              }}
+              className={styles.result_image}
+              ref={canvasRef}
+            >
+              Your browser does not support the HTML5 canvas tag.
+            </canvas>
+            <img id="result-image"></img>
+          </div>
         </div>
         {isAuth && (
           <div id="control-menu" className={styles.control_container}>
