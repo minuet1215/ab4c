@@ -11,7 +11,9 @@ import CameraTab from "./CameraTab";
 import MuteBtn from "./MuteBtn";
 import CaptureBtn from "./CaptureBtn";
 import { toast } from "react-toastify";
-import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원s
+import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
+import CountDown from "../CountDown/CountDown";
+
 
 let IMGS = [];
 let gifFrames = [[], [], [], [], [], [], []];
