@@ -31,7 +31,9 @@ code {
   flex-direction: row;
   flex-wrap: wrap;
   height: 100%;
+  width: 100%;
   overflow-y: scroll;
+  
 }
 .album_container::-webkit-scrollbar {
   width: 8px; /* 스크롤바의 너비 */
@@ -75,8 +77,9 @@ code {
   top: 0;
   left: 0;
   right: 0;
-  width: 100%;
+  max-width: 600px;
   height: 100%;
+  margin: auto;
   background: rgba(27, 27, 27, 0.541);
   display: flex;
   align-items: center;
