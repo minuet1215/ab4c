@@ -5,7 +5,6 @@ import { easeQuadInOut } from "d3-ease";
 import AnimatedProgressProvider from "./AnimatedProgressProvider";
 
 const CountDown = () => (
-  // }
   <div style={{ width: "60%" }}>
     {/* <ChangingProgressProvider values={[100, 71, 51, 21, 1, 0, 0, 0, 0]}> */}
     <AnimatedProgressProvider
