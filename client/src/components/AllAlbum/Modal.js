@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./AllAlbum.module.css";
 import HeartButton from "./HeartButton";
 
@@ -10,7 +10,7 @@ function Modal({ modalContent, setModalContent }) {
     <div className={styles.modal_background}>
       <div className={styles.modal_container}>
         <div className={styles.modal_header}>
-          {modalContent.ownerName} 님의 안방네컷 {/* &nbsp; */}
+          {modalContent.ownerName}님의 안방네컷 {/* &nbsp; */}
           {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
