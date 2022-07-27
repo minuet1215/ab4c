@@ -49,6 +49,7 @@ body {
 .contents_container {
   width: 100%;
   height: calc(100vh - 74px);
+  justify-content: center;
   /* margin-top: -10%; */
 }
 
