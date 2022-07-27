@@ -20,4 +20,21 @@ background: linear-gradient(to right, #fc8da1, #8ca6ce);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 }
-  
+
+.best_container .img{
+  transition: all 0.2s linear;
+}
+
+/* .best_container .ribbon {
+  transition: all 0.2s linear;  
+} */
+
+.best_container .img:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+}
+
+/* .best_container .ribbon:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+} */
