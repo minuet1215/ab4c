@@ -17,30 +17,30 @@ function UserMain() {
         }}
       >
         <AutoSlides />
-        <div style={{ display: "flex", height: "74px", marginTop: "10%" }}>
-          <button
-            className="button button_gap btn_1"
-            style={{ height: "100%", margin: "10px", fontSize: "24px" }}
-            onClick={() => navigate(`/group/${token}`)}
-          >
-            촬영하기
-          </button>
-          <button
-            className="button button_gap btn_2"
-            style={{ height: "100%", margin: "10px", fontSize: "24px" }}
-            onClick={() => navigate("/album")}
-          >
-            내 앨범
-          </button>
+      </div>
+      <div style={{ display: "flex", height: "74px", margin: "-9% 10% 0 9%" }}>
+        <button
+          className="button button_gap btn_1"
+          style={{ height: "100%", margin: "10px", fontSize: "24px" }}
+          onClick={() => navigate(`/group/${token}`)}
+        >
+          촬영하기
+        </button>
+        <button
+          className="button button_gap btn_2"
+          style={{ height: "100%", margin: "10px", fontSize: "24px" }}
+          onClick={() => navigate("/album")}
+        >
+          내 앨범
+        </button>
 
-          <button
-            className="button button_gap btn_3"
-            style={{ height: "100%", margin: "10px", fontSize: "24px" }}
-            onClick={() => navigate("/allalbum")}
-          >
-            전체 앨범
-          </button>
-        </div>
+        <button
+          className="button button_gap btn_3"
+          style={{ height: "100%", margin: "10px", fontSize: "24px" }}
+          onClick={() => navigate("/allalbum")}
+        >
+          전체 앨범
+        </button>
       </div>
     </div>
   );
