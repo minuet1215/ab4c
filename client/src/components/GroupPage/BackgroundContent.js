@@ -26,6 +26,17 @@ import 파스텔5 from "../../img/파스텔5.png";
 
 // ==================== Dummy Data ====================== //
 const images = [
+  { src: 파스텔1, alt: "파스텔1" },
+  { src: 파스텔2, alt: "파스텔2" },
+  { src: 파스텔3, alt: "파스텔3" },
+  { src: 파스텔4, alt: "파스텔4" },
+  { src: 파스텔5, alt: "파스텔5" },
+  { src: 단색1, alt: "단색1" },
+  { src: 단색2, alt: "단색2" },
+  { src: 단색3, alt: "단색3" },
+  { src: 단색4, alt: "단색4" },
+  { src: 단색5, alt: "단색5" },
+  { src: 단색6, alt: "단색6" },
   { src: img1, alt: "1" },
   { src: img2, alt: "2" },
   { src: img3, alt: "3" },
@@ -38,17 +49,6 @@ const images = [
   { src: img10, alt: "10" },
   { src: img11, alt: "11" },
   { src: img12, alt: "12" },
-  { src: 단색1, alt: "단색1" },
-  { src: 단색2, alt: "단색2" },
-  { src: 단색3, alt: "단색3" },
-  { src: 단색4, alt: "단색4" },
-  { src: 단색5, alt: "단색5" },
-  { src: 단색6, alt: "단색6" },
-  { src: 파스텔1, alt: "파스텔1" },
-  { src: 파스텔2, alt: "파스텔2" },
-  { src: 파스텔3, alt: "파스텔3" },
-  { src: 파스텔4, alt: "파스텔4" },
-  { src: 파스텔5, alt: "파스텔5" },
 ];
 // ====================================================== //
 const BackgroundContent = (props) => {

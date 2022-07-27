@@ -19,7 +19,6 @@ const CameraTabs = forwardRef((props, ref) => {
         >
           <Nav.Item>
             <Nav.Link
-              style={{ paddingLeft: "100px", paddingRight: "100px" }}
               onClick={() => {
                 setTab(0);
               }}
@@ -27,7 +26,7 @@ const CameraTabs = forwardRef((props, ref) => {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="25"
+                width="100"
                 height="25"
                 fill="currentColor"
                 className="bi bi-card-image"
@@ -46,7 +45,6 @@ const CameraTabs = forwardRef((props, ref) => {
           </Nav.Item>
           <Nav.Item>
             <Nav.Link
-              style={{ paddingLeft: "100px", paddingRight: "100px" }}
               onClick={() => {
                 setTab(1);
               }}
@@ -54,7 +52,7 @@ const CameraTabs = forwardRef((props, ref) => {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="25"
+                width="100"
                 height="25"
                 fill="currentColor"
                 className="bi bi-stars"
