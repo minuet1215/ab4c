@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -102,9 +102,10 @@ export default class AutoSlides extends Component {
         <Slider {...settings}>
           {images.map((image, index) => {
             return (
-              <div>
-                <ImageContainer>
+              <div className="best_container">
+                <ImageContainer className="img">
                   <Badge.Ribbon
+                    className="ribbon"
                     text={index + 1}
                     color={badgeColors[index]}
                     placement="start"

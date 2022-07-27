@@ -12,7 +12,6 @@ import MuteBtn from "./MuteBtn";
 import CaptureBtn from "./CaptureBtn";
 import { toast } from "react-toastify";
 import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원s
-import CountDown from "../CountDown/CountDown";
 
 let IMGS = [];
 let gifFrames = [[], [], [], [], [], [], []];
@@ -40,7 +39,13 @@ function GroupPage() {
     //최초 페이지 진입시
     if (token === roomname) {
       navigator.clipboard.writeText(window.document.location.href).then(() => {
-        toast.success("초대링크가 자동으로 복사되었습니다.");
+        toast.success(
+          <div>
+            초대링크가 자동으로 복사되었습니다. <br /> 함께 할 친구를
+            초대해보세요!
+          </div>,
+          { position: toast.POSITION.UPPER_RIGHT }
+        );
       });
     }
   }, []);
@@ -67,7 +72,7 @@ function GroupPage() {
       captureFunc();
     }
     if (countDown > 0 && countDown < 4) {
-      silentCapture(2 * countDown - 1);
+      silentCapture(6 - (2 * countDown - 1));
     }
   }, [countDown]);
 
@@ -88,7 +93,7 @@ function GroupPage() {
   // 캡쳐하는 함수
   function captureFunc() {
     setTakePhotoLayer({
-      backgroundColor: "#ffffff",
+      backgroundColor: "white",
       opacity: "0.5",
     });
     let audio = new Audio(cameraAudioSrc);
@@ -114,57 +119,59 @@ function GroupPage() {
   }
 
   return (
-    <div className="outer_container" style={takePhotoLayer}>
-      <MyHeader subTitle="촬영중" onBackUrl="/main" onClick={cameraOff} />
-      <div className="contents_container">
-        <div className={styles.camera_outer_div}>
-          <div className={styles.camera_container}>
-            <VideoAREA
-              roomName={roomname}
-              ref={refs}
-              ImgBase64={ImgBase64}
-              setImgBase64={setImgBase64}
-              isCapture={startCapture}
+    <div className="outer_container">
+      <div style={takePhotoLayer}>
+        <MyHeader subTitle="촬영중" onBackUrl="/main" onClick={cameraOff} />
+        <div className="contents_container">
+          <div className={styles.camera_outer_div}>
+            <div className={styles.camera_container}>
+              <VideoAREA
+                roomName={roomname}
+                ref={refs}
+                ImgBase64={ImgBase64}
+                setImgBase64={setImgBase64}
+                isCapture={startCapture}
+                setCapture={setCapture}
+                token={token}
+              ></VideoAREA>
+            </div>
+          </div>
+          {startCapture ? (
+            <div
+              className={styles.rest_container}
+              id="countdown"
+              style={{
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {/* <p className={styles.count_down_text}>{Math.floor(countDown)}</p> */}
+              <CountDown />
+            </div>
+          ) : roomname === token ? (
+            <div className={styles.rest_container} id="cameratab">
+              <CameraTab
+                ref={refs}
+                setImgBase64={setImgBase64}
+                ImgBase64={ImgBase64}
+              />
+            </div>
+          ) : (
+            <div className={styles.rest_container} id="countdown">
+              <div className={styles.member_text}>대기중</div>
+            </div>
+          )}
+          <div className={styles.control_container}>
+            <p className={styles.photo_count_text}>{photoCount}/4</p>
+            <CaptureBtn
+              startCapture={startCapture}
               setCapture={setCapture}
+              roomname={roomname}
               token={token}
-            ></VideoAREA>
-          </div>
-        </div>
-        {startCapture ? (
-          <div
-            className={styles.rest_container}
-            id="countdown"
-            style={{
-              justifyContent: "center",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {/* <p className={styles.count_down_text}>{Math.floor(countDown)}</p> */}
-            <CountDown />
-          </div>
-        ) : roomname === token ? (
-          <div className={styles.rest_container} id="cameratab">
-            <CameraTab
-              ref={refs}
-              setImgBase64={setImgBase64}
-              ImgBase64={ImgBase64}
             />
+            <MuteBtn setIsMute={setIsMute} isMute={isMute} />
           </div>
-        ) : (
-          <div className={styles.rest_container} id="countdown">
-            <div className={styles.member_text}>대기중</div>
-          </div>
-        )}
-        <div className={styles.control_container}>
-          <p className={styles.photo_count_text}>{photoCount}/4</p>
-          <CaptureBtn
-            startCapture={startCapture}
-            setCapture={setCapture}
-            roomname={roomname}
-            token={token}
-          />
-          <MuteBtn setIsMute={setIsMute} isMute={isMute} />
         </div>
       </div>
     </div>

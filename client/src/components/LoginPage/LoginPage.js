@@ -5,6 +5,7 @@ import { loginUser } from "../../_actions/user_action";
 import { Form, Input } from "antd";
 import MyHeader from "../Header/Header";
 import Kakao from "../../controller/Kakao";
+import { toast } from "react-toastify";
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ function LoginPage() {
         localStorage.setItem("token", response.payload.token); // 자체 로그인도 로컬스토리지에 토큰값 저장
         navigate("/main"); // 페이지 이동
       } else {
-        alert(response.payload.message);
+        toast.error(response.payload.message);
       }
     });
   };

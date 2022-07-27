@@ -16,7 +16,7 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background-color: #574144;
+  background-color: #000000;
   /* ! : 배경색 수정은 이 부분!! */
 }
 
@@ -49,6 +49,7 @@ body {
 .contents_container {
   width: 100%;
   height: calc(100vh - 74px);
+  justify-content: center;
   /* margin-top: -10%; */
 }
 
