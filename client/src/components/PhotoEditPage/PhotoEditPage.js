@@ -23,6 +23,8 @@ import makeGif from "./makeGIF";
 import frame from "../../img/frame.png";
 import memo from "../../img/memo.png";
 import album from "../../img/album.png";
+import 나만보기 from "../../img/나만보기.png";
+import 같이보기 from "../../img/같이보기.png";
 
 const img_width = 550;
 const img_height = 370;
@@ -308,7 +310,6 @@ function PhotoEditPage() {
         </div>
         {isAuth && (
           <div id="control-menu" className={styles.control_container}>
-            {/* <button className={styles.btn_default}>공유</button> */}
             <button
               className={styles.btn_default}
               onClick={() => {
@@ -379,6 +380,15 @@ function PhotoEditPage() {
                 margin: "1rem",
               }}
             >
+              <img
+                src={나만보기}
+                style={{
+                  // display: "block",
+                  // justifyContent: "center",
+                  height: "80%",
+                  marginRight: "5%",
+                }}
+              />
               나만 보기
             </button>
             <button
@@ -391,6 +401,10 @@ function PhotoEditPage() {
                 margin: "1rem",
               }}
             >
+              <img
+                src={같이보기}
+                style={{ height: "100%", marginRight: "5%" }}
+              />
               다같이 보기
             </button>
           </div>

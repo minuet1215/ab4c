@@ -2,7 +2,7 @@ import React, { useState, forwardRef } from "react";
 import Nav from "react-bootstrap/Nav";
 import styles from "./GroupPage.module.css";
 import BackgroundContent from "./BackgroundContent";
-import SelfUploadBgContent from "./SelfUploadBgContent";
+// import SelfUploadBgContent from "./SelfUploadBgContent";
 import WithStar from "./WithStar";
 
 const CameraTabs = forwardRef((props, ref) => {
@@ -19,6 +19,7 @@ const CameraTabs = forwardRef((props, ref) => {
         >
           <Nav.Item>
             <Nav.Link
+              style={{ paddingLeft: "100px", paddingRight: "100px" }}
               onClick={() => {
                 setTab(0);
               }}
@@ -45,6 +46,7 @@ const CameraTabs = forwardRef((props, ref) => {
           </Nav.Item>
           <Nav.Item>
             <Nav.Link
+              style={{ paddingLeft: "100px", paddingRight: "100px" }}
               onClick={() => {
                 setTab(1);
               }}
@@ -87,7 +89,6 @@ const TabContent = forwardRef((props, ref) => {
     </div>,
     <div className={styles.tab_contents_container}>
       <WithStar ref={ref} />
-
     </div>,
   ][props.tab];
 });
