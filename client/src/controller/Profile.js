@@ -8,7 +8,6 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 127.0.0.1
   const getProfile = async () => {
     try {
       // Kakao SDK API를 이용해 사용자 정보 획득
@@ -23,15 +22,14 @@ const Profile = () => {
         imageUrl: data.properties.profile_image,
         loginType: "kakao",
       };
-      
+
       let checkUser = await isUser(body);
-      
-      if (!checkUser.payload.isUser){
-        let doRegister = await registerUser(body)
+      if (!checkUser.payload.isUser) {
+        let doRegister = await registerUser(body);
       }
       dispatch(loginUser(body)).then((res) => {
-        navigate('/main');
-      })
+        navigate("/main");
+      });
     } catch (err) {}
   };
 

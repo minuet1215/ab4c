@@ -7,7 +7,6 @@ import { auth, kakaoLogout } from "../../_actions/user_action";
 import { toast } from "react-toastify";
 
 function Logout() {
-  // const REST_API_KEY = "1c16cb196a174ddce815876521f0b5d4";
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
