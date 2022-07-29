@@ -1,4 +1,4 @@
-import { segment } from "./segment.mjs";
+import { segment } from "./segment.js";
 import { addShader } from "./wegbl-transparency.mjs";
 
 export default function Remove2() {
