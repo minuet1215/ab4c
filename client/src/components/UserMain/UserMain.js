@@ -37,7 +37,7 @@ function UserMain() {
     setModalVisible(false);
     carouselRef.current.goTo(0);
   };
-
+  //
   const carouselRef = React.createRef();
 
   const contentStyle = {
