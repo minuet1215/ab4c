@@ -1,12 +1,15 @@
 const friendsRouter = require("express").Router();
 const { User } = require("../models/User");
 const { Image } = require("../models/Image");
+const mongoose = require("mongoose");
 
 // 친구 검색 기능
 friendsRouter.get("/search/:friendId", async (req, res) => {
   try {
-    const friend = User.find({ email: req.params.friendId });
-    if (!friend) throw new Error("사용자의 ID를 찾을 수 없습니다.");
+    const friend = await User.findOne({ email: req.params.friendId });
+    // User.find 앞에 await 추가 함, 추가 안하면 이상한 데이터 뜨네? 모르겠음
+    // 몽고디비에서 데이터 찾을 때 await 써야하나 봐..이유 찾아주면 감사
+    // mw
     res.status(200).json(friend.name);
   } catch (err) {
     res.json({ err: err.message });
@@ -17,19 +20,19 @@ friendsRouter.get("/search/:friendId", async (req, res) => {
 friendsRouter.post("/add/:friendId", async (req, res) => {
   try {
     const friendId = req.params.friendId;
-    const me = await User.find({ "user._id": req.body.id });
+    const me = await User.findOne({ _id: req.body.id });
 
-    if (me.friends.includes(friendId))
-      throw new Error("이미 등록되어 있는 친구입니다.");
-
-    await User.findOneAndUpdate(
-      {
-        _id: req.body.id,
-      },
-      { $addToSet: { friends: friendId } }
-    );
-
-    res.status(200).json({ success: true });
+    if (me.friends.includes(friendId)) {
+      res.status(200).json({ success: false });
+    } else {
+      await User.findOneAndUpdate(
+        {
+          _id: req.body.id,
+        },
+        { $addToSet: { friends: friendId } }
+      );
+      res.status(200).json({ success: true });
+    }
   } catch (err) {
     res.json({ err: err.message });
   }
@@ -58,8 +61,8 @@ friendsRouter.get("/showAlbum/:frinedId", async (req, res) => {
 
 // 나의 친구 리스트
 friendsRouter.get("/me/friendsList", async (req, res) => {
-  const user = await User.find({ _id: req.body.id });
-  res.json(user.friends);
+  const user = await User.findOne({ _id: req.body.id });
+  res.json(user);
 });
 
 module.exports = friendsRouter;
