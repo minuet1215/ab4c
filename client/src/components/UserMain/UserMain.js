@@ -61,15 +61,7 @@ function UserMain() {
           style={{ height: "100%", margin: "10px", fontSize: "24px" }}
           onClick={() => navigate("/album")}
         >
-          내 앨범
-        </button>
-
-        <button
-          className="button button_gap btn_3"
-          style={{ height: "100%", margin: "10px", fontSize: "24px" }}
-          onClick={() => navigate("/allalbum")}
-        >
-          전체 앨범
+          앨범
         </button>
       </div>
       <Modal

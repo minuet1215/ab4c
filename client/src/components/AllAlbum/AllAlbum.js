@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import Header from "../Header/Header";
 import axios from "axios";
 import { auth } from "../../_actions/user_action";
 import Loading from "../Loading/Loading";
@@ -55,8 +54,6 @@ function AllAlbum() {
     <>
       <div className="outer_container">
         <div>{loading ? <Loading /> : null}</div>
-        <Header subTitle="전체 앨범" onBackUrl="/main" />
-
         <div className={styles.contents_container}>
           <div className={styles.album_container}>
             {data.datas.map((item, index) => (
