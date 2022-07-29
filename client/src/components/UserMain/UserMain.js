@@ -72,6 +72,7 @@ function UserMain() {
           전체 앨범
         </button>
       </div>
+
       <Modal
         title="친구를 초대해서 같이 찍을 수 있어요!"
         visible={isModalVisible}

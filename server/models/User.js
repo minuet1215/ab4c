@@ -31,9 +31,9 @@ const UserSchema = new mongoose.Schema({
     default: 0,
   },
 
-  friends: [{ type: String }], // 좋아요 기능
+  friends: [{ type: String }],
 
-  image: String,
+  profileImage: String,
   token: String,
   tokenExp: Number,
   loginType: String,

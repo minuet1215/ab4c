@@ -19,7 +19,7 @@ const Profile = () => {
         id: data.id,
         name: data.properties.nickname,
         email: data.kakao_account.email,
-        imageUrl: data.properties.profile_image,
+        profileImage: data.properties.profile_image,
         loginType: "kakao",
       };
 
