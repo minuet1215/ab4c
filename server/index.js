@@ -8,7 +8,6 @@ const cors = require("cors");
 
 /* Router */
 const usersRouter = require("./routes/usersRouter");
-const mailRouter = require("./routes/mailRouter");
 const imageRouter = require("./routes/imageRouter");
 const roomsRouter = require("./routes/roomsRouter");
 
@@ -47,7 +46,6 @@ app.get("/", (_, res) => {
 app.use("/api/users", usersRouter);
 app.use("/api/rooms", roomsRouter);
 app.use("/api/images", imageRouter);
-app.use("/invite", mailRouter);
 
 // ========================= < WebRTC > ========================= //
 let http = require("http");
