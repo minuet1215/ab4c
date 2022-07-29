@@ -14,10 +14,11 @@ import { toast } from "react-toastify";
 import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
 // import CountDown from "../CountDown/CountDown";
 
-let IMGS = [];
-let gifFrames = [[], [], [], [], [], [], []];
+let resultImages = [];
+let gifFrames = [[], [], [], [], [], [], [], [], [], [], []];
 
 function GroupPage() {
+  const MAX_COUNT = 3;
   const [token] = useState(localStorage.getItem("token"));
   let { roomname } = useParams();
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ function GroupPage() {
   };
   const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
   const [isMute, setIsMute] = useState(true); // 음소거 변수
-  const [countDown, setCount] = useState(5); // 카운트다운
+  const [countDown, setCount] = useState(3); // 카운트다운
   const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
   const [photoCount, setPhotoCount] = useState(1); // 4장만 찍을 수 있다.
   const [takePhotoLayer, setTakePhotoLayer] = useState({});
@@ -63,7 +64,9 @@ function GroupPage() {
   useEffect(() => {
     if (photoCount === 5) {
       cameraOff();
-      navigate("/edit", { state: { images: IMGS, gifFrames: gifFrames } });
+      navigate("/edit", {
+        state: { images: resultImages, gifFrames: gifFrames },
+      });
     }
   }, [photoCount]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -72,8 +75,10 @@ function GroupPage() {
     if (countDown === 0) {
       captureFunc();
     }
-    if (countDown > 0 && countDown < 4) {
-      silentCapture(6 - (2 * countDown - 1));
+    if (countDown > 0 && countDown < 3) {
+      console.log(11 - 4 * countDown);
+      silentCapture(11 - 4 * countDown);
+      console.log(gifFrames);
     }
   }, [countDown]);
 
@@ -86,9 +91,9 @@ function GroupPage() {
 
   useInterval(
     () => {
-      setCount(countDown - 0.5);
+      setCount(countDown - 0.25);
     },
-    startCapture && countDown > 0 ? 500 : null
+    startCapture && countDown > 0 ? 250 : null
   );
 
   // 캡쳐하는 함수
@@ -100,9 +105,9 @@ function GroupPage() {
     let audio = new Audio(cameraAudioSrc);
     audio.play();
     domtoimage.toPng(refs.captureAreaRef.current).then(function (dataUrl) {
-      IMGS.push(dataUrl);
+      resultImages.push(dataUrl);
       // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
-      setCount(5);
+      setCount(MAX_COUNT);
       setPhotoCount(photoCount + 1);
       setCapture(false);
       setTakePhotoLayer({});
@@ -115,7 +120,7 @@ function GroupPage() {
         gifFrames[index].push(dataUrl);
       })
       .catch(function (error) {
-        //
+        console.log("capture error", error);
       });
   }
 

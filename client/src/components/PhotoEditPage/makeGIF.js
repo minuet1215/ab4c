@@ -27,7 +27,7 @@ export default async function makeGif(imgArray) {
   }
   waitForImagesLoaded(imgArray, async function (images) {
     for await (const i of images) {
-      gif.addFrame(i, { delay: 200 });
+      gif.addFrame(i, { delay: 250 });
     }
     gif.render();
   });
