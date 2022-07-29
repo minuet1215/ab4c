@@ -78,14 +78,12 @@ function UserMain() {
         </button>
       </div>
       <Modal
+        className="modalRadius"
         title="친구를 초대해서 같이 찍을 수 있어요!"
         visible={isModalVisible}
         onCancel={handleModalCancel}
         footer={null}
         centered={true}
-        style={{
-          borderRadius: "10px",
-        }}
       >
         <Carousel ref={carouselRef} dots={null}>
           <div
@@ -108,16 +106,16 @@ function UserMain() {
                   src={혼자찍기}
                   style={{
                     display: "inline-block",
-                    height: "42px",
+                    height: "50px",
                   }}
                 />
-                <img
+                {/* <img
                   src={입장하기P}
                   style={{
                     display: "inline-block",
                     height: "50px",
                   }}
-                />
+                /> */}
                 <div>혼자 찍기</div>
               </button>
 
@@ -152,7 +150,7 @@ function UserMain() {
                   carouselRef.current.prev();
                 }}
                 style={{
-                  width: "100%",
+                  width: "40px",
                   height: "50px",
                   color: "#555555",
                   borderRadius: "10px",
@@ -160,9 +158,7 @@ function UserMain() {
                   position: "absolute",
                   top: "30%",
                   left: "40%",
-                  width: "50px",
-                  padding: "0% 0% 0% 0.5%",
-                  fontSize: "10px",
+                  padding: "0% 0% 0% 0.3%",
                   boxShadow: "none",
                 }}
               >
@@ -171,7 +167,7 @@ function UserMain() {
                   style={{
                     // display: "inline-block",
                     height: "30px",
-                    position: "flex-start",
+                    // position: "flex-start",
                   }}
                 />
               </button>
@@ -192,10 +188,11 @@ function UserMain() {
                     });
                 }}
                 style={{
-                  width: "20%",
+                  width: "22%",
                   height: "100%",
-                  padding: "1% 5% 1% 5%",
+                  padding: "3%",
                   margin: "5% 3% 5% 3%",
+                  fontSize: "16px",
                 }}
               >
                 <img
@@ -205,7 +202,7 @@ function UserMain() {
                     height: "50px",
                   }}
                 />
-                링크 복사
+                <div>링크복사</div>
               </button>
               <KakaoInviteButton path={`group/${token}`} />
 
@@ -213,10 +210,12 @@ function UserMain() {
                 className="button btn_1"
                 onClick={() => navigate(`/group/${token}`)}
                 style={{
-                  width: "20%",
+                  width: "22%",
                   height: "100%",
-                  padding: "1% 5% 1% 5%",
+                  padding: "3%",
+                  // padding: "3% 5% 3% 5%",
                   margin: "5% 3% 5% 3%",
+                  fontSize: "16px",
                   color: "#3b3b3b",
                 }}
               >
@@ -227,7 +226,7 @@ function UserMain() {
                     height: "50px",
                   }}
                 />
-                입장 하기
+                <div>입장하기</div>
               </button>
             </div>
           </div>

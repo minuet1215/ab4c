@@ -32,10 +32,11 @@ function KakaoInviteButton({ path = "" }) {
       className="button sign_in_kakao"
       onClick={onShareKakaoClick}
       style={{
-        width: "20%",
+        width: "22%",
         height: "100%",
-        padding: "1% 5% 1% 5%",
+        padding: "3%",
         margin: "5% 3% 5% 3%",
+        fontSize: "16px",
       }}
     >
       <img
@@ -43,7 +44,7 @@ function KakaoInviteButton({ path = "" }) {
         style={{ display: "inline-block", height: "50px" }}
         alt="kakao"
       />
-      공유 하기
+      <div>공유하기</div>
     </button>
   );
 }
