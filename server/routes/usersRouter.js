@@ -114,6 +114,7 @@ usersRouter.post("/kakaologout", async (req, res) => {
       },
     });
   } catch (e) {
+    //
   }
 });
 
