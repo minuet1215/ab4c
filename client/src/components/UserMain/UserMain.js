@@ -22,7 +22,6 @@ function UserMain() {
   const handleModalCancel = () => {
     setModalVisible(false);
   };
-  console.log(friendId);
 
   return (
     <div className="outer_container">

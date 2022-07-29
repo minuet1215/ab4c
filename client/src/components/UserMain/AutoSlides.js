@@ -21,7 +21,7 @@ const Image = styled.img`
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
 `;
 
-const tempUrl = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/"; // todo: s3 url prefix
+const tempUrl = "https://d2d88axq88qldt.cloudfront.net/";
 const badgeColors = [
   "#fccc14", // gold
   "#a9aaae", // silver

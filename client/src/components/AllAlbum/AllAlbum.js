@@ -7,7 +7,7 @@ import Loading from "../Loading/Loading";
 import styles from "./AllAlbum.module.css";
 import Modal from "./Modal";
 
-const url = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/";
+const url = "https://d2d88axq88qldt.cloudfront.net/";
 
 function AllAlbum() {
   const [loading, setLoading] = useState(true);
