@@ -1,0 +1,45 @@
+@font-face {
+  font-family: oneprettynight;
+  src: url("../../font/Cafe24Oneprettynight.ttf");
+}
+
+.tabs {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+  font-size: 22px;
+  color: #555555;
+  font-weight: 500;
+  /* font-family: "oneprettynight", sans-serif; */
+}
+
+.tab_input {
+  display: none;
+}
+
+.tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+  height: 50px;
+  margin: 0% 2% 0% 2%;
+  background-color: #fefefa;
+  border: solid 1px rgba(0, 0, 0, 0.1);
+  border-bottom: 0;
+  box-shadow: 5px -1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.tab:hover {
+  transform: scale(1.03);
+}
+
+.contents_container {
+  height: calc(100% - 74px - 50px);
+  overflow: hidden;
+  border: none;
+}

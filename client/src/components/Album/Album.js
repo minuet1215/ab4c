@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Modal from "./Modal/Modal";
-import Header from "../Header/Header";
 import PhotoModify from "../ImageEditor/PhotoModify";
 import PhotoDelete from "./PhotoDelete";
 import styles from "./Album.module.css";
@@ -82,7 +81,6 @@ function MyAlbum() {
   return (
     <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>
-      <Header subTitle="내 앨범" onBackUrl="/main" />
       <div className={styles.contents_container}>
         <div className={styles.album_container}>
           {data.datas.map((item, index) => (

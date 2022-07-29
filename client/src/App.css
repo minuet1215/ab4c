@@ -21,11 +21,12 @@ body {
 }
 
 /* ! : container => 이상하게 적용되서 아래로 바꿈 */
-.container {
-  /* width: 100vw; */
-  /* height: 100vh; */
-  /* max-width: 600px; */
+.color_container {
+  width: 100vw;
+  height: 100vh;
+  max-width: 600px;
   position: relative;
+  background-color: white;
   border: 1px solid gainsboro;
 }
 .outer_container {

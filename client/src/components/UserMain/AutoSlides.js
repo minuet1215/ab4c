@@ -101,7 +101,7 @@ export default class AutoSlides extends Component {
         <Slider {...settings}>
           {images.map((image, index) => {
             return (
-              <div className="best_container">
+              <div className="best_container" key={index}>
                 <ImageContainer className="img">
                   <Badge.Ribbon
                     className="ribbon"
