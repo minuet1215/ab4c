@@ -13,7 +13,11 @@ import Reducer from "./_reducers";
 
 import "antd/dist/antd.min.css";
 
+import ReactGA from "react-ga";
+
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration"
+import { createBrowserHistory } from "history";
+import { Router } from "react-router-dom";
 serviceWorkerRegistration.register();
 
 const store = configureStore({
