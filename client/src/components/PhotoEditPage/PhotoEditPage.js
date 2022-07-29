@@ -26,6 +26,7 @@ import album from "../../img/album.png";
 import 나만보기 from "../../img/나만보기.png";
 import 같이보기 from "../../img/같이보기.png";
 import { isMobile } from "react-device-detect";
+import PrintPage from "./PrintPage";
 
 const img_width = 550;
 const img_height = 370;
@@ -45,6 +46,8 @@ function PhotoEditPage() {
   const [message, setMessage] = useState("");
   const [isGifMode, setGifMode] = useState(false);
   const { state } = useLocation();
+  const [isPrinting, setPrinting] = useState(undefined);
+  const [isPrintEnd, setPrintEnd] = useState(false);
 
   // ================= dummy data ================= //
   const images = [
@@ -94,6 +97,34 @@ function PhotoEditPage() {
   const handleModalCancel = () => {
     setModalVisible(false);
   };
+  async function temp(e) {
+    let img = new Image();
+    img.src = e;
+    return img;
+  }
+  async function startMakeGif() {
+    const ctx = canvasRef.current.getContext("2d");
+    let frames = [];
+    for await (const elements of state.gifFrames) {
+      let j = -1;
+      let slicingArray = elements.slice(-4);
+      for await (const elem of slicingArray) {
+        await temp(elem)
+          .then(async (img) => {
+            await ctx.drawImage(
+              img,
+              gap,
+              j * (img_height + gap) + gap,
+              img_width,
+              img_height
+            );
+          })
+          .then(j++);
+      }
+      frames.push(await canvasRef.current.toDataURL());
+    }
+    setLoading(!makeGif(frames));
+  }
 
   useEffect(() => {
     document.getElementById("canvas").style.display = isGifMode ? "none" : "";
@@ -101,9 +132,18 @@ function PhotoEditPage() {
       ? "none"
       : "";
   }, [isGifMode]);
+
   useEffect(() => {
     document.getElementById("Loading").style.display = isLoading ? "" : "none";
   }, [isLoading]);
+
+  useEffect(() => {
+    if (isPrintEnd === true) {
+      document.getElementById("photoEdit").style.display = "";
+      document.getElementById("PrintPage").style.display = "none";
+      startMakeGif();
+    }
+  }, [isPrintEnd]);
   const showDrawer = (type) => {
     type === "Frame"
       ? setFrameDrawerVisible(true)
@@ -139,51 +179,25 @@ function PhotoEditPage() {
 
     let img = new Image();
     img.src = bgChange;
-    img.onload = async function () {
-      await ctx.drawImage(img, 0, 0, frame_width, frame_height);
+    img.onload = function () {
+      startMakeGif();
+      const result = async (ctx, list) => {
+        for await (const image of list) {
+          await temp(image).then(async (i) => {
+            await ctx.drawImage(i, image.x, image.y, img_width, img_height);
+          });
+        }
+        if (!isPrintEnd) setPrinting(canvasRef.current.toDataURL());
+      };
+      ctx.drawImage(img, 0, 0, frame_width, frame_height);
+      result(ctx, images);
       writeDate(ctx, date_time);
       writeMessage(ctx, message);
       // 기본 이미지
-      if (!isGifMode) {
-        images.map((image) => {
-          let img = new Image();
-          img.src = image.src;
-          img.onload = function () {
-            ctx.drawImage(img, image.x, image.y, img_width, img_height);
-          };
-        });
-      } else {
-        // gif 만들기.
-        let frames = [];
-        async function temp(e) {
-          let img = new Image();
-          img.src = e;
-          return img;
-        }
-
-        for await (const elements of state.gifFrames) {
-          let j = -1;
-          let slicingArray = elements.slice(-4);
-          for await (const elem of slicingArray) {
-            await temp(elem)
-              .then(async (img) => {
-                await ctx.drawImage(
-                  img,
-                  gap,
-                  j * (img_height + gap) + gap,
-                  img_width,
-                  img_height
-                );
-              })
-              .then(j++);
-          }
-          frames.push(await canvasRef.current.toDataURL());
-        }
-        setLoading(!makeGif(frames));
-      }
-      if (!isGifMode) setLoading(false);
+      setLoading(false);
+      // gif 만들기.
     };
-  }, [canvasRef, bgChange, isMessageDrawerVisible, isGifMode]);
+  }, [canvasRef, bgChange, isMessageDrawerVisible]);
 
   function writeDate(ctx, text) {
     ctx.font = "36px Times New Roman";
@@ -277,223 +291,237 @@ function PhotoEditPage() {
   };
 
   return (
-    <div className="outer_container">
-      <div id="Loading">
-        <Loading />
+    <>
+      <div id="PrintPage">
+        <PrintPage
+          isPrinting={isPrinting}
+          setPrintEnd={setPrintEnd}
+        ></PrintPage>
       </div>
-      <MyHeader subTitle="사진 화면" onBackUrl="/main" />
-      <div className="contents_container">
-        <div
-          style={{
-            justifyContent: "center",
-            display: "flex",
-            marginBottom: "5%",
-          }}
-        >
-          <div
-            className={styles.canvas_container}
-            onClick={(e) => {
-              e.preventDefault();
-              if (!isMobile) {
-                setGifMode(!isGifMode);
-              } else {
-                alert("모바일에서는 GIF모드를 지원하지 않습니다.");
-              }
-            }}
-          >
-            <canvas
-              id="canvas"
-              width={frame_width}
-              height={frame_height}
-              style={{
-                backgroundColor: "black",
-              }}
-              className={styles.result_image}
-              ref={canvasRef}
-            >
-              Your browser does not support the HTML5 canvas tag.
-            </canvas>
-            <img id="result-image"></img>
+      <div id="photoEdit" style={{ display: "none" }}>
+        <div className="outer_container">
+          <div id="Loading">
+            <Loading />
           </div>
-        </div>
-        {isAuth && (
-          <div id="control-menu" className={styles.control_container}>
-            <button
-              className={styles.btn_default}
-              onClick={() => {
-                showDrawer("Frame");
-              }}
+          <MyHeader subTitle="사진 화면" onBackUrl="/main" />
+          <div className="contents_container">
+            <div
               style={{
-                fontSize: "1.4em",
-                fontWeight: "bold",
+                justifyContent: "center",
+                display: "flex",
+                marginBottom: "5%",
               }}
             >
-              {/* <img src={frame} style={{ height: "100%" }} /> */}
-              프레임 변경
-            </button>
-            <button
-              className={styles.btn_default}
-              onClick={() => {
-                showDrawer("Message");
-              }}
-              style={{
-                fontSize: "1.4em",
-                fontWeight: "bold",
-              }}
-            >
-              {/* <img src={memo} style={{ height: "100%" }} /> */}
-              메모 하기
-            </button>
-            <button
-              className={styles.btn_pink}
-              onClick={showModal}
-              style={{
-                fontSize: "1.4em",
-                fontWeight: "bold",
-              }}
-            >
-              앨범 저장
-            </button>
-          </div>
-        )}
-        {!isAuth && (
-          <div id="control-menu" className={styles.control_container}>
-            <button className={styles.btn_default} onClick={OnLocalSave}>
-              핸드폰 저장
-            </button>
-            <button
-              className={styles.btn_pink}
-              onClick={() => navigate("/login")}
-            >
-              로그인 하기
-            </button>
-          </div>
-        )}
-        <Modal
-          title="저장할 사진의 공개 설정을 선택해 주세요!"
-          visible={isModalVisible}
-          confirmLoading={confirmLoading}
-          onCancel={handleModalCancel}
-          footer={null}
-          centered={true}
-        >
-          <div style={{ display: "flex" }}>
-            <button
-              className="button btn_3"
-              value={false}
-              onClick={onSave}
-              style={{
-                fontSize: "1.4em",
-                fontWeight: "bold",
-                margin: "1rem",
-              }}
-            >
-              <img
-                src={나만보기}
-                style={{
-                  // display: "block",
-                  // justifyContent: "center",
-                  height: "80%",
-                  marginRight: "5%",
+              <div
+                className={styles.canvas_container}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (!isMobile) {
+                    setGifMode(!isGifMode);
+                  } else {
+                    alert("모바일에서는 GIF모드를 지원하지 않습니다.");
+                  }
                 }}
-              />
-              나만 보기
-            </button>
-            <button
-              className="button btn_1"
-              value={true}
-              onClick={onSave}
-              style={{
-                fontSize: "1.4em",
-                fontWeight: "bold",
-                margin: "1rem",
-              }}
-            >
-              <img
-                src={같이보기}
-                style={{ height: "100%", marginRight: "5%" }}
-              />
-              다같이 보기
-            </button>
-          </div>
-        </Modal>
-
-        <Drawer
-          title="프레임 선택"
-          placement="bottom"
-          closable={true}
-          onClose={() => {
-            setFrameDrawerVisible(false);
-          }}
-          visible={isFrameDrawerVisible}
-          height="31%"
-          style={
-            window.innerWidth > 600
-              ? {
-                  width: "600px",
-                  marginLeft: `calc(50vw - 300px)`,
-                }
-              : {}
-          }
-        >
-          <div className={styles.bg_menu_scroll}>
-            {bgImages.map((bgImage) => {
-              return (
-                <img
-                  src={bgImage.src}
-                  key={bgImage.alt}
-                  alt={bgImage.alt}
-                  onClick={() => {
-                    setBgChange(bgImage.src);
-                    setFrameDrawerVisible(false);
+              >
+                <canvas
+                  id="canvas"
+                  width={frame_width}
+                  height={frame_height}
+                  style={{
+                    backgroundColor: "black",
                   }}
-                  style={{ padding: "10px", width: "110px", height: "150px" }}
-                ></img>
-              );
-            })}
-          </div>
-        </Drawer>
-        <Drawer
-          title="메시지 입력"
-          placement="bottom"
-          closable={true}
-          onClose={() => {
-            setMessageDrawerVisible(false);
-          }}
-          visible={isMessageDrawerVisible}
-          height="30%"
-          style={
-            window.innerWidth > 600
-              ? {
-                  width: "600px",
-                  marginLeft: `calc(50vw - 300px)`,
-                }
-              : {}
-          }
-        >
-          <div>
-            <Input
-              placeholder="사진에 대한 설명을 적어주세요!"
-              onChange={handleChange}
-              style={{ width: "85%" }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") setMessageDrawerVisible(false);
+                  className={styles.result_image}
+                  ref={canvasRef}
+                >
+                  Your browser does not support the HTML5 canvas tag.
+                </canvas>
+                <img id="result-image"></img>
+              </div>
+            </div>
+            {isAuth && (
+              <div id="control-menu" className={styles.control_container}>
+                <button
+                  className={styles.btn_default}
+                  onClick={() => {
+                    showDrawer("Frame");
+                  }}
+                  style={{
+                    fontSize: "1.4em",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {/* <img src={frame} style={{ height: "100%" }} /> */}
+                  프레임 변경
+                </button>
+                <button
+                  className={styles.btn_default}
+                  onClick={() => {
+                    showDrawer("Message");
+                  }}
+                  style={{
+                    fontSize: "1.4em",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {/* <img src={memo} style={{ height: "100%" }} /> */}
+                  메모 하기
+                </button>
+                <button
+                  className={styles.btn_pink}
+                  onClick={showModal}
+                  style={{
+                    fontSize: "1.4em",
+                    fontWeight: "bold",
+                  }}
+                >
+                  앨범 저장
+                </button>
+              </div>
+            )}
+            {!isAuth && (
+              <div id="control-menu" className={styles.control_container}>
+                <button className={styles.btn_default} onClick={OnLocalSave}>
+                  핸드폰 저장
+                </button>
+                <button
+                  className={styles.btn_pink}
+                  onClick={() => navigate("/login")}
+                >
+                  로그인 하기
+                </button>
+              </div>
+            )}
+            <Modal
+              title="저장할 사진의 공개 설정을 선택해 주세요!"
+              visible={isModalVisible}
+              confirmLoading={confirmLoading}
+              onCancel={handleModalCancel}
+              footer={null}
+              centered={true}
+            >
+              <div style={{ display: "flex" }}>
+                <button
+                  className="button btn_3"
+                  value={false}
+                  onClick={onSave}
+                  style={{
+                    fontSize: "1.4em",
+                    fontWeight: "bold",
+                    margin: "1rem",
+                  }}
+                >
+                  <img
+                    src={나만보기}
+                    style={{
+                      // display: "block",
+                      // justifyContent: "center",
+                      height: "80%",
+                      marginRight: "5%",
+                    }}
+                  />
+                  나만 보기
+                </button>
+                <button
+                  className="button btn_1"
+                  value={true}
+                  onClick={onSave}
+                  style={{
+                    fontSize: "1.4em",
+                    fontWeight: "bold",
+                    margin: "1rem",
+                  }}
+                >
+                  <img
+                    src={같이보기}
+                    style={{ height: "100%", marginRight: "5%" }}
+                  />
+                  다같이 보기
+                </button>
+              </div>
+            </Modal>
+
+            <Drawer
+              title="프레임 선택"
+              placement="bottom"
+              closable={true}
+              onClose={() => {
+                setFrameDrawerVisible(false);
               }}
-            />
-            <Button
-              onClick={() => {
+              visible={isFrameDrawerVisible}
+              height="31%"
+              style={
+                window.innerWidth > 600
+                  ? {
+                      width: "600px",
+                      marginLeft: `calc(50vw - 300px)`,
+                    }
+                  : {}
+              }
+            >
+              <div className={styles.bg_menu_scroll}>
+                {bgImages.map((bgImage) => {
+                  return (
+                    <img
+                      src={bgImage.src}
+                      key={bgImage.alt}
+                      alt={bgImage.alt}
+                      onClick={() => {
+                        setBgChange(bgImage.src);
+                        setFrameDrawerVisible(false);
+                      }}
+                      style={{
+                        padding: "10px",
+                        width: "110px",
+                        height: "150px",
+                      }}
+                    ></img>
+                  );
+                })}
+              </div>
+            </Drawer>
+            <Drawer
+              title="메시지 입력"
+              placement="bottom"
+              closable={true}
+              onClose={() => {
                 setMessageDrawerVisible(false);
               }}
-              style={{
-                position: "absolute",
-              }}
+              visible={isMessageDrawerVisible}
+              height="30%"
+              style={
+                window.innerWidth > 600
+                  ? {
+                      width: "600px",
+                      marginLeft: `calc(50vw - 300px)`,
+                    }
+                  : {}
+              }
             >
-              저장
-            </Button>
+              <div>
+                <Input
+                  placeholder="사진에 대한 설명을 적어주세요!"
+                  onChange={handleChange}
+                  style={{ width: "85%" }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") setMessageDrawerVisible(false);
+                  }}
+                />
+                <Button
+                  onClick={() => {
+                    setMessageDrawerVisible(false);
+                  }}
+                  style={{
+                    position: "absolute",
+                  }}
+                >
+                  저장
+                </Button>
+              </div>
+            </Drawer>
           </div>
-        </Drawer>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
