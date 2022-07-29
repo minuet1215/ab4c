@@ -4,7 +4,10 @@ import { useParams } from "react-router-dom";
 import styles from "./GroupPage.module.css";
 import VideoAREA from "./Socket";
 import useInterval from "./useInterval";
-// import html2canvas from "html2canvas"; 아이폰 유저를 위해 일단 남겨둠
+/* for iPhone Users*/
+import { isMobile } from "react-device-detect";
+import html2canvas from "html2canvas";
+/******************/
 import domtoimage from "dom-to-image-improved";
 import MyHeader from "../Header/Header";
 import CameraTab from "./CameraTab";
@@ -72,7 +75,7 @@ function GroupPage() {
 
   // 1초마다 초세기. startCapture State가 true가 되면 자동으로 돌아감
   useEffect(() => {
-    if (countDown > 0 && countDown < 3) {
+    if (countDown > 0 && countDown < 3 && !isMobile) {
       silentCapture(11 - 4 * countDown);
     } else if (countDown === 0) {
       captureFunc();
@@ -95,28 +98,44 @@ function GroupPage() {
 
   // 캡쳐하는 함수
   function captureFunc() {
+    function setInitialState() {
+      setCount(MAX_COUNT);
+      setPhotoCount(photoCount + 1);
+      setCapture(false);
+      setTakePhotoLayer({});
+    }
     setTakePhotoLayer({
       backgroundColor: "white",
       opacity: "0.5",
     });
     let audio = new Audio(cameraAudioSrc);
     audio.play();
-    domtoimage.toPng(refs.captureAreaRef.current).then(function (dataUrl) {
-      resultImages.push(dataUrl);
-      // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
-      setCount(MAX_COUNT);
-      setPhotoCount(photoCount + 1);
-      setCapture(false);
-      setTakePhotoLayer({});
-    });
+    if (isMobile) {
+      html2canvas(refs.captureAreaRef.current, {
+        allowTaint: false,
+        useCORS: true,
+        scale: 1,
+      }).then((canvas) => {
+        let dataURL = canvas.toDataURL();
+        resultImages.push(dataURL);
+        // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
+        setInitialState();
+      });
+    } else {
+      domtoimage.toPng(refs.captureAreaRef.current).then((dataUrl) => {
+        resultImages.push(dataUrl);
+        // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
+        setInitialState();
+      });
+    }
   }
   function silentCapture(index) {
     domtoimage
       .toPng(refs.captureAreaRef.current)
-      .then(function (dataUrl) {
+      .then((dataUrl) => {
         gifFrames[index].push(dataUrl);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log("capture error", error);
       });
   }

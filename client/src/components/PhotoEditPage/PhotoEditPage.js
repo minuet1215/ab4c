@@ -25,6 +25,7 @@ import memo from "../../img/memo.png";
 import album from "../../img/album.png";
 import 나만보기 from "../../img/나만보기.png";
 import 같이보기 from "../../img/같이보기.png";
+import { isMobile } from "react-device-detect";
 
 const img_width = 550;
 const img_height = 370;
@@ -293,7 +294,11 @@ function PhotoEditPage() {
             className={styles.canvas_container}
             onClick={(e) => {
               e.preventDefault();
-              setGifMode(!isGifMode);
+              if (!isMobile) {
+                setGifMode(!isGifMode);
+              } else {
+                alert("모바일에서는 GIF모드를 지원하지 않습니다.");
+              }
             }}
           >
             <canvas
