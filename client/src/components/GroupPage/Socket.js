@@ -11,7 +11,7 @@ const VideoAREA = forwardRef((props, ref) => {
   // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
   const DEFAULT_BACKGROUND =
     "url(https://image.jtbcplus.kr/data/contents/jam_photo/202103/31/381e8930-6c3a-440f-928f-9bc7245323e0.jpg)";
-  let isHost = props.token === props.roomName;
+  const isHost = props.token === props.roomName;
   const { localVideoRef, socketRef, pcRef, remoteVideoRef, captureAreaRef } =
     ref;
   let [leave, setLeave] = useState(true); //나가면 상대방 삭제되게 하는 State
@@ -61,8 +61,7 @@ const VideoAREA = forwardRef((props, ref) => {
     } catch (e) {
       //
     }
-    setLoading(false);
-    remove();
+    remove(setLoading);
   };
   const createOffer = async () => {
     if (!(pcRef.current && socketRef.current)) return;
@@ -117,14 +116,19 @@ const VideoAREA = forwardRef((props, ref) => {
     socketRef.current.on("user_exit", (e) => {
       setLeave(true);
     });
+    
     socketRef.current.on("start", () => {
-      console.log("recieve : start");
-      props.setCapture(true);
+      if (!isHost) {
+        props.setCapture(true);
+      }
     });
+
     socketRef.current.on("backgroundChange", (img) => {
-      console.log("recieve : backgroundChange");
-      props.setImgBase64(img);
+      if (!isHost) {
+        props.setImgBase64(img);
+      }
     });
+    
     setVideoTracks();
 
     return () => {
@@ -137,11 +141,9 @@ const VideoAREA = forwardRef((props, ref) => {
     };
   }, []);
   if (isHost && props.isCapture) {
-    console.log("I'm Host: emit start");
     socketRef.current.emit("start", props.roomName);
   }
   if (isHost && props.ImgBase64) {
-    console.log("I'm Host: emit BG change");
     socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
   }
   return (
@@ -156,9 +158,14 @@ const VideoAREA = forwardRef((props, ref) => {
             : DEFAULT_BACKGROUND,
         }}
       >
-        <canvas className={styles.mirror} id="mytrans"></canvas>
         <canvas
-          className={leave ? styles.displaynone : styles.mirror}
+          className={isHost ? styles.host : styles.guest}
+          id="mytrans"
+        ></canvas>
+        <canvas
+          className={
+            leave ? styles.displaynone : isHost ? styles.guest : styles.host
+          }
           id="remotetrans"
         ></canvas>
         <canvas id="myStar"></canvas>

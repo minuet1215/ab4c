@@ -4,7 +4,10 @@ import { useParams } from "react-router-dom";
 import styles from "./GroupPage.module.css";
 import VideoAREA from "./Socket";
 import useInterval from "./useInterval";
+/* for iPhone Users*/
+import { isMobile } from "react-device-detect";
 import html2canvas from "html2canvas";
+/******************/
 import domtoimage from "dom-to-image-improved";
 import MyHeader from "../Header/Header";
 import CameraTab from "./CameraTab";
@@ -14,10 +17,11 @@ import { toast } from "react-toastify";
 import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
 // import CountDown from "../CountDown/CountDown";
 
-let IMGS = [];
-let gifFrames = [[], [], [], [], [], [], []];
+let resultImages = [];
+let gifFrames = [[], [], [], [], [], [], [], [], [], [], []];
 
 function GroupPage() {
+  const MAX_COUNT = 3.25;
   const [token] = useState(localStorage.getItem("token"));
   let { roomname } = useParams();
   const navigate = useNavigate();
@@ -31,7 +35,7 @@ function GroupPage() {
   };
   const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
   const [isMute, setIsMute] = useState(true); // 음소거 변수
-  const [countDown, setCount] = useState(5); // 카운트다운
+  const [countDown, setCount] = useState(MAX_COUNT); // 카운트다운
   const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
   const [photoCount, setPhotoCount] = useState(1); // 4장만 찍을 수 있다.
   const [takePhotoLayer, setTakePhotoLayer] = useState({});
@@ -63,17 +67,18 @@ function GroupPage() {
   useEffect(() => {
     if (photoCount === 5) {
       cameraOff();
-      navigate("/edit", { state: { images: IMGS, gifFrames: gifFrames } });
+      navigate("/edit", {
+        state: { images: resultImages, gifFrames: gifFrames },
+      });
     }
   }, [photoCount]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // 1초마다 초세기. startCapture State가 true가 되면 자동으로 돌아감
   useEffect(() => {
-    if (countDown === 0) {
+    if (countDown > 0 && countDown < 3 && !isMobile) {
+      silentCapture(11 - 4 * countDown);
+    } else if (countDown === 0) {
       captureFunc();
-    }
-    if (countDown > 0 && countDown < 4) {
-      silentCapture(6 - (2 * countDown - 1));
     }
   }, [countDown]);
 
@@ -86,36 +91,52 @@ function GroupPage() {
 
   useInterval(
     () => {
-      setCount(countDown - 0.5);
+      setCount(countDown - 0.25);
     },
-    startCapture && countDown > 0 ? 500 : null
+    startCapture && countDown > 0 ? 250 : null
   );
 
   // 캡쳐하는 함수
   function captureFunc() {
+    function setInitialState() {
+      setCount(MAX_COUNT);
+      setPhotoCount(photoCount + 1);
+      setCapture(false);
+      setTakePhotoLayer({});
+    }
     setTakePhotoLayer({
       backgroundColor: "white",
       opacity: "0.5",
     });
     let audio = new Audio(cameraAudioSrc);
     audio.play();
-    domtoimage.toPng(refs.captureAreaRef.current).then(function (dataUrl) {
-      IMGS.push(dataUrl);
-      // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
-      setCount(5);
-      setPhotoCount(photoCount + 1);
-      setCapture(false);
-      setTakePhotoLayer({});
-    });
+    if (isMobile) {
+      html2canvas(refs.captureAreaRef.current, {
+        allowTaint: false,
+        useCORS: true,
+        scale: 1,
+      }).then((canvas) => {
+        let dataURL = canvas.toDataURL();
+        resultImages.push(dataURL);
+        // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
+        setInitialState();
+      });
+    } else {
+      domtoimage.toPng(refs.captureAreaRef.current).then((dataUrl) => {
+        resultImages.push(dataUrl);
+        // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
+        setInitialState();
+      });
+    }
   }
   function silentCapture(index) {
     domtoimage
       .toPng(refs.captureAreaRef.current)
-      .then(function (dataUrl) {
+      .then((dataUrl) => {
         gifFrames[index].push(dataUrl);
       })
-      .catch(function (error) {
-        //
+      .catch((error) => {
+        console.log("capture error", error);
       });
   }
 

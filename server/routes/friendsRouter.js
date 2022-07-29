@@ -7,9 +7,6 @@ const mongoose = require("mongoose");
 friendsRouter.get("/search/:friendId", async (req, res) => {
   try {
     const friend = await User.findOne({ email: req.params.friendId });
-    // User.find 앞에 await 추가 함, 추가 안하면 이상한 데이터 뜨네? 모르겠음
-    // 몽고디비에서 데이터 찾을 때 await 써야하나 봐..이유 찾아주면 감사
-    // mw
     res.status(200).json(friend.name);
   } catch (err) {
     res.json({ err: err.message });
