@@ -1,13 +1,14 @@
 const friendsRouter = require("express").Router();
 const { User } = require("../models/User");
 const { Image } = require("../models/Image");
+const mongoose = require("mongoose");
 
 // 친구 검색 기능
 friendsRouter.get("/search/:friendId", async (req, res) => {
   try {
-    const friend = User.find({ email: req.params.friendId });
+    const friend = await User.find({ email: req.params.friendId });
     if (!friend) throw new Error("사용자의 ID를 찾을 수 없습니다.");
-    res.status(200).json(friend.name);
+    res.status(200).json(friend);
   } catch (err) {
     res.json({ err: err.message });
   }
