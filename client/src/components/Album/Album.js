@@ -28,12 +28,12 @@ function MyAlbum() {
           setImages(result.data);
           setLoading(false);
         })
-        .catch((err) => console.log({ err }));
+        .catch();
     });
   }, [images]);
 
   let data = { datas: [] };
-  const url = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/";
+  const url = "https://d2d88axq88qldt.cloudfront.net/";
   images.map((item) => {
     data.datas.push({
       desc: item._id,

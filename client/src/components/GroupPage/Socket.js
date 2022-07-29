@@ -116,18 +116,19 @@ const VideoAREA = forwardRef((props, ref) => {
     socketRef.current.on("user_exit", (e) => {
       setLeave(true);
     });
+    
     socketRef.current.on("start", () => {
       if (!isHost) {
-        console.log("recieve : start");
         props.setCapture(true);
       }
     });
+
     socketRef.current.on("backgroundChange", (img) => {
       if (!isHost) {
-        console.log("recieve : backgroundChange");
         props.setImgBase64(img);
       }
     });
+    
     setVideoTracks();
 
     return () => {
@@ -140,11 +141,9 @@ const VideoAREA = forwardRef((props, ref) => {
     };
   }, []);
   if (isHost && props.isCapture) {
-    console.log("I'm Host: emit start");
     socketRef.current.emit("start", props.roomName);
   }
   if (isHost && props.ImgBase64) {
-    console.log("I'm Host: emit BG change");
     socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
   }
   return (
