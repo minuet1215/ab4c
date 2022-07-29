@@ -10,7 +10,10 @@ friendsRouter.get("/search/:friendId", async (req, res) => {
     // User.find 앞에 await 추가 함, 추가 안하면 이상한 데이터 뜨네? 모르겠음
     // 몽고디비에서 데이터 찾을 때 await 써야하나 봐..이유 찾아주면 감사
     // mw
-    res.status(200).json(friend.name);
+    const info = {
+      name: friend.name,
+    };
+    res.status(200).json(info);
   } catch (err) {
     res.json({ err: err.message });
   }
@@ -52,7 +55,7 @@ friendsRouter.patch("/delete/:friendId", async (req, res) => {
 });
 
 // 친구 앨범 중 공개된 사진만 가져오기
-friendsRouter.get("/showAlbum/:frinedId", async (req, res) => {
+friendsRouter.get("/showAlbum/:friendId", async (req, res) => {
   const images = await Image.find({ _id: req.params.id, public: true }).sort({
     createdAt: -1,
   });
@@ -60,9 +63,17 @@ friendsRouter.get("/showAlbum/:frinedId", async (req, res) => {
 });
 
 // 나의 친구 리스트
-friendsRouter.get("/me/friendsList", async (req, res) => {
-  const user = await User.findOne({ _id: req.body.id });
-  res.json(user);
+friendsRouter.get("/me/friendsList/:myId", async (req, res) => {
+  const me = await User.findOne({ _id: req.params.myId });
+  // const friendList = [];
+  // me.friends.map((item) => {
+  //   const friend = User.findOne({ email: item });
+  //   // const info = {
+  //   //   name : friend.name,
+  //   // }
+  //   console.log(friend);
+    // res.status(200).json(friendList)
+  // });
+  res.status(200).json(me.friends);
 });
-
 module.exports = friendsRouter;

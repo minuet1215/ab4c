@@ -29,10 +29,10 @@ function SearchFriend() {
 
   const clickedHandler = () => {
     axios.get(`/api/friends/search/${searchInput}`).then((response) => {
-      if (!response.data) {
+      if (response.data.err) {
         toast.error("해당하는 유저가 존재하지 않습니다.");
       } else {
-        setFindFriendResult(response.data);
+        setFindFriendResult(response.data.name);
       }
     });
   };
@@ -53,7 +53,7 @@ function SearchFriend() {
 
   return (
     <>
-      <button onClick={showModal}>친구 검색</button>
+      <Button onClick={showModal}>친구 검색</Button>
       <Modal
         title="친구를 검색해보세요"
         visible={isModalVisible}
