@@ -45,8 +45,6 @@ const UploadForm = () => {
       setPercent(0);
       setFileName(defaultFileName);
       setImgSrc(null);
-
-      console.error(err);
     }
   };
 

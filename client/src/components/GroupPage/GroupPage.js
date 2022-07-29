@@ -115,7 +115,7 @@ function GroupPage() {
         gifFrames[index].push(dataUrl);
       })
       .catch(function (error) {
-        console.error("oops, something went wrong!", error);
+        //
       });
   }
 

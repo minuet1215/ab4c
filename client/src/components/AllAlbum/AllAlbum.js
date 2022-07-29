@@ -24,7 +24,7 @@ function AllAlbum() {
           setImages(result.data);
           setLoading(false);
         })
-        .catch((err) => console.log({ err }));
+        .catch();
     });
   }, [images]);
 

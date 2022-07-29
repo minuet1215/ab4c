@@ -39,5 +39,5 @@ export default function Remove() {
     // await getVideo();
   }
 
-  start().catch((err) => console.error(err));
+  start().catch();
 }

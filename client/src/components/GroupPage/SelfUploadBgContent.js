@@ -21,7 +21,6 @@ function SelfUploadBgContent() {
       reader.readAsDataURL(event.target.files[0]);
       // 파일 상태 업데이트
       setImgFile(event.target.files[0]);
-      console.log(imgFile);
     }
   };
   return (

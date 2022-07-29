@@ -43,15 +43,13 @@ const VideoAREA = forwardRef((props, ref) => {
       pcRef.current.onicecandidate = (e) => {
         if (e.candidate) {
           if (!socketRef.current) return;
-          console.log("onicecandidate");
           socketRef.current.emit("candidate", e.candidate);
         }
       };
       pcRef.current.oniceconnectionstatechange = (e) => {
-        console.log(e);
+        //
       };
       pcRef.current.ontrack = (ev) => {
-        console.log("add remotetrack success");
         if (remoteVideoRef.current) {
           remoteVideoRef.current.srcObject = ev.streams[0];
           setLeave(false);
@@ -61,13 +59,12 @@ const VideoAREA = forwardRef((props, ref) => {
         room: props.roomName,
       });
     } catch (e) {
-      console.error(e);
+      //
     }
     setLoading(false);
     remove();
   };
   const createOffer = async () => {
-    console.log("create offer");
     if (!(pcRef.current && socketRef.current)) return;
     try {
       const sdp = await pcRef.current.createOffer({
@@ -78,24 +75,22 @@ const VideoAREA = forwardRef((props, ref) => {
       await pcRef.current.setLocalDescription(new RTCSessionDescription(sdp));
       socketRef.current.emit("offer", sdp);
     } catch (e) {
-      console.error(e);
+      //
     }
   };
   const createAnswer = async (sdp) => {
     if (!(pcRef.current && socketRef.current)) return;
     try {
       await pcRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
-      console.log("answer set remote description success");
       const mySdp = await pcRef.current.createAnswer({
         offerToReceiveVideo: true,
         offerToReceiveAudio: true,
       });
       remove2();
-      console.log("create answer");
       await pcRef.current.setLocalDescription(new RTCSessionDescription(mySdp));
       socketRef.current.emit("answer", mySdp);
     } catch (e) {
-      console.error(e);
+      //
     }
   };
 
@@ -109,23 +104,18 @@ const VideoAREA = forwardRef((props, ref) => {
       }
     });
     socketRef.current.on("getOffer", (sdp) => {
-      //console.log(sdp);
-      console.log("get offer");
       createAnswer(sdp);
     });
     socketRef.current.on("getAnswer", (sdp) => {
-      console.log("get answer");
       if (!pcRef.current) return;
       pcRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
     });
     socketRef.current.on("getCandidate", async (candidate) => {
       if (!pcRef.current) return;
       await pcRef.current.addIceCandidate(new RTCIceCandidate(candidate));
-      console.log("candidate add success");
     });
     socketRef.current.on("user_exit", (e) => {
       setLeave(true);
-      console.log("나감");
     });
     socketRef.current.on("start", () => {
       console.log("recieve : start");

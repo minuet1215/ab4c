@@ -35,7 +35,6 @@ const KakaoAuth = () => {
       localStorage.setItem("token", res.data.access_token);
       navigate("/profile");
     } catch (err) {
-      console.log(err);
     }
   };
 

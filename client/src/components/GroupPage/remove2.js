@@ -35,5 +35,5 @@ export default function Remove2() {
     };
   }
 
-  start().catch((err) => console.error(err));
+  start().catch();
 }

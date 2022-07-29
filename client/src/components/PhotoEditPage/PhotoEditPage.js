@@ -91,7 +91,6 @@ function PhotoEditPage() {
   };
 
   const handleModalCancel = () => {
-    // console.log("Clicked cancel button");
     setModalVisible(false);
   };
 
@@ -119,7 +118,6 @@ function PhotoEditPage() {
     setLoading(true);
     // 화면 렌더링 시 바로 유저 정보 가져오기 (TEST)
     axios.get("/api/users/authen").then((response) => {
-      // console.log("user data :", response.data);
       setUserName(response.data.name);
       setUser_id(response.data._id); // _id : ObjectID
       setUserEmail(response.data.email);
@@ -203,7 +201,6 @@ function PhotoEditPage() {
   const onSave = (e) => {
     e.preventDefault();
     isPublic = e.target.value; // 공개/비공개 설정
-    // console.log(isPublic);
     setConfirmLoading(true); // 모달 열어두기
 
     // isGifMode -> gif, !isGifMode -> png 판단
@@ -213,11 +210,9 @@ function PhotoEditPage() {
         .then((r) => {
           r.blob()
             .then(async (blob) => sendFormData(blob))
-            .catch((e) => {
-              console.log(e);
-            });
+            .catch();
         })
-        .catch((e) => console.log(e));
+        .catch();
     } else {
       try {
         const canvas = document.getElementById("canvas");
