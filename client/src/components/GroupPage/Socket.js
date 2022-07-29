@@ -61,8 +61,7 @@ const VideoAREA = forwardRef((props, ref) => {
     } catch (e) {
       //
     }
-    setLoading(false);
-    remove();
+    remove(setLoading);
   };
   const createOffer = async () => {
     if (!(pcRef.current && socketRef.current)) return;
@@ -118,12 +117,16 @@ const VideoAREA = forwardRef((props, ref) => {
       setLeave(true);
     });
     socketRef.current.on("start", () => {
-      console.log("recieve : start");
-      props.setCapture(true);
+      if (!isHost) {
+        console.log("recieve : start");
+        props.setCapture(true);
+      }
     });
     socketRef.current.on("backgroundChange", (img) => {
-      console.log("recieve : backgroundChange");
-      props.setImgBase64(img);
+      if (!isHost) {
+        console.log("recieve : backgroundChange");
+        props.setImgBase64(img);
+      }
     });
     setVideoTracks();
 

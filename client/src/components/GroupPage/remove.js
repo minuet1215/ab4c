@@ -1,7 +1,7 @@
-import { segment } from "./segment.mjs";
+import { segment } from "./segment.js";
 import { addShader } from "./wegbl-transparency.mjs";
 
-export default function Remove() {
+export default function Remove(setLoading = undefined) {
   const videoElement = document.querySelector("video#my_face");
   const greenScreenCanvas = document.querySelector("canvas#mygreen");
   const webglCanvas = document.querySelector("canvas#mytrans");
@@ -23,7 +23,7 @@ export default function Remove() {
       async function getFrames() {
         const now = videoElement.currentTime;
         if (now > lastTime) {
-          await segment(videoElement, segmentedCanvas);
+          await segment(videoElement, segmentedCanvas, setLoading);
         }
         lastTime = now;
         requestAnimationFrame(getFrames);
