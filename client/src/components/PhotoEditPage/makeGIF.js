@@ -8,7 +8,7 @@ export default async function makeGif(imgArray) {
   const gif = new GIF({
     workers: 2,
     workerScript: URL.createObjectURL(workerBlob),
-    quality: 5,
+    quality: 10,
   });
   async function waitForImagesLoaded(imageURLs, callback) {
     var imageElements = [];

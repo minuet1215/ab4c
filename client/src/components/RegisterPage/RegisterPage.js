@@ -31,7 +31,7 @@ function RegisterPage() {
     setConfirmPassword(event.currentTarget.value);
   };
 
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async(event) => {
     event.preventDefault();
     const regExp =
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -47,28 +47,23 @@ function RegisterPage() {
 
     let body = {
       email: Email,
-    };
-
-    body = {
-      email: Email,
       password: Password,
       name: Name,
       loginType: "local",
     };
-    dispatch(isUser(body)).then((response) => {
-      if (response.payload.isUser) {
-        toast.error("이미 사용 중인 이메일입니다 .__.");
-      } else {
-        dispatch(registerUser(body)).then((response) => {
-          if (response.payload.success) {
-            toast.success("가입 성공! 로그인 해주세요 .__.");
-            navigate("/login");
-          } else {
-            toast.error("회원가입이 실패하였습니다.");
-          }
-        });
-      }
-    });
+
+    let emailCheck = await isUser(body);
+    if (emailCheck.payload.isUser) {
+      toast.error('이미 사용 중인 이메일입니다 .__.');
+      return;
+    }
+    let doRegister = await registerUser(body);
+    if (doRegister.payload.success) {
+      toast.success('가입 성공! 로그인 해주세요 .__.');
+      navigate("/login");
+    }else{
+      toast.error("회원가입에 실패했어요 ㅜ__ㅜ");
+    }
   };
   return (
     <div className="outer_container">

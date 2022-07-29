@@ -1,8 +1,8 @@
 import axios from "axios";
 import { LOGIN_USER, REGISTER_USER, AUTH_USER, IS_USER, KAKAO_LOGOUT } from "./types";
 
-export function loginUser(dataToSubmit) {
-  const request = axios
+export async function loginUser(dataToSubmit) {
+  const request = await axios
     .post("/api/users/login", dataToSubmit)
     .then((response) => response.data);
 
@@ -12,8 +12,8 @@ export function loginUser(dataToSubmit) {
   };
 }
 
-export function registerUser(dataToSubmit) {
-  const request = axios
+export async function registerUser(dataToSubmit) {
+  const request = await axios
     .post("/api/users/register", dataToSubmit)
     .then((response) => response.data);
 
@@ -23,8 +23,8 @@ export function registerUser(dataToSubmit) {
   };
 }
 
-export function auth() {
-  const request = axios
+export async function auth() {
+  const request = await axios
     .get("/api/users/authen")
     .then((response) => response.data);
 
@@ -34,8 +34,8 @@ export function auth() {
   };
 }
 
-export function isUser(dataToSubmit) {
-  const request = axios
+export async function isUser(dataToSubmit) {
+  const request = await axios
     .post("/api/users/check", dataToSubmit)
     .then((response) => response.data);
 
@@ -45,8 +45,8 @@ export function isUser(dataToSubmit) {
   };
 }
 
-export function kakaoLogout(dataToSubmit) {
-  const request = axios
+export async function kakaoLogout(dataToSubmit) {
+  const request = await axios
   .post("/api/users/kakaologout", dataToSubmit)
   .then((response) => response.data);
   return {

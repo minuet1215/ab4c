@@ -442,7 +442,7 @@ function PhotoEditPage() {
                     setBgChange(bgImage.src);
                     setFrameDrawerVisible(false);
                   }}
-                  style={{ padding: "10px", width: "flex", height: "150px" }}
+                  style={{ padding: "10px", width: "110px", height: "150px" }}
                 ></img>
               );
             })}
