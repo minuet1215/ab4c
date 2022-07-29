@@ -8,9 +8,9 @@ const cors = require("cors");
 
 /* Router */
 const usersRouter = require("./routes/usersRouter");
-const mailRouter = require("./routes/mailRouter");
 const imageRouter = require("./routes/imageRouter");
 const roomsRouter = require("./routes/roomsRouter");
+const friendsRouter = require("./routes/friendsRouter");
 
 /* Config */
 const { PORT, mongoURI } = process.env;
@@ -47,7 +47,7 @@ app.get("/", (_, res) => {
 app.use("/api/users", usersRouter);
 app.use("/api/rooms", roomsRouter);
 app.use("/api/images", imageRouter);
-app.use("/invite", mailRouter);
+app.use("/api/friends", friendsRouter);
 
 // ========================= < WebRTC > ========================= //
 let http = require("http");
