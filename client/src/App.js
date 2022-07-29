@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastContainer } from "react-toastify";
@@ -19,6 +19,9 @@ import AllAlbumPage from "./components/AllAlbum/AllAlbum";
 import Auth from "./hoc/auth";
 import KakaoAuth from "./controller/KakaoAuth";
 import Profile from "./controller/Profile";
+import ReactGA from "react-ga";
+
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID);
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -29,6 +32,10 @@ function App() {
   const AuthAlbumPage = Auth(AlbumPage, true);
   const AuthEditPhotoPage = Auth(Editor, null);
   const AuthAllAlbumPage = Auth(AllAlbumPage, true);
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  },[]);
 
   return (
     <Router>
