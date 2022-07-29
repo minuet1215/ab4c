@@ -32,7 +32,6 @@ export default async function makeGif(imgArray) {
     gif.render();
   });
   await gif.on("finished", (blob) => {
-    console.log("완료");
     const url = URL.createObjectURL(blob);
     document.getElementById("result-image").src = url;
   });

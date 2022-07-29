@@ -63,7 +63,7 @@ export function addShader(source, target) {
   gl.shaderSource(fs, shader);
   gl.compileShader(fs);
   if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
-    console.error(gl.getShaderInfoLog(fs));
+    //
   }
 
   const prog = gl.createProgram();

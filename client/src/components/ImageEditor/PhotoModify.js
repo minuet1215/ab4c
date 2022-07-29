@@ -6,7 +6,6 @@ function PhotoModify(props) {
   const navigate = useNavigate();
 
   const modifyHandler = () => {
-    console.log(props.img);
     navigate("/editPhoto", { state: { path: props.img } });
   };
   return (

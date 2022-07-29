@@ -71,7 +71,6 @@ imageRouter.delete("/album/delete", async (req, res) => {
     );
     res.json({ message: "사진이 삭제되었습니다.", image });
   } catch (err) {
-    console.log(err);
     res.status(400).json({ message: err.message });
   }
 });
@@ -83,7 +82,6 @@ imageRouter.get("/:id/album", async (req, res) => {
     const images = await Image.find({ "user._id": req.user.id }); // ._id는 쓸 수 없으므로 ""로 묶음 -> Mongo DB가 알아서 파싱해줌
     res.json(images);
   } catch (err) {
-    console.log(err);
     res.status(400).json({ message: err.message });
   }
 });
@@ -125,14 +123,8 @@ imageRouter.patch("/:imageId/like", async (req, res) => {
       res.json(image);
     }
   } catch (err) {
-    console.log(err);
     res.status(400).json({ message: err.message });
   }
 });
-
-// imageRouter.post("/test", multer, async (req, res) => {
-//   console.log(req.body);
-//   res.json({ message: "test" });
-// });
 
 module.exports = imageRouter;

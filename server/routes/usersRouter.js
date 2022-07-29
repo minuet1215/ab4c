@@ -8,7 +8,6 @@ usersRouter.post("/register", (req, res) => {
   const user = new User(req.body);
 
   user.save((err, userInfo) => {
-    console.log(err);
     if (err) {
       return res.json({ success: false, err });
     } else {
@@ -115,7 +114,6 @@ usersRouter.post("/kakaologout", async (req, res) => {
       },
     });
   } catch (e) {
-    console.log(e);
   }
 });
 

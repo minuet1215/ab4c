@@ -65,7 +65,6 @@ export default class AutoSlides extends Component {
       })
       .catch((e) => {
         // API 호출이 실패한 경우
-        console.error(e); // 에러표시
       });
   };
 

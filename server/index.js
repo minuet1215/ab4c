@@ -31,7 +31,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB 연결"))
-  .catch((err) => console.log(err));
+  .catch();
 
 // ====================== < REACT 연결 > ====================== //
 
@@ -80,29 +80,23 @@ io.on("connection", (socket) => {
     socketToRoom[socket.id] = data.room;
 
     socket.join(data.room);
-    console.log(`[${socketToRoom[socket.id]}]: ${socket.id} enter`);
 
     const usersInThisRoom = users[data.room].filter(
       (user) => user.id !== socket.id
     );
 
-    console.log(usersInThisRoom);
-
     io.sockets.to(socket.id).emit("all_users", usersInThisRoom);
   });
 
   socket.on("offer", (sdp) => {
-    console.log("offer: " + socket.id);
     socket.broadcast.emit("getOffer", sdp);
   });
 
   socket.on("answer", (sdp) => {
-    console.log("answer: " + socket.id);
     socket.broadcast.emit("getAnswer", sdp);
   });
 
   socket.on("candidate", (candidate) => {
-    console.log("candidate: " + socket.id);
     socket.broadcast.emit("getCandidate", candidate);
   });
   socket.on("start", (roomname) => {
@@ -113,7 +107,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log(`[${socketToRoom[socket.id]}]: ${socket.id} exit`);
     const roomID = socketToRoom[socket.id];
     let room = users[roomID];
     if (room) {
@@ -125,7 +118,6 @@ io.on("connection", (socket) => {
       }
     }
     socket.broadcast.emit("user_exit", { id: socket.id });
-    console.log(users);
   });
 });
 

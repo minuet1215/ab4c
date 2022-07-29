@@ -29,7 +29,6 @@ async function BackgroundRemoval(canvas) {
   await ctx.putImageData(newImg, 0, 0);
 }
 async function Nooki(canvas, ctx) {
-  console.log("Nooki");
   try {
     const _id = await ctx.getImageData(0, 0, canvas.width, canvas.height);
     const pixels = _id.data;

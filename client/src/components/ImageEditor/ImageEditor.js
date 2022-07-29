@@ -15,7 +15,6 @@ export default function Editor() {
   const location = useLocation();
 
   const img_path = location.state.path;
-  // console.log(img_path);
   const addSticker = (path) => {
     const editorInstance = editorRef.current.getInstance();
     editorInstance.addImageObject(path);
