@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useTransition } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -20,13 +20,13 @@ import flowerFrame from "../../img/flower.png";
 import cloudFrame from "../../img/cloudFrame.png";
 import { v4 as uuidv4 } from "uuid";
 import makeGif from "./makeGIF";
-// import frame from "../../img/frame.png";
-// import memo from "../../img/memo.png";
-// import album from "../../img/album.png";
 import alone_icon from "../../img/나만보기.png";
 import together_icon from "../../img/같이보기.png";
 import { isMobile } from "react-device-detect";
 import PrintPage from "./PrintPage";
+// import frame from "../../img/frame.png";
+// import memo from "../../img/memo.png";
+// import album from "../../img/album.png";
 
 const img_width = 550;
 const img_height = 370;
@@ -35,15 +35,14 @@ const frame_width = img_width + 2 * gap;
 const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
+  let [isPending, startTransition] = useTransition();
   const navigate = useNavigate();
-  // const [isPublic, SetIsPublic] = useState(true);
   let isPublic = true;
   const [isLoading, setLoading] = useState(true);
-  // const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [user_id, setUser_id] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(undefined);
   const [isGifMode, setGifMode] = useState(false);
   const { state } = useLocation();
   const [isPrintStart, setPrintStart] = useState(undefined);
@@ -55,6 +54,13 @@ function PhotoEditPage() {
   const [isInputMessage, setInputMessage] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  let now = new Date();
+  const DATE_TIME = `${now.getFullYear()}.${("0" + (now.getMonth() + 1)).slice(
+    -2
+  )}.${("0" + now.getDate()).slice(-2)} ${("0" + now.getHours()).slice(-2)}:${(
+    "0" + now.getMinutes()
+  ).slice(-2)}`;
+  const isAuth = document.cookie;
   // ================= dummy data ================= //
   const images = [
     { src: state.images[state.images.length - 4], x: gap, y: gap },
@@ -89,14 +95,7 @@ function PhotoEditPage() {
   ];
   // ================= dummy data ================= //
 
-  const showModal = () => {
-    setModalVisible(true);
-  };
-
-  const handleModalCancel = () => {
-    setModalVisible(false);
-  };
-  async function temp(e) {
+  async function asyncGetImage(e) {
     let img = new Image();
     img.src = e;
     return img;
@@ -105,10 +104,9 @@ function PhotoEditPage() {
     const ctx = canvasRef.current.getContext("2d");
     let frames = [];
     for await (const elements of state.gifFrames) {
-      let j = -1;
       let slicingArray = elements.slice(-4);
       for await (const [index, elem] of slicingArray.entries()) {
-        await temp(elem).then(async (img) => {
+        await asyncGetImage(elem).then(async (img) => {
           await ctx.drawImage(
             img,
             gap,
@@ -135,12 +133,13 @@ function PhotoEditPage() {
   }, [isLoading]);
 
   useEffect(() => {
-    if (isPrintEnd === true) {
+    if (isPrintEnd === true && !isMobile) {
       document.getElementById("photoEdit").style.display = "";
       document.getElementById("PrintPage").style.display = "none";
       startMakeGif();
     }
   }, [isPrintEnd]);
+
   const showDrawer = (type) => {
     type === "Frame"
       ? setFrameDrawerVisible(true)
@@ -150,46 +149,38 @@ function PhotoEditPage() {
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
-  const isAuth = document.cookie;
+
+  const make4cutImage = async (ctx, list) => {
+    for await (const image of list) {
+      await asyncGetImage(image).then(async (i) => {
+        await ctx.drawImage(i, image.x, image.y, img_width, img_height);
+      });
+    }
+    if (!isPrintEnd) setPrintStart(canvasRef.current.toDataURL());
+  };
 
   useEffect(() => {
-    setLoading(true);
     // 화면 렌더링 시 바로 유저 정보 가져오기 (TEST)
     axios.get("/api/users/authen").then((response) => {
       setUserName(response.data.name);
       setUser_id(response.data._id); // _id : ObjectID
       setUserEmail(response.data.email);
     });
-    let now = new Date();
-    let month =
-      now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
-    let date = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
-    let hour = now.getHours() < 10 ? "0" + now.getHours() : now.getHours();
-    let minute =
-      now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes();
-    const date_time =
-      now.getFullYear() + "." + month + "." + date + " " + hour + ":" + minute;
+  }, []);
 
+  useEffect(() => {
+    setLoading(true);
     if (!canvasRef) return;
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, frame_width, frame_height);
-
     let img = new Image();
     img.src = bgChange;
     img.onload = function () {
       if (!isMobile) startMakeGif();
-      const make4cutImage = async (ctx, list) => {
-        for await (const image of list) {
-          await temp(image).then(async (i) => {
-            await ctx.drawImage(i, image.x, image.y, img_width, img_height);
-          });
-        }
-        if (!isPrintEnd) setPrintStart(canvasRef.current.toDataURL());
-      };
       ctx.drawImage(img, 0, 0, frame_width, frame_height);
       make4cutImage(ctx, images);
-      writeDate(ctx, date_time);
-      writeMessage(ctx, message);
+      writeDate(ctx, DATE_TIME);
+      if (message) writeMessage(ctx, message);
       // 기본 이미지
       setLoading(false);
     };
@@ -270,10 +261,10 @@ function PhotoEditPage() {
 
   const OnLocalSave = () => {
     let now = new Date();
-    const date_time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}_${now.getHours()}${now.getMinutes()}`;
+    const save_date_time = `${now.getFullYear()}${now.getMonth()}${now.getDate()}_${now.getHours()}${now.getMinutes()}`;
     const canvas = document.getElementById("canvas");
     const dataUrl = canvas.toDataURL();
-    const filename = "4cut_" + date_time + ".png";
+    const filename = "4cut_" + save_date_time + ".png";
     let link = document.createElement("a");
     if (typeof link.download === "string") {
       link.href = dataUrl;
@@ -364,7 +355,9 @@ function PhotoEditPage() {
                 </button>
                 <button
                   className={styles.btn_pink}
-                  onClick={showModal}
+                  onClick={() => {
+                    setModalVisible(true);
+                  }}
                   style={{
                     fontSize: "1.4em",
                     fontWeight: "bold",
@@ -391,7 +384,9 @@ function PhotoEditPage() {
               title="저장할 사진의 공개 설정을 선택해 주세요!"
               visible={isModalVisible}
               confirmLoading={confirmLoading}
-              onCancel={handleModalCancel}
+              onCancel={() => {
+                setModalVisible(false);
+              }}
               footer={null}
               centered={true}
             >
@@ -500,10 +495,17 @@ function PhotoEditPage() {
               <div>
                 <Input
                   placeholder="사진에 대한 설명을 적어주세요!"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    startTransition(() => {
+                      handleChange(e);
+                    });
+                  }}
                   style={{ width: "85%" }}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") setMessageDrawerVisible(false);
+                    if (e.key === "Enter") {
+                      setMessageDrawerVisible(false);
+                      setInputMessage(true);
+                    }
                   }}
                 />
                 <Button

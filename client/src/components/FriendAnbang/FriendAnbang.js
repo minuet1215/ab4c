@@ -21,6 +21,7 @@ function FriendAnbang() {
   const friendName = location.state.targetName;
   let roomName = "";
 
+
   useEffect(() => {
     dispatch(auth()).then((res) => {
       axios

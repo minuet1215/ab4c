@@ -33,9 +33,6 @@ const UserSchema = new mongoose.Schema({
   // following
   friends: [{ type: String }],
 
-<<<<<<< Updated upstream
-  profileImage: String,
-=======
   // follower
   follower: [{ type: String }],
 
@@ -45,7 +42,6 @@ const UserSchema = new mongoose.Schema({
     default:
       "https://i.pinimg.com/280x280_RS/55/96/4e/55964ebb02710d6b9ce1c26f1d857906.jpg",
   },
->>>>>>> Stashed changes
   token: String,
   tokenExp: Number,
   loginType: String,

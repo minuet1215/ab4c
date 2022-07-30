@@ -118,4 +118,12 @@ usersRouter.post("/kakaologout", async (req, res) => {
   }
 });
 
+usersRouter.patch("/updateImg", async (req, res) => {
+  const me = await User.findOneAndUpdate(
+    { email: req.body.email },
+    { profileImage: req.body.profileImage },
+    );
+    res.status(200).json({ success: true });
+});
+
 module.exports = usersRouter;
