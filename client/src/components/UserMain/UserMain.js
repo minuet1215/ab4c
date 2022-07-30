@@ -101,6 +101,7 @@ function UserMain() {
                     display: "inline-block",
                     height: "50px",
                   }}
+                  alt=""
                 />
                 {/* <img
                   src={입장하기P}
@@ -108,7 +109,9 @@ function UserMain() {
                     display: "inline-block",
                     height: "50px",
                   }}
-                /> */}
+                  alt=""
+                />
+
                 <div>혼자 찍기</div>
               </button>
 
@@ -128,6 +131,7 @@ function UserMain() {
                 <img
                   src={같이찍기}
                   style={{ height: "50px", display: "inline-block" }}
+                  alt=""
                 />
 
                 <div>같이 찍기</div>
@@ -218,6 +222,7 @@ function UserMain() {
                     display: "inline-block",
                     height: "50px",
                   }}
+                  alt=""
                 />
                 <div>입장하기</div>
               </button>
