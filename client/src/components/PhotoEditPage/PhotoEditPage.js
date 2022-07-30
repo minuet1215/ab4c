@@ -160,13 +160,16 @@ function PhotoEditPage() {
   };
 
   useEffect(() => {
-    setLoading(true);
     // 화면 렌더링 시 바로 유저 정보 가져오기 (TEST)
     axios.get("/api/users/authen").then((response) => {
       setUserName(response.data.name);
       setUser_id(response.data._id); // _id : ObjectID
       setUserEmail(response.data.email);
     });
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
     if (!canvasRef) return;
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, frame_width, frame_height);
