@@ -32,7 +32,7 @@ function MyAlbum() {
   }, [images]);
 
   let data = { datas: [] };
-  const url = "https://d2d88axq88qldt.cloudfront.net/";
+  const url = process.env.REACT_APP_CLOUD_FRONT_URL;
   images.map((item) => {
     data.datas.push({
       desc: item._id,

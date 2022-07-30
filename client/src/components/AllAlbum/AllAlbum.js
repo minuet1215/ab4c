@@ -6,7 +6,7 @@ import Loading from "../Loading/Loading";
 import styles from "./AllAlbum.module.css";
 import Modal from "./Modal";
 
-const url = "https://d2d88axq88qldt.cloudfront.net/";
+const url = process.env.REACT_APP_CLOUD_FRONT_URL;
 
 function AllAlbum() {
   const [loading, setLoading] = useState(true);
