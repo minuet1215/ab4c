@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer, Checkbox, Input, Button, Modal } from "antd";
+import { Drawer, Input, Button, Modal } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import { toast } from "react-toastify";
 import Loading from "../Loading/Loading";
@@ -335,7 +335,7 @@ function PhotoEditPage() {
                 >
                   Your browser does not support the HTML5 canvas tag.
                 </canvas>
-                <img id="result-image"></img>
+                <img id="result-image" alt=""></img>
               </div>
             </div>
             {isAuth && (
@@ -418,6 +418,7 @@ function PhotoEditPage() {
                       height: "80%",
                       marginRight: "5%",
                     }}
+                    alt="안방네컷"
                     data-value={false}
                   />
                   나만 보기
@@ -433,6 +434,7 @@ function PhotoEditPage() {
                   }}
                 >
                   <img
+                    alt=""
                     src={together_icon}
                     style={{ height: "100%", marginRight: "5%" }}
                     data-value={true}
