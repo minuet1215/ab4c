@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useTransition } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -35,6 +35,7 @@ const frame_width = img_width + 2 * gap;
 const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
+  let [isPending, startTransition] = useTransition();
   const navigate = useNavigate();
   let isPublic = true;
   const [isLoading, setLoading] = useState(true);
@@ -491,7 +492,11 @@ function PhotoEditPage() {
               <div>
                 <Input
                   placeholder="사진에 대한 설명을 적어주세요!"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    startTransition(() => {
+                      handleChange(e);
+                    });
+                  }}
                   style={{ width: "85%" }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
