@@ -6,7 +6,8 @@ function Header({ subTitle, onBackUrl = "/", onClick = undefined }) {
   const navigate = useNavigate();
   return (
     <PageHeader
-      style={{ border: "1px solid rgb(235, 237, 240)" }}
+      // style={{ border: "1px solid rgb(235, 237, 240)" }}
+      // style={{ height: "20px" }}
       onBack={() => {
         if (onClick !== undefined) onClick();
         navigate(onBackUrl);
