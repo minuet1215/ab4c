@@ -56,14 +56,11 @@ function PhotoEditPage() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   let now = new Date();
-  let month =
-    now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
-  let date = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
-  let hour = now.getHours() < 10 ? "0" + now.getHours() : now.getHours();
-  let minute =
-    now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes();
-  const date_time =
-    now.getFullYear() + "." + month + "." + date + " " + hour + ":" + minute;
+  let month = ("0" + (now.getMonth() + 1)).slice(-2);
+  let date = ("0" + now.getDate()).slice(-2);
+  let hour = ("0" + now.getHours()).slice(-2);
+  let minute = ("0" + now.getMinutes()).slice(-2);
+  const date_time = `${now.getFullYear()}.${month}.${date} ${hour}:${minute}`;
   // ================= dummy data ================= //
   const images = [
     { src: state.images[state.images.length - 4], x: gap, y: gap },
