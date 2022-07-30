@@ -1,6 +1,6 @@
 const friendsRouter = require("express").Router();
 const { User } = require("../models/User");
-const { Image } = require("../models/Image");
+const Image  = require("../models/Image");
 const mongoose = require("mongoose");
 
 // 친구 검색 기능
@@ -56,7 +56,8 @@ friendsRouter.patch("/delete/:friendId", async (req, res) => {
 
 // 친구 앨범 중 공개된 사진만 가져오기
 friendsRouter.get("/showAlbum/:friendId", async (req, res) => {
-  const images = await Image.find({ _id: req.params.id, public: true }).sort({
+  const targetFriend = await User.findOne({email : req.params.friendId});
+  const images = await Image.find({"user._id": targetFriend.id, public: true }).sort({
     createdAt: -1,
   });
   res.json(images);

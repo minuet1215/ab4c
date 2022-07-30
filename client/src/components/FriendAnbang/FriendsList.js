@@ -33,6 +33,7 @@ function FriendsList() {
     const targetId = e.target.querySelector('.ant-card-meta-description').innerText;
     navigate('/friendAnbang', {state : {targetId : targetId}})
   };
+  
   return (
     <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>

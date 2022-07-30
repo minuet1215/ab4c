@@ -30,7 +30,7 @@ function MyAlbum() {
         })
         .catch((err) => console.log({ err }));
     });
-  }, [images]);
+  }, [dispatch]);
 
   let data = { datas: [] };
   const url = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/";
