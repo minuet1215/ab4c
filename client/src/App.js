@@ -13,7 +13,12 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import PhotoEditPage from "./components/PhotoEditPage/PhotoEditPage";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
 import UserMain from "./components/UserMain/UserMain";
+
+import AllAlbumPage from "./components/AllAlbum/AllAlbum";
+import FriendListPage from "./components/FriendAnbang/FriendsList";
+import FriendAnbang from "./components/FriendAnbang/FriendAnbang";
 import AlbumPage from "./components/AlbumPage/AlbumPage"; // TEST
+
 
 import Auth from "./hoc/auth";
 import KakaoAuth from "./controller/KakaoAuth";
@@ -30,6 +35,10 @@ function App() {
   const KakaoAuthPage = Auth(KakaoAuth, false);
   const AuthAlbumPage = Auth(AlbumPage, true);
   const AuthEditPhotoPage = Auth(Editor, null);
+  const AuthAllAlbumPage = Auth(AllAlbumPage, true);
+  const AuthFriendListPage = Auth(FriendListPage, true);
+  const AuthFriendAnbangPage = Auth(FriendAnbang, true);
+
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -47,6 +56,9 @@ function App() {
           <Route exact path="/album" element={<AuthAlbumPage />} />
           <Route exact path="/editPhoto" element={<AuthEditPhotoPage />} />
           <Route exact path="/group/:roomname" element={<GroupPage />} />
+          <Route exact path="allalbum" element={<AuthAllAlbumPage />} />
+          <Route exact path="friendlist" element={<AuthFriendListPage />} />
+          <Route exact path="friendAnbang" element={<AuthFriendAnbangPage />} />
           <Route
             exact
             path="/oauth/kakao/callback"

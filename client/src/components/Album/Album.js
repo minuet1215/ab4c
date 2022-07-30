@@ -29,7 +29,7 @@ function MyAlbum() {
         })
         .catch();
     });
-  }, [images]);
+  }, [dispatch]);
 
   let data = { datas: [] };
   const url = process.env.REACT_APP_CLOUD_FRONT_URL;
