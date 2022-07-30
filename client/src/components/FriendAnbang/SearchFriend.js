@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { auth } from "../../_actions/user_action";
 
-function SearchFriend(change) {
+function SearchFriend(props) {
   const { Search } = Input;
   const [isModalVisible, setModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -14,15 +14,6 @@ function SearchFriend(change) {
 
   const idSearchHandler = (event) => {
     setSearchInput(event.target.value);
-  };
-
-  const showModal = () => {
-    setModalVisible(true);
-  };
-
-  const hideModal = () => {
-    setModalVisible(false);
-    setFindFriendResult("");
   };
 
   const [loading, setLoading] = useState(true);
@@ -52,14 +43,14 @@ function SearchFriend(change) {
 
   return (
     <>
-      <button onClick={showModal} className="button button_gap btn_1">
+      <button onClick={props.showModal} className="button button_gap btn_1">
         친구 검색
       </button>
       <Modal
         title="친구를 검색해보세요"
-        visible={isModalVisible}
+        visible={props.isModalVisible}
         confirmLoading={confirmLoading}
-        onCancel={hideModal}
+        onCancel={props.hideModal}
         footer={null}
         centered={true}
       >
