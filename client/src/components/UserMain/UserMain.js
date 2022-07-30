@@ -103,7 +103,7 @@ function UserMain() {
                   }}
                   alt=""
                 />
-                {/* <img
+                <img
                   src={입장하기P}
                   style={{
                     display: "inline-block",
