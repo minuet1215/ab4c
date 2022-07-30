@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { useParams } from "react-router-dom";
 import styles from "./GroupPage.module.css";
 import VideoAREA from "./Socket";
@@ -24,6 +24,7 @@ function GroupPage() {
   const MAX_COUNT = 3.25;
   const [token] = useState(localStorage.getItem("token"));
   let { roomname } = useParams();
+  const { state } = useLocation();
   const navigate = useNavigate();
   const refs = {
     backgroundSrcRef: useRef(null),
@@ -40,24 +41,11 @@ function GroupPage() {
   const [photoCount, setPhotoCount] = useState(1); // 4장만 찍을 수 있다.
   const [takePhotoLayer, setTakePhotoLayer] = useState({});
 
-  // useEffect(() => {
-  //   //최초 페이지 진입시
-  //   if (token === roomname) {
-  //     navigator.clipboard.writeText(window.document.location.href).then(() => {
-  //       toast.success(
-  //         <div>
-  //           초대링크가 자동으로 복사되었습니다. <br /> 함께 할 친구를
-  //           초대해보세요!
-  //         </div>,
-  //         { position: toast.POSITION.UPPER_RIGHT }
-  //       );
-  //     });
-  //   }
-  // }, []);
-
   function cameraOff() {
-    refs.socketRef.current.disconnect();
-    refs.pcRef.current.close();
+    if (!state.isSingle) {
+      refs.socketRef.current.disconnect();
+      refs.pcRef.current.close();
+    }
     let stream = refs.localVideoRef.current.srcObject;
     stream.getTracks().forEach(function (track) {
       track.stop();
@@ -155,6 +143,7 @@ function GroupPage() {
                 isCapture={startCapture}
                 setCapture={setCapture}
                 token={token}
+                isSingle={state?.isSingle || false}
               ></VideoAREA>
             </div>
           </div>

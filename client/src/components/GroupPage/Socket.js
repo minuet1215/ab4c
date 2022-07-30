@@ -6,6 +6,7 @@ import io from "socket.io-client";
 import Loading from "../Loading/Loading";
 
 const VideoAREA = forwardRef((props, ref) => {
+  const isSingle = props.isSingle;
   const [loading, setLoading] = useState(true);
   const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
   // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
@@ -35,29 +36,31 @@ const VideoAREA = forwardRef((props, ref) => {
         audio: true,
       });
       if (localVideoRef.current) localVideoRef.current.srcObject = stream;
-      if (!(pcRef.current && socketRef.current)) return;
-      stream.getTracks().forEach((track) => {
-        if (!pcRef.current) return;
-        pcRef.current.addTrack(track, stream);
-      });
-      pcRef.current.onicecandidate = (e) => {
-        if (e.candidate) {
-          if (!socketRef.current) return;
-          socketRef.current.emit("candidate", e.candidate);
-        }
-      };
-      pcRef.current.oniceconnectionstatechange = (e) => {
-        //
-      };
-      pcRef.current.ontrack = (ev) => {
-        if (remoteVideoRef.current) {
-          remoteVideoRef.current.srcObject = ev.streams[0];
-          setLeave(false);
-        }
-      };
-      socketRef.current.emit("join_room", {
-        room: props.roomName,
-      });
+      if (!isSingle) {
+        if (!(pcRef.current && socketRef.current)) return;
+        stream.getTracks().forEach((track) => {
+          if (!pcRef.current) return;
+          pcRef.current.addTrack(track, stream);
+        });
+        pcRef.current.onicecandidate = (e) => {
+          if (e.candidate) {
+            if (!socketRef.current) return;
+            socketRef.current.emit("candidate", e.candidate);
+          }
+        };
+        pcRef.current.oniceconnectionstatechange = (e) => {
+          //
+        };
+        pcRef.current.ontrack = (ev) => {
+          if (remoteVideoRef.current) {
+            remoteVideoRef.current.srcObject = ev.streams[0];
+            setLeave(false);
+          }
+        };
+        socketRef.current.emit("join_room", {
+          room: props.roomName,
+        });
+      }
     } catch (e) {
       //
     }
@@ -95,55 +98,59 @@ const VideoAREA = forwardRef((props, ref) => {
 
   useEffect(() => {
     setLoading(true);
-    socketRef.current = io.connect(SOCKET_SERVER_URL);
-    pcRef.current = new RTCPeerConnection(pc_config);
-    socketRef.current.on("all_users", (allUsers) => {
-      if (allUsers.length > 0) {
-        createOffer();
-      }
-    });
-    socketRef.current.on("getOffer", (sdp) => {
-      createAnswer(sdp);
-    });
-    socketRef.current.on("getAnswer", (sdp) => {
-      if (!pcRef.current) return;
-      pcRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
-    });
-    socketRef.current.on("getCandidate", async (candidate) => {
-      if (!pcRef.current) return;
-      await pcRef.current.addIceCandidate(new RTCIceCandidate(candidate));
-    });
-    socketRef.current.on("user_exit", (e) => {
-      setLeave(true);
-    });
-    
-    socketRef.current.on("start", () => {
-      if (!isHost) {
-        props.setCapture(true);
-      }
-    });
+    if (!isSingle) {
+      socketRef.current = io.connect(SOCKET_SERVER_URL);
+      pcRef.current = new RTCPeerConnection(pc_config);
+      socketRef.current.on("all_users", (allUsers) => {
+        if (allUsers.length > 0) {
+          createOffer();
+        }
+      });
+      socketRef.current.on("getOffer", (sdp) => {
+        createAnswer(sdp);
+      });
+      socketRef.current.on("getAnswer", (sdp) => {
+        if (!pcRef.current) return;
+        pcRef.current.setRemoteDescription(new RTCSessionDescription(sdp));
+      });
+      socketRef.current.on("getCandidate", async (candidate) => {
+        if (!pcRef.current) return;
+        await pcRef.current.addIceCandidate(new RTCIceCandidate(candidate));
+      });
+      socketRef.current.on("user_exit", (e) => {
+        setLeave(true);
+      });
 
-    socketRef.current.on("backgroundChange", (img) => {
-      if (!isHost) {
-        props.setImgBase64(img);
-      }
-    });
-    
+      socketRef.current.on("start", () => {
+        if (!isHost) {
+          props.setCapture(true);
+        }
+      });
+
+      socketRef.current.on("backgroundChange", (img) => {
+        if (!isHost) {
+          props.setImgBase64(img);
+        }
+      });
+    }
+
     setVideoTracks();
 
     return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-      if (pcRef.current) {
-        pcRef.current.close();
+      if (!isSingle) {
+        if (socketRef.current) {
+          socketRef.current.disconnect();
+        }
+        if (pcRef.current) {
+          pcRef.current.close();
+        }
       }
     };
   }, []);
-  if (isHost && props.isCapture) {
+  if (!isSingle && isHost && props.isCapture) {
     socketRef.current.emit("start", props.roomName);
   }
-  if (isHost && props.ImgBase64) {
+  if (!isSingle && isHost && props.ImgBase64) {
     socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
   }
   return (
@@ -162,12 +169,14 @@ const VideoAREA = forwardRef((props, ref) => {
           className={isHost ? styles.host : styles.guest}
           id="mytrans"
         ></canvas>
-        <canvas
-          className={
-            leave ? styles.displaynone : isHost ? styles.guest : styles.host
-          }
-          id="remotetrans"
-        ></canvas>
+        {!isSingle ? (
+          <canvas
+            className={
+              leave ? styles.displaynone : isHost ? styles.guest : styles.host
+            }
+            id="remotetrans"
+          ></canvas>
+        ) : undefined}
         <canvas id="myStar"></canvas>
         <video
           className={styles.displaynone}
@@ -178,16 +187,21 @@ const VideoAREA = forwardRef((props, ref) => {
           height="480"
           ref={localVideoRef}
         ></video>
-        <video
-          className={styles.displaynone}
-          id="remote"
-          autoPlay
-          playsInline
-          width="640"
-          height="480"
-          ref={remoteVideoRef}
-        ></video>
-        <canvas className={styles.displaynone} id="remotegreen"></canvas>
+        {!isSingle ? (
+          <>
+            <video
+              className={styles.displaynone}
+              id="remote"
+              autoPlay
+              playsInline
+              width="640"
+              height="480"
+              ref={remoteVideoRef}
+            ></video>
+            <canvas className={styles.displaynone} id="remotegreen"></canvas>
+          </>
+        ) : undefined}
+
         <canvas className={styles.displaynone} id="mygreen"></canvas>
       </div>
     </>
