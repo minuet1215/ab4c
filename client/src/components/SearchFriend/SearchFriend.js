@@ -13,19 +13,17 @@ function SearchFriend() {
   const [findFriendResult, setFindFriendResult] = useState("");
 
   const onFriendIdHandler = (event) => {
-    setSearchInput(event.currentTarget.value);
+    setSearchInput(event.target.value);
   };
+  
   const showModal = () => {
     setModalVisible(true);
   };
   const handleModalCancel = () => {
     setModalVisible(false);
   };
-  const [loading, setLoading] = useState(true);
 
-  const onChange = (checked) => {
-    setLoading(!checked);
-  };
+  const [loading, setLoading] = useState(true);
 
   const clickedHandler = () => {
     axios.get(`/api/friends/search/${searchInput}`).then((response) => {
@@ -53,7 +51,8 @@ function SearchFriend() {
 
   return (
     <>
-      <Button onClick={showModal}>친구 검색</Button>
+      <button onClick={showModal}
+      className="button button_gap btn_1">친구 검색</button>
       <Modal
         title="친구를 검색해보세요"
         visible={isModalVisible}

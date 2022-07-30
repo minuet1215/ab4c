@@ -65,15 +65,18 @@ friendsRouter.get("/showAlbum/:friendId", async (req, res) => {
 // 나의 친구 리스트
 friendsRouter.get("/me/friendsList/:myId", async (req, res) => {
   const me = await User.findOne({ _id: req.params.myId });
-  // const friendList = [];
-  // me.friends.map((item) => {
-  //   const friend = User.findOne({ email: item });
-  //   // const info = {
-  //   //   name : friend.name,
-  //   // }
-  //   console.log(friend);
-    // res.status(200).json(friendList)
-  // });
-  res.status(200).json(me.friends);
+  let friendsList = []
+  Promise.all(me.friends.map(async (item) => {
+    const friend = await User.findOne({email : item})
+    const body = {
+      name : friend.name,
+      email : friend.email,
+      profileImage : friend.profileImage
+    }
+    friendsList.push(body)
+  })).then((response) => {
+    res.status(200).json(friendsList.sort());
+  })
 });
+
 module.exports = friendsRouter;

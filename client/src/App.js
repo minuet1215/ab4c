@@ -15,7 +15,8 @@ import PhotoEditPage from "./components/PhotoEditPage/PhotoEditPage";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
 import UserMain from "./components/UserMain/UserMain";
 import AllAlbumPage from "./components/AllAlbum/AllAlbum";
-import FriendListPage from "./components/FriendsAnbang/FriendsAnbang";
+import FriendListPage from "./components/FriendAnbang/FriendsList";
+
 
 import Auth from "./hoc/auth";
 import KakaoAuth from "./controller/KakaoAuth";
