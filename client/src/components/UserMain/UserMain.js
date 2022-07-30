@@ -6,7 +6,6 @@ import { Modal, Carousel } from "antd";
 import 혼자찍기 from "../../img/나만보기.png";
 import 같이찍기 from "../../img/같이보기.png";
 import 입장하기 from "../../img/enterRoom.png";
-import 입장하기P from "../../img/enterRoomP.png";
 import 뒤로가기 from "../../img/prevIcon.png";
 import 링크복사 from "../../img/linkIcon.png";
 import KakaoInviteButton from "../Kakao/KakaoInvite";
@@ -109,17 +108,8 @@ function UserMain() {
                     display: "inline-block",
                     height: "50px",
                   }}
-                  alt=""
+                  alt="혼자찍기"
                 />
-                <img
-                  src={입장하기P}
-                  style={{
-                    display: "inline-block",
-                    height: "50px",
-                  }}
-                  alt=""
-                />
-
                 <div>혼자 찍기</div>
               </button>
 
