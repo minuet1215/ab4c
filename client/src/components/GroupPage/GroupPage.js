@@ -84,14 +84,15 @@ function GroupPage() {
     startCapture && countDown > 0 ? 250 : null
   );
 
+  function setInitialState() {
+    setCount(MAX_COUNT);
+    setPhotoCount(photoCount + 1);
+    setCapture(false);
+    setTakePhotoLayer({});
+  }
+
   // 캡쳐하는 함수
   function captureFunc() {
-    function setInitialState() {
-      setCount(MAX_COUNT);
-      setPhotoCount(photoCount + 1);
-      setCapture(false);
-      setTakePhotoLayer({});
-    }
     setTakePhotoLayer({
       backgroundColor: "white",
       opacity: "0.5",
@@ -106,16 +107,14 @@ function GroupPage() {
       }).then((canvas) => {
         let dataURL = canvas.toDataURL();
         resultImages.push(dataURL);
-        // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
-        setInitialState();
       });
     } else {
       domtoimage.toPng(refs.captureAreaRef.current).then((dataUrl) => {
         resultImages.push(dataUrl);
-        // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
-        setInitialState();
       });
     }
+    // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
+    setInitialState();
   }
   function silentCapture(index) {
     domtoimage
