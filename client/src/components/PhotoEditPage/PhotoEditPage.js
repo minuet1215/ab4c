@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer, Checkbox, Input, Button, Modal } from "antd";
+import { Drawer, Input, Button, Modal } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import { toast } from "react-toastify";
 import Loading from "../Loading/Loading";
@@ -20,9 +20,6 @@ import flowerFrame from "../../img/flower.png";
 import cloudFrame from "../../img/cloudFrame.png";
 import { v4 as uuidv4 } from "uuid";
 import makeGif from "./makeGIF";
-import frame from "../../img/frame.png";
-import memo from "../../img/memo.png";
-import album from "../../img/album.png";
 import 나만보기 from "../../img/나만보기.png";
 import 같이보기 from "../../img/같이보기.png";
 import { isMobile } from "react-device-detect";
@@ -313,7 +310,7 @@ function PhotoEditPage() {
             >
               Your browser does not support the HTML5 canvas tag.
             </canvas>
-            <img id="result-image"></img>
+            <img id="result-image" alt=""></img>
           </div>
         </div>
         {isAuth && (
@@ -391,11 +388,10 @@ function PhotoEditPage() {
               <img
                 src={나만보기}
                 style={{
-                  // display: "block",
-                  // justifyContent: "center",
                   height: "80%",
                   marginRight: "5%",
                 }}
+                alt="안방네컷"
               />
               나만 보기
             </button>
@@ -410,8 +406,10 @@ function PhotoEditPage() {
               }}
             >
               <img
+                id="weImabe"
                 src={같이보기}
                 style={{ height: "100%", marginRight: "5%" }}
+                alt=""
               />
               다같이 보기
             </button>
