@@ -48,7 +48,13 @@ function PhotoEditPage() {
   const { state } = useLocation();
   const [isPrintStart, setPrintStart] = useState(undefined);
   const [isPrintEnd, setPrintEnd] = useState(false);
-
+  const canvasRef = useRef(null);
+  const [bgChange, setBgChange] = useState(defaultBg);
+  const [isFrameDrawerVisible, setFrameDrawerVisible] = useState(false);
+  const [isMessageDrawerVisible, setMessageDrawerVisible] = useState(false);
+  const [isInputMessage, setInputMessage] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   // ================= dummy data ================= //
   const images = [
     { src: state.images[state.images.length - 4], x: gap, y: gap },
@@ -83,14 +89,6 @@ function PhotoEditPage() {
   ];
   // ================= dummy data ================= //
 
-  const canvasRef = useRef(null);
-  const [bgChange, setBgChange] = useState(defaultBg);
-  const [isFrameDrawerVisible, setFrameDrawerVisible] = useState(false);
-  const [isMessageDrawerVisible, setMessageDrawerVisible] = useState(false);
-  const [isInputMessage, setInputMessage] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-
   const showModal = () => {
     setModalVisible(true);
   };
@@ -109,18 +107,16 @@ function PhotoEditPage() {
     for await (const elements of state.gifFrames) {
       let j = -1;
       let slicingArray = elements.slice(-4);
-      for await (const elem of slicingArray) {
-        await temp(elem)
-          .then(async (img) => {
-            await ctx.drawImage(
-              img,
-              gap,
-              j * (img_height + gap) + gap,
-              img_width,
-              img_height
-            );
-          })
-          .then(j++);
+      for await (const [index, elem] of slicingArray.entries()) {
+        await temp(elem).then(async (img) => {
+          await ctx.drawImage(
+            img,
+            gap,
+            index * (img_height + gap) + gap,
+            img_width,
+            img_height
+          );
+        });
       }
       frames.push(await canvasRef.current.toDataURL());
     }
