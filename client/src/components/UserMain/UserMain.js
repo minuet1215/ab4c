@@ -94,7 +94,9 @@ function UserMain() {
             <div style={contentStyle}>
               <button
                 className="button btn_2"
-                onClick={() => navigate(`/group/${token}`)}
+                onClick={() =>
+                  navigate(`/group/${token}`, { state: { isSingle: true } })
+                }
                 style={{
                   width: "35%",
                   height: "100%",
@@ -205,7 +207,9 @@ function UserMain() {
 
               <button
                 className="button btn_1"
-                onClick={() => navigate(`/group/${token}`)}
+                onClick={() =>
+                  navigate(`/group/${token}`, { state: { isSingle: false } })
+                }
                 style={{
                   width: "22%",
                   height: "100%",
