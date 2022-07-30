@@ -15,7 +15,7 @@ function SearchFriend() {
   const onFriendIdHandler = (event) => {
     setSearchInput(event.target.value);
   };
-  
+
   const showModal = () => {
     setModalVisible(true);
   };
@@ -39,7 +39,6 @@ function SearchFriend() {
     const body = {
       id: me.payload._id,
     };
-    console.log(me.payload._id);
     axios.post(`/api/friends/add/${searchInput}`, body).then((response) => {
       if (response.data.success) {
         toast.success("추가되었습니다.");
@@ -51,8 +50,9 @@ function SearchFriend() {
 
   return (
     <>
-      <button onClick={showModal}
-      className="button button_gap btn_1">친구 검색</button>
+      <button onClick={showModal} className="button button_gap btn_1">
+        친구 검색
+      </button>
       <Modal
         title="친구를 검색해보세요"
         visible={isModalVisible}

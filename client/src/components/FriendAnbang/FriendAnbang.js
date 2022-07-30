@@ -15,8 +15,11 @@ function FriendAnbang() {
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
   const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState("");
   const location = useLocation();
   const friendId = location.state.targetId;
+  let roomName = "";
+
 
   useEffect(() => {
     dispatch(auth()).then((res) => {
@@ -26,12 +29,14 @@ function FriendAnbang() {
           setUserId(res.payload._id);
           setImages(result.data);
           setLoading(false);
+          setUserName(res.payload.name);
         })
         .catch();
     });
   }, [dispatch]);
 
   let data = { datas: [] };
+  roomName = userName + "님의 앨범";
 
   images.map((item) => {
     data.datas.push({
@@ -58,7 +63,7 @@ function FriendAnbang() {
     <>
       <div className="outer_container">
         <div>{loading ? <Loading /> : null}</div>
-        <Header subTitle="친구 앨범" onBackUrl="/friendlist" />
+        <Header subTitle={roomName} onBackUrl="/friendlist" />
 
         <div className={styles.contents_container}>
           <div className={styles.album_container}>

@@ -1,12 +1,13 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import SearchFriend from "../SearchFriend/SearchFriend";
 import Header from "../Header/Header";
 import { auth } from "../../_actions/user_action";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import enterRoomP from "../../img/enterRoomP.png";
 import { useNavigate } from "react-router-dom";
 
-import { Avatar, Button, Card } from "antd";
+import { Avatar, Card } from "antd";
 
 import Loading from "../Loading/Loading";
 
@@ -30,27 +31,25 @@ function FriendsList() {
     });
   }, [dispatch]);
 
-  const housewarmingHandler = (e) => {
-    const targetId = e.target.querySelector('.ant-card-meta-description').innerText;
-    navigate('/friendAnbang', {state : {targetId : targetId}})
-  };
-  
   return (
     <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>
       <Header />
       <SearchFriend />
-      <div style={{ "marginTop": 50 }}>
+      <div style={{ marginTop: 50 }}>
         {friendsInfo.map((item, index) => (
-          <div key={index} style={{ "marginBottom": 20 }}>
+          <div key={index} style={{ marginBottom: 20 }}>
             <Card
-              onClick={housewarmingHandler}
+              onClick={() => {
+                navigate("/friendAnbang", { state: { targetId: item.email } });
+              }}
               style={{
-                'maxWidth': '550px',
+                maxWidth: "550px",
                 margin: "auto",
+                border: "3px solid #fc8da1",
               }}
               hoverable
-            > 
+            >
               <Meta
                 avatar={<Avatar src={item.profileImage} />}
                 title={item.name + "님의 안방"}

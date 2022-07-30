@@ -174,6 +174,7 @@ function UserMain() {
                     height: "30px",
                     // position: "flex-start",
                   }}
+                  alt=""
                 />
               </button>
 
@@ -206,6 +207,7 @@ function UserMain() {
                     display: "inline-block",
                     height: "50px",
                   }}
+                  alt=""
                 />
                 <div>링크복사</div>
               </button>
