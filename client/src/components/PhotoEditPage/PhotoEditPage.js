@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -43,7 +43,7 @@ function PhotoEditPage() {
   const [userName, setUserName] = useState("");
   const [user_id, setUser_id] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(undefined);
   const [isGifMode, setGifMode] = useState(false);
   const { state } = useLocation();
   const [isPrintStart, setPrintStart] = useState(undefined);
@@ -55,6 +55,15 @@ function PhotoEditPage() {
   const [isInputMessage, setInputMessage] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  let now = new Date();
+  let month =
+    now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
+  let date = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
+  let hour = now.getHours() < 10 ? "0" + now.getHours() : now.getHours();
+  let minute =
+    now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes();
+  const date_time =
+    now.getFullYear() + "." + month + "." + date + " " + hour + ":" + minute;
   // ================= dummy data ================= //
   const images = [
     { src: state.images[state.images.length - 4], x: gap, y: gap },
@@ -105,7 +114,6 @@ function PhotoEditPage() {
     const ctx = canvasRef.current.getContext("2d");
     let frames = [];
     for await (const elements of state.gifFrames) {
-      let j = -1;
       let slicingArray = elements.slice(-4);
       for await (const [index, elem] of slicingArray.entries()) {
         await temp(elem).then(async (img) => {
@@ -160,15 +168,6 @@ function PhotoEditPage() {
       setUser_id(response.data._id); // _id : ObjectID
       setUserEmail(response.data.email);
     });
-    let now = new Date();
-    let month =
-      now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
-    let date = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
-    let hour = now.getHours() < 10 ? "0" + now.getHours() : now.getHours();
-    let minute =
-      now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes();
-    const date_time =
-      now.getFullYear() + "." + month + "." + date + " " + hour + ":" + minute;
 
     if (!canvasRef) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -189,7 +188,7 @@ function PhotoEditPage() {
       ctx.drawImage(img, 0, 0, frame_width, frame_height);
       make4cutImage(ctx, images);
       writeDate(ctx, date_time);
-      writeMessage(ctx, message);
+      if (message) writeMessage(ctx, message);
       // 기본 이미지
       setLoading(false);
     };
