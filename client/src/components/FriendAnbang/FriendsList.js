@@ -41,12 +41,14 @@ function FriendsList() {
           <div key={index} style={{ marginBottom: 20 }}>
             <Card
               onClick={() => {
-                navigate("/friendAnbang", { state: { targetId: item.email } });
+                navigate("/friendAnbang", {
+                  state: { targetId: item.email, targetName: item.name },
+                });
               }}
               style={{
                 maxWidth: "550px",
                 margin: "auto",
-                border: "3px solid #fc8da1",
+                border: "2.5px solid #fc8da1",
               }}
               hoverable
             >

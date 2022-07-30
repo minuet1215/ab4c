@@ -26,9 +26,9 @@ const Profile = () => {
 
       let checkUser = await isUser(body);
       if (!checkUser.payload.isUser) {
-        let doRegister = await registerUser(body);
+        await registerUser(body);
       }else{
-        let doUpdate = await updateProfileImage(body);
+        await updateProfileImage(body);
       }
       dispatch(loginUser(body)).then((res) => {
         navigate("/main");

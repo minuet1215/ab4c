@@ -30,10 +30,14 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-
+  // following
   friends: [{ type: String }],
 
-  profileImage: { // by mw
+  // follower
+  follower: [{ type: String }],
+
+  profileImage: {
+    // by mw
     type: String,
     default:
       "https://i.pinimg.com/280x280_RS/55/96/4e/55964ebb02710d6b9ce1c26f1d857906.jpg",
