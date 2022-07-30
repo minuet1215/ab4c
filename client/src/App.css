@@ -1,5 +1,12 @@
 @import "~antd/dist/antd.css";
 
+.modalRadius .ant-modal-content {
+  border-radius: 10px;
+}
+.modalRadius .ant-modal-header {
+  border-radius: 10px;
+}
+
 /* .App {
   text-align: center;
 } */

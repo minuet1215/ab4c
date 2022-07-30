@@ -23,8 +23,8 @@ import makeGif from "./makeGIF";
 import frame from "../../img/frame.png";
 import memo from "../../img/memo.png";
 import album from "../../img/album.png";
-import 나만보기 from "../../img/나만보기.png";
-import 같이보기 from "../../img/같이보기.png";
+import alone_icon from "../../img/나만보기.png";
+import together_icon from "../../img/같이보기.png";
 import { isMobile } from "react-device-detect";
 import PrintPage from "./PrintPage";
 
@@ -215,7 +215,7 @@ function PhotoEditPage() {
 
   const onSave = (e) => {
     e.preventDefault();
-    isPublic = e.target.value; // 공개/비공개 설정
+    isPublic = e.target.dataset["value"]; // 공개/비공개 설정
     setConfirmLoading(true); // 모달 열어두기
 
     // isGifMode -> gif, !isGifMode -> png 판단
@@ -402,7 +402,7 @@ function PhotoEditPage() {
               <div style={{ display: "flex" }}>
                 <button
                   className="button btn_3"
-                  value={false}
+                  data-value={false}
                   onClick={onSave}
                   style={{
                     fontSize: "1.4em",
@@ -411,19 +411,20 @@ function PhotoEditPage() {
                   }}
                 >
                   <img
-                    src={나만보기}
+                    src={alone_icon}
                     style={{
                       // display: "block",
                       // justifyContent: "center",
                       height: "80%",
                       marginRight: "5%",
                     }}
+                    data-value={false}
                   />
                   나만 보기
                 </button>
                 <button
                   className="button btn_1"
-                  value={true}
+                  data-value={true}
                   onClick={onSave}
                   style={{
                     fontSize: "1.4em",
@@ -432,8 +433,9 @@ function PhotoEditPage() {
                   }}
                 >
                   <img
-                    src={같이보기}
+                    src={together_icon}
                     style={{ height: "100%", marginRight: "5%" }}
+                    data-value={true}
                   />
                   다같이 보기
                 </button>
