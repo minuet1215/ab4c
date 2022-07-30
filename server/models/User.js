@@ -33,7 +33,11 @@ const UserSchema = new mongoose.Schema({
 
   friends: [{ type: String }],
 
-  profileImage: String,
+  profileImage: { // by mw
+    type: String,
+    default:
+      "https://i.pinimg.com/280x280_RS/55/96/4e/55964ebb02710d6b9ce1c26f1d857906.jpg",
+  },
   token: String,
   tokenExp: Number,
   loginType: String,
