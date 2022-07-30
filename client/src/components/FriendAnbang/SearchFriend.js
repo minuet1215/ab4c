@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { auth } from "../../_actions/user_action";
 
-function SearchFriend() {
+function SearchFriend(change) {
   const { Search } = Input;
   const [isModalVisible, setModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -12,15 +12,17 @@ function SearchFriend() {
   const [searchInput, setSearchInput] = useState("");
   const [findFriendResult, setFindFriendResult] = useState("");
 
-  const onFriendIdHandler = (event) => {
+  const idSearchHandler = (event) => {
     setSearchInput(event.target.value);
   };
 
   const showModal = () => {
     setModalVisible(true);
   };
-  const handleModalCancel = () => {
+
+  const hideModal = () => {
     setModalVisible(false);
+    setFindFriendResult("");
   };
 
   const [loading, setLoading] = useState(true);
@@ -57,13 +59,13 @@ function SearchFriend() {
         title="친구를 검색해보세요"
         visible={isModalVisible}
         confirmLoading={confirmLoading}
-        onCancel={handleModalCancel}
+        onCancel={hideModal}
         footer={null}
         centered={true}
       >
         <div>
           <Search
-            onChange={onFriendIdHandler}
+            onChange={idSearchHandler}
             placeholder="이메일을 입력하세요"
             enterButton
             onPressEnter={clickedHandler}
@@ -79,7 +81,7 @@ function SearchFriend() {
             loading={loading}
           ></Card>
         )}
-        {findFriendResult && (
+        {searchInput && findFriendResult && (
           <Card
             style={{
               "max-width": 470,

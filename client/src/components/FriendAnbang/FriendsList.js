@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SearchFriend from "../SearchFriend/SearchFriend";
+import SearchFriend from "./SearchFriend";
 import Header from "../Header/Header";
 import { auth } from "../../_actions/user_action";
 import { useDispatch } from "react-redux";
@@ -16,10 +16,9 @@ function FriendsList() {
   const [loading, setLoading] = useState(true);
   const [friendsInfo, setFriendsInfo] = useState([]);
   const { Meta } = Card;
-  const [isModalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     dispatch(auth()).then((res) => {
       axios
