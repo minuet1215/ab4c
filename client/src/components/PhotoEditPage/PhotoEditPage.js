@@ -20,9 +20,9 @@ import flowerFrame from "../../img/flower.png";
 import cloudFrame from "../../img/cloudFrame.png";
 import { v4 as uuidv4 } from "uuid";
 import makeGif from "./makeGIF";
-import frame from "../../img/frame.png";
-import memo from "../../img/memo.png";
-import album from "../../img/album.png";
+// import frame from "../../img/frame.png";
+// import memo from "../../img/memo.png";
+// import album from "../../img/album.png";
 import alone_icon from "../../img/나만보기.png";
 import together_icon from "../../img/같이보기.png";
 import { isMobile } from "react-device-detect";
@@ -46,7 +46,7 @@ function PhotoEditPage() {
   const [message, setMessage] = useState("");
   const [isGifMode, setGifMode] = useState(false);
   const { state } = useLocation();
-  const [isPrinting, setPrinting] = useState(undefined);
+  const [isPrintStart, setPrintStart] = useState(undefined);
   const [isPrintEnd, setPrintEnd] = useState(false);
 
   // ================= dummy data ================= //
@@ -87,6 +87,7 @@ function PhotoEditPage() {
   const [bgChange, setBgChange] = useState(defaultBg);
   const [isFrameDrawerVisible, setFrameDrawerVisible] = useState(false);
   const [isMessageDrawerVisible, setMessageDrawerVisible] = useState(false);
+  const [isInputMessage, setInputMessage] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -180,24 +181,23 @@ function PhotoEditPage() {
     let img = new Image();
     img.src = bgChange;
     img.onload = function () {
-      startMakeGif();
-      const result = async (ctx, list) => {
+      if (!isMobile) startMakeGif();
+      const make4cutImage = async (ctx, list) => {
         for await (const image of list) {
           await temp(image).then(async (i) => {
             await ctx.drawImage(i, image.x, image.y, img_width, img_height);
           });
         }
-        if (!isPrintEnd) setPrinting(canvasRef.current.toDataURL());
+        if (!isPrintEnd) setPrintStart(canvasRef.current.toDataURL());
       };
       ctx.drawImage(img, 0, 0, frame_width, frame_height);
-      result(ctx, images);
+      make4cutImage(ctx, images);
       writeDate(ctx, date_time);
       writeMessage(ctx, message);
       // 기본 이미지
       setLoading(false);
-      // gif 만들기.
     };
-  }, [canvasRef, bgChange, isMessageDrawerVisible]);
+  }, [canvasRef, bgChange, isInputMessage]);
 
   function writeDate(ctx, text) {
     ctx.font = "36px Times New Roman";
@@ -294,7 +294,7 @@ function PhotoEditPage() {
     <>
       <div id="PrintPage">
         <PrintPage
-          isPrinting={isPrinting}
+          isPrintStart={isPrintStart}
           setPrintEnd={setPrintEnd}
         ></PrintPage>
       </div>
@@ -513,6 +513,7 @@ function PhotoEditPage() {
                 <Button
                   onClick={() => {
                     setMessageDrawerVisible(false);
+                    setInputMessage(true);
                   }}
                   style={{
                     position: "absolute",

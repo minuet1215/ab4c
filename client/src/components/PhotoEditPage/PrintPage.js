@@ -1,17 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import "../../App.css";
-import { useNavigate } from "react-router";
-import { useParams } from "react-router-dom";
-function PrintPage({ isPrinting, setPrintEnd }) {
+function PrintPage({ isPrintStart, setPrintEnd }) {
   return (
     <div className="outer_container">
       <div>
         <div className="slot">
           <div
-            className={`photoHolder ${isPrinting != undefined ? "Print" : ""}`}
+            className={`photoHolder ${
+              isPrintStart !== undefined ? "Print" : ""
+            }`}
           >
             <div className="photo">
-              <img id="printingimage" src={isPrinting} />
+              <img alt="printingimage" id="printingimage" src={isPrintStart} />
             </div>
           </div>
         </div>
