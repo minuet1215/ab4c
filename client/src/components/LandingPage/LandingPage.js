@@ -5,6 +5,7 @@ import main_img from "../../img/main.gif";
 import { auth } from "../../_actions/user_action";
 import Logout from "../Logout/Logout";
 import styles from "./LandingPage.module.css";
+import buttonAudioSrc from "../../audio/button.mp3";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -17,12 +18,19 @@ function LandingPage() {
     });
   }, [isAuth]);
 
+  const btnSound = () => {
+    let audio = new Audio(buttonAudioSrc);
+    audio.play();
+  };
+
   return (
     <div className="outer_container">
       <div className="center">
         <div
           className={styles.title_container}
-          onClick={() => navigate("/main")}
+          onClick={() => {
+            navigate("/main");
+          }}
           style={{
             cursor: "pointer",
           }}
@@ -50,7 +58,10 @@ function LandingPage() {
             <>
               <button
                 className="button button_gap btn_1"
-                onClick={() => navigate("/main")}
+                onClick={() => {
+                  btnSound();
+                  navigate("/main");
+                }}
               >
                 입장하기
               </button>
