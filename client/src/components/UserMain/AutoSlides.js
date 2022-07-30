@@ -21,7 +21,7 @@ const Image = styled.img`
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
 `;
 
-const tempUrl = "https://d2d88axq88qldt.cloudfront.net/";
+const tempUrl = process.env.REACT_APP_CLOUD_FRONT_URL;
 const badgeColors = [
   "#fccc14", // gold
   "#a9aaae", // silver

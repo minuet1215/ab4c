@@ -20,8 +20,11 @@ import flowerFrame from "../../img/flower.png";
 import cloudFrame from "../../img/cloudFrame.png";
 import { v4 as uuidv4 } from "uuid";
 import makeGif from "./makeGIF";
-import 나만보기 from "../../img/나만보기.png";
-import 같이보기 from "../../img/같이보기.png";
+import frame from "../../img/frame.png";
+import memo from "../../img/memo.png";
+import album from "../../img/album.png";
+import alone_icon from "../../img/나만보기.png";
+import together_icon from "../../img/같이보기.png";
 import { isMobile } from "react-device-detect";
 
 const img_width = 550;
@@ -198,7 +201,7 @@ function PhotoEditPage() {
 
   const onSave = (e) => {
     e.preventDefault();
-    isPublic = e.target.value; // 공개/비공개 설정
+    isPublic = e.target.dataset["value"]; // 공개/비공개 설정
     setConfirmLoading(true); // 모달 열어두기
 
     // isGifMode -> gif, !isGifMode -> png 판단
@@ -367,6 +370,7 @@ function PhotoEditPage() {
           </div>
         )}
         <Modal
+          className="modalRadius"
           title="저장할 사진의 공개 설정을 선택해 주세요!"
           visible={isModalVisible}
           confirmLoading={confirmLoading}
@@ -377,7 +381,7 @@ function PhotoEditPage() {
           <div style={{ display: "flex" }}>
             <button
               className="button btn_3"
-              value={false}
+              data-value={false}
               onClick={onSave}
               style={{
                 fontSize: "1.4em",
@@ -386,18 +390,19 @@ function PhotoEditPage() {
               }}
             >
               <img
-                src={나만보기}
+                src={alone_icon}
                 style={{
                   height: "80%",
                   marginRight: "5%",
                 }}
                 alt="안방네컷"
+                data-value={false}
               />
               나만 보기
             </button>
             <button
               className="button btn_1"
-              value={true}
+              data-value={true}
               onClick={onSave}
               style={{
                 fontSize: "1.4em",
@@ -406,10 +411,10 @@ function PhotoEditPage() {
               }}
             >
               <img
-                id="weImabe"
-                src={같이보기}
-                style={{ height: "100%", marginRight: "5%" }}
                 alt=""
+                src={together_icon}
+                style={{ height: "100%", marginRight: "5%" }}
+                data-value={true}
               />
               다같이 보기
             </button>
