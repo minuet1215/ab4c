@@ -27,19 +27,25 @@ function KakaoInviteButton({ path = "" }) {
     shareKakaoLink();
   };
   return (
-    <div>
-      <button
-        className="button button_gap sign_in_kakao"
-        onClick={onShareKakaoClick}
-      >
-        <img
-          src={kakao_logo}
-          style={{ width: "30px", marginRight: "5px" }}
-          alt="kakao"
-        />
-        초대하기
-      </button>
-    </div>
+    <button
+      // className="button button_gap sign_in_kakao"
+      className="button sign_in_kakao"
+      onClick={onShareKakaoClick}
+      style={{
+        width: "22%",
+        height: "100%",
+        padding: "3%",
+        margin: "5% 3% 5% 3%",
+        fontSize: "16px",
+      }}
+    >
+      <img
+        src={kakao_logo}
+        style={{ display: "inline-block", height: "50px" }}
+        alt="kakao"
+      />
+      <div>공유하기</div>
+    </button>
   );
 }
 

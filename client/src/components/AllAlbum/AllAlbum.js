@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import Header from "../Header/Header";
 import axios from "axios";
 import { auth } from "../../_actions/user_action";
 import Loading from "../Loading/Loading";
 import styles from "./AllAlbum.module.css";
 import Modal from "./Modal";
 
-const url = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/";
+const url = process.env.REACT_APP_CLOUD_FRONT_URL;
 
 function AllAlbum() {
   const [loading, setLoading] = useState(true);
@@ -55,8 +54,6 @@ function AllAlbum() {
     <>
       <div className="outer_container">
         <div>{loading ? <Loading /> : null}</div>
-        <Header subTitle="전체 앨범" onBackUrl="/main" />
-
         <div className={styles.contents_container}>
           <div className={styles.album_container}>
             {data.datas.map((item, index) => (

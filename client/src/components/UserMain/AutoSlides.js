@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -21,7 +21,7 @@ const Image = styled.img`
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
 `;
 
-const tempUrl = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/"; // todo: s3 url prefix
+const tempUrl = process.env.REACT_APP_CLOUD_FRONT_URL;
 const badgeColors = [
   "#fccc14", // gold
   "#a9aaae", // silver
@@ -101,7 +101,7 @@ export default class AutoSlides extends Component {
         <Slider {...settings}>
           {images.map((image, index) => {
             return (
-              <div className="best_container">
+              <div className="best_container" key={index}>
                 <ImageContainer className="img">
                   <Badge.Ribbon
                     className="ribbon"

@@ -1,8 +1,5 @@
 import { SelfieSegmentation } from "@mediapipe/selfie_segmentation";
-// ToDo: make this a class
-
 let height, width;
-
 function greenScreen(results, ctx) {
   ctx.clearRect(0, 0, width, height);
 
@@ -18,7 +15,6 @@ function greenScreen(results, ctx) {
   ctx.globalCompositeOperation = "destination-atop";
   ctx.drawImage(results.image, 0, 0, width, height);
 }
-
 const selfieSegmentation = new SelfieSegmentation({
   locateFile: (file) => {
     return `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`;
@@ -27,8 +23,11 @@ const selfieSegmentation = new SelfieSegmentation({
 selfieSegmentation.setOptions({
   modelSelection: 1,
 });
-
-export async function segment(videoElement, greenCanvas) {
+export async function segment(
+  videoElement,
+  greenCanvas,
+  setLoading = undefined
+) {
   width = videoElement.width;
   height = videoElement.height;
 
@@ -40,5 +39,8 @@ export async function segment(videoElement, greenCanvas) {
     greenScreen(results, greenCtx);
   });
   await selfieSegmentation.send({ image: videoElement });
-  document.getElementById("my_face").volume = 0;
+  if (setLoading != undefined) {
+    document.getElementById("my_face").volume = 0;
+    setLoading(false);
+  }
 }
