@@ -25,7 +25,7 @@ function AllAlbum() {
         })
         .catch();
     });
-  }, [images]);
+  }, [dispatch]);
 
   let data = { datas: [] };
 

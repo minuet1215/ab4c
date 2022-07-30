@@ -8,7 +8,7 @@ import styles from "../AllAlbum/AllAlbum.module.css";
 import Modal from "../AllAlbum/Modal";
 import { useLocation } from "react-router-dom";
 
-const url = "https://ab4c-image-bucket.s3.ap-northeast-2.amazonaws.com/";
+const url = process.env.REACT_APP_CLOUD_FRONT_URL;
 
 function FriendAnbang() {
   const [loading, setLoading] = useState(true);
@@ -16,8 +16,8 @@ function FriendAnbang() {
   const dispatch = useDispatch();
   const [userId, setUserId] = useState("");
   const location = useLocation();
-  const friendId = location.state.targetId
-  
+  const friendId = location.state.targetId;
+
   useEffect(() => {
     dispatch(auth()).then((res) => {
       axios

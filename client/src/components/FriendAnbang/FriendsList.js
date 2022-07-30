@@ -15,6 +15,7 @@ function FriendsList() {
   const [loading, setLoading] = useState(true);
   const [friendsInfo, setFriendsInfo] = useState([]);
   const { Meta } = Card;
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -51,7 +52,7 @@ function FriendsList() {
               hoverable
             > 
               <Meta
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                avatar={<Avatar src={item.profileImage} />}
                 title={item.name + "님의 안방"}
                 description={item.email}
               />

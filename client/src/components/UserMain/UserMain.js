@@ -68,6 +68,14 @@ function UserMain() {
         >
           앨범
         </button>
+
+        <button
+          className="button button_gap btn_2"
+          style={{ height: "100%", margin: "10px", fontSize: "24px" }}
+          onClick={() => navigate("/friendlist")}
+        >
+          친구 안방
+        </button>
       </div>
 
       <Modal
