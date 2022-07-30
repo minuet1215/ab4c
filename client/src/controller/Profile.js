@@ -25,7 +25,13 @@ const Profile = () => {
 
       let checkUser = await isUser(body);
       if (!checkUser.payload.isUser) {
+<<<<<<< Updated upstream
         let doRegister = await registerUser(body);
+=======
+        await registerUser(body);
+      }else{
+        await updateProfileImage(body);
+>>>>>>> Stashed changes
       }
       dispatch(loginUser(body)).then((res) => {
         navigate("/main");

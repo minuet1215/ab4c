@@ -18,6 +18,7 @@ function FriendAnbang() {
   const [userName, setUserName] = useState("");
   const location = useLocation();
   const friendId = location.state.targetId;
+  const friendName = location.state.targetName;
   let roomName = "";
 
   useEffect(() => {
@@ -35,7 +36,7 @@ function FriendAnbang() {
   }, [dispatch]);
 
   let data = { datas: [] };
-  roomName = userName + "님의 앨범";
+  roomName = friendName + "님의 앨범";
 
   images.map((item) => {
     data.datas.push({
