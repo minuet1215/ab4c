@@ -71,12 +71,14 @@ body {
   color: #555555;
   border-radius: 10px;
   border: 0;
+  /* border: 2px solid #9e9e9e; */
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
 .button:hover {
   cursor: pointer;
-  transform: translateY(-3px);
+  transform: scale(1.03);
+  transition: 0.3s;
 }
 
 .button_gap {
@@ -200,12 +202,41 @@ body {
   color: #555555;
   font-size: 18px;
 }
+
+@font-face {
+  font-family: oneprettynight;
+  src: url("./font/Cafe24Oneprettynight.ttf");
+}
+
+.printer {
+  position: relative;
+  left: 20%;
+  width: 60%;
+  padding: 5px;
+  height: 74px;
+  background-color: #fefefa;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+  border-left: solid 1px rgba(0, 0, 0, 0.1);
+  border-right: solid 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: x-large;
+  font-weight: 600;
+  font-family: "oneprettynight", sans-serif;
+}
+
 .slot {
   width: 50%;
   height: 5px;
   background-color: black;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
   margin: 2px;
-  border-radius: 5px;
+  border-radius: 2px;
   position: relative;
   left: 25%;
 }
@@ -229,9 +260,9 @@ body {
   height: auto;
   line-height: 30px;
   border: 1px solid #ccc;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
   border-top: 0;
 }
 .photoHolder.Print {
-  height: 100vh;
+  height: calc(100vh - 100px);
 }

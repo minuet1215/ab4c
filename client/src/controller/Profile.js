@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { loginUser, registerUser, isUser } from "../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading/Loading";
+import { updateProfileImage } from "../_actions/user_action";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,9 @@ const Profile = () => {
 
       let checkUser = await isUser(body);
       if (!checkUser.payload.isUser) {
-        let doRegister = await registerUser(body);
+        await registerUser(body);
+      }else{
+        await updateProfileImage(body);
       }
       dispatch(loginUser(body)).then((res) => {
         navigate("/main");

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN_USER, REGISTER_USER, AUTH_USER, IS_USER, KAKAO_LOGOUT } from "./types";
+import { LOGIN_USER, REGISTER_USER, AUTH_USER, IS_USER, KAKAO_LOGOUT, UPDATE_USER_IMG } from "./types";
 
 export async function loginUser(dataToSubmit) {
   const request = await axios
@@ -53,4 +53,15 @@ export async function kakaoLogout(dataToSubmit) {
     type: KAKAO_LOGOUT,
     payload: request,
   };
+}
+
+
+export async function updateProfileImage(dataToSubmit) {
+  const request = await axios
+  .patch("/api/users/updateImg", dataToSubmit)
+  .then((response) => response.data);
+  return {
+    type : UPDATE_USER_IMG,
+    payload : request
+  }
 }
