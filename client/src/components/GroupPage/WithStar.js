@@ -16,6 +16,8 @@ const starImages = [
   { src: Winter, alt: "6" },
 ];
 const WithStar = forwardRef((props, ref) => {
+  let [withStar, setWithStar] = useState(null);
+
   const handleFile = async (event) => {
     let reader = new FileReader();
 
@@ -50,19 +52,28 @@ const WithStar = forwardRef((props, ref) => {
   function setImage(img) {
     let canvas = document.getElementById("myStar");
     let ctx = canvas.getContext("2d");
-    let star = new Image();
-    star.src = img;
-    star.onload = () => {
-      canvas.width = ref.captureAreaRef.current.clientWidth;
-      canvas.height = ref.captureAreaRef.current.clientHeight;
-      ctx.drawImage(
-        star,
-        0,
-        canvas.height / 5,
-        canvas.width / 2,
-        (canvas.height / 5) * 4
-      );
-    };
+    if (withStar === img) {
+      setWithStar(null);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    } else {
+      if (withStar !== null) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      setWithStar(img);
+      let star = new Image();
+      star.src = img;
+      star.onload = () => {
+        canvas.width = ref.captureAreaRef.current.clientWidth;
+        canvas.height = ref.captureAreaRef.current.clientHeight;
+        ctx.drawImage(
+          star,
+          0,
+          canvas.height / 5,
+          canvas.width / 2,
+          (canvas.height / 5) * 4
+        );
+      };
+    }
   }
 
   return (
