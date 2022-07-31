@@ -5,6 +5,7 @@ import { auth } from "../../_actions/user_action";
 import Loading from "../Loading/Loading";
 import styles from "./AllAlbum.module.css";
 import Modal from "./Modal";
+import AutoSlides from "./AutoSlides";
 
 const url = process.env.REACT_APP_CLOUD_FRONT_URL;
 
@@ -56,6 +57,7 @@ function AllAlbum() {
         <div>{loading ? <Loading /> : null}</div>
         <div className={styles.contents_container}>
           <div className={styles.album_container}>
+            <AutoSlides />
             {data.datas.map((item, index) => (
               <div key={index} className={styles.img_container}>
                 <img

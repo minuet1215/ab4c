@@ -96,7 +96,7 @@ export default class AutoSlides extends Component {
       ],
     };
     return (
-      <Container>
+      <Container style={{ width: "90%" }}>
         <span id="best10">#BEST_10</span>
         <Slider {...settings}>
           {images.map((image, index) => {
