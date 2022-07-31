@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MyHeader from "../Header/Header";
-import AutoSlides from "./AutoSlides";
 import { Modal, Carousel } from "antd";
 import 혼자찍기 from "../../img/나만보기.png";
 import 같이찍기 from "../../img/같이보기.png";
@@ -10,6 +9,8 @@ import 뒤로가기 from "../../img/prevIcon.png";
 import 링크복사 from "../../img/linkIcon.png";
 import KakaoInviteButton from "../Kakao/KakaoInvite";
 import { toast } from "react-toastify";
+import albumImg from "../../img/albumImg.png";
+import cameraImg from "../../img/cameraImg.png";
 
 function UserMain() {
   const navigate = useNavigate();
@@ -46,34 +47,38 @@ function UserMain() {
       <div
         className="contents_container center"
         style={{
-          marginTop: "-15%",
+          alignItems: "center",
+          // marginTop: "-15%",
         }}
       >
-        <AutoSlides />
-      </div>
-      <div style={{ display: "flex", height: "74px", margin: "-9% 10% 0 9%" }}>
         <button
           className="button button_gap btn_1"
-          style={{ height: "100%", margin: "10px", fontSize: "24px" }}
+          style={{
+            height: "100%",
+            width: "65%",
+            margin: "30px",
+            fontSize: "35px",
+            border: "1px solid #ccc",
+          }}
           onClick={showModal}
         >
-          촬영하기
+          <img src={cameraImg} style={{ height: "100px" }} alt="카메라이미지" />
+          <div>촬영하기</div>
         </button>
 
         <button
           className="button button_gap btn_2"
-          style={{ height: "100%", margin: "10px", fontSize: "24px" }}
+          style={{
+            height: "100%",
+            width: "65%",
+            margin: "30px",
+            fontSize: "35px",
+            border: "1px solid #ccc",
+          }}
           onClick={() => navigate("/album")}
         >
-          앨범
-        </button>
-
-        <button
-          className="button button_gap btn_2"
-          style={{ height: "100%", margin: "10px", fontSize: "24px" }}
-          onClick={() => navigate("/friendlist")}
-        >
-          친구 안방
+          <img src={albumImg} style={{ height: "100px" }} alt="앨범이미지" />
+          <div>사진첩</div>
         </button>
       </div>
 
@@ -102,6 +107,7 @@ function UserMain() {
                   height: "100%",
                   padding: "5%",
                   margin: "5%",
+                  border: "1px solid #ccc",
                 }}
               >
                 <img
@@ -191,6 +197,7 @@ function UserMain() {
                   padding: "3%",
                   margin: "5% 3% 5% 3%",
                   fontSize: "16px",
+                  border: "1px solid #ccc",
                 }}
               >
                 <img
