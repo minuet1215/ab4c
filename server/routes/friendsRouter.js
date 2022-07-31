@@ -41,13 +41,14 @@ friendsRouter.post("/add/:friendId", async (req, res) => {
 });
 
 // 친구 목록에서 제거
-friendsRouter.patch("/delete/:friendId", async (req, res) => {
+friendsRouter.patch("/delete/:friendEmail", async (req, res) => {
   try {
     const me = await User.findOneAndUpdate(
-      { _id: req.body.Id },
-      { $pull: { friends: req.params.friendId } }
+      { _id: req.body.id },
+      { $pull: { friends: req.params.friendEmail } }
     );
-    //   const friendId =
+
+    res.status(200).json({success : true});
   } catch (err) {
     res.json({ err: err.message });
   }
@@ -68,6 +69,7 @@ friendsRouter.get("/showAlbum/:friendId", async (req, res) => {
 // 나의 친구 리스트
 friendsRouter.get("/me/friendsList/:myId", async (req, res) => {
   const me = await User.findOne({ _id: req.params.myId });
+  // console.log(me)
   let friendsList = [];
   Promise.all(
     me.friends.map(async (item) => {
