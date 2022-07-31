@@ -88,6 +88,7 @@ export default class AutoSlides extends Component {
       responsible: true, // 슬라이드가 컨텐츠보다 클 경우 슬라이드 사이즈를 컨텐츠에 맞춰 조정
       responsive: [
         {
+          //
           breakpoint: 415,
           settings: {
             slidesToShow: 1,
