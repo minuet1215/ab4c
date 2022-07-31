@@ -1,5 +1,7 @@
 import styles from "./GroupPage.module.css";
-import { useState } from "react";
+import React, { useState } from "react";
+import { auth } from "../../_actions/user_action";
+import axios from "axios";
 import img1 from "../../img/bg1.jpeg";
 import img2 from "../../img/bg2.jpeg";
 import img3 from "../../img/bg3.jpeg";
@@ -53,22 +55,42 @@ const images = [
 // ====================================================== //
 const BackgroundContent = (props) => {
   const [getImages, setImages] = useState(images);
-  const handleChangeFile = (event) => {
+  const [file, setFile] = useState("");
+
+  // 유저 아이디로 등록된 배경을 모두 뽑아와서,
+  // images뒤에 촤라라락 붙여야 함
+  // 유저 정보는 여기서 가져와야 할 듯.. dispatch(...)...
+  // axios.get(`/show/${}`).then((res) => {
+  // })
+
+  const handleChangeFile = async (event) => {
+    const me = await auth();
+    const formData = new FormData();
+    setFile(event.target.files[0]);
+
+    formData.append("image", file);
+    formData.append("id", me.payload._id);
+    formData.append("email", me.payload.email);
+    formData.append("name", me.payload.name);
+
+    await axios.post("/api/bg/post", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
     let reader = new FileReader();
 
-    reader.onloadend = (e) => {
-      // 2. 읽기가 완료되면 아래 코드 실행
+    reader.onloadend = async (e) => {
+      e.preventDefault();
       const base64 = reader.result;
+
       if (base64) {
-        // 파일 base64 상태 업데이트
-        // props.setImgBase64(base64.toString());
+        props.setImgBase64(base64.toString());
         images.unshift({ src: base64, alt: "userimage" });
         let copy = [...images];
         setImages(copy);
       }
     };
     if (event.target.files[0]) {
-      // 1. 파일을 읽어 버퍼에 저장
       reader.readAsDataURL(event.target.files[0]);
     }
   };
@@ -77,6 +99,14 @@ const BackgroundContent = (props) => {
       <label className={styles.tab_content_input_box} htmlFor="input-file">
         +
       </label>
+
+      <input
+        type="file"
+        id="input-file"
+        style={{ display: "none" }}
+        onChange={handleChangeFile}
+      />
+
       {getImages.map((image, index) => {
         return (
           <img
@@ -90,12 +120,6 @@ const BackgroundContent = (props) => {
           ></img>
         );
       })}
-      <input
-        type="file"
-        id="input-file"
-        style={{ display: "none" }}
-        onChange={handleChangeFile}
-      />
     </>
   );
 };
