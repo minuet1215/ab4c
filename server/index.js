@@ -11,6 +11,7 @@ const usersRouter = require("./routes/usersRouter");
 const imageRouter = require("./routes/imageRouter");
 const roomsRouter = require("./routes/roomsRouter");
 const friendsRouter = require("./routes/friendsRouter");
+const backgroundImageRouter = require("./routes/backgroundImageRouter")
 
 /* Config */
 const { PORT, mongoURI } = process.env;
@@ -48,6 +49,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/rooms", roomsRouter);
 app.use("/api/images", imageRouter);
 app.use("/api/friends", friendsRouter);
+app.use("/api/bg", backgroundImageRouter);
 
 // ========================= < WebRTC > ========================= //
 let http = require("http");
