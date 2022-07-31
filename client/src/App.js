@@ -38,7 +38,7 @@ function App() {
   const AuthAllAlbumPage = Auth(AllAlbumPage, true);
   const AuthFriendListPage = Auth(FriendListPage, true);
   const AuthFriendAnbangPage = Auth(FriendAnbang, true);
-
+  
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
