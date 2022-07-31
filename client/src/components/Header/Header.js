@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropdown, Button, Menu } from "antd";
-
 import image from "../../img/appLogo.png";
 import styles from "./Navbar.module.css";
 
@@ -10,7 +9,7 @@ const menu = (
     items={[
       {
         key: "1",
-        label: <a href="album">전체앨범</a>,
+        label: <a href="/allalbum">전체앨범</a>,
       },
       {
         key: "2",
