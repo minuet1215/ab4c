@@ -9,7 +9,7 @@
   align-content: flex-start;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 100%;
+  height: calc(100vh - 74px);
   overflow-y: scroll;
 }
 .album_container::-webkit-scrollbar {
