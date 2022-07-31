@@ -322,7 +322,11 @@ function PhotoEditPage() {
                 >
                   Your browser does not support the HTML5 canvas tag.
                 </canvas>
-                <img id="result-image" alt=""></img>
+                <img
+                  id="result-image"
+                  alt=""
+                  className={styles.result_image}
+                ></img>
               </div>
             </div>
             {isAuth && (
