@@ -299,17 +299,7 @@ function PhotoEditPage() {
                 marginBottom: "5%",
               }}
             >
-              <div
-                className={styles.canvas_container}
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (!isMobile) {
-                    setGifMode(!isGifMode);
-                  } else {
-                    alert("모바일에서는 GIF모드를 지원하지 않습니다.");
-                  }
-                }}
-              >
+              <div className={styles.canvas_container}>
                 <canvas
                   id="canvas"
                   width={frame_width}
@@ -368,6 +358,18 @@ function PhotoEditPage() {
                   }}
                 >
                   앨범 저장
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (!isMobile) {
+                      setGifMode(!isGifMode);
+                    } else {
+                      alert("모바일에서는 GIF모드를 지원하지 않습니다.");
+                    }
+                  }}
+                >
+                  GIF
                 </button>
               </div>
             )}
