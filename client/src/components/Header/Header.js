@@ -1,21 +1,48 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { PageHeader } from "antd";
+import { Dropdown, Button, Menu } from "antd";
 
-function Header({ subTitle, onBackUrl = "/", onClick = undefined }) {
+import image from "../../img/appLogo.png";
+import styles from "./Navbar.module.css";
+
+const menu = (
+  <Menu
+    items={[
+      {
+        key: "1",
+        label: <a href="album">전체앨범</a>,
+      },
+      {
+        key: "2",
+        label: <a href="/friendlist">친구안방</a>,
+      },
+      {
+        key: "3",
+        label: <a href="/logout">로그아웃</a>,
+      },
+    ]}
+  />
+);
+
+const Header = () => {
   const navigate = useNavigate();
   return (
-    <PageHeader
-      // style={{ border: "1px solid rgb(235, 237, 240)" }}
-      // style={{ height: "20px" }}
-      onBack={() => {
-        if (onClick !== undefined) onClick();
-        navigate(onBackUrl);
-      }}
-      title="안방 네컷"
-      subTitle={subTitle}
-    />
+    <nav className={styles.navbar}>
+      <div className={styles.navbar_logo} onClick={() => navigate("/main")}>
+        <img src={image}></img>
+      </div>
+      <Dropdown
+        className={styles.dropdown_box}
+        overlay={menu}
+        placement="bottomRight"
+      >
+        <Button>三</Button>
+      </Dropdown>
+      <div className={styles.move_back} onClick={() => navigate("/main")}>
+        <img src={require("../../img/backIcon.png")}></img>
+      </div>
+    </nav>
   );
-}
+};
 
 export default Header;

@@ -1,0 +1,32 @@
+.navbar {
+  height: 74px;
+  max-width: 600px;
+  background-color: whitesmoke;
+  display: flex;
+  align-items: center;
+  position: relative;
+  /* justify-content: flex-end; */
+}
+
+.navbar_logo {
+  width: 60px;
+  height: 60px;
+  /* margin: auto; */
+  cursor: pointer;
+  /* top: 50%; */
+  left : 50%;
+  position: absolute;
+  transform: translate(-50%, 0%);
+}
+
+.dropdown_box {
+  position: absolute;
+  right: -89%;
+  cursor: pointer;
+}
+
+.move_back {
+  position: absolute;
+  left: 2%;
+  cursor: pointer;
+}
