@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../_actions/user_action";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+// import ProgressBar from "../ProgressBar/ProgressBar";
 
 import img1 from "../../img/bg1.jpeg";
 import img2 from "../../img/bg2.jpeg";
@@ -57,58 +58,46 @@ const images = [
 // ====================================================== //
 const BackgroundContent = (props) => {
   const [myImages, setMyImages] = useState([]);
-  const [file, setFile] = useState("");
+  const [me, setMe] = useState("");
   const dispatch = useDispatch();
+  const [percent, setPercent] = useState(0);
 
   useEffect(() => {
     dispatch(auth()).then((res) => {
       axios
         .get(`/api/bg/show/${res.payload._id}`)
         .then((result) => {
-          setMyImages([images, ...result.data]);
+          setMyImages([...result.data]);
+          setMe(res.payload);
         })
         .catch();
     });
-  }, [dispatch, myImages]);
+  }, [dispatch, percent]);
 
   const handleChangeFile = async (event) => {
-    const me = await auth();
-
     const formData = new FormData();
 
-    setFile(event.target.files[0]);
-    formData.append("image", file);
-    formData.append("id", me.payload._id);
-    formData.append("email", me.payload.email);
-    formData.append("name", me.payload.name);
+    formData.append("id", me._id);
+    formData.append("email", me.email);
+    formData.append("name", me.name);
+    formData.append("image", event.target.files[0]);
 
-    await axios.post("/api/bg/post", formData, {
+    axios.post("/api/bg/post", formData, {
       headers: { "Content-Type": "multipart/form-data" },
+      onUploadProgress: (e) => {
+        setPercent(Math.round((100 * e.loaded) / e.total));
+      },
     });
 
-    let reader = new FileReader();
-
-    reader.onloadend = async (e) => {
-      e.preventDefault();
-      const base64 = reader.result;
-
-      if (base64) {
-        props.setImgBase64(base64.toString());
-        myImages.unshift({ src: base64, alt: "userimage" });
-        // images.unshift({ src: base64, alt: "userimage" });
-        let copy = [...myImages];
-        // let copy = [...images];
-        setMyImages(copy);
-      }
-    };
-
-    if (event.target.files[0]) {
-      reader.readAsDataURL(event.target.files[0]);
-    }
+    setTimeout(() => {
+      setPercent(0);
+    }, 3000);
   };
+
   return (
     <>
       <label className={styles.tab_content_input_box} htmlFor="input-file">
+        {/* <ProgressBar Bar percent={percent} /> */}
         +
       </label>
 
@@ -125,12 +114,10 @@ const BackgroundContent = (props) => {
             src={process.env.REACT_APP_CLOUD_FRONT_URL + image.key}
             key={index}
             className={styles.tab_content_img_box}
-            onClick={() => {
-              props.setImgBase64(
-                process.env.REACT_APP_CLOUD_FRONT_URL + image.key
-              );
-            }}
             alt=""
+            onClick={() => {
+              props.setImgBase64(process.env.REACT_APP_CLOUD_FRONT_URL + image.key);
+            }}
           ></img>
         );
       })}
