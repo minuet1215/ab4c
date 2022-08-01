@@ -43,7 +43,7 @@ function SearchFriend(props) {
 
   return (
     <>
-      <button onClick={props.showModal} className="button button_gap btn_1">
+      <button onClick={props.showModal} className="search_button">
         친구 검색
       </button>
       <Modal

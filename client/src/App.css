@@ -284,3 +284,25 @@ body {
 .photoHolder.Print {
   height: calc(100vh - 100px);
 }
+
+
+.search_button{
+  width: 70%;
+  height: 50px;
+  /* margin: 5px; */
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  background-color: #fc8da1;
+  border-radius: 10px;
+  border: 0;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  margin: 15px 15%;
+  
+}
+
+.search_button:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+  transition: 0.3s;
+}
