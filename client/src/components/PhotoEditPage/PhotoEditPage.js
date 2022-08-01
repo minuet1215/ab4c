@@ -133,7 +133,7 @@ function PhotoEditPage() {
   }, [isLoading]);
 
   useEffect(() => {
-    if (isPrintEnd === true && !isMobile) {
+    if (isPrintEnd === true) {
       document.getElementById("photoEdit").style.display = "";
       document.getElementById("PrintPage").style.display = "none";
       startMakeGif();
@@ -151,10 +151,10 @@ function PhotoEditPage() {
   };
 
   const make4cutImage = async (ctx, list) => {
+    let t;
     for await (const image of list) {
-      await asyncGetImage(image).then(async (i) => {
-        await ctx.drawImage(i, image.x, image.y, img_width, img_height);
-      });
+      t = await asyncGetImage(image.src);
+      ctx.drawImage(t, image.x, image.y, img_width, img_height);
     }
     if (!isPrintEnd) setPrintStart(canvasRef.current.toDataURL());
   };
