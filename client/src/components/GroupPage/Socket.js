@@ -13,21 +13,25 @@ import { Rnd } from "react-rnd";
 import { isMobile } from "react-device-detect";
 
 const VideoAREA = forwardRef((props, ref) => {
+  const isSingle = props.isSingle;
   useImperativeHandle(ref.SocketMessageRef, () => ({
     emitStart() {
-      console.log("Emit start");
-      socketRef.current.emit("start", props.roomName);
+      if (!isSingle) {
+        console.log("Emit start");
+        socketRef.current.emit("start", props.roomName);
+      }
     },
     emitBackground() {
-      console.log("Emit Background");
-      socketRef.current.emit(
-        "backgroundChange",
-        props.ImgBase64,
-        props.roomName
-      );
+      if (!isSingle) {
+        console.log("Emit Background");
+        socketRef.current.emit(
+          "backgroundChange",
+          props.ImgBase64,
+          props.roomName
+        );
+      }
     },
   }));
-  const isSingle = props.isSingle;
   const [loading, setLoading] = useState(true);
   const [isDesktopRatio, setDesktopRatio] = useState(true);
   const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
