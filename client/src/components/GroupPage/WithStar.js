@@ -4,14 +4,13 @@ import { BackgroundRemoval, Nooki } from "./Nooki.js";
 import Jin from "./NookiImages/Jin01.png";
 import Jennie from "./NookiImages/Jennie01.png";
 import Shj from "./NookiImages/SeoHyunJin01.png";
-import Suzi from "./NookiImages/Suzi01.png";
 import BtsV from "./NookiImages/V01.png";
 import Winter from "./NookiImages/Winter01.png";
 const starImages = [
   { src: Jin, alt: "1" },
   { src: Jennie, alt: "2" },
   { src: Shj, alt: "3" },
-  { src: Suzi, alt: "4" },
+  // { src: Suzi, alt: "4" },
   { src: BtsV, alt: "5" },
   { src: Winter, alt: "6" },
 ];
@@ -65,13 +64,7 @@ const WithStar = forwardRef((props, ref) => {
       star.onload = () => {
         canvas.width = ref.captureAreaRef.current.clientWidth;
         canvas.height = ref.captureAreaRef.current.clientHeight;
-        ctx.drawImage(
-          star,
-          0,
-          canvas.height / 5,
-          canvas.width / 2,
-          (canvas.height / 5) * 4
-        );
+        ctx.drawImage(star, 0, 0, canvas.width / 3, canvas.height / 3);
       };
     }
   }
@@ -91,7 +84,7 @@ const WithStar = forwardRef((props, ref) => {
             onClick={() => {
               setImage(im.src);
             }}
-          ></img>
+          />
         );
       })}
       <input

@@ -4,6 +4,7 @@ import remove from "./remove.js";
 import remove2 from "./remove2.js";
 import io from "socket.io-client";
 import Loading from "../Loading/Loading";
+import { Rnd } from "react-rnd";
 import { isMobile } from "react-device-detect";
 
 const VideoAREA = forwardRef((props, ref) => {
@@ -167,6 +168,18 @@ const VideoAREA = forwardRef((props, ref) => {
             : DEFAULT_BACKGROUND,
         }}
       >
+        <Rnd
+          style={{ zIndex: "999", background: "aqua" }}
+          default={{
+            x: 50,
+            y: 50,
+            width: "100%",
+            height: "100%",
+          }}
+          // bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
+        >
+          <canvas id="myStar"></canvas>
+        </Rnd>
         <canvas
           className={isHost ? styles.host : styles.guest}
           id="mytrans"
@@ -179,7 +192,6 @@ const VideoAREA = forwardRef((props, ref) => {
             id="remotetrans"
           ></canvas>
         ) : undefined}
-        <canvas id="myStar"></canvas>
         <video
           className={styles.displaynone}
           id="my_face"
