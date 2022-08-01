@@ -72,6 +72,7 @@ const CameraTabs = forwardRef((props, ref) => {
         ImgBase64={props.ImgBase64}
         setImgBase64={props.setImgBase64}
         ref={ref}
+        // starImg={props.setImage}
       />
     </div>
   );
@@ -87,7 +88,10 @@ const TabContent = forwardRef((props, ref) => {
       />
     </div>,
     <div className={styles.tab_contents_container}>
-      <WithStar ref={ref} />
+      <WithStar
+        ref={ref}
+        // starImg={props.setImage}
+      />
     </div>,
   ][props.tab];
 });
