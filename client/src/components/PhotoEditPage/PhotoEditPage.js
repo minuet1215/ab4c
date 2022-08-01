@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer, Input, Button, Modal } from "antd";
+import { Drawer, Input, Button, Modal, Switch } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import { toast } from "react-toastify";
 import Loading from "../Loading/Loading";
@@ -359,18 +359,19 @@ function PhotoEditPage() {
                 >
                   앨범 저장
                 </button>
-                <button
+                <Switch
                   onClick={(e) => {
-                    e.preventDefault();
+                    // e.preventDefault();
                     if (!isMobile) {
                       setGifMode(!isGifMode);
                     } else {
                       alert("모바일에서는 GIF모드를 지원하지 않습니다.");
                     }
                   }}
-                >
-                  GIF
-                </button>
+                  checkedChildren="PNG"
+                  unCheckedChildren="GIF"
+                  defaultChecked
+                />
               </div>
             )}
             {!isAuth && (
