@@ -102,10 +102,13 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("getCandidate", candidate);
   });
   socket.on("start", (roomname) => {
-    io.to(roomname).emit("start");
+    socket.broadcast.to(roomname).emit("start");
   });
   socket.on("backgroundChange", (img, roomname) => {
-    io.to(roomname).emit("backgroundChange", img);
+    socket.broadcast.to(roomname).emit("backgroundChange", img);
+  });
+  socket.on("checkRatio", (bool, roomname) => {
+    socket.broadcast.to(roomname).emit("checkRatio", bool); //나를 제외한 상대방에게 메시지보내기
   });
 
   socket.on("disconnect", () => {

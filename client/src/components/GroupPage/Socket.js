@@ -4,10 +4,12 @@ import remove from "./remove.js";
 import remove2 from "./remove2.js";
 import io from "socket.io-client";
 import Loading from "../Loading/Loading";
+import { isMobile } from "react-device-detect";
 
 const VideoAREA = forwardRef((props, ref) => {
   const isSingle = props.isSingle;
   const [loading, setLoading] = useState(true);
+  const [isDesktopRatio, setDesktopRatio] = useState(true);
   const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
   // const SOCKET_SERVER_URL = "http://www.4cut.shop"; // ! : dev
   const DEFAULT_BACKGROUND =
@@ -122,16 +124,16 @@ const VideoAREA = forwardRef((props, ref) => {
       });
 
       socketRef.current.on("start", () => {
-        if (!isHost) {
-          props.setCapture(true);
-        }
+        props.setCapture(true);
       });
 
       socketRef.current.on("backgroundChange", (img) => {
-        if (!isHost) {
-          props.setImgBase64(img);
-        }
+        props.setImgBase64(img);
       });
+      socketRef.current.on("checkRatio", (bool) => {
+        setDesktopRatio(bool); //bool
+      });
+      socketRef.current.emit("checkRatio", !isMobile, props.roomName); // 내가 모바일인지 상대방한테 보냄
     }
 
     setVideoTracks();
@@ -183,8 +185,8 @@ const VideoAREA = forwardRef((props, ref) => {
           id="my_face"
           autoPlay
           playsInline
-          width="640"
-          height="480"
+          width={isMobile ? "480" : "640"}
+          height={isMobile ? "640" : "480"}
           ref={localVideoRef}
         ></video>
         {!isSingle ? (
@@ -194,8 +196,8 @@ const VideoAREA = forwardRef((props, ref) => {
               id="remote"
               autoPlay
               playsInline
-              width="640"
-              height="480"
+              width={!isDesktopRatio ? "480" : "640"}
+              height={!isDesktopRatio ? "640" : "480"}
               ref={remoteVideoRef}
             ></video>
             <canvas className={styles.displaynone} id="remotegreen"></canvas>

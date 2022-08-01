@@ -54,6 +54,7 @@ function GroupPage() {
   // 4장 찍으면 edit페이지로 이동
   useEffect(() => {
     if (photoCount === 5) {
+      console.log(resultImages);
       cameraOff();
       navigate("/edit", {
         state: { images: resultImages, gifFrames: gifFrames },

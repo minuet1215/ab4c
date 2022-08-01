@@ -133,7 +133,7 @@ function PhotoEditPage() {
   }, [isLoading]);
 
   useEffect(() => {
-    if (isPrintEnd === true && !isMobile) {
+    if (isPrintEnd === true) {
       document.getElementById("photoEdit").style.display = "";
       document.getElementById("PrintPage").style.display = "none";
       startMakeGif();
@@ -153,6 +153,7 @@ function PhotoEditPage() {
   const make4cutImage = async (ctx, list) => {
     for await (const image of list) {
       await asyncGetImage(image).then(async (i) => {
+        console.log(image.x, image.y, img_width, img_height);
         await ctx.drawImage(i, image.x, image.y, img_width, img_height);
       });
     }
