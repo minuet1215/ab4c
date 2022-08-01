@@ -17,7 +17,7 @@ import UserMain from "./components/UserMain/UserMain";
 import AllAlbumPage from "./components/AllAlbum/AllAlbum";
 import FriendListPage from "./components/FriendAnbang/FriendsList";
 import FriendAnbang from "./components/FriendAnbang/FriendAnbang";
-import AlbumPage from "./components/AlbumPage/AlbumPage"; // TEST
+import AlbumPage from "./components/Album/Album"; // TEST
 
 
 import Auth from "./hoc/auth";

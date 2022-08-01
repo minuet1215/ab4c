@@ -16,7 +16,7 @@ import CaptureBtn from "./CaptureBtn";
 // import { toast } from "react-toastify";
 import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
 // import CountDown from "../CountDown/CountDown";
-
+import FlipNumbers from "react-flip-numbers";
 let resultImages = [];
 let gifFrames = [[], [], [], [], [], [], [], [], [], [], []];
 
@@ -54,6 +54,7 @@ function GroupPage() {
   // 4장 찍으면 edit페이지로 이동
   useEffect(() => {
     if (photoCount === 5) {
+      console.log(resultImages);
       cameraOff();
       navigate("/edit", {
         state: { images: resultImages, gifFrames: gifFrames },
@@ -92,7 +93,7 @@ function GroupPage() {
   }
 
   // 캡쳐하는 함수
-  function captureFunc() {
+  async function captureFunc() {
     setTakePhotoLayer({
       backgroundColor: "white",
       opacity: "0.5",
@@ -100,11 +101,11 @@ function GroupPage() {
     let audio = new Audio(cameraAudioSrc);
     audio.play();
     if (isMobile) {
-      html2canvas(refs.captureAreaRef.current, {
+      await html2canvas(refs.captureAreaRef.current, {
         allowTaint: false,
         useCORS: true,
         scale: 1,
-      }).then((canvas) => {
+      }).then(async (canvas) => {
         let dataURL = canvas.toDataURL();
         resultImages.push(dataURL);
       });
@@ -156,7 +157,18 @@ function GroupPage() {
                 alignItems: "center",
               }}
             >
-              <p className={styles.count_down_text}>{Math.floor(countDown)}</p>
+              <FlipNumbers
+                height={150}
+                width={150}
+                play
+                numbers={Math.floor(countDown).toString()}
+                numberStyle={{
+                  fontSize: "100px",
+                  fontWeight: "700",
+                  color: "#555555",
+                }}
+              />
+              {/* <p className={styles.count_down_text}>{Math.floor(countDown)}</p> */}
               {/* <CountDown /> */}
             </div>
           ) : roomname === token ? (

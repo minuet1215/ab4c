@@ -9,13 +9,13 @@ function PhotoDelete(props) {
       axios
         .delete("/api/images/album/delete/", { data: props })
         .then((res) => {
-          return toast.success(res.data.message);
+          window.location.replace('/album');
         })
-        .catch((err) => toast.error(err.message));
+        .catch((err) => toast.error("서버 에러!"));
     }
   };
   return (
-    <button className="AlbumBtn DelBtn" onClick={deleteHandler}>
+    <button className="DelBtn" onClick={deleteHandler}>
       삭제
     </button>
   );
