@@ -23,7 +23,6 @@ import makeGif from "./makeGIF";
 import alone_icon from "../../img/나만보기.png";
 import together_icon from "../../img/같이보기.png";
 import { isMobile } from "react-device-detect";
-import PrintPage from "./PrintPage";
 // import frame from "../../img/frame.png";
 // import memo from "../../img/memo.png";
 // import album from "../../img/album.png";
@@ -45,8 +44,6 @@ function PhotoEditPage() {
   const [message, setMessage] = useState(undefined);
   const [isGifMode, setGifMode] = useState(false);
   const { state } = useLocation();
-  const [isPrintStart, setPrintStart] = useState(undefined);
-  const [isPrintEnd, setPrintEnd] = useState(false);
   const canvasRef = useRef(null);
   const [bgChange, setBgChange] = useState(defaultBg);
   const [isFrameDrawerVisible, setFrameDrawerVisible] = useState(false);
@@ -132,14 +129,6 @@ function PhotoEditPage() {
     document.getElementById("Loading").style.display = isLoading ? "" : "none";
   }, [isLoading]);
 
-  useEffect(() => {
-    if (isPrintEnd === true) {
-      document.getElementById("photoEdit").style.display = "";
-      document.getElementById("PrintPage").style.display = "none";
-      startMakeGif();
-    }
-  }, [isPrintEnd]);
-
   const showDrawer = (type) => {
     type === "Frame"
       ? setFrameDrawerVisible(true)
@@ -151,12 +140,13 @@ function PhotoEditPage() {
   };
 
   const make4cutImage = async (ctx, list) => {
-    let t;
-    for await (const image of list) {
-      t = await asyncGetImage(image.src);
-      ctx.drawImage(t, image.x, image.y, img_width, img_height);
+    for await (const [index, image] of list.entries()) {
+      let img = new Image();
+      img.src = await image.src;
+      img.onload = async () => {
+        await ctx.drawImage(img, image.x, image.y, img_width, img_height);
+      };
     }
-    if (!isPrintEnd) setPrintStart(canvasRef.current.toDataURL());
   };
 
   useEffect(() => {
@@ -175,11 +165,11 @@ function PhotoEditPage() {
     ctx.clearRect(0, 0, frame_width, frame_height);
     let img = new Image();
     img.src = bgChange;
-    img.onload = function () {
+    img.onload = async function () {
       if (!isMobile) startMakeGif();
       ctx.drawImage(img, 0, 0, frame_width, frame_height);
-      make4cutImage(ctx, images);
       writeDate(ctx, DATE_TIME);
+      make4cutImage(ctx, images);
       if (message) writeMessage(ctx, message);
       // 기본 이미지
       setLoading(false);
@@ -279,13 +269,7 @@ function PhotoEditPage() {
 
   return (
     <>
-      <div id="PrintPage">
-        <PrintPage
-          isPrintStart={isPrintStart}
-          setPrintEnd={setPrintEnd}
-        ></PrintPage>
-      </div>
-      <div id="photoEdit" style={{ display: "none" }}>
+      <div id="photoEdit">
         <div className="outer_container">
           <div id="Loading">
             <Loading />
