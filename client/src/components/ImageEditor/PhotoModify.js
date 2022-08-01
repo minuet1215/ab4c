@@ -9,7 +9,7 @@ function PhotoModify(props) {
     navigate("/editPhoto", { state: { path: props.img } });
   };
   return (
-    <button className="AlbumBtn EditBtn" onClick={modifyHandler}>
+    <button className="edit_btn" onClick={modifyHandler}>
       수정
     </button>
   );

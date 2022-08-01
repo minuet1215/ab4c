@@ -10,7 +10,7 @@ import {
 } from "react-share";
 import KakaoShareImageButton from "../Kakao/KakaoShareImage";
 
-const Social = () => {
+const Social = (props) => {
   // const img = "https://www.4cut.shop/cute.gif";
   const domain = "https://www.4cut.shop";
   const currentUrl = domain + window.location.pathname; // 해당 페이지의 url
@@ -36,7 +36,7 @@ const Social = () => {
         <meta property="og:image" content={img} />
         <meta property="og:url" content={currentUrl} />
       </Helmet> */}
-      <FacebookShareButton url={currentUrl} quote={title} hashtag={hashtag}>
+      <FacebookShareButton url={props.img} quote={title} hashtag={hashtag}>
         <FacebookIcon size={32} round />
       </FacebookShareButton>
       <TwitterShareButton url={currentUrl} title={title} hashtags={hashtags}>
