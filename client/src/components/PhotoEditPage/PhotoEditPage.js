@@ -387,6 +387,7 @@ function PhotoEditPage() {
               </div>
             )}
             <Modal
+              className="modalRadius"
               title="저장할 사진의 공개 설정을 선택해 주세요!"
               visible={isModalVisible}
               confirmLoading={confirmLoading}
@@ -396,22 +397,27 @@ function PhotoEditPage() {
               footer={null}
               centered={true}
             >
-              <div style={{ display: "flex" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 <button
                   className="button btn_3"
                   data-value={false}
                   onClick={onSave}
                   style={{
-                    fontSize: "1.4em",
+                    fontSize: "1.4rem",
                     fontWeight: "bold",
                     margin: "1rem",
+                    padding: "0 15px",
                   }}
                 >
                   <img
                     src={alone_icon}
                     style={{
-                      // display: "block",
-                      // justifyContent: "center",
                       height: "80%",
                       marginRight: "5%",
                     }}
@@ -425,7 +431,7 @@ function PhotoEditPage() {
                   data-value={true}
                   onClick={onSave}
                   style={{
-                    fontSize: "1.4em",
+                    fontSize: "1.4rem",
                     fontWeight: "bold",
                     margin: "1rem",
                   }}
@@ -433,7 +439,10 @@ function PhotoEditPage() {
                   <img
                     alt=""
                     src={together_icon}
-                    style={{ height: "100%", marginRight: "5%" }}
+                    style={{
+                      height: "100%",
+                      marginRight: "5%",
+                    }}
                     data-value={true}
                   />
                   다같이 보기

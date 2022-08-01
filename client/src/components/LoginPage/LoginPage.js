@@ -43,7 +43,7 @@ function LoginPage() {
 
   return (
     <div className="outer_container">
-      <MyHeader subTitle="로그인 화면" />
+      <MyHeader onBackUrl="/" subTitle="로그인" />
       <div className="contents_container">
         <div
           style={{
