@@ -16,7 +16,7 @@ import CaptureBtn from "./CaptureBtn";
 // import { toast } from "react-toastify";
 import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
 // import CountDown from "../CountDown/CountDown";
-
+import FlipNumbers from "react-flip-numbers";
 let resultImages = [];
 let gifFrames = [[], [], [], [], [], [], [], [], [], [], []];
 
@@ -157,7 +157,18 @@ function GroupPage() {
                 alignItems: "center",
               }}
             >
-              <p className={styles.count_down_text}>{Math.floor(countDown)}</p>
+              <FlipNumbers
+                height={150}
+                width={150}
+                play
+                numbers={Math.floor(countDown).toString()}
+                numberStyle={{
+                  fontSize: "100px",
+                  fontWeight: "700",
+                  color: "#555555",
+                }}
+              />
+              {/* <p className={styles.count_down_text}>{Math.floor(countDown)}</p> */}
               {/* <CountDown /> */}
             </div>
           ) : roomname === token ? (
