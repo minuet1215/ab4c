@@ -1,6 +1,7 @@
+import { forwardRef } from "react";
 import styles from "./GroupPage.module.css";
 
-function CaptureBtn(props) {
+const CaptureBtn = forwardRef((props, ref) => {
   return (
     <>
       {!props.startCapture && props.roomname === props.token ? (
@@ -8,6 +9,7 @@ function CaptureBtn(props) {
           className={styles.camera_button}
           onClick={() => {
             props.setCapture(true);
+            ref.SocketMessageRef.current.emitStart();
           }}
         >
           <svg
@@ -25,5 +27,5 @@ function CaptureBtn(props) {
       ) : undefined}
     </>
   );
-}
+});
 export default CaptureBtn;

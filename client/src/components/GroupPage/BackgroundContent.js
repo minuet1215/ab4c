@@ -1,5 +1,5 @@
 import styles from "./GroupPage.module.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import { auth } from "../../_actions/user_action";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -56,7 +56,7 @@ const images = [
   { src: img12, alt: "12" },
 ];
 // ====================================================== //
-const BackgroundContent = (props) => {
+const BackgroundContent = forwardRef((props, ref) => {
   const [myImages, setMyImages] = useState([]);
   const [me, setMe] = useState("");
   const dispatch = useDispatch();
@@ -97,8 +97,7 @@ const BackgroundContent = (props) => {
   return (
     <>
       <label className={styles.tab_content_input_box} htmlFor="input-file">
-        {/* <ProgressBar Bar percent={percent} /> */}
-        +
+        {/* <ProgressBar Bar percent={percent} /> */}+
       </label>
 
       <input
@@ -116,7 +115,10 @@ const BackgroundContent = (props) => {
             className={styles.tab_content_img_box}
             alt=""
             onClick={() => {
-              props.setImgBase64(process.env.REACT_APP_CLOUD_FRONT_URL + image.key);
+              props.setImgBase64(
+                process.env.REACT_APP_CLOUD_FRONT_URL + image.key
+              );
+              ref.SocketMessageRef.current.emitBackground();
             }}
           ></img>
         );
@@ -131,11 +133,12 @@ const BackgroundContent = (props) => {
             className={styles.tab_content_img_box}
             onClick={() => {
               props.setImgBase64(image.src);
+              ref.SocketMessageRef.current.emitBackground();
             }}
           ></img>
         );
       })}
     </>
   );
-};
+});
 export default BackgroundContent;

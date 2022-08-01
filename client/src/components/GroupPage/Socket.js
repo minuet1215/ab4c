@@ -1,4 +1,9 @@
-import React, { useEffect, useState, forwardRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import styles from "./GroupPage.module.css";
 import remove from "./remove.js";
 import remove2 from "./remove2.js";
@@ -8,6 +13,20 @@ import { Rnd } from "react-rnd";
 import { isMobile } from "react-device-detect";
 
 const VideoAREA = forwardRef((props, ref) => {
+  useImperativeHandle(ref.SocketMessageRef, () => ({
+    emitStart() {
+      console.log("Emit start");
+      socketRef.current.emit("start", props.roomName);
+    },
+    emitBackground() {
+      console.log("Emit Background");
+      socketRef.current.emit(
+        "backgroundChange",
+        props.ImgBase64,
+        props.roomName
+      );
+    },
+  }));
   const isSingle = props.isSingle;
   const [loading, setLoading] = useState(true);
   const [isDesktopRatio, setDesktopRatio] = useState(true);
@@ -150,12 +169,12 @@ const VideoAREA = forwardRef((props, ref) => {
       }
     };
   }, []);
-  if (!isSingle && isHost && props.isCapture) {
-    socketRef.current.emit("start", props.roomName);
-  }
-  if (!isSingle && isHost && props.ImgBase64) {
-    socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
-  }
+  // if (!isSingle && isHost && props.isCapture) {
+  //   socketRef.current.emit("start", props.roomName);
+  // }
+  // if (!isSingle && isHost && props.ImgBase64) {
+  //   socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
+  // }
   return (
     <>
       <div>{loading ? <Loading /> : null}</div>
@@ -173,12 +192,12 @@ const VideoAREA = forwardRef((props, ref) => {
           default={{
             x: 50,
             y: 50,
-            width: "100%",
-            height: "100%",
           }}
           // bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
         >
-          <canvas id="myStar"></canvas>
+          <div>
+            <canvas id="myStar" width={"50%"} height={"50%"}></canvas>
+          </div>
         </Rnd>
         <canvas
           className={isHost ? styles.host : styles.guest}
