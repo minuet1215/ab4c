@@ -1,4 +1,5 @@
-## for Dev
+# 안방네컷
+## 추억을 잇는 
 1. server/ > `npm i`
 2. client/ > `yarn install`
 3. client/ > `npm run build`
