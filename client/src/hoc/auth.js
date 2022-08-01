@@ -25,7 +25,7 @@ export default function hoc(SpecificComponent, option, adminRoute = null) {
           if (adminRoute && !response.payload.isAdmin) {
             navigate("/");
           } else {
-            if (option === false) navigate("/");
+            if (option === false) navigate("/main");
           }
         }
       });

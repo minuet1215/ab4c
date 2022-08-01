@@ -19,7 +19,6 @@ import FriendListPage from "./components/FriendAnbang/FriendsList";
 import FriendAnbang from "./components/FriendAnbang/FriendAnbang";
 import AlbumPage from "./components/Album/Album"; // TEST
 
-
 import Auth from "./hoc/auth";
 import KakaoAuth from "./controller/KakaoAuth";
 import Profile from "./controller/Profile";
@@ -28,7 +27,7 @@ import ReactGA from "react-ga";
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID);
 
 function App() {
-  const AuthLandingPage = Auth(LandingPage, null);
+  const AuthLandingPage = Auth(LandingPage, false);
   const AuthUserMain = Auth(UserMain, true);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthRegisterPage = Auth(RegisterPage, false);
@@ -38,7 +37,6 @@ function App() {
   const AuthAllAlbumPage = Auth(AllAlbumPage, true);
   const AuthFriendListPage = Auth(FriendListPage, true);
   const AuthFriendAnbangPage = Auth(FriendAnbang, true);
-  
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);

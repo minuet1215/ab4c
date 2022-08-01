@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
 function PhotoModify(props) {
@@ -9,7 +8,11 @@ function PhotoModify(props) {
     navigate("/editPhoto", { state: { path: props.img } });
   };
   return (
-    <button className="edit_btn" onClick={modifyHandler}>
+    <button
+      className="edit_btn"
+      onClick={modifyHandler}
+      style={{ margin: "5px" }}
+    >
       수정
     </button>
   );

@@ -8,7 +8,7 @@ import {
   LineShareButton,
   LineIcon,
 } from "react-share";
-import KakaoShareImageButton from "../Kakao/KakaoShareImage";
+// import KakaoShareImageButton from "../Kakao/KakaoShareImage";
 
 const Social = (props) => {
   // const img = "https://www.4cut.shop/cute.gif";
@@ -18,15 +18,7 @@ const Social = (props) => {
   const hashtag = "#안방네컷";
   const hashtags = ["안방네컷"];
   return (
-    <div
-      style={{
-        padding: "10%",
-        width: "50%",
-        display: "flex",
-        flexFlow: "row wrap",
-        justifyContent: "space-around",
-      }}
-    >
+    <>
       {/* <Helmet>
         <title>안방네컷 소셜 공유</title>
         <meta name="description" content="안방네컷 소셜 공유" />
@@ -36,17 +28,27 @@ const Social = (props) => {
         <meta property="og:image" content={img} />
         <meta property="og:url" content={currentUrl} />
       </Helmet> */}
-      <FacebookShareButton url={props.img} quote={title} hashtag={hashtag}>
+      <FacebookShareButton
+        url={props.img}
+        quote={title}
+        hashtag={hashtag}
+        style={{ margin: "5px" }}
+      >
         <FacebookIcon size={32} round />
       </FacebookShareButton>
-      <TwitterShareButton url={currentUrl} title={title} hashtags={hashtags}>
+      <TwitterShareButton
+        url={props.img}
+        title={title}
+        hashtags={hashtags}
+        style={{ margin: "5px" }}
+      >
         <TwitterIcon size={32} round />
       </TwitterShareButton>
-      <LineShareButton url={currentUrl} title={title}>
+      <LineShareButton url={props.img} title={title} style={{ margin: "5px" }}>
         <LineIcon size={32} round />
       </LineShareButton>
-      <KakaoShareImageButton path={window.location.pathname} />
-    </div>
+      {/* <KakaoShareImageButton path={window.location.pathname} /> */}
+    </>
   );
 };
 

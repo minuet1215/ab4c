@@ -55,31 +55,28 @@ function AllAlbum() {
   return (
     <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>
-      <MyHeader subTitle="앨범" onBackUrl="/main" />
+      <MyHeader subTitle="전체 앨범" />
       {/* <div className={styles.contents_container}> */}
-        <div className={styles.album_container}>
-          <AutoSlides />
-          {data.datas.map((item, index) => (
-            <div key={index} className={styles.img_container}>
-              <img
-                className={styles.wrap_img}
-                src={item.imageUrl}
-                alt={index}
-                onClick={() => showModal(item)}
-                style={{
-                  cursor: "pointer",
-                }}
-              />
-            </div>
-          ))}
-        </div>
-        {modalContent && (
-          <Modal
-            modalContent={modalContent}
-            setModalContent={setModalContent}
-          />
-        )}
+      <div className={styles.album_container}>
+        <AutoSlides />
+        {data.datas.map((item, index) => (
+          <div key={index} className={styles.img_container}>
+            <img
+              className={styles.wrap_img}
+              src={item.imageUrl}
+              alt={index}
+              onClick={() => showModal(item)}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+          </div>
+        ))}
       </div>
+      {modalContent && (
+        <Modal modalContent={modalContent} setModalContent={setModalContent} />
+      )}
+    </div>
     // </div>
   );
 }
