@@ -177,6 +177,7 @@ function GroupPage() {
                 ref={refs}
                 setImgBase64={setImgBase64}
                 ImgBase64={ImgBase64}
+                // starImg={starImg}
               />
             </div>
           ) : (

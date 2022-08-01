@@ -166,19 +166,25 @@ const VideoAREA = forwardRef((props, ref) => {
           backgroundImage: props.ImgBase64
             ? `url(${props.ImgBase64})`
             : DEFAULT_BACKGROUND,
+          // overflow: "hidden",
         }}
       >
         <Rnd
-          style={{ zIndex: "999", background: "aqua" }}
-          default={{
-            x: 50,
-            y: 50,
-            width: "100%",
-            height: "100%",
+          style={{
+            zIndex: "999",
+            // overflow: "hidden",
+            // background: "aqua",
           }}
-          // bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
+          default={{
+            x: 0,
+            y: 0,
+            width: "30%",
+            // height: 100,
+          }}
+          bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
         >
-          <canvas id="myStar"></canvas>
+          <img id="myStar" alt="" />
+          {/* <canvas id="myStar"></canvas> */}
         </Rnd>
         <canvas
           className={isHost ? styles.host : styles.guest}

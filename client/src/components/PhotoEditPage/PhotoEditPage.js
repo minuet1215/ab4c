@@ -387,6 +387,7 @@ function PhotoEditPage() {
               </div>
             )}
             <Modal
+              className="modalRadius"
               title="저장할 사진의 공개 설정을 선택해 주세요!"
               visible={isModalVisible}
               confirmLoading={confirmLoading}
