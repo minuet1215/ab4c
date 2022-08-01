@@ -9,14 +9,15 @@ function KakaoShareImageButton({ image_url, path }) {
   }
 
   const shareKakaoLink = () => {
-    // const imgUrl = "https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"; // test
+    // const imgUrl =
+    //   "https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"; // test
 
     window.Kakao.Share.sendCustom({
       templateId: 80020,
       templateArgs: {
         TITLE: "공유",
         DESC: "안방네컷 사진이 도착했습니다!",
-        THUMB: image_url, // 해당 이미지의 URL 지정 필요
+        // THUMB: imgUrl, // 해당 이미지의 URL 지정 필요
         BUTTONTITLE: "사진 보러가기",
         PATH: path, // 이미지 주소 지정 필요 ('https://<도메인>/'의 밑에있는 주소)
       },
@@ -27,19 +28,18 @@ function KakaoShareImageButton({ image_url, path }) {
     shareKakaoLink();
   };
   return (
-    <div>
-      <button
-        className="button button_gap sign_in_kakao"
-        onClick={onShareKakaoClick}
-      >
-        <img
-          src={kakao_logo}
-          style={{ width: "30px", marginRight: "5px" }}
-          alt="kakao"
-        />
-        공유하기
-      </button>
-    </div>
+    <button
+      className="sign_in_kakao"
+      style={{
+        width: "31px",
+        height: "31px",
+        borderRadius: "50%",
+        border: "none",
+      }}
+      onClick={onShareKakaoClick}
+    >
+      <img src={kakao_logo} alt="kakao" />
+    </button>
   );
 }
 
