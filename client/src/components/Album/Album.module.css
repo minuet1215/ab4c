@@ -71,7 +71,22 @@ code {
 }
 
 /* modal */
-.overlay {
+
+.modal_container {
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  padding: 10px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.modal_background {
   position: fixed;
   top: 0;
   left: 0;
@@ -80,55 +95,54 @@ code {
   height: 100%;
   margin: auto;
   background: rgba(27, 27, 27, 0.541);
+}
+.modal_header {
+  padding: 5%;
+  width: 100%;
+  height: 5%;
   display: flex;
+  /* flex-direction: row-reverse; */
   align-items: center;
+  justify-content:flex-end;
+  color: #555555;
+  font-size: 35px;
+  font-weight: bold;
+  font-family: "oneprettynight", sans-serif;
+  
 }
-.overlay img {
-  display: block;
-  max-width: 60%;
-  max-height: 80%;
-  margin: 60px auto;
-  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5);
+
+.modal_img_container {
+  width: 100%;
+  height: 84%;
 }
-.overlay > span {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 30px;
-  color: #ffffff;
-  z-index: 999;
-  cursor: pointer;
+.modal_img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
-.overlay_arrows_left {
+.modal_control_container {
   display: flex;
-  background-color: #6d6d6d00;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: 10%;
+}
+.contents_container {
+  background: linear-gradient(
+    0deg,
+    rgba(148, 187, 233, 1) 25%,
+    rgba(186, 182, 220, 1) 48%,
+    rgba(216, 177, 210, 1) 72%,
+    rgba(238, 174, 202, 1) 85%,
+    rgba(242, 212, 212, 1) 100%
+  );
+  height: calc(100vh - 74px);
+}
+
+.close {
   position: absolute;
-  top: 50%;
-  width: 50px;
-  height: 50px;
-  left: 0;
-  z-index: 999;
-}
-
-.overlay_arrows_left svg {
-  width: 50px;
-  height: 50px;
-}
-
-.overlay_arrows_right svg {
-  width: 50px;
-  height: 50px;
-}
-
-.overlay_arrows_right {
-  display: flex;
-  background-color: #6d6d6d00;
-  justify-content: space-between;
-  position: absolute;
-  right: 0;
-  width: 50px;
-  height: 50px;
-  top: 50%;
-  z-index: 999;
+  left : 50px;
+  top : 100px;
+  justify-content: flex-end;
 }

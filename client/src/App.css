@@ -189,21 +189,36 @@ body {
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
   padding: 1.5% 13% 1.5% 13%;
   margin: 3% 0 0 0;
+  
 }
 
-.EditBtn {
+.edit_btn {
   background-color: #fc8da1;
   color: #fefefa;
   font-size: 12px;
   width: 50px;
-  
+  height : 30px;
+
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border: 0;
+  font-size: 12px;
+  font-weight: 600;
 }
+
 
 .DelBtn {
   background-color: #fefefa;
   color: #555555;
   font-size: 12px;
   width: 50px;
+  height : 30px;
+
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border: 0;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 @font-face {

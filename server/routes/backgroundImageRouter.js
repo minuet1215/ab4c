@@ -13,16 +13,15 @@ backgroundImageRouter.post(
   async (req, res) => {
     try {
       if (!req.body.id) throw new Error("권한이 없습니다.");
-
       const bgImage = await new backgroundImage({
-        user:{
-            _id: req.body.id,
-            email: req.body.email,
-            name: req.body.name,
+        user: {
+          _id: req.body.id,
+          email: req.body.email,
+          name: req.body.name,
         },
-      key: req.file.key,
-      originalFileName: req.file.originalname,
-    }).save();
+        key: req.file.key,
+        originalFileName: req.file.originalname,
+      }).save();
 
       return res.json(bgImage);
     } catch (err) {
@@ -34,9 +33,9 @@ backgroundImageRouter.post(
 // background 이미지 배포
 backgroundImageRouter.get("/show/:id", async (req, res) => {
   try {
-    if (!req.user) throw new Error("권한이 없습니다.");
-    const bgImages = await backgroundImage.find({ _id: req.user.id });
-    res.json(bgImages);
+    if (!req.params.id) throw new Error("권한이 없습니다.");
+    const bgImage = await backgroundImage.find({ "user._id": req.params.id });
+    res.json(bgImage);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

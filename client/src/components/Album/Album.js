@@ -11,6 +11,7 @@ function MyAlbum() {
   const [loading, setLoading] = useState(true);
   const [clickedImg, setClickedImg] = useState(null);
   const [images, setImages] = useState([]);
+  const [userId, setUserId] = useState("");
 
   const showModal = (contents) => {
     setClickedImg(contents);  
@@ -25,6 +26,7 @@ function MyAlbum() {
         .then((result) => {
           setImages(result.data);
           setLoading(false);
+          setUserId(res.payload._id);
         })
         .catch();
     });
@@ -39,6 +41,7 @@ function MyAlbum() {
       key: item.key,
       owner: item.user._id,
 
+      user : userId,
       ownerName: item.user.name,
       likes: item.likes,
       likes_count: item.likes_count,
