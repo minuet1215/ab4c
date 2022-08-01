@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer, Input, Button, Modal } from "antd";
+import { Drawer, Input, Button, Modal, Switch } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import { toast } from "react-toastify";
 import Loading from "../Loading/Loading";
@@ -359,18 +359,19 @@ function PhotoEditPage() {
                 >
                   앨범 저장
                 </button>
-                <button
+                <Switch
                   onClick={(e) => {
-                    e.preventDefault();
+                    // e.preventDefault();
                     if (!isMobile) {
                       setGifMode(!isGifMode);
                     } else {
                       alert("모바일에서는 GIF모드를 지원하지 않습니다.");
                     }
                   }}
-                >
-                  GIF
-                </button>
+                  checkedChildren="PNG"
+                  unCheckedChildren="GIF"
+                  defaultChecked
+                />
               </div>
             )}
             {!isAuth && (
@@ -397,22 +398,27 @@ function PhotoEditPage() {
               footer={null}
               centered={true}
             >
-              <div style={{ display: "flex" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 <button
                   className="button btn_3"
                   data-value={false}
                   onClick={onSave}
                   style={{
-                    fontSize: "1.4em",
+                    fontSize: "1.4rem",
                     fontWeight: "bold",
                     margin: "1rem",
+                    padding: "0 15px",
                   }}
                 >
                   <img
                     src={alone_icon}
                     style={{
-                      // display: "block",
-                      // justifyContent: "center",
                       height: "80%",
                       marginRight: "5%",
                     }}
@@ -426,7 +432,7 @@ function PhotoEditPage() {
                   data-value={true}
                   onClick={onSave}
                   style={{
-                    fontSize: "1.4em",
+                    fontSize: "1.4rem",
                     fontWeight: "bold",
                     margin: "1rem",
                   }}
@@ -434,7 +440,10 @@ function PhotoEditPage() {
                   <img
                     alt=""
                     src={together_icon}
-                    style={{ height: "100%", marginRight: "5%" }}
+                    style={{
+                      height: "100%",
+                      marginRight: "5%",
+                    }}
                     data-value={true}
                   />
                   다같이 보기

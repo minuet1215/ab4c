@@ -1,4 +1,9 @@
-import React, { useEffect, useState, forwardRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import styles from "./GroupPage.module.css";
 import remove from "./remove.js";
 import remove2 from "./remove2.js";
@@ -9,6 +14,24 @@ import { isMobile } from "react-device-detect";
 
 const VideoAREA = forwardRef((props, ref) => {
   const isSingle = props.isSingle;
+  useImperativeHandle(ref.SocketMessageRef, () => ({
+    emitStart() {
+      if (!isSingle) {
+        console.log("Emit start");
+        socketRef.current.emit("start", props.roomName);
+      }
+    },
+    emitBackground() {
+      if (!isSingle) {
+        console.log("Emit Background");
+        socketRef.current.emit(
+          "backgroundChange",
+          props.ImgBase64,
+          props.roomName
+        );
+      }
+    },
+  }));
   const [loading, setLoading] = useState(true);
   const [isDesktopRatio, setDesktopRatio] = useState(true);
   const SOCKET_SERVER_URL = "http://localhost:5001"; // ! : local
@@ -150,12 +173,12 @@ const VideoAREA = forwardRef((props, ref) => {
       }
     };
   }, []);
-  if (!isSingle && isHost && props.isCapture) {
-    socketRef.current.emit("start", props.roomName);
-  }
-  if (!isSingle && isHost && props.ImgBase64) {
-    socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
-  }
+  // if (!isSingle && isHost && props.isCapture) {
+  //   socketRef.current.emit("start", props.roomName);
+  // }
+  // if (!isSingle && isHost && props.ImgBase64) {
+  //   socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
+  // }
   return (
     <>
       <div>{loading ? <Loading /> : null}</div>
@@ -180,11 +203,14 @@ const VideoAREA = forwardRef((props, ref) => {
             y: 0,
             width: "30%",
             // height: 100,
+
           }}
           bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
         >
+
           <img id="myStar" alt="" />
           {/* <canvas id="myStar"></canvas> */}
+
         </Rnd>
         <canvas
           className={isHost ? styles.host : styles.guest}

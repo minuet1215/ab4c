@@ -68,6 +68,9 @@ friendsRouter.get("/showAlbum/:friendId", async (req, res) => {
 
 // 나의 친구 리스트
 friendsRouter.get("/me/friendsList/:myId", async (req, res) => {
+  if (!req.params.myId) {
+  
+  }
   const me = await User.findOne({ _id: req.params.myId });
   // console.log(me)
   let friendsList = [];

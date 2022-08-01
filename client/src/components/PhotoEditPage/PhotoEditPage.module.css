@@ -19,6 +19,7 @@
   padding-left: 5%;
   padding-right: 5%;
   padding-bottom: 10%;
+  white-space: nowrap;
 }
 .control_btn {
   margin: 3%;

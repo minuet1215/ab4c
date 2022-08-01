@@ -33,6 +33,7 @@ function GroupPage() {
     pcRef: useRef(null),
     remoteVideoRef: useRef(null),
     captureAreaRef: useRef(null),
+    SocketMessageRef: useRef(null),
   };
   const [ImgBase64, setImgBase64] = useState(""); // 업로드 될 이미지
   const [isMute, setIsMute] = useState(true); // 음소거 변수
@@ -40,6 +41,7 @@ function GroupPage() {
   const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
   const [photoCount, setPhotoCount] = useState(1); // 4장만 찍을 수 있다.
   const [takePhotoLayer, setTakePhotoLayer] = useState({});
+  const [onClickCapture, setClickCapture] = useState(false);
 
   function cameraOff() {
     if (!state.isSingle) {
@@ -192,6 +194,7 @@ function GroupPage() {
               setCapture={setCapture}
               roomname={roomname}
               token={token}
+              ref={refs}
             />
             <MuteBtn setIsMute={setIsMute} isMute={isMute} />
           </div>

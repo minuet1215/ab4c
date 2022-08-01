@@ -43,7 +43,7 @@ function UserMain() {
 
   return (
     <div className="outer_container">
-      <MyHeader subTitle="메인 화면" />
+      <MyHeader />
       <div
         className="contents_container center"
         style={{

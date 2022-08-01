@@ -84,6 +84,7 @@ const TabContent = forwardRef((props, ref) => {
       <BackgroundContent
         ImgBase64={props.ImgBase64}
         setImgBase64={props.setImgBase64}
+        ref={ref}
       />
     </div>,
     <div className={styles.tab_contents_container}>

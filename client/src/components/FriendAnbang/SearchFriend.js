@@ -35,6 +35,7 @@ function SearchFriend(props) {
     axios.post(`/api/friends/add/${searchInput}`, body).then((response) => {
       if (response.data.success) {
         toast.success("추가되었습니다.");
+        props.setClickCnt(props.clickCnt+1);
       } else {
         toast.error("이미 추가된 친구입니다.");
       }
@@ -43,11 +44,12 @@ function SearchFriend(props) {
 
   return (
     <>
-      <button onClick={props.showModal} className="button button_gap btn_1">
+      <button onClick={props.showModal} className="search_button">
         친구 검색
       </button>
       <Modal
         title="친구를 검색해보세요"
+        className="modalRadius" 
         visible={props.isModalVisible}
         confirmLoading={confirmLoading}
         onCancel={props.hideModal}
@@ -66,7 +68,7 @@ function SearchFriend(props) {
         {searchInput && !findFriendResult && (
           <Card
             style={{
-              "max-width": 470,
+              maxWidth: 470,
               marginTop: 16,
             }}
             loading={loading}
@@ -75,7 +77,7 @@ function SearchFriend(props) {
         {searchInput && findFriendResult && (
           <Card
             style={{
-              "max-width": 470,
+              maxWidth: 470,
               marginTop: 16,
             }}
           >

@@ -14,8 +14,8 @@ function MyAlbum() {
   const [userId, setUserId] = useState("");
 
   const showModal = (contents) => {
-    setClickedImg(contents);  
-  }
+    setClickedImg(contents);
+  };
 
   const dispatch = useDispatch();
 
@@ -41,7 +41,7 @@ function MyAlbum() {
       key: item.key,
       owner: item.user._id,
 
-      user : userId,
+      user: userId,
       ownerName: item.user.name,
       likes: item.likes,
       likes_count: item.likes_count,
@@ -51,7 +51,7 @@ function MyAlbum() {
   return (
     <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>
-      <Header/>
+      <Header subTitle="사진첩" />
       <div className={styles.contents_container}>
         <div className={styles.album_container}>
           {data.datas.map((item, index) => (

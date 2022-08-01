@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const cors = require("cors");
+const helmet = require("helmet");
 
 /* Router */
 const usersRouter = require("./routes/usersRouter");
@@ -18,7 +19,7 @@ const { PORT, mongoURI } = process.env;
 
 /* Middleware*/
 app.use(cors());
-app.use("/uploads", express.static("uploads"));
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'same-site' } }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
