@@ -1,7 +1,9 @@
 import styles from "./GroupPage.module.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { auth } from "../../_actions/user_action";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+
 import img1 from "../../img/bg1.jpeg";
 import img2 from "../../img/bg2.jpeg";
 import img3 from "../../img/bg3.jpeg";
@@ -54,20 +56,27 @@ const images = [
 ];
 // ====================================================== //
 const BackgroundContent = (props) => {
-  const [getImages, setImages] = useState(images);
+  const [myImages, setMyImages] = useState([]);
   const [file, setFile] = useState("");
+  const dispatch = useDispatch();
 
-  // 유저 아이디로 등록된 배경을 모두 뽑아와서,
-  // images뒤에 촤라라락 붙여야 함
-  // 유저 정보는 여기서 가져와야 할 듯.. dispatch(...)...
-  // axios.get(`/show/${}`).then((res) => {
-  // })
+  useEffect(() => {
+    dispatch(auth()).then((res) => {
+      axios
+        .get(`/api/bg/show/${res.payload._id}`)
+        .then((result) => {
+          setMyImages([images, ...result.data]);
+        })
+        .catch();
+    });
+  }, [dispatch, myImages]);
 
   const handleChangeFile = async (event) => {
     const me = await auth();
-    const formData = new FormData();
-    setFile(event.target.files[0]);
 
+    const formData = new FormData();
+
+    setFile(event.target.files[0]);
     formData.append("image", file);
     formData.append("id", me.payload._id);
     formData.append("email", me.payload.email);
@@ -85,11 +94,14 @@ const BackgroundContent = (props) => {
 
       if (base64) {
         props.setImgBase64(base64.toString());
-        images.unshift({ src: base64, alt: "userimage" });
-        let copy = [...images];
-        setImages(copy);
+        myImages.unshift({ src: base64, alt: "userimage" });
+        // images.unshift({ src: base64, alt: "userimage" });
+        let copy = [...myImages];
+        // let copy = [...images];
+        setMyImages(copy);
       }
     };
+
     if (event.target.files[0]) {
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -107,7 +119,23 @@ const BackgroundContent = (props) => {
         onChange={handleChangeFile}
       />
 
-      {getImages.map((image, index) => {
+      {myImages.map((image, index) => {
+        return (
+          <img
+            src={process.env.REACT_APP_CLOUD_FRONT_URL + image.key}
+            key={index}
+            className={styles.tab_content_img_box}
+            onClick={() => {
+              props.setImgBase64(
+                process.env.REACT_APP_CLOUD_FRONT_URL + image.key
+              );
+            }}
+            alt=""
+          ></img>
+        );
+      })}
+
+      {images.map((image, index) => {
         return (
           <img
             src={image.src}
