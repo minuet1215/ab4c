@@ -1,7 +1,7 @@
 .navbar {
   height: 74px;
   max-width: 600px;
-  background-color: whitesmoke;
+  background-color: white;
   display: flex;
   align-items: center;
   position: relative;
@@ -25,8 +25,9 @@
   cursor: pointer;
 }
 
-.move_back {
-  position: absolute;
-  left: 2%;
-  cursor: pointer;
+
+.ant_btn {
+  outline-color: white;
+  border: 0;
+  outline: 0;
 }
