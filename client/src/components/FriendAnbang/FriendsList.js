@@ -20,7 +20,7 @@ function FriendsList() {
   const [friendsInfo, setFriendsInfo] = useState([]);
   const { Meta } = Card;
   const [isModalVisible, setModalVisible] = useState(false);
-  const [removeCnt, setRemoveCnt] = useState(0);
+  const [clickCnt, setClickCnt] = useState(0);
 
   const showModal = () => {
     setModalVisible(true);
@@ -30,16 +30,16 @@ function FriendsList() {
     setModalVisible(false);
   };
 
-  const removeFriend = (event) => {
+  const removeFriend = (email) => {
     const removeConfirm = window.confirm("삭제하시겠습니까?");
     if (removeConfirm) {
-      const friendEmail = event.target.id;
+      const friendEmail = email;
       axios
         .patch(`api/friends/delete/${friendEmail}`, { id: myId })
         .then((response) => {
           if (response.data.success) {
             toast.success("삭제에 성공했습니다.");
-            setRemoveCnt(removeCnt + 1);
+            setClickCnt(clickCnt + 1);
           } else {
             toast.success("삭제에 실패했습니다.");
           }
@@ -59,7 +59,7 @@ function FriendsList() {
           });
       }
     });
-  }, [dispatch, isModalVisible, removeCnt]);
+  }, [dispatch, clickCnt]);
 
   return (
     <div className="outer_container">
@@ -69,6 +69,8 @@ function FriendsList() {
         showModal={showModal}
         hideModal={hideModal}
         isModalVisible={isModalVisible}
+        clickCnt = {clickCnt}
+        setClickCnt = {setClickCnt}
       />
       <div style={{ height: "600px", overflow: "scroll" }}>
         {friendsInfo.map((item, index) => (
@@ -77,7 +79,9 @@ function FriendsList() {
               style={{
                 maxWidth: "550px",
                 margin: "auto",
-                border: "2.5px solid #fc8da1",
+                border: "1px solid #fc8da1",
+                borderRadius : '10px',
+                
               }}
               hoverable
             >
@@ -97,7 +101,7 @@ function FriendsList() {
                 />
                 <Button
                   id={item.email}
-                  onClick={removeFriend}
+                  onClick={() => removeFriend(item.email)}
                   icon={<DeleteOutlined />}
                   style={{ position: "absolute", right: 15 }}
                 />
