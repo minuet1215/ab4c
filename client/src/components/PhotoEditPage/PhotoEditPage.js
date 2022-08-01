@@ -267,6 +267,15 @@ function PhotoEditPage() {
     }
   };
 
+  const onSwitchHandler = (e) => {
+    // e.preventDefault();
+    if (!isMobile) {
+      setGifMode(!isGifMode);
+    } else {
+      alert("모바일에서는 GIF모드를 지원하지 않습니다.");
+    }
+  };
+
   return (
     <>
       <div id="photoEdit">
@@ -274,13 +283,31 @@ function PhotoEditPage() {
           <div id="Loading">
             <Loading />
           </div>
-          <MyHeader subTitle="사진 화면" onBackUrl="/main" />
+          <MyHeader subTitle="편집중" />
           <div className="contents_container">
+            <button
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "90%",
+                transform: "translate(-50%, -50%)",
+                width: "50px",
+                height: "50px",
+                backgroundColor: "#efefef",
+                borderRadius: "10px",
+                border: "0",
+                color: "#555555",
+                fontWeight: "600",
+                cursor: "true",
+              }}
+              onClick={onSwitchHandler}
+            >
+              {isGifMode ? "PNG!" : "GIF!"}
+            </button>
             <div
               style={{
                 justifyContent: "center",
                 display: "flex",
-                marginBottom: "5%",
               }}
             >
               <div className={styles.canvas_container}>
@@ -343,19 +370,12 @@ function PhotoEditPage() {
                 >
                   앨범 저장
                 </button>
-                <Switch
-                  onClick={(e) => {
-                    // e.preventDefault();
-                    if (!isMobile) {
-                      setGifMode(!isGifMode);
-                    } else {
-                      alert("모바일에서는 GIF모드를 지원하지 않습니다.");
-                    }
-                  }}
+                {/* <Switch
+                  onClick={onSwitchHandler}
                   checkedChildren="PNG"
                   unCheckedChildren="GIF"
                   defaultChecked
-                />
+                /> */}
               </div>
             )}
             {!isAuth && (
