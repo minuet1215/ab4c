@@ -151,11 +151,10 @@ function PhotoEditPage() {
   };
 
   const make4cutImage = async (ctx, list) => {
+    let t;
     for await (const image of list) {
-      await asyncGetImage(image).then(async (i) => {
-        console.log(image.x, image.y, img_width, img_height);
-        await ctx.drawImage(i, image.x, image.y, img_width, img_height);
-      });
+      t = await asyncGetImage(image.src);
+      ctx.drawImage(t, image.x, image.y, img_width, img_height);
     }
     if (!isPrintEnd) setPrintStart(canvasRef.current.toDataURL());
   };
