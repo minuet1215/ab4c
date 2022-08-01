@@ -1,33 +1,25 @@
 .navbar {
+  width: 100%;
   height: 74px;
-  max-width: 600px;
-  background-color: white;
+  position: relative;
   display: flex;
   align-items: center;
-  position: relative;
-  /* justify-content: flex-end; */
+  background-color: white;
 }
 
-.navbar_logo {
-  width: 60px;
-  height: 60px;
-  /* margin: auto; */
-  cursor: pointer;
-  /* top: 50%; */
-  left : 50%;
+.back_btn {
   position: absolute;
-  transform: translate(-50%, 0%);
+  left: 5%;
 }
-
+.main_logo {
+  position: absolute;
+  left: 50%;
+  font-family: "oneprettynight", sans-serif;
+  transform: translateX(-50%);
+}
 .dropdown_box {
   position: absolute;
-  right: -89%;
+  left: 95%;
+  transform: translateX(-100%);
   cursor: pointer;
-}
-
-
-.ant_btn {
-  outline-color: white;
-  border: 0;
-  outline: 0;
 }
