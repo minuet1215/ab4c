@@ -194,13 +194,16 @@ body {
 .EditBtn {
   background-color: #fc8da1;
   color: #fefefa;
-  font-size: 18px;
+  font-size: 12px;
+  width: 50px;
+  
 }
 
 .DelBtn {
   background-color: #fefefa;
   color: #555555;
-  font-size: 18px;
+  font-size: 12px;
+  width: 50px;
 }
 
 @font-face {

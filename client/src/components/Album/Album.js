@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import Modal from "./Modal/Modal";
-import PhotoModify from "../ImageEditor/PhotoModify";
-import PhotoDelete from "./PhotoDelete";
+import Modal from "./Modal";
 import styles from "./Album.module.css";
 import axios from "axios";
 import { auth } from "../../_actions/user_action";
 import Loading from "../Loading/Loading";
+import Header from "../Header/Header";
 
 function MyAlbum() {
   const [loading, setLoading] = useState(true);
   const [clickedImg, setClickedImg] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(null);
   const [images, setImages] = useState([]);
-  const handleClick = (item, index) => {
-    setCurrentIndex(index);
-    setClickedImg(item.imageUrl);
-  };
+
+  const showModal = (contents) => {
+    setClickedImg(contents);  
+  }
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,48 +38,17 @@ function MyAlbum() {
       imageUrl: url + item.key,
       key: item.key,
       owner: item.user._id,
+
+      ownerName: item.user.name,
+      likes: item.likes,
+      likes_count: item.likes_count,
     });
-    return data;
   });
-
-  // 모달창에서 앞뒤로 이동하기
-  const handleRotationRight = () => {
-    const totalLength = data.datas.length;
-    if (currentIndex + 1 >= totalLength) {
-      setCurrentIndex(0);
-      const newUrl = data.datas[0].imageUrl;
-      setClickedImg(newUrl);
-      return;
-    }
-    const newIndex = currentIndex + 1;
-    const newUrl = data.datas.filter((item) => {
-      return data.datas.indexOf(item) === newIndex;
-    });
-    const newItem = newUrl[0].imageUrl;
-    setClickedImg(newItem);
-    setCurrentIndex(newIndex);
-  };
-
-  const handleRotationLeft = () => {
-    const totalLength = data.datas.length;
-    if (currentIndex === 0) {
-      setCurrentIndex(totalLength - 1);
-      const newUrl = data.datas[totalLength - 1].imageUrl;
-      setClickedImg(newUrl);
-      return;
-    }
-    const newIndex = currentIndex - 1;
-    const newUrl = data.datas.filter((item) => {
-      return data.datas.indexOf(item) === newIndex;
-    });
-    const newItem = newUrl[0].imageUrl;
-    setClickedImg(newItem);
-    setCurrentIndex(newIndex);
-  };
 
   return (
     <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>
+      <Header/>
       <div className={styles.contents_container}>
         <div className={styles.album_container}>
           {data.datas.map((item, index) => (
@@ -89,22 +57,16 @@ function MyAlbum() {
                 className={styles.wrap_img}
                 src={item.imageUrl}
                 alt={index}
-                onClick={() => handleClick(item, index)}
+                onClick={() => showModal(item)}
                 loading="lazy"
               />
-              <div className={styles.submit_btns}>
-                <PhotoModify img={item.imageUrl} />
-                <PhotoDelete img={item} />
-              </div>
             </div>
           ))}
           <div>
             {clickedImg && (
               <Modal
-                clickedImg={clickedImg}
-                handleRotationRight={handleRotationRight}
-                setClickedImg={setClickedImg}
-                handleRotationLeft={handleRotationLeft}
+                modalContent={clickedImg}
+                setModalContent={setClickedImg}
               />
             )}
           </div>

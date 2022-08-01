@@ -21,7 +21,7 @@ code {
     rgba(238, 174, 202, 1) 85%,
     rgba(242, 212, 212, 1) 100%
   );
-  height: calc(100vh - 74px - 50px);
+  height: calc(100vh - 74px);
 }
 
 .album_container {
