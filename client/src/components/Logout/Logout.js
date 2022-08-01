@@ -31,9 +31,9 @@ function Logout() {
   };
 
   return (
-    <button className="button button_gap btn_3" onClick={onClickHandler}>
+    <div onClick={onClickHandler}>
       로그아웃
-    </button>
+    </div>
   );
 }
 

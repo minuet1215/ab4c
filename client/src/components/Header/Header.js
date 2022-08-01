@@ -2,7 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropdown, Button, Menu } from "antd";
 import image from "../../img/appLogo.png";
+import { MenuOutlined, LeftOutlined } from "@ant-design/icons";
+
 import styles from "./Navbar.module.css";
+
+import Logout from "../Logout/Logout";
 
 const menu = (
   <Menu
@@ -17,7 +21,7 @@ const menu = (
       },
       {
         key: "3",
-        label: <a href="/logout">로그아웃</a>,
+        label: <Logout />,
       },
     ]}
   />
@@ -35,11 +39,13 @@ const Header = () => {
         overlay={menu}
         placement="bottomRight"
       >
-        <Button>三</Button>
+        <Button icon={<MenuOutlined />} />
       </Dropdown>
-      <div className={styles.move_back} onClick={() => navigate("/main")}>
-        <img src={require("../../img/backIcon.png")}></img>
-      </div>
+      <Button
+        className={styles.ant_btn}
+        icon={<LeftOutlined />}
+        onClick={() => navigate("/main")}
+      />
     </nav>
   );
 };
