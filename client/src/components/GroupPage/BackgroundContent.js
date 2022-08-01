@@ -1,10 +1,5 @@
 import styles from "./GroupPage.module.css";
 import React, { useState, useEffect, forwardRef } from "react";
-import { auth } from "../../_actions/user_action";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-// import ProgressBar from "../ProgressBar/ProgressBar";
-
 import img1 from "../../img/bg1.jpeg";
 import img2 from "../../img/bg2.jpeg";
 import img3 from "../../img/bg3.jpeg";
@@ -57,74 +52,32 @@ const images = [
 ];
 // ====================================================== //
 const BackgroundContent = forwardRef((props, ref) => {
-  const [myImages, setMyImages] = useState([]);
-  const [me, setMe] = useState("");
-  const dispatch = useDispatch();
-  const [percent, setPercent] = useState(0);
+  const [getImages, setImages] = useState(images);
+  const handleChangeFile = (event) => {
+    let reader = new FileReader();
 
-  useEffect(() => {
-    dispatch(auth()).then((res) => {
-      axios
-        .get(`/api/bg/show/${res.payload._id}`)
-        .then((result) => {
-          setMyImages([...result.data]);
-          setMe(res.payload);
-        })
-        .catch();
-    });
-  }, [dispatch, percent]);
-
-  const handleChangeFile = async (event) => {
-    const formData = new FormData();
-
-    formData.append("id", me._id);
-    formData.append("email", me.email);
-    formData.append("name", me.name);
-    formData.append("image", event.target.files[0]);
-
-    axios.post("/api/bg/post", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-      onUploadProgress: (e) => {
-        setPercent(Math.round((100 * e.loaded) / e.total));
-      },
-    });
-
-    setTimeout(() => {
-      setPercent(0);
-    }, 3000);
+    reader.onloadend = (e) => {
+      // 2. 읽기가 완료되면 아래 코드 실행
+      const base64 = reader.result;
+      if (base64) {
+        // 파일 base64 상태 업데이트
+        // props.setImgBase64(base64.toString());
+        images.unshift({ src: base64, alt: "userimage" });
+        let copy = [...images];
+        setImages(copy);
+      }
+    };
+    if (event.target.files[0]) {
+      // 1. 파일을 읽어 버퍼에 저장
+      reader.readAsDataURL(event.target.files[0]);
+    }
   };
-
   return (
     <>
       <label className={styles.tab_content_input_box} htmlFor="input-file">
-        {/* <ProgressBar Bar percent={percent} /> */}+
+        +
       </label>
-
-      <input
-        type="file"
-        id="input-file"
-        style={{ display: "none" }}
-        onChange={handleChangeFile}
-      />
-
-      {myImages.map((image, index) => {
-        return (
-          <img
-            src={process.env.REACT_APP_CLOUD_FRONT_URL + image.key}
-            key={index}
-            className={styles.tab_content_img_box}
-            alt=""
-            onClick={() => {
-              props.setImgBase64(
-                process.env.REACT_APP_CLOUD_FRONT_URL + image.key
-              );
-              ref.SocketMessageRef.current.emitBackground();
-            }}
-          ></img>
-        );
-      })}
-
-      {images.map((image, index) => {
+      {getImages.map((image, index) => {
         return (
           <img
             src={image.src}
@@ -138,6 +91,12 @@ const BackgroundContent = forwardRef((props, ref) => {
           ></img>
         );
       })}
+      <input
+        type="file"
+        id="input-file"
+        style={{ display: "none" }}
+        onChange={handleChangeFile}
+      />
     </>
   );
 });
