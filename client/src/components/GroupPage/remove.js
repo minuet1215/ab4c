@@ -1,10 +1,12 @@
 import { segment } from "./segment.js";
 import { addShader } from "./wegbl-transparency.mjs";
 
-export default function Remove(setLoading = undefined) {
+export default function Remove(setLoading = undefined, isMobile) {
   const videoElement = document.querySelector("video#my_face");
   const greenScreenCanvas = document.querySelector("canvas#mygreen");
   const webglCanvas = document.querySelector("canvas#mytrans");
+
+  const transparentCanvas = document.querySelector("canvas#transparent_canvas");
   // const FRAME_RATE = 30;
   // let videoWidth = 640;
   // let videoHeight = 480;
@@ -23,15 +25,20 @@ export default function Remove(setLoading = undefined) {
       async function getFrames() {
         const now = videoElement.currentTime;
         if (now > lastTime) {
-          await segment(videoElement, segmentedCanvas, setLoading);
+          await segment(
+            videoElement,
+            segmentedCanvas,
+            transparentCanvas,
+            isMobile,
+            setLoading
+          );
         }
         lastTime = now;
         requestAnimationFrame(getFrames);
       }
 
       await getFrames();
-
-      addShader(greenScreenCanvas, webglCanvas);
+      if (!isMobile) addShader(greenScreenCanvas, webglCanvas);
     };
 
     // Note: list of devices may change after first camera permission approval
