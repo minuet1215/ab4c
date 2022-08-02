@@ -12,6 +12,7 @@ function MyAlbum() {
   const [clickedImg, setClickedImg] = useState(null);
   const [images, setImages] = useState([]);
   const [userId, setUserId] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const showModal = (contents) => {
     setClickedImg(contents);
@@ -30,7 +31,7 @@ function MyAlbum() {
         })
         .catch();
     });
-  }, [dispatch]);
+  }, [dispatch, isModalVisible]);
 
   let data = { datas: [] };
   const url = process.env.REACT_APP_CLOUD_FRONT_URL;
@@ -42,6 +43,7 @@ function MyAlbum() {
       owner: item.user._id,
 
       user: userId,
+      isLiked: item.likes.includes(userId),
       ownerName: item.user.name,
       likes: item.likes,
       likes_count: item.likes_count,
@@ -70,6 +72,8 @@ function MyAlbum() {
               <Modal
                 modalContent={clickedImg}
                 setModalContent={setClickedImg}
+                isModalVisible={isModalVisible}
+                setModalVisible={setModalVisible}
               />
             )}
           </div>
