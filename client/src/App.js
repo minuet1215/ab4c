@@ -57,6 +57,7 @@ function App() {
           <Route exact path="allalbum" element={<AuthAllAlbumPage />} />
           <Route exact path="friendlist" element={<AuthFriendListPage />} />
           <Route exact path="friendAnbang" element={<AuthFriendAnbangPage />} />
+          
           <Route
             exact
             path="/oauth/kakao/callback"

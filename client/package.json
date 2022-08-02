@@ -44,6 +44,7 @@
     "react-share": "^4.4.0",
     "react-slick": "^0.29.0",
     "react-toastify": "^9.0.7",
+    "react-use": "^17.4.0",
     "redux": "^4.2.0",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.4.1",
