@@ -12,7 +12,7 @@ function Kakao() {
   return (
     <button className="button button_gap sign_in_kakao">
       <a style={{ color: "#555555" }} href={KAKAO_AUTH_URL}>
-        <div> 카카오 로그인</div>
+        <div> 카카오로 시작하기</div>
       </a>
     </button>
   );
