@@ -107,6 +107,13 @@ io.on("connection", (socket) => {
   socket.on("backgroundChange", (img, roomname) => {
     socket.broadcast.to(roomname).emit("backgroundChange", img);
   });
+  socket.on("starChange", (img, roomname) => {
+    console.log(img, roomname);
+    socket.broadcast.to(roomname).emit("starChange", img);
+  });
+  socket.on("starLocate", (text, roomname) => {
+    socket.broadcast.to(roomname).emit("starLocate", text);
+  });
   socket.on("checkRatio", (bool, roomname) => {
     socket.broadcast.to(roomname).emit("checkRatio", bool); //나를 제외한 상대방에게 메시지보내기
   });

@@ -31,6 +31,11 @@ const VideoAREA = forwardRef((props, ref) => {
         );
       }
     },
+    emitStar: (image) => {
+      if (!isSingle) {
+        socketRef.current.emit("starChange", image, props.roomName);
+      }
+    },
   }));
   const [loading, setLoading] = useState(true);
   const [isDesktopRatio, setDesktopRatio] = useState(true);
@@ -157,11 +162,18 @@ const VideoAREA = forwardRef((props, ref) => {
       socketRef.current.on("checkRatio", (bool) => {
         setDesktopRatio(bool); //bool
       });
+      socketRef.current.on("starChange", (img) => {
+        console.log(img);
+        /* 스타 복제하기*/
+        document.getElementById("myStar").src = img;
+      });
+      socketRef.current.on("starLocate", (text) => {
+        document.getElementById("RND1").style.cssText = text;
+      });
       socketRef.current.emit("checkRatio", !isMobile, props.roomName); // 내가 모바일인지 상대방한테 보냄
     }
 
     setVideoTracks();
-
     return () => {
       if (!isSingle) {
         if (socketRef.current) {
@@ -173,12 +185,6 @@ const VideoAREA = forwardRef((props, ref) => {
       }
     };
   }, []);
-  // if (!isSingle && isHost && props.isCapture) {
-  //   socketRef.current.emit("start", props.roomName);
-  // }
-  // if (!isSingle && isHost && props.ImgBase64) {
-  //   socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
-  // }
   return (
     <>
       <div>{loading ? <Loading /> : null}</div>
@@ -189,19 +195,47 @@ const VideoAREA = forwardRef((props, ref) => {
           backgroundImage: props.ImgBase64
             ? `url(${props.ImgBase64})`
             : DEFAULT_BACKGROUND,
+          // overflow: "hidden",
         }}
       >
         <Rnd
-          style={{ zIndex: "999", background: "aqua" }}
-          default={{
-            x: 50,
-            y: 50,
+          id="RND1"
+          style={{
+            zIndex: "999",
           }}
-          // bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
+          default={{
+            x: 0,
+            y: 0,
+            width: "30%",
+            // height: 100,
+          }}
+          bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
         >
-          <div>
-            <canvas id="myStar" width={"50%"} height={"50%"}></canvas>
-          </div>
+          <img
+            id="myStar"
+            alt=""
+            draggable={false}
+            onClick={() => {
+              let text = document.getElementById("RND1").style.cssText;
+              if (!isSingle)
+                socketRef.current.emit("starLocate", text, props.roomName);
+            }}
+          />
+        </Rnd>
+        <Rnd
+          id="RND2"
+          style={{
+            zIndex: "999",
+          }}
+          default={{
+            x: 0,
+            y: 0,
+            width: "30%",
+            // height: 100,
+          }}
+          bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
+        >
+          <img id="remoteStar" alt="" />
         </Rnd>
         <canvas
           className={isHost ? styles.host : styles.guest}
