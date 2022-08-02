@@ -86,7 +86,6 @@ const BackgroundContent = forwardRef((props, ref) => {
             className={styles.tab_content_img_box}
             onClick={() => {
               props.setImgBase64(image.src);
-              ref.SocketMessageRef.current.emitBackground();
             }}
           ></img>
         );

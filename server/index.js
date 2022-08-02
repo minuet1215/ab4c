@@ -18,6 +18,7 @@ const { PORT, mongoURI } = process.env;
 
 /* Middleware*/
 app.use(cors());
+app.use(helmet({ crossOriginResourcePolicy: { policy: "same-site" } }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
@@ -107,11 +108,13 @@ io.on("connection", (socket) => {
     socket.broadcast.to(roomname).emit("backgroundChange", img);
   });
   socket.on("starChange", (img, roomname) => {
-    console.log(img, roomname);
     socket.broadcast.to(roomname).emit("starChange", img);
   });
   socket.on("starLocate", (text, roomname) => {
-    socket.broadcast.to(roomname).emit("starLocate", text);
+    socket.to(roomname).emit("starLocate", text);
+  });
+  socket.on("starLocate2", (text, roomname) => {
+    socket.to(roomname).emit("starLocate2", text);
   });
   socket.on("checkRatio", (bool, roomname) => {
     socket.broadcast.to(roomname).emit("checkRatio", bool); //나를 제외한 상대방에게 메시지보내기

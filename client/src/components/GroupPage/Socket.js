@@ -21,16 +21,6 @@ const VideoAREA = forwardRef((props, ref) => {
         socketRef.current.emit("start", props.roomName);
       }
     },
-    emitBackground() {
-      if (!isSingle) {
-        console.log("Emit Background");
-        socketRef.current.emit(
-          "backgroundChange",
-          props.ImgBase64,
-          props.roomName
-        );
-      }
-    },
     emitStar: (image) => {
       if (!isSingle) {
         socketRef.current.emit("starChange", image, props.roomName);
@@ -163,12 +153,17 @@ const VideoAREA = forwardRef((props, ref) => {
         setDesktopRatio(bool); //bool
       });
       socketRef.current.on("starChange", (img) => {
-        console.log(img);
-        /* 스타 복제하기*/
-        document.getElementById("myStar").src = img;
+        let myStar = document
+          .getElementById("remoteStar")
+          .src.split("static")[1];
+        document.getElementById("remoteStar").src =
+          myStar === img.split("static")[1] ? "" : img;
       });
       socketRef.current.on("starLocate", (text) => {
         document.getElementById("RND1").style.cssText = text;
+      });
+      socketRef.current.on("starLocate2", (text) => {
+        document.getElementById("RND2").style.cssText = text;
       });
       socketRef.current.emit("checkRatio", !isMobile, props.roomName); // 내가 모바일인지 상대방한테 보냄
     }
@@ -185,6 +180,9 @@ const VideoAREA = forwardRef((props, ref) => {
       }
     };
   }, []);
+  if (!isSingle && isHost && props.ImgBase64) {
+    socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
+  }
   return (
     <>
       <div>{loading ? <Loading /> : null}</div>
@@ -218,7 +216,7 @@ const VideoAREA = forwardRef((props, ref) => {
             onClick={() => {
               let text = document.getElementById("RND1").style.cssText;
               if (!isSingle)
-                socketRef.current.emit("starLocate", text, props.roomName);
+                socketRef.current.emit("starLocate2", text, props.roomName);
             }}
           />
         </Rnd>
@@ -235,7 +233,16 @@ const VideoAREA = forwardRef((props, ref) => {
           }}
           bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
         >
-          <img id="remoteStar" alt="" />
+          <img
+            id="remoteStar"
+            alt=""
+            draggable={false}
+            onClick={() => {
+              let text = document.getElementById("RND2").style.cssText;
+              if (!isSingle)
+                socketRef.current.emit("starLocate", text, props.roomName);
+            }}
+          />
         </Rnd>
         <canvas
           className={isHost ? styles.host : styles.guest}
