@@ -214,9 +214,11 @@ const VideoAREA = forwardRef((props, ref) => {
           <img
             id="myStar"
             alt=""
+            draggable={false}
             onClick={() => {
               let text = document.getElementById("RND1").style.cssText;
-              socketRef.current.emit("starLocate", text, props.roomName);
+              if (!isSingle)
+                socketRef.current.emit("starLocate", text, props.roomName);
             }}
           />
         </Rnd>
