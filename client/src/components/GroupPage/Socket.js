@@ -21,16 +21,6 @@ const VideoAREA = forwardRef((props, ref) => {
         socketRef.current.emit("start", props.roomName);
       }
     },
-    emitBackground() {
-      if (!isSingle) {
-        console.log("Emit Background");
-        socketRef.current.emit(
-          "backgroundChange",
-          props.ImgBase64,
-          props.roomName
-        );
-      }
-    },
     emitStar: (image) => {
       if (!isSingle) {
         socketRef.current.emit("starChange", image, props.roomName);
@@ -185,6 +175,9 @@ const VideoAREA = forwardRef((props, ref) => {
       }
     };
   }, []);
+  if (!isSingle && isHost && props.ImgBase64) {
+    socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
+  }
   return (
     <>
       <div>{loading ? <Loading /> : null}</div>
