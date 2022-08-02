@@ -42,7 +42,6 @@ function HeartButton({ modalContent, setModalContent }) {
         style={{
           margin: "auto",
           marginLeft: -20,
-          // display: "absolute",
           fontWeight: "bold",
           fontSize: "24px",
         }}

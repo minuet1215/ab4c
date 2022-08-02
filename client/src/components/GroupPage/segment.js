@@ -56,7 +56,7 @@ export async function segment(
     if (isMobile) transparent(results, transparentCtx);
   });
   await selfieSegmentation.send({ image: videoElement });
-  if (setLoading != undefined) {
+  if (setLoading !== undefined) {
     document.getElementById("my_face").volume = 0;
     setLoading(false);
   }
