@@ -26,67 +26,19 @@ const starImages = [
 ];
 const WithStar = forwardRef((props, ref) => {
   let [withStar, setWithStar] = useState(null);
-
-  const handleFile = async (event) => {
-    let reader = new FileReader();
-
-    reader.onloadend = async (e) => {
-      // 2. 읽기가 완료되면 아래 코드 실행
-      const base64 = reader.result;
-      let canvas = document.getElementById("myStar");
-      let ctx = canvas.getContext("2d");
-      if (base64) {
-        let ogImg = new Image();
-        ogImg.src = base64;
-        ogImg.onload = () => {
-          canvas.width = ref.captureAreaRef.current.clientWidth;
-          canvas.height = ref.captureAreaRef.current.clientHeight;
-          ctx.drawImage(
-            ogImg,
-            0,
-            canvas.height / 5,
-            canvas.width / 2,
-            (canvas.height / 5) * 4
-          );
-          BackgroundRemoval(canvas);
-          Nooki(canvas, ctx);
-        };
-      }
-    };
-    if (event.target.files[0]) {
-      // 1. 파일을 읽어 버퍼에 저장
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  };
   function setImage(img) {
-    // let canvas = document.getElementById("myStar");
     let starImg = document.getElementById("myStar");
-    // let ctx = canvas.getContext("2d");
     if (withStar === img) {
       setWithStar(null);
       starImg.src = 0;
-      // ctx.clearRect(0, 0, canvas.width, canvas.height);
     } else {
-      if (withStar !== null) {
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
       setWithStar(img);
-
-      // let star = new Image();
       starImg.src = img;
-      // star.onload = () => {
-      //   canvas.width = ref.captureAreaRef.current.clientWidth;
-      //   canvas.height = ref.captureAreaRef.current.clientHeight;
-      //   ctx.drawImage(star, 0, 0, canvas.width / 3, canvas.height / 3);
-      // };
     }
   }
 
   return (
     <>
-      <label className={styles.tab_content_input_box} htmlFor="input-file">
-        +
-      </label>
       {starImages.map((im, i) => {
         return (
           <img
@@ -96,16 +48,11 @@ const WithStar = forwardRef((props, ref) => {
             className={styles.tab_content_img_box}
             onClick={() => {
               setImage(im.src);
+              ref.SocketMessageRef.current.emitStar(im.src);
             }}
           />
         );
       })}
-      <input
-        type="file"
-        id="input-file"
-        style={{ display: "none" }}
-        onChange={handleFile}
-      />
     </>
   );
 });
