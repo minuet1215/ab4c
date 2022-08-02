@@ -7,9 +7,10 @@ import Social from "../Social/Social";
 import { CloseOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
-function Modal({ modalContent, setModalContent }) {
+function Modal({ modalContent, setModalContent, isModalVisible,setModalVisible}) {
   const closeModal = () => {
     setModalContent(null);
+    setModalVisible(!isModalVisible);
   };
   return (
     <div className={styles.modal_background}>

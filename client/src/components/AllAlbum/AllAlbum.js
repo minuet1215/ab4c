@@ -15,6 +15,7 @@ function AllAlbum() {
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
   const [userId, setUserId] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     dispatch(auth()).then((res) => {
@@ -27,7 +28,7 @@ function AllAlbum() {
         })
         .catch();
     });
-  }, [dispatch]);
+  }, [dispatch, isModalVisible]);
 
   let data = { datas: [] };
 
@@ -74,7 +75,12 @@ function AllAlbum() {
         ))}
       </div>
       {modalContent && (
-        <Modal modalContent={modalContent} setModalContent={setModalContent} />
+        <Modal
+          modalContent={modalContent}
+          setModalContent={setModalContent}
+          isModalVisible={isModalVisible}
+          setModalVisible={setModalVisible}
+        />
       )}
     </div>
     // </div>
