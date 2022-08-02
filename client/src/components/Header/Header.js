@@ -29,6 +29,8 @@ const menu = (
 
 const Header = ({ onBackUrl = "/main", subTitle }) => {
   const navigate = useNavigate();
+  const hiddenList = ["login", "register", "group"]; // 드롭다운 표시하지 않는 화면 리스트
+  let currentPageName = window.location.pathname.split("/")[1]; // 현재 화면 이름
   return (
     <nav className={styles.navbar}>
       <Button
@@ -58,12 +60,7 @@ const Header = ({ onBackUrl = "/main", subTitle }) => {
       </div>
       <div
         className={styles.dropdown_box}
-        style={
-          window.location.pathname === "/login" ||
-          window.location.pathname === "/register"
-            ? { display: "none" }
-            : {}
-        }
+        style={hiddenList.includes(currentPageName) ? { display: "none" } : {}}
       >
         <Dropdown overlay={menu} placement="bottomRight">
           <Button icon={<MenuOutlined />} />
