@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const cors = require("cors");
-const helmet = require("helmet");
 
 /* Router */
 const usersRouter = require("./routes/usersRouter");
