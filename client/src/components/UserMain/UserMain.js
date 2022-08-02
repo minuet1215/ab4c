@@ -33,12 +33,19 @@ function UserMain() {
     // height: "50%",
     // lineHeight: "200px",
     // height: "200px",
+    // display: "flex",
     textAlign: "center",
     justifyContents: "center",
-    alignContent: "center",
+    alignItems: "center",
     // background: "#364d79",
     // width: "100%",
     // height: "100%",
+  };
+
+  const contentStyle2 = {
+    display: "flex",
+    textAlign: "center",
+    alignItems: "center",
   };
 
   return (
@@ -84,7 +91,7 @@ function UserMain() {
 
       <Modal
         className="modalRadius"
-        title="친구를 초대해서 같이 찍을 수 있어요!"
+        title="링크로 친구를 초대하고 입장하세요"
         visible={isModalVisible}
         onCancel={handleModalCancel}
         footer={null}
@@ -121,7 +128,6 @@ function UserMain() {
                 />
                 <div>혼자 찍기</div>
               </button>
-
               <button
                 className="button btn_1"
                 onClick={() => {
@@ -146,9 +152,15 @@ function UserMain() {
               </button>
             </div>
           </div>
-
-          <div>
-            <div style={contentStyle}>
+          <div
+            style={{
+              display: "flex",
+              textAlign: "center",
+              justifyContents: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <div className="enterRoomModal" style={contentStyle2}>
               <button
                 className="btn_3"
                 onClick={() => {
@@ -170,57 +182,66 @@ function UserMain() {
                 <img
                   src={뒤로가기}
                   style={{
-                    // display: "inline-block",
                     height: "30px",
-                    // position: "flex-start",
                   }}
                   alt=""
                 />
               </button>
-
-              <button
-                className="button btn_2"
-                onClick={() => {
-                  navigator.clipboard
-                    .writeText("https://www.4cut.shop/group/" + `${token}`)
-                    .then(() => {
-                      toast.success(
-                        <div>
-                          초대링크가 되었습니다. <br /> 함께 할 친구를
-                          초대해보세요!
-                        </div>,
-                        { position: toast.POSITION.UPPER_RIGHT }
-                      );
-                    });
-                }}
+              <div
                 style={{
-                  width: "22%",
-                  height: "100%",
-                  padding: "3%",
+                  display: "inline-block",
+                  width: "38%",
                   margin: "5% 3% 5% 3%",
-                  fontSize: "16px",
-                  border: "1px solid #ccc",
                 }}
               >
-                <img
-                  src={링크복사}
-                  style={{
-                    display: "inline-block",
-                    height: "50px",
+                <button
+                  className="button btn_2"
+                  onClick={() => {
+                    navigator.clipboard
+                      .writeText("https://www.4cut.shop/group/" + `${token}`)
+                      .then(() => {
+                        toast.success(
+                          <div>
+                            초대링크가 복사되었습니다. <br />
+                            함께 할 친구를 초대해보세요!
+                          </div>,
+                          { position: toast.POSITION.UPPER_RIGHT }
+                        );
+                      });
                   }}
-                  alt=""
-                />
-                <div>링크복사</div>
-              </button>
-              <KakaoInviteButton path={`group/${token}`} />
-
+                  style={{
+                    // display: "inline-block",
+                    width: "100%",
+                    height: "30%",
+                    padding: "3%",
+                    margin: "5% 3% 5% 3%",
+                    fontSize: "16px",
+                    border: "1px solid #ccc",
+                  }}
+                >
+                  <img
+                    src={링크복사}
+                    style={{
+                      display: "inline-block",
+                      height: "25px",
+                    }}
+                    alt=""
+                  />
+                  초대링크 복사
+                </button>
+                <KakaoInviteButton path={`group/${token}`} />
+              </div>
               <button
                 className="button btn_1"
                 onClick={() =>
-                  navigate(`/group/${token}`, { state: { isSingle: false } })
+                  navigate(`/group/${token}`, {
+                    state: { isSingle: false },
+                  })
                 }
                 style={{
-                  width: "22%",
+                  // backgroundColor: "aqua",
+                  display: "inline-block",
+                  width: "25%",
                   height: "100%",
                   padding: "3%",
                   // padding: "3% 5% 3% 5%",

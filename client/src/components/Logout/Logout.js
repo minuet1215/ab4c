@@ -16,13 +16,13 @@ function Logout() {
       let isAuth = await auth();
       if (isAuth.payload.loginType === "kakao") {
         const myAccessKey = localStorage.getItem("token");
-        dispatch(kakaoLogout({token : myAccessKey})).then((response) => {})
+        dispatch(kakaoLogout({ token: myAccessKey })).then((response) => {});
       }
       axios.get("/api/users/logout1").then((response) => {
         if (response.data.success) {
           localStorage.clear();
           toast.success("로그아웃 되었습니다.");
-          navigate("/login");
+          navigate("/");
         } else {
           toast.error("로그아웃 하는데 실패 했습니다.");
         }
@@ -30,11 +30,7 @@ function Logout() {
     }
   };
 
-  return (
-    <div onClick={onClickHandler}>
-      로그아웃
-    </div>
-  );
+  return <div onClick={onClickHandler}>로그아웃</div>;
 }
 
 export default Logout;

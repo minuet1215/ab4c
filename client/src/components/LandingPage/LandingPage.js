@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import main_img from "../../img/main.gif";
 import styles from "./LandingPage.module.css";
+import Kakao from "../../controller/Kakao";
 // import buttonAudioSrc from "../../audio/button.mp3";
 
 function LandingPage() {
@@ -24,8 +25,10 @@ function LandingPage() {
         </div>
         <div className={styles.control_container}>
           <>
+            <Kakao />
             <button
               className="button button_gap btn_1"
+              style={{ color: "#424242" }}
               onClick={() => navigate("/login")}
             >
               로그인

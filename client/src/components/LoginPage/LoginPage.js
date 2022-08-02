@@ -76,7 +76,6 @@ function LoginPage() {
           >
             로그인
           </button>
-          <Kakao />
         </div>
       </div>
     </div>
