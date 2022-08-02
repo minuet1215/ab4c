@@ -13,17 +13,18 @@ import MyHeader from "../Header/Header";
 import CameraTab from "./CameraTab";
 import MuteBtn from "./MuteBtn";
 import CaptureBtn from "./CaptureBtn";
-// import { toast } from "react-toastify";
 import cameraAudioSrc from "./audio/camera.mp3"; // 카메라 셔터 음원
-// import CountDown from "../CountDown/CountDown";
 import FlipNumbers from "react-flip-numbers";
+
+/* image array */
 let resultImages = [];
 let gifFrames = [[], [], [], [], [], [], [], [], [], [], []];
 
+/* Group Page Component */
 function GroupPage() {
-  const MAX_COUNT = 3.25;
-  const [token] = useState(localStorage.getItem("token"));
-  let { roomname } = useParams();
+  const MAX_COUNT = 3.25; // Total Seconds
+  const [token] = useState(localStorage.getItem("token")); //login token
+  let { roomname } = useParams(); //Room name
   const { state } = useLocation();
   const navigate = useNavigate();
   const refs = {
@@ -41,8 +42,8 @@ function GroupPage() {
   const [startCapture, setCapture] = useState(false); //찍으면 카운트가 보임
   const [photoCount, setPhotoCount] = useState(1); // 4장만 찍을 수 있다.
   const [takePhotoLayer, setTakePhotoLayer] = useState({});
-  const [onClickCapture, setClickCapture] = useState(false);
 
+  /* 촬영 종료되면 카메라 끄기 */
   function cameraOff() {
     if (!state.isSingle) {
       refs.socketRef.current.disconnect();
@@ -53,18 +54,8 @@ function GroupPage() {
       track.stop();
     });
   }
-  // 4장 찍으면 edit페이지로 이동
-  useEffect(() => {
-    if (photoCount === 5) {
-      console.log(resultImages);
-      cameraOff();
-      navigate("/edit", {
-        state: { images: resultImages, gifFrames: gifFrames },
-      });
-    }
-  }, [photoCount]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 1초마다 초세기. startCapture State가 true가 되면 자동으로 돌아감
+  /* 1초마다 초세기. */
   useEffect(() => {
     if (countDown > 0 && countDown < 3 && !isMobile) {
       silentCapture(11 - 4 * countDown);
@@ -73,13 +64,14 @@ function GroupPage() {
     }
   }, [countDown]);
 
-  // 음소거 useeffect (반응 늦는 이슈 수정)
+  /* 음소거 버튼을 눌렀을때 use Effect */
   useEffect(() => {
     if (refs.localVideoRef.current.srcObject) {
       refs.localVideoRef.current.srcObject.getTracks()[0].enabled = isMute;
     }
   }, [isMute]);
 
+  /* 0.25초마다 카운트다운을 0.25씩 줄어들게 함. */
   useInterval(
     () => {
       setCount(countDown - 0.25);
@@ -87,21 +79,31 @@ function GroupPage() {
     startCapture && countDown > 0 ? 250 : null
   );
 
+  /* 사진을 찍을 때마다 실행되는 초기화 함수 */
   function setInitialState() {
+    if (photoCount === 4) {
+      console.log(resultImages);
+      navigate("/edit", {
+        state: { images: resultImages, gifFrames: gifFrames },
+      });
+      cameraOff();
+      return;
+    }
     setCount(MAX_COUNT);
     setPhotoCount(photoCount + 1);
     setCapture(false);
     setTakePhotoLayer({});
   }
 
-  // 캡쳐하는 함수
+  /* 캡쳐 함수 */
   async function captureFunc() {
+    let audio = new Audio(cameraAudioSrc);
+    audio.play();
     setTakePhotoLayer({
       backgroundColor: "white",
       opacity: "0.5",
     });
-    let audio = new Audio(cameraAudioSrc);
-    audio.play();
+    /* 모바일일 경우 html2cavnas 모듈 사용*/
     if (isMobile) {
       await html2canvas(refs.captureAreaRef.current, {
         allowTaint: false,
@@ -111,14 +113,19 @@ function GroupPage() {
         let dataURL = canvas.toDataURL();
         resultImages.push(dataURL);
       });
+      /* PC일경우 domtoImage 모듈 사용*/
     } else {
-      domtoimage.toPng(refs.captureAreaRef.current).then((dataUrl) => {
-        resultImages.push(dataUrl);
-      });
+      await domtoimage
+        .toPng(refs.captureAreaRef.current)
+        .then(async (dataUrl) => {
+          await resultImages.push(dataUrl);
+        });
     }
-    // 다 찍었으면 다시 찍을수 있는 상태로 되돌아감.
+    /* 초기화 함수 */
     setInitialState();
   }
+
+  /* GIF에 필요한 프레임 촬영을 위한 함수 (모바일에선 작동 X) */
   function silentCapture(index) {
     domtoimage
       .toPng(refs.captureAreaRef.current)
@@ -188,7 +195,9 @@ function GroupPage() {
             </div>
           )}
           <div className={styles.control_container}>
-            <p className={styles.photo_count_text}>{photoCount}/4</p>
+            <p id="photo-count" className={styles.photo_count_text}>
+              {photoCount}/4
+            </p>
             <CaptureBtn
               startCapture={startCapture}
               setCapture={setCapture}

@@ -139,12 +139,13 @@ function PhotoEditPage() {
     setMessage(event.target.value);
   };
 
-  const make4cutImage = async (ctx, list) => {
-    for await (const [index, image] of list.entries()) {
+  const make4cutImage = (ctx, list) => {
+    console.log(list);
+    for (const i of list) {
       let img = new Image();
-      img.src = await image.src;
-      img.onload = async () => {
-        await ctx.drawImage(img, image.x, image.y, img_width, img_height);
+      img.src = i.src;
+      img.onload = () => {
+        ctx.drawImage(img, i.x, i.y, img_width, img_height);
       };
     }
   };
