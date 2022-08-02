@@ -2,7 +2,6 @@ const usersRouter = require("express").Router();
 const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
 const axios = require("axios");
-const localStorage = require("node-localstorage");
 
 usersRouter.post("/register", (req, res) => {
   const user = new User(req.body);

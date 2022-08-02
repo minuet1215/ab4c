@@ -1,6 +1,5 @@
 import styles from "./GroupPage.module.css";
 import { useState, forwardRef } from "react";
-import { BackgroundRemoval, Nooki } from "./Nooki.js";
 import Jin from "./NookiImages/Jin01.png";
 import Jennie from "./NookiImages/Jennie01.png";
 import Shj from "./NookiImages/SeoHyunJin01.png";

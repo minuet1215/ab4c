@@ -14,7 +14,11 @@ function Modal({ modalContent, setModalContent, isModalVisible,setModalVisible})
           {modalContent.ownerName}님의 안방네컷
         </div>
         <div className={styles.modal_img_container}>
-          <img src={modalContent.imageUrl} className={styles.modal_img}></img>
+          <img
+            src={modalContent.imageUrl}
+            className={styles.modal_img}
+            alt=""
+          ></img>
         </div>
         <div className={styles.modal_control_container}>
           <HeartButton
