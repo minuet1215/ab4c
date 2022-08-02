@@ -22,7 +22,7 @@ let gifFrames = [[], [], [], [], [], [], [], [], [], [], []];
 
 /* Group Page Component */
 function GroupPage() {
-  const MAX_COUNT = 3.25; // Total Seconds
+  const MAX_COUNT = 3.0; // Total Seconds
   const [token] = useState(localStorage.getItem("token")); //login token
   let { roomname } = useParams(); //Room name
   const { state } = useLocation();
@@ -170,7 +170,7 @@ function GroupPage() {
                 height={150}
                 width={150}
                 play
-                numbers={Math.floor(countDown).toString()}
+                numbers={Math.ceil(countDown).toString()}
                 numberStyle={{
                   fontSize: "100px",
                   fontWeight: "700",

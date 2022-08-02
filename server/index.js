@@ -18,7 +18,6 @@ const { PORT, mongoURI } = process.env;
 
 /* Middleware*/
 app.use(cors());
-app.use(helmet({ crossOriginResourcePolicy: { policy: "same-site" } }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
