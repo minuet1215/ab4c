@@ -54,7 +54,7 @@ const VideoAREA = forwardRef((props, ref) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
-        audio: true,
+        audio: isSingle ? false : true,
       });
       if (localVideoRef.current) localVideoRef.current.srcObject = stream;
       if (!isSingle) {
@@ -85,7 +85,7 @@ const VideoAREA = forwardRef((props, ref) => {
     } catch (e) {
       //
     }
-    remove(setLoading);
+    remove(setLoading, isMobile);
   };
   const createOffer = async () => {
     if (!(pcRef.current && socketRef.current)) return;
@@ -94,7 +94,7 @@ const VideoAREA = forwardRef((props, ref) => {
         offerToReceiveAudio: true,
         offerToReceiveVideo: true,
       });
-      remove2();
+      remove2(isMobile);
       await pcRef.current.setLocalDescription(new RTCSessionDescription(sdp));
       socketRef.current.emit("offer", sdp);
     } catch (e) {
@@ -109,7 +109,7 @@ const VideoAREA = forwardRef((props, ref) => {
         offerToReceiveVideo: true,
         offerToReceiveAudio: true,
       });
-      remove2();
+      remove2(isMobile);
       await pcRef.current.setLocalDescription(new RTCSessionDescription(mySdp));
       socketRef.current.emit("answer", mySdp);
     } catch (e) {
@@ -246,21 +246,21 @@ const VideoAREA = forwardRef((props, ref) => {
         </Rnd>
         <canvas
           className={isHost ? styles.host : styles.guest}
-          id="mytrans"
+          id={isMobile ? "transparent_canvas" : "mytrans"}
         ></canvas>
         {!isSingle ? (
           <canvas
             className={
               leave ? styles.displaynone : isHost ? styles.guest : styles.host
             }
-            id="remotetrans"
+            id={isMobile ? "remote_transparent_canvas" : "remotetrans"}
           ></canvas>
         ) : undefined}
         <video
           className={styles.displaynone}
           id="my_face"
           autoPlay
-          playsInline
+          playsInline={true}
           width={isMobile ? "480" : "640"}
           height={isMobile ? "640" : "480"}
           ref={localVideoRef}
@@ -271,7 +271,7 @@ const VideoAREA = forwardRef((props, ref) => {
               className={styles.displaynone}
               id="remote"
               autoPlay
-              playsInline
+              playsInline={true}
               width={!isDesktopRatio ? "480" : "640"}
               height={!isDesktopRatio ? "640" : "480"}
               ref={remoteVideoRef}
@@ -279,7 +279,6 @@ const VideoAREA = forwardRef((props, ref) => {
             <canvas className={styles.displaynone} id="remotegreen"></canvas>
           </>
         ) : undefined}
-
         <canvas className={styles.displaynone} id="mygreen"></canvas>
       </div>
     </>

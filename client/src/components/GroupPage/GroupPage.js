@@ -202,7 +202,9 @@ function GroupPage() {
               token={token}
               ref={refs}
             />
-            <MuteBtn setIsMute={setIsMute} isMute={isMute} />
+            {!state.isSingle ? (
+              <MuteBtn setIsMute={setIsMute} isMute={isMute} />
+            ) : undefined}
           </div>
         </div>
       </div>
