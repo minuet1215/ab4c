@@ -180,18 +180,15 @@ function GroupPage() {
               {/* <p className={styles.count_down_text}>{Math.floor(countDown)}</p> */}
               {/* <CountDown /> */}
             </div>
-          ) : roomname === token ? (
+          ) : (
             <div className={styles.rest_container} id="cameratab">
               <CameraTab
                 ref={refs}
                 setImgBase64={setImgBase64}
                 ImgBase64={ImgBase64}
-                // starImg={starImg}
+                roomname={roomname}
+                token={token}
               />
-            </div>
-          ) : (
-            <div className={styles.rest_container} id="countdown">
-              <div className={styles.member_text}>대기중</div>
             </div>
           )}
           <div className={styles.control_container}>

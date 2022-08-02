@@ -114,6 +114,9 @@ io.on("connection", (socket) => {
   socket.on("starLocate", (text, roomname) => {
     socket.to(roomname).emit("starLocate", text);
   });
+  socket.on("starLocate2", (text, roomname) => {
+    socket.to(roomname).emit("starLocate2", text);
+  });
   socket.on("checkRatio", (bool, roomname) => {
     socket.broadcast.to(roomname).emit("checkRatio", bool); //나를 제외한 상대방에게 메시지보내기
   });
