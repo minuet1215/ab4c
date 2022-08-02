@@ -163,9 +163,9 @@ const VideoAREA = forwardRef((props, ref) => {
         setDesktopRatio(bool); //bool
       });
       socketRef.current.on("starChange", (img) => {
-        console.log(img);
-        /* 스타 복제하기*/
-        document.getElementById("myStar").src = img;
+        let myStar = document.getElementById("myStar").src.split("static")[1];
+        document.getElementById("myStar").src =
+          myStar === img.split("static")[1] ? "" : img;
       });
       socketRef.current.on("starLocate", (text) => {
         document.getElementById("RND1").style.cssText = text;
