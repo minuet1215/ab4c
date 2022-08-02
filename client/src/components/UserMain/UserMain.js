@@ -11,7 +11,7 @@ import KakaoInviteButton from "../Kakao/KakaoInvite";
 import { toast } from "react-toastify";
 import albumImg from "../../img/albumImg.png";
 import cameraImg from "../../img/cameraImg.png";
-
+import { eventTrack } from "../GA/GA";
 function UserMain() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -99,9 +99,10 @@ function UserMain() {
             <div style={contentStyle}>
               <button
                 className="button btn_2"
-                onClick={() =>
-                  navigate(`/group/${token}`, { state: { isSingle: true } })
-                }
+                onClick={() => {
+                  eventTrack("Button", "alonePhoto", "filming");
+                  navigate(`/group/${token}`, { state: { isSingle: true } });
+                }}
                 style={{
                   width: "35%",
                   height: "100%",
@@ -124,6 +125,7 @@ function UserMain() {
               <button
                 className="button btn_1"
                 onClick={() => {
+                  eventTrack("Button", "togetherPhoto", "filming");
                   carouselRef.current.next();
                 }}
                 style={{
