@@ -82,6 +82,7 @@ function GroupPage() {
   /* 사진을 찍을 때마다 실행되는 초기화 함수 */
   function setInitialState() {
     if (photoCount === 4) {
+      console.log(resultImages);
       navigate("/edit", {
         state: { images: resultImages, gifFrames: gifFrames },
       });
@@ -114,9 +115,11 @@ function GroupPage() {
       });
       /* PC일경우 domtoImage 모듈 사용*/
     } else {
-      domtoimage.toPng(refs.captureAreaRef.current).then((dataUrl) => {
-        resultImages.push(dataUrl);
-      });
+      await domtoimage
+        .toPng(refs.captureAreaRef.current)
+        .then(async (dataUrl) => {
+          await resultImages.push(dataUrl);
+        });
     }
     /* 초기화 함수 */
     setInitialState();
