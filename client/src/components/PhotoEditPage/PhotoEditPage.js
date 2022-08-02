@@ -15,7 +15,7 @@ import bgImg4 from "../../img/bgImg4.jpg";
 import bgImg5 from "../../img/bgImg5.png";
 import bgImg7 from "../../img/bgImg7.png";
 import bgImg11 from "../../img/bgImg11.png";
-import bgImg12 from "../../img/bgImg12.png";
+
 import flowerFrame from "../../img/flower.png";
 import cloudFrame from "../../img/cloudFrame.png";
 import { v4 as uuidv4 } from "uuid";
@@ -88,7 +88,6 @@ function PhotoEditPage() {
     { src: cloudFrame, alt: "cloud" },
     { src: bgImg7, alt: "bgImg7" },
     { src: bgImg11, alt: "bgImg11" },
-    { src: bgImg12, alt: "bgImg12" },
   ];
   // ================= dummy data ================= //
 
