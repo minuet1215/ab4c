@@ -33,8 +33,6 @@ const VideoAREA = forwardRef((props, ref) => {
     },
     emitStar: (image) => {
       if (!isSingle) {
-        console.log(image);
-        console.log("emit star");
         socketRef.current.emit("starChange", image, props.roomName);
       }
     },
@@ -169,11 +167,13 @@ const VideoAREA = forwardRef((props, ref) => {
         /* 스타 복제하기*/
         document.getElementById("myStar").src = img;
       });
+      socketRef.current.on("starLocate", (text) => {
+        document.getElementById("RND1").style.cssText = text;
+      });
       socketRef.current.emit("checkRatio", !isMobile, props.roomName); // 내가 모바일인지 상대방한테 보냄
     }
 
     setVideoTracks();
-
     return () => {
       if (!isSingle) {
         if (socketRef.current) {
@@ -185,12 +185,6 @@ const VideoAREA = forwardRef((props, ref) => {
       }
     };
   }, []);
-  // if (!isSingle && isHost && props.isCapture) {
-  //   socketRef.current.emit("start", props.roomName);
-  // }
-  // if (!isSingle && isHost && props.ImgBase64) {
-  //   socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
-  // }
   return (
     <>
       <div>{loading ? <Loading /> : null}</div>
@@ -217,7 +211,14 @@ const VideoAREA = forwardRef((props, ref) => {
           }}
           bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
         >
-          <img id="myStar" alt="" />
+          <img
+            id="myStar"
+            alt=""
+            onClick={() => {
+              let text = document.getElementById("RND1").style.cssText;
+              socketRef.current.emit("starLocate", text, props.roomName);
+            }}
+          />
         </Rnd>
         <Rnd
           id="RND2"
