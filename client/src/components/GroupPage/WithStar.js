@@ -6,11 +6,21 @@ import Jennie from "./NookiImages/Jennie01.png";
 import Shj from "./NookiImages/SeoHyunJin01.png";
 import BtsV from "./NookiImages/V01.png";
 import Winter from "./NookiImages/Winter01.png";
-import hat1 from "../../img/hat1.png";
-import hat2 from "../../img/hat2.png";
-import hat3 from "../../img/hat3.png";
-import hat4 from "../../img/hat4.png";
-import hat5 from "../../img/hat5.png";
+import hat1 from "./NookiImages/hat1.png";
+import hat2 from "./NookiImages/hat2.png";
+import hat3 from "./NookiImages/hat3.png";
+import hat4 from "./NookiImages/hat4.png";
+import hat5 from "./NookiImages/hat5.png";
+import starbg1 from "./NookiImages/starbg1.png";
+import starbg2 from "./NookiImages/starbg2.png";
+import starbg3 from "./NookiImages/starbg3.png";
+import starbg4 from "./NookiImages/starbg4.png";
+import starbg5 from "./NookiImages/starbg5.png";
+import starbg6 from "./NookiImages/starbg6.png";
+import starbg7 from "./NookiImages/starbg7.png";
+import starbg8 from "./NookiImages/starbg8.png";
+import starbg9 from "./NookiImages/starbg9.png";
+import starbg10 from "./NookiImages/starbg10.png";
 const starImages = [
   { src: Jin, alt: "1" },
   { src: Jennie, alt: "2" },
@@ -23,6 +33,16 @@ const starImages = [
   { src: hat3, alt: "hat3" },
   { src: hat4, alt: "hat4" },
   { src: hat5, alt: "hat5" },
+  { src: starbg1, alt: "starbg1" },
+  { src: starbg2, alt: "starbg2" },
+  { src: starbg3, alt: "starbg3" },
+  { src: starbg4, alt: "starbg4" },
+  { src: starbg5, alt: "starbg5" },
+  { src: starbg6, alt: "starbg6" },
+  { src: starbg7, alt: "starbg7" },
+  { src: starbg8, alt: "starbg8" },
+  { src: starbg9, alt: "starbg9" },
+  { src: starbg10, alt: "starbg10" },
 ];
 const WithStar = forwardRef((props, ref) => {
   let [withStar, setWithStar] = useState(null);
