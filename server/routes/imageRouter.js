@@ -46,7 +46,7 @@ imageRouter.get("/album/top10", async (req, res) => {
 imageRouter.post("/album/me", async (req, res) => {
   // 내가 찍은 사진들 제공
   if (req.body.id) {
-    const images = await Image.find({ "user._id": req.body.id }).sort({
+    const images = await Image.find({ "user._id": req.body.id, "user.email": req.body.email }).sort({
       createdAt: -1,
     }); // 탐색, 수정, 옵션
     res.json(images);
