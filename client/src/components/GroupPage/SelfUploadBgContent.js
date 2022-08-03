@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import styles from "./GroupPage.module.css";
 
 function SelfUploadBgContent() {
   const [_, setImgBase64] = useState(""); // 업로드 될 이미지

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { registerUser, isUser } from "../../_actions/user_action";
 import { Form, Input } from "antd";
@@ -7,7 +6,6 @@ import MyHeader from "../Header/Header";
 import { toast } from "react-toastify";
 
 function RegisterPage() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [Email, setEmail] = useState("");

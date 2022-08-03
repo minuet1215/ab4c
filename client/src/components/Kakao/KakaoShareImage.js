@@ -9,8 +9,6 @@ function KakaoShareImageButton({ image_url, path }) {
   }
 
   const shareKakaoLink = () => {
-    // const imgUrl =
-    //   "https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"; // test
 
     window.Kakao.Share.sendCustom({
       templateId: 80020,
