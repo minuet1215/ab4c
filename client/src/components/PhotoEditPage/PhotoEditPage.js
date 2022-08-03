@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
-import { Drawer, Input, Button, Modal, Switch } from "antd";
+import { Drawer, Input, Button, Modal } from "antd";
 import defaultBg from "../../img/default_background.jpg";
 import { toast } from "react-toastify";
 import Loading from "../Loading/Loading";
@@ -23,9 +23,6 @@ import makeGif from "./makeGIF";
 import alone_icon from "../../img/나만보기.png";
 import together_icon from "../../img/같이보기.png";
 import { isMobile } from "react-device-detect";
-// import frame from "../../img/frame.png";
-// import memo from "../../img/memo.png";
-// import album from "../../img/album.png";
 
 const img_width = 550;
 const img_height = 370;
@@ -91,16 +88,23 @@ function PhotoEditPage() {
   ];
   // ================= dummy data ================= //
 
+  /* 순차적으로 실행되려고 만든 함수임*/
   async function asyncGetImage(e) {
     let img = new Image();
     img.src = e;
     return img;
   }
+  /* GIF 만드는함수. */
   async function startMakeGif() {
     const ctx = canvasRef.current.getContext("2d");
     let frames = [];
+    /* 가지고있는 사진들을 4개씩 붙이기 위해 2중 for문을 돈다.
+      elements에 4장씩 들어있음  */
     for await (const elements of state.gifFrames) {
+      /* 뒤로가서 다시 찍는 경우를 대비해서 -4번째부터 자름 (최신 4장)*/
       let slicingArray = elements.slice(-4);
+      /* entries()는 파이썬에서 enumerate 같은 존재임. index랑 elem을 둘다 사용할 수있음.
+        index에 따라서 그림 그릴 좌표가 달라지므로 사용함. */
       for await (const [index, elem] of slicingArray.entries()) {
         await asyncGetImage(elem).then(async (img) => {
           await ctx.drawImage(
@@ -112,32 +116,40 @@ function PhotoEditPage() {
           );
         });
       }
+      /* 이렇게 만들어진 프레임은 gif로 엮기위해 하나의 Array 로 만듬*/
       frames.push(await canvasRef.current.toDataURL());
     }
+    /* gif를 만들면 true가 반환되도록 만들어져있고
+      결과값이 나오면 loading을 false로 만들기 위해 사용 */
     setLoading(!makeGif(frames));
   }
 
   useEffect(() => {
+    /* GIF모드일땐 GIF를 보여주고, 아닌 경우 사진이 담겨있는 cavnas를 보여줌 */
     document.getElementById("canvas").style.display = isGifMode ? "none" : "";
     document.getElementById("result-image").style.display = !isGifMode
       ? "none"
       : "";
   }, [isGifMode]);
 
+  /* 로딩State값이 변하면 로딩창을 띄운다. */
   useEffect(() => {
     document.getElementById("Loading").style.display = isLoading ? "" : "none";
   }, [isLoading]);
 
+  // Drawer 열고 닫기 위한 함수
   const showDrawer = (type) => {
     type === "Frame"
       ? setFrameDrawerVisible(true)
       : setMessageDrawerVisible(true);
   };
 
+  /* 사진에 메시지를 쓰기 위한 함수 */
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
 
+  /* 4장을 프레임에 붙이기 위한 함수. */
   const make4cutImage = (ctx, list) => {
     console.log(list);
     for (const i of list) {
@@ -158,8 +170,9 @@ function PhotoEditPage() {
     });
   }, []);
 
+  /* 최초 1회, 프레임이 바뀌거나, 메시지가 바뀌면 실행되는 Effect*/
   useEffect(() => {
-    setLoading(true);
+    setLoading(true); // 작업이 완료될때까지 로딩창 띄움
     if (!canvasRef) return;
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, frame_width, frame_height);
@@ -171,25 +184,25 @@ function PhotoEditPage() {
       writeDate(ctx, DATE_TIME);
       make4cutImage(ctx, images);
       if (message) writeMessage(ctx, message);
-      // 기본 이미지
       setLoading(false);
     };
   }, [canvasRef, bgChange, isInputMessage]);
 
+  /* 날짜 작성 */
   function writeDate(ctx, text) {
     ctx.font = "36px Times New Roman";
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
     ctx.fillText(text, frame_width / 2, frame_height - 60);
   }
-
+  /* 메시지 작성 */
   function writeMessage(ctx, message) {
     ctx.font = "40px sans-serif";
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
     ctx.fillText(message, frame_width / 2, frame_height - 150);
   }
-
+  /* 앨범 저장 */
   const onSave = (e) => {
     e.preventDefault();
     isPublic = e.target.dataset["value"]; // 공개/비공개 설정
