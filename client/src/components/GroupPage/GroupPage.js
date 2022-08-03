@@ -141,7 +141,7 @@ function GroupPage() {
   return (
     <div className="outer_container">
       <div style={takePhotoLayer}>
-        <MyHeader subTitle="촬영중" onBackUrl="/main" onClick={cameraOff} />
+        <MyHeader subTitle="촬영중" onBackUrl="/main" click={cameraOff} />
         <div className="contents_container">
           <div
             className={
