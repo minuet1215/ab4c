@@ -2,7 +2,6 @@ import React, { useState, forwardRef } from "react";
 import Nav from "react-bootstrap/Nav";
 import styles from "./GroupPage.module.css";
 import BackgroundContent from "./BackgroundContent";
-// import SelfUploadBgContent from "./SelfUploadBgContent";
 import WithStar from "./WithStar";
 
 const CameraTabs = forwardRef((props, ref) => {

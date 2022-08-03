@@ -23,7 +23,10 @@ function MyAlbum() {
   useEffect(() => {
     dispatch(auth()).then((res) => {
       axios
-        .post("/api/images/album/me", { id: res.payload._id })
+        .post("/api/images/album/me", {
+          id: res.payload._id,
+          email: res.payload.email,
+        })
         .then((result) => {
           setImages(result.data);
           setLoading(false);
