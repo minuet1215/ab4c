@@ -81,12 +81,13 @@ function GroupPage() {
 
   /* 사진을 찍을 때마다 실행되는 초기화 함수 */
   function setInitialState() {
+    /* 포토카운트가 4가 되면 종료 */
     if (photoCount === 4) {
-      console.log(resultImages);
+      cameraOff(); // SOCKET과 카메라 종료
+      /* edit 페이지로 이동 */
       navigate("/edit", {
         state: { images: resultImages, gifFrames: gifFrames },
       });
-      cameraOff();
       return;
     }
     setCount(MAX_COUNT);
@@ -183,8 +184,6 @@ function GroupPage() {
                   color: "#555555",
                 }}
               />
-              {/* <p className={styles.count_down_text}>{Math.floor(countDown)}</p> */}
-              {/* <CountDown /> */}
             </div>
           ) : (
             <div className={styles.rest_container} id="cameratab">
