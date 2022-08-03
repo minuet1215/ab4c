@@ -10,7 +10,7 @@ usersRouter.post("/register", (req, res) => {
     if (err) {
       return res.json({ success: false, err });
     } else {
-      return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true });
     }
   });
 });
