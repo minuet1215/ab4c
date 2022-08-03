@@ -45,7 +45,7 @@ function GroupPage() {
 
   /* 촬영 종료되면 카메라 끄기 */
   function cameraOff() {
-    if (!state.isSingle) {
+    if (!state?.isSingle) {
       refs.socketRef.current.disconnect();
       refs.pcRef.current.close();
     }
