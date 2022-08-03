@@ -12,7 +12,6 @@ function HeartButton({ modalContent, setModalContent }) {
       user: modalContent.user,
       imageId: modalContent.desc,
     };
-    console.log('clicked1!');
     axios.patch(`/api/images/${modalContent.desc}/like`, params).then((res) => {
       setLike(!like);
       setTotalLike(res.data.likes.length);

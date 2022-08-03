@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropdown, Button, Menu } from "antd";
-// import image from "../../img/appLogo.png";
 import { MenuOutlined, LeftOutlined } from "@ant-design/icons";
 
 import styles from "./Navbar.module.css";

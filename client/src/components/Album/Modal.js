@@ -7,7 +7,12 @@ import Social from "../Social/Social";
 import { CloseOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
-function Modal({ modalContent, setModalContent, isModalVisible,setModalVisible}) {
+function Modal({
+  modalContent,
+  setModalContent,
+  isModalVisible,
+  setModalVisible,
+}) {
   const closeModal = () => {
     setModalContent(null);
     setModalVisible(!isModalVisible);
@@ -24,7 +29,11 @@ function Modal({ modalContent, setModalContent, isModalVisible,setModalVisible})
           </div>
         </div>
         <div className={styles.modal_img_container}>
-          <img src={modalContent.imageUrl} className={styles.modal_img}></img>
+          <img
+            src={modalContent.imageUrl}
+            className={styles.modal_img}
+            alt=""
+          ></img>
         </div>
         <div className={styles.modal_control_container}>
           <div className={styles.control_box}>

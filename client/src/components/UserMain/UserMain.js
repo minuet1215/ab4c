@@ -30,16 +30,9 @@ function UserMain() {
   const carouselRef = React.createRef();
 
   const contentStyle = {
-    // height: "50%",
-    // lineHeight: "200px",
-    // height: "200px",
-    // display: "flex",
     textAlign: "center",
     justifyContents: "center",
     alignItems: "center",
-    // background: "#364d79",
-    // width: "100%",
-    // height: "100%",
   };
 
   const contentStyle2 = {
@@ -239,12 +232,10 @@ function UserMain() {
                   })
                 }
                 style={{
-                  // backgroundColor: "aqua",
                   display: "inline-block",
                   width: "25%",
                   height: "100%",
                   padding: "3%",
-                  // padding: "3% 5% 3% 5%",
                   margin: "5% 3% 5% 3%",
                   fontSize: "16px",
                   color: "#3b3b3b",
