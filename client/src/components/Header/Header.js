@@ -26,7 +26,7 @@ const menu = (
   />
 );
 
-const Header = ({ onBackUrl = "/main", subTitle, onClick = undefined }) => {
+const Header = ({ onBackUrl = "/main", subTitle, click = undefined }) => {
   const navigate = useNavigate();
   const hiddenList = ["login", "register", "group"]; // 드롭다운 표시하지 않는 화면 리스트
   let currentPageName = window.location.pathname.split("/")[1]; // 현재 화면 이름
@@ -37,7 +37,7 @@ const Header = ({ onBackUrl = "/main", subTitle, onClick = undefined }) => {
         icon={<LeftOutlined />}
         onClick={() => {
           navigate(onBackUrl);
-          onClick();
+          if (click !== undefined) click();
         }}
         style={window.location.pathname === "/main" ? { display: "none" } : {}}
       />
