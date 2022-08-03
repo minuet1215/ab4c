@@ -85,7 +85,7 @@ function RegisterPage() {
               },
             ]}
           >
-            <Input value={Email} onChange={onEmailHandler} />
+            <Input value={Email} onChange={onEmailHandler} placeholder="example@naver.com"/>
           </Form.Item>
           <Form.Item
             label="닉네임"
@@ -109,6 +109,7 @@ function RegisterPage() {
               type="password"
               value={Password}
               onChange={onPasswordHandler}
+              placeholder="5자 이상 입력하세요"
             />
           </Form.Item>
           <Form.Item

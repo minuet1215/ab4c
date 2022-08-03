@@ -10,7 +10,7 @@ usersRouter.post("/register", (req, res) => {
     if (err) {
       return res.json({ success: false, err });
     } else {
-    return res.status(200).json({ success: true });
+      return res.status(200).json({ success: true });
     }
   });
 });
@@ -29,51 +29,41 @@ usersRouter.post("/check", (req, res) => {
   });
 });
 
-usersRouter.post("/login", (req, res) => {
+usersRouter.post("/login", async (req, res) => {
   //요청된 이메일을 데이터베이스에서 있는지 찾는다.
-  User.findOne({ email: req.body.email }, (err, userInfo) => {
-    if (!userInfo) {
-      return res.json({
-        loginSuccess: false,
-        message: "제공된 이메일에 해당하는 유저가 없습니다.",
-      });
-    }
+  let userInfo = await User.findOne({ email: req.body.email });
+  if (!userInfo)
+    return res.json({
+      loginSuccess: false,
+      message: "제공된 이메일에 해당하는 유저가 없습니다.",
+    });
 
-    //요청된 이메일이 데이터 베이스에 있다면 비밀번호가 맞는 비밀번호 인지 확인.
-    if (userInfo.loginType === "local" && req.body.isLocal) {
-      userInfo.comparePassword(req.body.password, (err, isMatch) => {
-        if (!isMatch)
-          return res.json({
-            loginSuccess: false,
-            message: "비밀번호가 틀렸습니다.",
-          });
-
-        //비밀번호 까지 맞다면 토큰을 생성하기.
-        userInfo.generateToken((err, user) => {
-          if (err) return res.status(400).send(err);
-          // 쿠키 (or 로컳스토리지)에 토큰을 저장한다.
-          res
-            .cookie("x_auth", user.token)
-            .status(200)
-            .json({ loginSuccess: true, userId: user._id, token: user.token }); // token: client에서 localstorage에 토큰값 저장하기 위해 추가
+  if (userInfo.loginType === "local" && req.body.isLocal) {
+    await userInfo.comparePassword(req.body.password, (err, isMatch) => {
+      if (!isMatch)
+        return res.json({
+          loginSuccess: false,
+          message: "비밀번호가 일치하지 않습니다.",
         });
-      });
-    } else if (
-      userInfo.loginType === "kakao" &&
-      req.body.isLocal === undefined
-    ) {
       userInfo.generateToken((err, user) => {
         if (err) return res.status(400).send(err);
-        // 쿠키 (or 로컳스토리지)에 토큰을 저장한다.
         res
           .cookie("x_auth", user.token)
           .status(200)
-          .json({ loginSuccess: true, userId: user._id });
+          .json({ loginSuccess: true, userId: user._id, token: user.token });
       });
-    } else {
-      res.send("<script>alert('로그인 실패')</script>");
-    }
-  });
+    });
+  } else if (userInfo.loginType === "kakao" && !req.body.isLocal) {
+    await userInfo.generateToken((err, user) => {
+      if (err) return res.status(400).send(err);
+      res
+        .cookie("x_auth", user.token)
+        .status(200)
+        .json({ loginSuccess: true, userId: user._id, token: user.token });
+    });
+  } else {
+    res.json({ loginSuccess: false, message: "잘못된 요청입니다." });
+  }
 });
 
 usersRouter.get("/authen", auth, (req, res) => {
@@ -120,9 +110,9 @@ usersRouter.post("/kakaologout", async (req, res) => {
 usersRouter.patch("/updateImg", async (req, res) => {
   const me = await User.findOneAndUpdate(
     { email: req.body.email },
-    { profileImage: req.body.profileImage },
-    );
-    res.status(200).json({ success: true });
+    { profileImage: req.body.profileImage }
+  );
+  res.status(200).json({ success: true });
 });
 
 module.exports = usersRouter;
