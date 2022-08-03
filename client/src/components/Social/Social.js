@@ -11,7 +11,7 @@ import {
 
 
 const Social = (props) => {
-  const domain = "https://www.4cut.shop";
+  // const domain = "https://www.4cut.shop";
   const title = "[안방네컷] 사진이 공유되었어요!";
   const hashtag = "#안방네컷";
   const hashtags = ["안방네컷"];

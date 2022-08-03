@@ -1,5 +1,4 @@
 import React, { useState, forwardRef } from "react";
-// import Nav from "react-bootstrap/Nav";
 import styles from "./GroupPage.module.css";
 import BackgroundContent from "./BackgroundContent";
 import WithStar from "./WithStar";
