@@ -1,12 +1,3 @@
-/* .camera_outer_div {
-  position: absolute;
-  top: 74px;
-  width: 100%;
-  height: 35%;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-} */
 .camera_outer_div {
   position: absolute;
   top: 74px;
@@ -57,16 +48,7 @@
   font-weight: 600;
   color: #555555;
 }
-.count_down_image {
-  position: absolute;
-  display: flex;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20%;
-  /* 
-  margin: 20% 20% 20% 20%; */
-}
+
 .camera_button {
   position: absolute;
   left: 50%;
@@ -193,38 +175,25 @@
   border-radius: 30px;
   font-size: x-large;
   margin: 7px;
+  border: solid 1px silver;
   /* text-align: center; */
 }
-.tab_content_input_box :hover {
+.tab_content_input_box:hover {
   cursor: pointer;
   transform: scale(1.03);
   transition: 0.3s;
 }
 /* 선택된 이미지용 */
-.tab_content_img_box_selected {
+/* .tab_content_img_box_selected {
   width: 110px;
   height: 110px;
   object-fit: cover;
   border-radius: 30px;
   box-shadow: 5px 5px 5px 5px #00c3b1;
-}
+} */
 
-.count_down_text {
-  padding-top: 20%;
-  font-size: 100px;
-  font-weight: 700;
-  color: #555555;
-}
-
-.member_text {
-  padding-top: 20%;
-  font-size: 50px;
-  font-weight: 600;
-  color: #555555;
-}
-
-.upload_label {
-  /* test */
+/* test */
+/* .upload_label {
   position: absolute;
   padding: 10%;
   background-color: #fc8da1;
@@ -233,4 +202,4 @@
   font-weight: 700;
   font-size: 20px;
   background-color: rgb(15, 140, 249);
-}
+} */

@@ -236,7 +236,7 @@ const VideoAREA = forwardRef((props, ref) => {
         <Rnd
           id="RND1"
           style={{
-            zIndex: "999",
+            zIndex: "99",
           }}
           default={{
             x: 0,
@@ -261,7 +261,7 @@ const VideoAREA = forwardRef((props, ref) => {
         <Rnd
           id="RND2"
           style={{
-            zIndex: "999",
+            zIndex: "99",
           }}
           default={{
             x: 0,
