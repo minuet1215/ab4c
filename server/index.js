@@ -82,6 +82,8 @@ io.on("connection", (socket) => {
 
     socket.join(data.room);
 
+    console.log("id : ", socket.id);
+    console.log(data.room, users[data.room]);
     const usersInThisRoom = users[data.room].filter(
       (user) => user.id !== socket.id
     );
@@ -130,6 +132,9 @@ io.on("connection", (socket) => {
         return;
       }
     }
+
+    console.log("id : ", socket.id);
+    console.log(room, users[room]);
     socket.broadcast.emit("user_exit", { id: socket.id });
   });
 });
