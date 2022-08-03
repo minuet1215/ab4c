@@ -30,6 +30,7 @@ const Profile = () => {
       }
       dispatch(loginUser(body)).then((res) => {
         navigate("/main");
+        window.location.reload();
       });
     } catch (err) {}
   };

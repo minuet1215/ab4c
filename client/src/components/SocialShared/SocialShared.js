@@ -7,7 +7,6 @@ import {
   TwitterIcon,
   TwitterShareButton,
 } from "react-share";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
 // 제목과 버튼을 감싸는 컨테이너
 const FlexContainer = styled.div`
