@@ -136,7 +136,7 @@ io.on("connection", (socket) => {
 
     console.log("id : ", socket.id);
     console.log(room, users[room]);
-    socket.broadcast.emit("user_exit", { id: socket.id });
+    socket.broadcast.to(room).emit("user_exit", { id: socket.id });
   });
 });
 
