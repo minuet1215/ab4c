@@ -1,12 +1,33 @@
 import React from "react";
 import styles from "./AllAlbum.module.css";
 import HeartButton from "./HeartButton";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-function Modal({ modalContent, setModalContent, isModalVisible,setModalVisible}) {
+function Modal({modalContent,setModalContent,isModalVisible,setModalVisible}) {
+  const owner = modalContent.owner;
+  const user = modalContent.user;
+
   const closeModal = () => {
     setModalContent(null);
     setModalVisible(!isModalVisible);
   };
+
+  const addFriend = async () => {
+    const body = {
+      id: modalContent.user,
+    };
+    axios
+      .post(`/api/friends/add/${modalContent.ownerEmail}`, body)
+      .then((response) => {
+        if (response.data.success) {
+          toast.success("추가되었습니다.");
+        } else {
+          toast.error("이미 추가된 친구입니다.");
+        }
+      });
+  };
+
   return (
     <div className={styles.modal_background}>
       <div className={styles.modal_container}>
@@ -25,6 +46,16 @@ function Modal({ modalContent, setModalContent, isModalVisible,setModalVisible})
             modalContent={modalContent}
             setModalContent={setModalContent}
           />
+          {owner !== user && (
+            <button
+              className="button btn_1"
+              style={{ width: "100px", fontSize: "22px" }}
+              onClick={() => addFriend()}
+            >
+              친구추가
+            </button>
+          )}
+
           <button
             className="button"
             style={{ width: "100px", fontSize: "22px" }}
