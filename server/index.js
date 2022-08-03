@@ -91,16 +91,16 @@ io.on("connection", (socket) => {
     io.sockets.to(socket.id).emit("all_users", usersInThisRoom);
   });
 
-  socket.on("offer", (sdp) => {
-    socket.broadcast.emit("getOffer", sdp);
+  socket.on("offer", (sdp, roomname) => {
+    socket.broadcast.to(roomname).emit("getOffer", sdp);
   });
 
-  socket.on("answer", (sdp) => {
-    socket.broadcast.emit("getAnswer", sdp);
+  socket.on("answer", (sdp, roomname) => {
+    socket.broadcast.to(roomname).emit("getAnswer", sdp);
   });
 
-  socket.on("candidate", (candidate) => {
-    socket.broadcast.emit("getCandidate", candidate);
+  socket.on("candidate", (candidate, roomname) => {
+    socket.broadcast.to(roomname).emit("getCandidate", candidate);
   });
   socket.on("start", (roomname) => {
     socket.broadcast.to(roomname).emit("start");
@@ -122,6 +122,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
+    console.log(`[${socketToRoom[socket.id]}]: ${socket.id} exit`);
     const roomID = socketToRoom[socket.id];
     let room = users[roomID];
     if (room) {
