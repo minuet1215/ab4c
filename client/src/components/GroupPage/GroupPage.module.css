@@ -1,4 +1,4 @@
-.camera_outer_div {
+/* .camera_outer_div {
   position: absolute;
   top: 74px;
   width: 100%;
@@ -6,13 +6,31 @@
   display: flex;
   align-items: center;
   overflow: hidden;
+} */
+.camera_outer_div {
+  position: absolute;
+  top: 74px;
+  width: 100vw;
+  height: calc(100vw * 370 / 550);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
+.camera_outer_div_over_600 {
+  position: absolute;
+  top: 74px;
+  width: 598px;
+  height: calc(598px * 370 / 550);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
 .camera_container {
   position: relative;
   width: 100%;
-  /* height: 100%; */
-  padding-bottom: 67.5%;
+  height: 100%;
+  /* padding-bottom: 67.5%; */
   /* 이미지 크기는 550px * 370px */
 }
 
@@ -26,6 +44,7 @@
   width: 100%;
   height: 74px;
   background-color: white;
+  z-index: 101;
 }
 
 .photo_count_text {
@@ -120,6 +139,8 @@
   height: calc(65% - 2 * 74px);
   overflow-y: scroll;
   text-align: center;
+  z-index: 100;
+  background-color: white;
 }
 .rest_container::-webkit-scrollbar {
   width: 8px; /* 스크롤바의 너비 */
