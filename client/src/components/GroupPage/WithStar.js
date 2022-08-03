@@ -46,8 +46,9 @@ const starImages = [
 const WithStar = forwardRef((props, ref) => {
   let [withStar, setWithStar] = useState(null);
   function setImage(img) {
-    let starImg = document.getElementById("myStar");
+    let starImg = document.getElementById("myStar"); // socket.js 에서 id="myStar"인 img태그 불러옴
     if (withStar === img) {
+      // 화면 이미지와 클릭한 이미지가 같으면 삭제
       setWithStar(null);
       starImg.src = 0;
     } else {
