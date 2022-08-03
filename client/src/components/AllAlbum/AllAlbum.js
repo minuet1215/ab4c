@@ -38,9 +38,10 @@ function AllAlbum() {
       imageUrl: url + item.key,
       key: item.key,
       owner: item.user._id,
-
+      
       // modal용 데이터
       ownerName: item.user.name,
+      ownerEmail : item.user.email,
       likes: item.likes,
       user: userId,
       isLiked: item.likes.includes(userId),
