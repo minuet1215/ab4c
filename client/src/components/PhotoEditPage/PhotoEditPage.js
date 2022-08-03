@@ -31,7 +31,7 @@ const frame_width = img_width + 2 * gap;
 const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
-  let [isPending, startTransition] = useTransition();
+  let [isPending, startTransition] = useTransition(); // 현재작업을 우선시하게 해주는거
   const navigate = useNavigate();
   let isPublic = true;
   const [isLoading, setLoading] = useState(true);
@@ -48,6 +48,7 @@ function PhotoEditPage() {
   const [isInputMessage, setInputMessage] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  /* 프레임에 작성할 날짜 계산 */
   let now = new Date();
   const DATE_TIME = `${now.getFullYear()}.${("0" + (now.getMonth() + 1)).slice(
     -2
@@ -88,7 +89,7 @@ function PhotoEditPage() {
   ];
   // ================= dummy data ================= //
 
-  /* 순차적으로 실행되려고 만든 함수임*/
+  /* 순차적으로 실행되려고 만든 함수임 */
   async function asyncGetImage(e) {
     let img = new Image();
     img.src = e;
@@ -179,12 +180,12 @@ function PhotoEditPage() {
     let img = new Image();
     img.src = bgChange;
     img.onload = function () {
-      ctx.drawImage(img, 0, 0, frame_width, frame_height);
-      writeDate(ctx, DATE_TIME);
-      make4cutImage(ctx, images);
-      if (message) writeMessage(ctx, message);
+      ctx.drawImage(img, 0, 0, frame_width, frame_height); //배경 그리기
+      writeDate(ctx, DATE_TIME); //날짜 입력
+      make4cutImage(ctx, images); //4컷 그리기
+      if (message) writeMessage(ctx, message); //메시지가 있다면 메시지 입력
       setLoading(false);
-      if (!isMobile) startMakeGif();
+      if (!isMobile) startMakeGif(); //모바일이 아니라면 GIF 생성
     };
   }, [bgChange, isInputMessage]);
 
