@@ -351,6 +351,7 @@ function PhotoEditPage() {
                     showDrawer("Frame");
                   }}
                   style={{
+                    cursor: "pointer",
                     fontSize: "1.4em",
                     fontWeight: "bold",
                   }}
@@ -366,6 +367,7 @@ function PhotoEditPage() {
                   style={{
                     fontSize: "1.4em",
                     fontWeight: "bold",
+                    cursor: "pointer",
                   }}
                 >
                   {/* <img src={memo} style={{ height: "100%" }} /> */}
@@ -379,6 +381,7 @@ function PhotoEditPage() {
                   style={{
                     fontSize: "1.4em",
                     fontWeight: "bold",
+                    cursor: "pointer",
                   }}
                 >
                   앨범 저장
