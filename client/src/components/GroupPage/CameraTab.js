@@ -12,12 +12,7 @@ const CameraTabs = forwardRef((props, ref) => {
     <>
       {props.roomname === props.token ? (
         <div className={styles.tab_container}>
-          <Tabs
-            className="custom-tab"
-            defaultActiveKey="1"
-            centered
-            // size="large"
-          >
+          <Tabs className="custom-tab" defaultActiveKey="1" centered>
             <TabPane
               tab={<PictureFilled style={{ fontSize: "20px" }} />}
               key="1"
