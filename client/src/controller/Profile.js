@@ -16,14 +16,9 @@ const Profile = () => {
         url: "/v2/user/me",
       });
 
-      if (data.kakao_account.email === undefined) {
-        setEmail(data.id);
-      } else {
-        setEmail(data.kakao_account.email);
-      }
       let body = {
         name: data.properties.nickname,
-        email: email,
+        email: data.kakao_account.email ? data.kakao_account.email : data.id,
         profileImage: data.properties.profile_image,
         loginType: "kakao",
       };
