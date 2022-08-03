@@ -178,15 +178,15 @@ function PhotoEditPage() {
     ctx.clearRect(0, 0, frame_width, frame_height);
     let img = new Image();
     img.src = bgChange;
-    img.onload = async function () {
-      if (!isMobile) startMakeGif();
+    img.onload = function () {
       ctx.drawImage(img, 0, 0, frame_width, frame_height);
       writeDate(ctx, DATE_TIME);
       make4cutImage(ctx, images);
       if (message) writeMessage(ctx, message);
       setLoading(false);
+      if (!isMobile) startMakeGif();
     };
-  }, [canvasRef, bgChange, isInputMessage]);
+  }, [bgChange, isInputMessage]);
 
   /* 날짜 작성 */
   function writeDate(ctx, text) {
@@ -383,12 +383,6 @@ function PhotoEditPage() {
                 >
                   앨범 저장
                 </button>
-                {/* <Switch
-                  onClick={onSwitchHandler}
-                  checkedChildren="PNG"
-                  unCheckedChildren="GIF"
-                  defaultChecked
-                /> */}
               </div>
             )}
             {!isAuth && (
@@ -493,6 +487,7 @@ function PhotoEditPage() {
                       src={bgImage.src}
                       key={bgImage.alt}
                       alt={bgImage.alt}
+                      draggable={false}
                       onClick={() => {
                         setBgChange(bgImage.src);
                         setFrameDrawerVisible(false);

@@ -284,7 +284,6 @@ const VideoAREA = forwardRef((props, ref) => {
           />
         </Rnd>
         <canvas
-          /* 내 누끼 화면 */
           className={
             /* HOST인지, Mobile인지 검사함
               HOST면 z-index가 1이되고, Mobile인 경우 비율이 반대로임 */
@@ -319,7 +318,6 @@ const VideoAREA = forwardRef((props, ref) => {
             id={isMobile ? "remote_transparent_canvas" : "remotetrans"}
           ></canvas>
         ) : undefined}
-        /* 내 원본 비디오 */
         <video
           className={styles.displaynone}
           id="my_face"
@@ -331,7 +329,6 @@ const VideoAREA = forwardRef((props, ref) => {
         ></video>
         {!isSingle ? (
           <>
-            /* 상대방 원본 비디오 */
             <video
               className={styles.displaynone}
               id="remote"
