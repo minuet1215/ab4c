@@ -142,7 +142,13 @@ function GroupPage() {
       <div style={takePhotoLayer}>
         <MyHeader subTitle="촬영중" onBackUrl="/main" onClick={cameraOff} />
         <div className="contents_container">
-          <div className={styles.camera_outer_div}>
+          <div
+            className={
+              window.innerWidth > 600
+                ? styles.camera_outer_div_over_600
+                : styles.camera_outer_div
+            }
+          >
             <div className={styles.camera_container}>
               <VideoAREA
                 roomName={roomname}
