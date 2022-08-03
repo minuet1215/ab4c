@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser, registerUser, isUser } from "../_actions/user_action";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { updateProfileImage } from "../_actions/user_action";
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [email, setEmail] = useState("");
   const getProfile = async () => {
     try {
       // Kakao SDK API를 이용해 사용자 정보 획득
@@ -16,10 +16,14 @@ const Profile = () => {
         url: "/v2/user/me",
       });
 
+      if (data.kakao_account.email === undefined) {
+        setEmail(data.id);
+      } else {
+        setEmail(data.kakao_account.email);
+      }
       let body = {
-        id: data.id,
         name: data.properties.nickname,
-        email: data.kakao_account.email,
+        email: email,
         profileImage: data.properties.profile_image,
         loginType: "kakao",
       };
@@ -27,7 +31,7 @@ const Profile = () => {
       let checkUser = await isUser(body);
       if (!checkUser.payload.isUser) {
         await registerUser(body);
-      }else{
+      } else {
         await updateProfileImage(body);
       }
       dispatch(loginUser(body)).then((res) => {

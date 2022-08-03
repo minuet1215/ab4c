@@ -45,7 +45,7 @@ function AllAlbum() {
       user: userId,
       isLiked: item.likes.includes(userId),
       likes_count: item.likes_count,
-    });
+    });                                                                                                                                                                                        
   });
 
   const [modalContent, setModalContent] = useState(null);
