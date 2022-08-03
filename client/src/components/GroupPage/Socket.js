@@ -213,7 +213,8 @@ const VideoAREA = forwardRef((props, ref) => {
             id="myStar"
             alt=""
             draggable={false}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               let text = document.getElementById("RND1").style.cssText;
               if (!isSingle)
                 socketRef.current.emit("starLocate2", text, props.roomName);
@@ -237,7 +238,8 @@ const VideoAREA = forwardRef((props, ref) => {
             id="remoteStar"
             alt=""
             draggable={false}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               let text = document.getElementById("RND2").style.cssText;
               if (!isSingle)
                 socketRef.current.emit("starLocate", text, props.roomName);
@@ -245,7 +247,9 @@ const VideoAREA = forwardRef((props, ref) => {
           />
         </Rnd>
         <canvas
-          className={isHost ? styles.host : styles.guest}
+          className={
+            isHost ? (isMobile ? styles.hostMobile : styles.host) : styles.guest
+          }
           id={isMobile ? "transparent_canvas" : "mytrans"}
         ></canvas>
         {!isSingle ? (

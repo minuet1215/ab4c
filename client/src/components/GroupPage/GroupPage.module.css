@@ -11,6 +11,7 @@
 .camera_container {
   position: relative;
   width: 100%;
+  /* height: 100%; */
   padding-bottom: 67.5%;
   /* 이미지 크기는 550px * 370px */
 }
@@ -82,9 +83,22 @@
   transform: scaleX(-1);
   z-index: 1;
 }
+.hostMobile {
+  position: absolute;
+  width: 100%;
+  height: 175%;
+  transform: scaleX(-1);
+  z-index: 1;
+}
 .guest {
   position: absolute;
   width: 100%;
+  height: 100%;
+  transform: scaleX(-1);
+}
+.guestMobile {
+  position: absolute;
+  width: 75%;
   height: 100%;
   transform: scaleX(-1);
 }
