@@ -1,5 +1,5 @@
 import styles from "./GroupPage.module.css";
-import React, { useState, useEffect, forwardRef } from "react";
+import React, { useState, forwardRef } from "react";
 import img1 from "../../img/bg1.jpeg";
 import img2 from "../../img/bg2.jpeg";
 import img3 from "../../img/bg3.jpeg";
@@ -12,6 +12,7 @@ import img9 from "../../img/bg9.jpg";
 import img10 from "../../img/bg10.jpg";
 import img11 from "../../img/bg11.jpg";
 import img12 from "../../img/bg12.jpg";
+import 단색0 from "../../img/단색0.jpg";
 import 단색1 from "../../img/단색1.png";
 import 단색2 from "../../img/단색2.png";
 import 단색3 from "../../img/단색3.png";
@@ -31,6 +32,7 @@ const images = [
   { src: 파스텔3, alt: "파스텔3" },
   { src: 파스텔4, alt: "파스텔4" },
   { src: 파스텔5, alt: "파스텔5" },
+  { src: 단색0, alt: "단색0" },
   { src: 단색1, alt: "단색1" },
   { src: 단색2, alt: "단색2" },
   { src: 단색3, alt: "단색3" },

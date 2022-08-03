@@ -7,9 +7,27 @@
   border-radius: 10px;
 }
 
-/* .App {
-  text-align: center;
-} */
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #fc8da1 !important;
+  /* font-weight: 1000; */
+  padding: 0 30% 0 30%;
+  /* width: 30%; */
+  /* margin: 0 30% 0 30%; */
+}
+.ant-tabs-tab-btn {
+  color: #363636 !important;
+  padding: 0 30% 0 30%;
+  /* font-weight: 1000; */
+  /* margin: 0 30% 0 30%; */
+}
+.custom-tab .svg {
+  width: 2em;
+  height: 2em;
+}
+.custom-tab .ant-tabs-ink-bar {
+  background-color: #fc8da1;
+}
+
 /* 모바일 수평 스크롤 금지 */
 html,
 body {

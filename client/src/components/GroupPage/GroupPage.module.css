@@ -173,8 +173,15 @@
   width: 110px;
   height: 110px;
   object-fit: cover;
-  padding: 7px;
+  /* padding: 7px; */
+  margin: 7px;
   border-radius: 30px;
+  border: solid 1px silver;
+}
+.tab_content_img_box:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+  transition: 0.3s;
 }
 
 .tab_content_input_box {
@@ -185,9 +192,13 @@
   line-height: 110px;
   border-radius: 30px;
   font-size: x-large;
+  margin: 7px;
   /* text-align: center; */
-  /* padding: 0px 10px; */
-  /* border: 1px black; */
+}
+.tab_content_input_box :hover {
+  cursor: pointer;
+  transform: scale(1.03);
+  transition: 0.3s;
 }
 /* 선택된 이미지용 */
 .tab_content_img_box_selected {
