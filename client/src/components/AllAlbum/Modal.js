@@ -41,7 +41,7 @@ function Modal({modalContent,setModalContent,isModalVisible,setModalVisible}) {
             alt=""
           ></img>
         </div>
-        <div className={styles.modal_control_container}>
+        <div className={styles.modal_control_container} style={{whiteSpace: "nowrap"}}>
           <HeartButton
             modalContent={modalContent}
             setModalContent={setModalContent}
