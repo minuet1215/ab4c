@@ -274,14 +274,28 @@ const VideoAREA = forwardRef((props, ref) => {
         </Rnd>
         <canvas
           className={
-            isHost ? (isMobile ? styles.hostMobile : styles.host) : styles.guest
+            isHost
+              ? isMobile
+                ? styles.hostMobile
+                : styles.host
+              : isMobile
+              ? styles.guestMobile
+              : styles.guest
           }
           id={isMobile ? "transparent_canvas" : "mytrans"}
         ></canvas>
         {!isSingle ? (
           <canvas
             className={
-              leave ? styles.displaynone : isHost ? styles.guest : styles.host
+              leave
+                ? styles.displaynone
+                : isHost
+                ? !isDesktopRatio
+                  ? styles.guestMobile
+                  : styles.guest
+                : !isDesktopRatio
+                ? styles.hostMobile
+                : styles.host
             }
             id={isMobile ? "remote_transparent_canvas" : "remotetrans"}
           ></canvas>
