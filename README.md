@@ -2,6 +2,10 @@
 
 ## 추억을 잇는 랜선 사진관
 
+![github](https://user-images.githubusercontent.com/76905528/182648293-71c6cdc3-8203-4dce-81c6-a8b655a05a42.png)
+
+
+
 1. server/ > `npm i`
 2. client/ > `yarn install`
 3. client/ > `npm run build`
