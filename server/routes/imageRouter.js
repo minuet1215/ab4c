@@ -131,21 +131,19 @@ imageRouter.patch("/:imageId/like", async (req, res) => {
 });
 
 ///////////////////////////////////////////////////////
-// imageRouter.patch("/album/public", async (req, res) => {
-//   try {
-//     if (!req.body.user) throw new Error("권한이 없습니다.");
-//     if (!mongoose.isValidObjectId((req.body.imageId)))
-//       throw new Error("올바르지 않은 이미지 ID입니다.");
-//     const image = await Image.findOne({ _id: req.body.imageId,
-//     public : req.body.public, });
+imageRouter.patch("/album/public", async (req, res) => {
+  try {
+    // if (!req.body.user) throw new Error("권한이 없습니다.");
+    if (!mongoose.isValidObjectId(req.body.img.desc))
+      throw new Error("올바르지 않은 이미지 ID입니다.");
+    const image = await Image.findOneAndUpdate({ _id: req.body.img.desc }, [
+      { $set: { public: { $eq: [false, "$public"] } } },
+    ]);
 
-//     if (!image)
-//       return res.json({ message: "사진에 대한 권한이 없습니다." });
-
-//     res.json({ message: "사진이 삭제되었습니다.", image });
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// });
+    res.json({ message: "성공", image });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
 module.exports = imageRouter;

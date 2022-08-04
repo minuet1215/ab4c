@@ -13,7 +13,6 @@ function MyAlbum() {
   const [images, setImages] = useState([]);
   const [userId, setUserId] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
-
   const showModal = (contents) => {
     setClickedImg(contents);
   };
@@ -50,9 +49,10 @@ function MyAlbum() {
       ownerName: item.user.name,
       likes: item.likes,
       likes_count: item.likes_count,
+      isPublic: item.public,
     });
   });
-
+  console.log(data.datas);
   return (
     <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>

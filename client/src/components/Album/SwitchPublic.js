@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import { Switch } from "antd";
 import axios from "axios";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
-function SwitchPublic(props) {
-  const publicHandler = async () => {
-    // const confirmDelete = window.confirm("삭제 하시겠습니까?");
-    if (confirmDelete === true) {
-      axios
-        .delete("/api/images/album/public/", { data: props })
-        .then((res) => {
-          window.location.replace("/album");
-        })
-        .catch((err) => toast.error("서버 에러!"));
-    }
+function SwitchPublic(modalContent) {
+  const [isPublic, setIsPublic] = useState(modalContent.isPublic); // true가 공개라면
+
+  const publicHandler = (checked) => {
+    axios
+      .patch("/api/images/album/public/", modalContent)
+      .then((res) => {
+        setIsPublic(!isPublic);
+      })
+      .catch((err) => toast.error(err.message));
   };
   return (
-    <button className="PubBtn" onClick={publicHandler}>
+    <>
+      <Switch defaultChecked onChange={publicHandler} />
+      {/* <button
+        className="PubBtn"
+        onClick={() => {
+          publicHandler();
+        }}
+      > */}
       공개
-    </button>
+      {/* </button> */}
+    </>
   );
 }
+
 export default SwitchPublic;

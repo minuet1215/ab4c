@@ -6,6 +6,7 @@ import PhotoDelete from "./PhotoDelete";
 import Social from "../Social/Social";
 import { CloseOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import SwitchPublic from "./SwitchPublic";
 
 function Modal({
   modalContent,
@@ -40,11 +41,12 @@ function Modal({
             <Social img={modalContent.imageUrl} />
           </div>
           <div className={styles.control_box}>
+            <SwitchPublic img={modalContent} />
             <PhotoModify img={modalContent.imageUrl} />
             <PhotoDelete img={modalContent} />
             <HeartButton
               modalContent={modalContent}
-              setModalContent={setModalContent}
+              // setModalContent={setModalContent}
             />
           </div>
         </div>
