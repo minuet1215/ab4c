@@ -57,7 +57,7 @@ function UserMain() {
             height: "100%",
             width: "65%",
             margin: "30px",
-            fontSize: "10vw",
+            fontSize: "5vh",
             border: "1px solid #ccc",
           }}
           onClick={showModal}
@@ -72,7 +72,7 @@ function UserMain() {
             height: "100%",
             width: "65%",
             margin: "30px",
-            fontSize: "10vw",
+            fontSize: "5vh",
             border: "1px solid #ccc",
           }}
           onClick={() => navigate("/album")}
