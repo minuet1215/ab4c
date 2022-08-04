@@ -1,27 +1,27 @@
 @font-face {
-    font-family: "tmon";
+  font-family: "tmon";
   src: url("../../font/TmonMonsori.ttf.ttf");
 }
 
 #best10 {
-    display: inline-block;
-    margin: 50px auto 0;
-    padding: 10px 25px;
-    font-family: "tmon";
-    background: #fff;
-    font-size: 50px;
-    font-weight: 700;
-    text-align: center;
-    user-select: none;
-  }
-  
-#best10 {
-background: linear-gradient(to right, #fc8da1, #8ca6ce);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
+  display: inline-block;
+  margin: 3vh auto 0;
+  padding: 1vh 2vh;
+  font-family: "tmon";
+  background: #fff;
+  font-size: 14vw;
+  font-weight: 700;
+  text-align: center;
+  user-select: none;
 }
 
-.best_container .img{
+#best10 {
+  background: linear-gradient(to right, #fc8da1, #8ca6ce);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.best_container .img {
   transition: all 0.2s linear;
 }
 

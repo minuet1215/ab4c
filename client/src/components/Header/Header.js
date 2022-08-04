@@ -46,7 +46,7 @@ const Header = ({ onBackUrl = "/main", subTitle, click = undefined }) => {
       <div className={styles.main_logo} onClick={() => navigate("/main")}>
         <span
           style={{
-            fontSize: "32px",
+            fontSize: "3vh",
             fontWeight: "600",
           }}
         >
