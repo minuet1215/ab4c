@@ -19,7 +19,7 @@
 ![image](https://user-images.githubusercontent.com/76905528/182895017-87a014d1-23ef-4b3d-bb2d-c1fae8bb2c2e.png)
 
 # 🛠️ 아키텍쳐
-![image](https://user-images.githubusercontent.com/76905528/182911351-af6e27b1-a21f-4f09-898e-5e21145549f3.png
+![image](https://user-images.githubusercontent.com/76905528/182911351-af6e27b1-a21f-4f09-898e-5e21145549f3.png)
 
 # 🕶 포스터
 ![github](https://user-images.githubusercontent.com/76905528/182648293-71c6cdc3-8203-4dce-81c6-a8b655a05a42.png)
