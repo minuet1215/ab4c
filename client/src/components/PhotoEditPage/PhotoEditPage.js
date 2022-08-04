@@ -55,7 +55,7 @@ function PhotoEditPage() {
   )}.${("0" + now.getDate()).slice(-2)} ${("0" + now.getHours()).slice(-2)}:${(
     "0" + now.getMinutes()
   ).slice(-2)}`;
-  const isAuth = document.cookie;
+  const isAuth = document.cookie.includes("x_auth");
   // ================= dummy data ================= //
   const images = [
     { src: state.images[state.images.length - 4], x: gap, y: gap },
