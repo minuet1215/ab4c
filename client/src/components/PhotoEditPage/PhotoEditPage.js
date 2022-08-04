@@ -5,19 +5,11 @@ import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
 import { Drawer, Input, Button, Modal } from "antd";
-import defaultBg from "../../img/default_background.jpg";
 import { toast } from "react-toastify";
 import Loading from "../Loading/Loading";
-import bgImg1 from "../../img/bgImg1.jpg";
-import bgImg2 from "../../img/bgImg2.jpg";
-import bgImg3 from "../../img/bgImg3.jpg";
-import bgImg4 from "../../img/bgImg4.jpg";
-import bgImg5 from "../../img/bgImg5.png";
-import bgImg7 from "../../img/bgImg7.png";
-import bgImg11 from "../../img/bgImg11.png";
+import { frameImages } from "../GroupPage/ImageSrc";
+import defaultBg from "../../img//frameImgs/default_background.jpg";
 
-import flowerFrame from "../../img/flower.png";
-import cloudFrame from "../../img/cloudFrame.png";
 import { v4 as uuidv4 } from "uuid";
 import makeGif from "./makeGIF";
 import alone_icon from "../../img/나만보기.png";
@@ -74,18 +66,6 @@ function PhotoEditPage() {
       x: gap,
       y: 3 * (img_height + gap) + gap,
     },
-  ];
-  const bgImages = [
-    { src: defaultBg, alt: "default" },
-    { src: bgImg1, alt: "bgImg1" },
-    { src: bgImg2, alt: "bgImg2" },
-    { src: bgImg3, alt: "bgImg3" },
-    { src: bgImg4, alt: "bgImg4" },
-    { src: bgImg5, alt: "bgImg5" },
-    { src: flowerFrame, alt: "flower" },
-    { src: cloudFrame, alt: "cloud" },
-    { src: bgImg7, alt: "bgImg7" },
-    { src: bgImg11, alt: "bgImg11" },
   ];
   // ================= dummy data ================= //
 
@@ -485,7 +465,7 @@ function PhotoEditPage() {
               }
             >
               <div className={styles.bg_menu_scroll}>
-                {bgImages.map((bgImage) => {
+                {frameImages.map((bgImage) => {
                   return (
                     <img
                       src={bgImage.src}
