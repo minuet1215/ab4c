@@ -141,7 +141,7 @@ function UserMain() {
                   alt=""
                 />
 
-                <div>같이 찍기</div>
+                <div>둘이 찍기</div>
               </button>
             </div>
           </div>
