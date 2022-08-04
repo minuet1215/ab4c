@@ -183,8 +183,6 @@ function GroupPage() {
                   color: "#555555",
                 }}
               />
-              {/* <p className={styles.count_down_text}>{Math.floor(countDown)}</p> */}
-              {/* <CountDown /> */}
             </div>
           ) : (
             <div className={styles.rest_container} id="cameratab">

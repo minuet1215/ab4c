@@ -46,7 +46,10 @@ imageRouter.get("/album/top10", async (req, res) => {
 imageRouter.post("/album/me", async (req, res) => {
   // 내가 찍은 사진들 제공
   if (req.body.id) {
-    const images = await Image.find({ "user._id": req.body.id, "user.email": req.body.email }).sort({
+    const images = await Image.find({
+      "user._id": req.body.id,
+      "user.email": req.body.email,
+    }).sort({
       createdAt: -1,
     }); // 탐색, 수정, 옵션
     res.json(images);
@@ -126,5 +129,23 @@ imageRouter.patch("/:imageId/like", async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
+///////////////////////////////////////////////////////
+// imageRouter.patch("/album/public", async (req, res) => {
+//   try {
+//     if (!req.body.user) throw new Error("권한이 없습니다.");
+//     if (!mongoose.isValidObjectId((req.body.imageId)))
+//       throw new Error("올바르지 않은 이미지 ID입니다.");
+//     const image = await Image.findOne({ _id: req.body.imageId,
+//     public : req.body.public, });
+
+//     if (!image)
+//       return res.json({ message: "사진에 대한 권한이 없습니다." });
+
+//     res.json({ message: "사진이 삭제되었습니다.", image });
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// });
 
 module.exports = imageRouter;
