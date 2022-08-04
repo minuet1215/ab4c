@@ -1,15 +1,25 @@
 # 안방네컷
+### 📸 추억을 잇는 랜선 사진관
+[바로가기](https://www.4cut.shop)
+![image](https://user-images.githubusercontent.com/76905528/182892735-e71a5e58-a36d-45fb-9b3f-3bf37a12a66c.png)
 
-## 추억을 잇는 랜선 사진관
+# 👨‍👨‍👧 서비스 소개
+" 멀리서도 친구랑 함께 네컷사진을 찍을 순 없을까? " <br>
+" 배경을 바꿔서 네컷사진을 찍어보고싶은데... 마땅한 서비스가 없네 "
 
+그런 당신을 위해 준비했습니다. **안방네컷** 👍
+
+![image](https://user-images.githubusercontent.com/76905528/182894431-ab1657a1-309b-46c5-a479-6e183003e966.png)
+![image](https://user-images.githubusercontent.com/76905528/182895017-87a014d1-23ef-4b3d-bb2d-c1fae8bb2c2e.png)
+
+
+
+
+# 포스터
 ![github](https://user-images.githubusercontent.com/76905528/182648293-71c6cdc3-8203-4dce-81c6-a8b655a05a42.png)
 
 
 
-1. server/ > `npm i`
-2. client/ > `yarn install`
-3. client/ > `npm run build`
-4. server/ > `npm run dev`
 
 📌 **주의사항**
 **`.env 파일` 확인 잘하세요! **
@@ -47,15 +57,6 @@
 > `package.json` : 백 관련 모듈, 스크립트 등등
 
 <hr>
-
-### Note
-
-- 컴포넌트 스타일 설정에 antd 사용하고 있음 (그냥 개발용으로 볼때 예쁘라고 썼는데 편한 듯)
-  https://ant.design/docs/react/introduce
-
-- back, front 실행 시 주의해야 할 변수
-- MONGO_URI, PORT, setupProxy.js (from client/), ...
-  - Dev, Prod, ~~Local~~ 분리 필요
 
 ## 디렉토리 구조
 
