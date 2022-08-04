@@ -4,7 +4,12 @@ import HeartButton from "./HeartButton";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function Modal({modalContent,setModalContent,isModalVisible,setModalVisible}) {
+function Modal({
+  modalContent,
+  setModalContent,
+  isModalVisible,
+  setModalVisible,
+}) {
   const owner = modalContent.owner;
   const user = modalContent.user;
 
@@ -41,7 +46,10 @@ function Modal({modalContent,setModalContent,isModalVisible,setModalVisible}) {
             alt=""
           ></img>
         </div>
-        <div className={styles.modal_control_container} style={{whiteSpace: "nowrap"}}>
+        <div
+          className={styles.modal_control_container}
+          style={{ whiteSpace: "nowrap" }}
+        >
           <HeartButton
             modalContent={modalContent}
             setModalContent={setModalContent}
@@ -49,7 +57,7 @@ function Modal({modalContent,setModalContent,isModalVisible,setModalVisible}) {
           {owner !== user && (
             <button
               className="button btn_1"
-              style={{ width: "100px", fontSize: "22px" }}
+              style={{ width: "9vh", height: "5vh", fontSize: "1.5vh" }}
               onClick={() => addFriend()}
             >
               친구추가
@@ -58,7 +66,7 @@ function Modal({modalContent,setModalContent,isModalVisible,setModalVisible}) {
 
           <button
             className="button"
-            style={{ width: "100px", fontSize: "22px" }}
+            style={{ width: "9vh", height: "5vh", fontSize: "1.5vh" }}
             onClick={() => closeModal()}
           >
             닫기
