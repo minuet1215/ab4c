@@ -11,7 +11,7 @@
 .main_title {
   display: block;
   font-family: "oneprettynight", sans-serif;
-  font-size: 80px;
+  font-size: 8vh;
   font-weight: 500;
   color: #16142c;
 }
@@ -25,7 +25,7 @@
 }
 
 .main_img {
-  max-width: 80%;
+  max-width: 30vh;
   max-height: auto;
   position: absolute;
   bottom: 0px;

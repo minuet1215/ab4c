@@ -353,7 +353,7 @@ function PhotoEditPage() {
                   }}
                   style={{
                     cursor: "pointer",
-                    fontSize: "1.4em",
+                    fontSize: "2.3vh",
                     fontWeight: "bold",
                   }}
                 >
@@ -366,7 +366,7 @@ function PhotoEditPage() {
                     showDrawer("Message");
                   }}
                   style={{
-                    fontSize: "1.4em",
+                    fontSize: "2.3vh",
                     fontWeight: "bold",
                     cursor: "pointer",
                   }}
@@ -380,7 +380,7 @@ function PhotoEditPage() {
                     setModalVisible(true);
                   }}
                   style={{
-                    fontSize: "1.4em",
+                    fontSize: "2.3vh",
                     fontWeight: "bold",
                     cursor: "pointer",
                   }}
@@ -425,16 +425,16 @@ function PhotoEditPage() {
                   data-value={false}
                   onClick={onSave}
                   style={{
-                    fontSize: "1.4rem",
+                    fontSize: "2vh",
                     fontWeight: "bold",
-                    margin: "1rem",
+                    margin: "1vh",
                     padding: "0 15px",
                   }}
                 >
                   <img
                     src={alone_icon}
                     style={{
-                      height: "80%",
+                      height: "3vh",
                       marginRight: "5%",
                     }}
                     alt="안방네컷"
@@ -447,16 +447,16 @@ function PhotoEditPage() {
                   data-value={true}
                   onClick={onSave}
                   style={{
-                    fontSize: "1.4rem",
+                    fontSize: "2vh",
                     fontWeight: "bold",
-                    margin: "1rem",
+                    margin: "1vh",
                   }}
                 >
                   <img
                     alt=""
                     src={together_icon}
                     style={{
-                      height: "100%",
+                      height: "3vh",
                       marginRight: "5%",
                     }}
                     data-value={true}
@@ -474,7 +474,7 @@ function PhotoEditPage() {
                 setFrameDrawerVisible(false);
               }}
               visible={isFrameDrawerVisible}
-              height="31%"
+              height="50vh"
               style={
                 window.innerWidth > 600
                   ? {
@@ -497,9 +497,9 @@ function PhotoEditPage() {
                         setFrameDrawerVisible(false);
                       }}
                       style={{
-                        padding: "10px",
+                        padding: "1vh",
                         width: "110px",
-                        height: "150px",
+                        height: "30vh",
                       }}
                     ></img>
                   );
@@ -514,7 +514,7 @@ function PhotoEditPage() {
                 setMessageDrawerVisible(false);
               }}
               visible={isMessageDrawerVisible}
-              height="30%"
+              height="30vh"
               style={
                 window.innerWidth > 600
                   ? {
