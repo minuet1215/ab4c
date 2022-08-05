@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropdown, Button, Menu } from "antd";
 import { MenuOutlined, LeftOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 import styles from "./Navbar.module.css";
 
@@ -12,11 +13,11 @@ const menu = (
     items={[
       {
         key: "1",
-        label: <a href="/allalbum">전체앨범</a>,
+        label: <Link to="/allalbum">전체앨범</Link>,
       },
       {
         key: "2",
-        label: <a href="/friendlist">친구안방</a>,
+        label: <Link to="/friendlist">친구안방</Link>,
       },
       {
         key: "3",
@@ -26,7 +27,7 @@ const menu = (
   />
 );
 
-const Header = ({ onBackUrl = "/main", subTitle, onClick = undefined }) => {
+const Header = ({ onBackUrl = "/main", subTitle, click = undefined }) => {
   const navigate = useNavigate();
   const hiddenList = ["login", "register", "group"]; // 드롭다운 표시하지 않는 화면 리스트
   let currentPageName = window.location.pathname.split("/")[1]; // 현재 화면 이름
@@ -37,7 +38,7 @@ const Header = ({ onBackUrl = "/main", subTitle, onClick = undefined }) => {
         icon={<LeftOutlined />}
         onClick={() => {
           navigate(onBackUrl);
-          onClick();
+          if (click !== undefined) click();
         }}
         style={window.location.pathname === "/main" ? { display: "none" } : {}}
       />
@@ -45,7 +46,7 @@ const Header = ({ onBackUrl = "/main", subTitle, onClick = undefined }) => {
       <div className={styles.main_logo} onClick={() => navigate("/main")}>
         <span
           style={{
-            fontSize: "32px",
+            fontSize: "3vh",
             fontWeight: "600",
           }}
         >

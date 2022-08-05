@@ -5,19 +5,11 @@ import axios from "axios";
 import styles from "./PhotoEditPage.module.css";
 import MyHeader from "../Header/Header";
 import { Drawer, Input, Button, Modal } from "antd";
-import defaultBg from "../../img/default_background.jpg";
 import { toast } from "react-toastify";
 import Loading from "../Loading/Loading";
-import bgImg1 from "../../img/bgImg1.jpg";
-import bgImg2 from "../../img/bgImg2.jpg";
-import bgImg3 from "../../img/bgImg3.jpg";
-import bgImg4 from "../../img/bgImg4.jpg";
-import bgImg5 from "../../img/bgImg5.png";
-import bgImg7 from "../../img/bgImg7.png";
-import bgImg11 from "../../img/bgImg11.png";
+import { frameImages } from "../GroupPage/ImageSrc";
+import defaultBg from "../../img//frameImgs/default_background.jpg";
 
-import flowerFrame from "../../img/flower.png";
-import cloudFrame from "../../img/cloudFrame.png";
 import { v4 as uuidv4 } from "uuid";
 import makeGif from "./makeGIF";
 import alone_icon from "../../img/나만보기.png";
@@ -31,7 +23,7 @@ const frame_width = img_width + 2 * gap;
 const frame_height = 4 * (img_height + gap) + 300;
 
 function PhotoEditPage() {
-  let [isPending, startTransition] = useTransition();
+  let [isPending, startTransition] = useTransition(); // 현재작업을 우선시하게 해주는거
   const navigate = useNavigate();
   let isPublic = true;
   const [isLoading, setLoading] = useState(true);
@@ -48,13 +40,14 @@ function PhotoEditPage() {
   const [isInputMessage, setInputMessage] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  /* 프레임에 작성할 날짜 계산 */
   let now = new Date();
   const DATE_TIME = `${now.getFullYear()}.${("0" + (now.getMonth() + 1)).slice(
     -2
   )}.${("0" + now.getDate()).slice(-2)} ${("0" + now.getHours()).slice(-2)}:${(
     "0" + now.getMinutes()
   ).slice(-2)}`;
-  const isAuth = document.cookie;
+  const isAuth = document.cookie.includes("x_auth");
   // ================= dummy data ================= //
   const images = [
     { src: state.images[state.images.length - 4], x: gap, y: gap },
@@ -74,20 +67,9 @@ function PhotoEditPage() {
       y: 3 * (img_height + gap) + gap,
     },
   ];
-  const bgImages = [
-    { src: defaultBg, alt: "default" },
-    { src: bgImg1, alt: "bgImg1" },
-    { src: bgImg2, alt: "bgImg2" },
-    { src: bgImg3, alt: "bgImg3" },
-    { src: bgImg4, alt: "bgImg4" },
-    { src: bgImg5, alt: "bgImg5" },
-    { src: flowerFrame, alt: "flower" },
-    { src: cloudFrame, alt: "cloud" },
-    { src: bgImg7, alt: "bgImg7" },
-    { src: bgImg11, alt: "bgImg11" },
-  ];
   // ================= dummy data ================= //
 
+  /* 순차적으로 실행되려고 만든 함수임 */
   async function asyncGetImage(e) {
     let img = new Image();
     img.src = e;
@@ -162,16 +144,15 @@ function PhotoEditPage() {
     ctx.clearRect(0, 0, frame_width, frame_height);
     let img = new Image();
     img.src = bgChange;
-    img.onload = async function () {
-      if (!isMobile) startMakeGif();
-      ctx.drawImage(img, 0, 0, frame_width, frame_height);
-      writeDate(ctx, DATE_TIME);
-      make4cutImage(ctx, images);
-      if (message) writeMessage(ctx, message);
-      // 기본 이미지
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, frame_width, frame_height); //배경 그리기
+      writeDate(ctx, DATE_TIME); //날짜 입력
+      make4cutImage(ctx, images); //4컷 그리기
+      if (message) writeMessage(ctx, message); //메시지가 있다면 메시지 입력
       setLoading(false);
+      if (!isMobile) startMakeGif(); //모바일이 아니라면 GIF 생성
     };
-  }, [canvasRef, bgChange, isInputMessage]);
+  }, [bgChange, isInputMessage]);
 
   function writeDate(ctx, text) {
     ctx.font = "36px Times New Roman";
@@ -335,7 +316,8 @@ function PhotoEditPage() {
                     showDrawer("Frame");
                   }}
                   style={{
-                    fontSize: "1.4em",
+                    cursor: "pointer",
+                    fontSize: "2.3vh",
                     fontWeight: "bold",
                   }}
                 >
@@ -347,8 +329,9 @@ function PhotoEditPage() {
                     showDrawer("Message");
                   }}
                   style={{
-                    fontSize: "1.4em",
+                    fontSize: "2.3vh",
                     fontWeight: "bold",
+                    cursor: "pointer",
                   }}
                 >
                   메모 하기
@@ -359,18 +342,13 @@ function PhotoEditPage() {
                     setModalVisible(true);
                   }}
                   style={{
-                    fontSize: "1.4em",
+                    fontSize: "2.3vh",
                     fontWeight: "bold",
+                    cursor: "pointer",
                   }}
                 >
                   앨범 저장
                 </button>
-                {/* <Switch
-                  onClick={onSwitchHandler}
-                  checkedChildren="PNG"
-                  unCheckedChildren="GIF"
-                  defaultChecked
-                /> */}
               </div>
             )}
             {!isAuth && (
@@ -409,16 +387,16 @@ function PhotoEditPage() {
                   data-value={false}
                   onClick={onSave}
                   style={{
-                    fontSize: "1.4rem",
+                    fontSize: "2vh",
                     fontWeight: "bold",
-                    margin: "1rem",
+                    margin: "1vh",
                     padding: "0 15px",
                   }}
                 >
                   <img
                     src={alone_icon}
                     style={{
-                      height: "80%",
+                      height: "3vh",
                       marginRight: "5%",
                     }}
                     alt="안방네컷"
@@ -431,16 +409,16 @@ function PhotoEditPage() {
                   data-value={true}
                   onClick={onSave}
                   style={{
-                    fontSize: "1.4rem",
+                    fontSize: "2vh",
                     fontWeight: "bold",
-                    margin: "1rem",
+                    margin: "1vh",
                   }}
                 >
                   <img
                     alt=""
                     src={together_icon}
                     style={{
-                      height: "100%",
+                      height: "3vh",
                       marginRight: "5%",
                     }}
                     data-value={true}
@@ -458,7 +436,7 @@ function PhotoEditPage() {
                 setFrameDrawerVisible(false);
               }}
               visible={isFrameDrawerVisible}
-              height="31%"
+              height="50vh"
               style={
                 window.innerWidth > 600
                   ? {
@@ -469,20 +447,21 @@ function PhotoEditPage() {
               }
             >
               <div className={styles.bg_menu_scroll}>
-                {bgImages.map((bgImage) => {
+                {frameImages.map((bgImage) => {
                   return (
                     <img
                       src={bgImage.src}
                       key={bgImage.alt}
                       alt={bgImage.alt}
+                      draggable={false}
                       onClick={() => {
                         setBgChange(bgImage.src);
                         setFrameDrawerVisible(false);
                       }}
                       style={{
-                        padding: "10px",
+                        padding: "1vh",
                         width: "110px",
-                        height: "150px",
+                        height: "30vh",
                       }}
                     ></img>
                   );
@@ -497,7 +476,7 @@ function PhotoEditPage() {
                 setMessageDrawerVisible(false);
               }}
               visible={isMessageDrawerVisible}
-              height="30%"
+              height="30vh"
               style={
                 window.innerWidth > 600
                   ? {

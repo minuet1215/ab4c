@@ -10,6 +10,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   height: calc(100vh - 74px);
+  /* height: 100vh; */
   overflow-y: scroll;
 }
 .album_container::-webkit-scrollbar {
@@ -28,8 +29,8 @@
 }
 
 .img_container {
-  width: 200px;
-  padding: 20px;
+  width: 15vh;
+  padding: 2vh;
 }
 .wrap_img {
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
@@ -67,17 +68,16 @@
 }
 .modal_header {
   padding: 5%;
-  width: 100%;
+  width: 100vh;
   height: 10%;
   display: flex;
   /* flex-direction: row-reverse; */
   align-items: center;
-  justify-content:center;
+  justify-content: center;
   color: #555555;
-  font-size: 35px;
+  font-size: 3.5vh;
   font-weight: bold;
   font-family: "oneprettynight", sans-serif;
-  
 }
 
 .modal_img_container {
@@ -111,7 +111,7 @@
 
 .close {
   position: absolute;
-  left : 50px;
-  top : 100px;
+  left: 50px;
+  top: 100px;
   justify-content: flex-end;
 }

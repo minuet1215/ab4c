@@ -45,7 +45,7 @@ function GroupPage() {
 
   /* 촬영 종료되면 카메라 끄기 */
   function cameraOff() {
-    if (!state.isSingle) {
+    if (!state?.isSingle) {
       refs.socketRef.current.disconnect();
       refs.pcRef.current.close();
     }
@@ -81,12 +81,13 @@ function GroupPage() {
 
   /* 사진을 찍을 때마다 실행되는 초기화 함수 */
   function setInitialState() {
+    /* 포토카운트가 4가 되면 종료 */
     if (photoCount === 4) {
-      console.log(resultImages);
+      cameraOff(); // SOCKET과 카메라 종료
+      /* edit 페이지로 이동 */
       navigate("/edit", {
         state: { images: resultImages, gifFrames: gifFrames },
       });
-      cameraOff();
       return;
     }
     setCount(MAX_COUNT);
@@ -140,7 +141,7 @@ function GroupPage() {
   return (
     <div className="outer_container">
       <div style={takePhotoLayer}>
-        <MyHeader subTitle="촬영중" onBackUrl="/main" onClick={cameraOff} />
+        <MyHeader subTitle="촬영중" onBackUrl="/main" click={cameraOff} />
         <div className="contents_container">
           <div
             className={

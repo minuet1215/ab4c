@@ -164,20 +164,24 @@ const VideoAREA = forwardRef((props, ref) => {
         if (!pcRef.current) return;
         await pcRef.current.addIceCandidate(new RTCIceCandidate(candidate));
       });
+      /* 상대방이 나가면 setLeave true로.
+        setLeave 정보값을 이용해 밑에서 canvas css정보를 조작함 */
       socketRef.current.on("user_exit", (e) => {
         setLeave(true);
       });
-
+      /* 시작했다고 메시지 받으면 setCapture 함수를 이용해 자신도 시작함*/
       socketRef.current.on("start", () => {
         props.setCapture(true);
       });
-
+      /* 배경이 바뀌었다고 메시지 받으면 SET */
       socketRef.current.on("backgroundChange", (img) => {
         props.setImgBase64(img);
       });
+      /* 상대방의 비율정보를 받음 */
       socketRef.current.on("checkRatio", (bool) => {
-        setDesktopRatio(bool); //bool
+        setDesktopRatio(bool);
       });
+      /* 아이템 정보를 받음. 이미 똑같은 아이템이라면 아이템 삭제함(동일한 아이템 선택시) */
       socketRef.current.on("starChange", (img) => {
         let myStar = document
           .getElementById("remoteStar")
@@ -185,16 +189,20 @@ const VideoAREA = forwardRef((props, ref) => {
         document.getElementById("remoteStar").src =
           myStar === img.split("static")[1] ? "" : img;
       });
+      /* 아이템을 움직일때마다 스타일정보를 받아서 똑같이 적용함*/
       socketRef.current.on("starLocate", (text) => {
         document.getElementById("RND1").style.cssText = text;
       });
       socketRef.current.on("starLocate2", (text) => {
         document.getElementById("RND2").style.cssText = text;
       });
+      /* 내 비율 정보를 전송함 */
       socketRef.current.emit("checkRatio", !isMobile, props.roomName); // 내가 모바일인지 상대방한테 보냄
     }
-
+    /* 위에서 작성한 웹캠 함수 실행 */
     setVideoTracks();
+
+    /* clean up 을 먼저하고 소켓 연결해야함, 위 코드보다 먼저 실행됨 */
     return () => {
       if (!isSingle) {
         if (socketRef.current) {
@@ -206,9 +214,12 @@ const VideoAREA = forwardRef((props, ref) => {
       }
     };
   }, []);
+
+  /* 배경 정보를 주기적으로 주고받음 */
   if (!isSingle && isHost && props.ImgBase64) {
     socketRef.current.emit("backgroundChange", props.ImgBase64, props.roomName);
   }
+
   return (
     <>
       <div>{loading ? <Loading /> : null}</div>
@@ -216,10 +227,10 @@ const VideoAREA = forwardRef((props, ref) => {
         className={styles.box}
         ref={captureAreaRef}
         style={{
+          /* Image를 설정하지 않으면 기본 배경임.*/
           backgroundImage: props.ImgBase64
             ? `url(${props.ImgBase64})`
             : DEFAULT_BACKGROUND,
-          // overflow: "hidden",
         }}
       >
         <Rnd
@@ -231,7 +242,6 @@ const VideoAREA = forwardRef((props, ref) => {
             x: 0,
             y: 0,
             width: "30%",
-            // height: 100,
           }}
           bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
         >
@@ -240,6 +250,7 @@ const VideoAREA = forwardRef((props, ref) => {
             alt=""
             draggable={false}
             onClick={(e) => {
+              /* 아이템을 끌어다 놓으면 소켓으로 CSS 정보를 보냄*/
               e.preventDefault();
               let text = document.getElementById("RND1").style.cssText;
               if (!isSingle)
@@ -256,7 +267,6 @@ const VideoAREA = forwardRef((props, ref) => {
             x: 0,
             y: 0,
             width: "30%",
-            // height: 100,
           }}
           bounds="parent" // 부모컴포넌트 내에서만 이동가능(parent or window)
         >
@@ -265,6 +275,7 @@ const VideoAREA = forwardRef((props, ref) => {
             alt=""
             draggable={false}
             onClick={(e) => {
+              /* 아이템을 끌어다 놓으면 소켓으로 CSS 정보를 보냄*/
               e.preventDefault();
               let text = document.getElementById("RND2").style.cssText;
               if (!isSingle)
@@ -274,6 +285,8 @@ const VideoAREA = forwardRef((props, ref) => {
         </Rnd>
         <canvas
           className={
+            /* HOST인지, Mobile인지 검사함
+              HOST면 z-index가 1이되고, Mobile인 경우 비율이 반대로임 */
             isHost
               ? isMobile
                 ? styles.hostMobile
@@ -282,11 +295,15 @@ const VideoAREA = forwardRef((props, ref) => {
               ? styles.guestMobile
               : styles.guest
           }
+          /* Mobile인경우 WebGL을 사용하지 않는 방식으로 누끼 땀 */
           id={isMobile ? "transparent_canvas" : "mytrans"}
         ></canvas>
         {!isSingle ? (
-          <canvas
+          <canvas // @상대방의 누끼화면@
             className={
+              /* leave면 캔버스가 사라짐.(나갔을때 굳어있는거 방지)
+                내 화면은 isMobile로 판단하고, 상대방은 소켓으로 받은 정보인
+                isDesktopRatio를 이용함 */
               leave
                 ? styles.displaynone
                 : isHost
@@ -297,6 +314,7 @@ const VideoAREA = forwardRef((props, ref) => {
                 ? styles.hostMobile
                 : styles.host
             }
+            /* Mobile인경우 WebGL을 사용하지 않는 방식으로 누끼 땀 */
             id={isMobile ? "remote_transparent_canvas" : "remotetrans"}
           ></canvas>
         ) : undefined}

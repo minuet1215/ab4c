@@ -7,10 +7,10 @@ import Loading from "../components/Loading/Loading";
 /* Redirect 주소로 전달받은 code값을 추출 */
 const KakaoAuth = () => {
   let navigate = useNavigate();
-  const REST_API_KEY = "1c16cb196a174ddce815876521f0b5d4";
+  const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
   const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
   // const REDIRECT_URI = "http://www.4cut.shop/oauth/kakao/callback";
-  const CLIENT_SECRET = "8VaxXb9sOLtW7V5ETHavn4mNcTvouca8";
+  const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 
   // calllback으로 받은 인가코드
   const code = new URL(window.location.href).searchParams.get("code");
@@ -34,8 +34,7 @@ const KakaoAuth = () => {
       window.Kakao.Auth.setAccessToken(res.data.access_token);
       localStorage.setItem("token", res.data.access_token);
       navigate("/profile");
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {

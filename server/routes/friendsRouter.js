@@ -72,7 +72,6 @@ friendsRouter.get("/me/friendsList/:myId", async (req, res) => {
   
   }
   const me = await User.findOne({ _id: req.params.myId });
-  // console.log(me)
   let friendsList = [];
   Promise.all(
     me.friends.map(async (item) => {

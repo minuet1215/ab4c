@@ -57,7 +57,7 @@ function UserMain() {
             height: "100%",
             width: "65%",
             margin: "30px",
-            fontSize: "35px",
+            fontSize: "4vh",
             border: "1px solid #ccc",
           }}
           onClick={showModal}
@@ -72,7 +72,7 @@ function UserMain() {
             height: "100%",
             width: "65%",
             margin: "30px",
-            fontSize: "35px",
+            fontSize: "4vh",
             border: "1px solid #ccc",
           }}
           onClick={() => navigate("/album")}
@@ -141,7 +141,7 @@ function UserMain() {
                   alt=""
                 />
 
-                <div>같이 찍기</div>
+                <div>둘이 찍기</div>
               </button>
             </div>
           </div>

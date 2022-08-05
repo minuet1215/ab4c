@@ -20,16 +20,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     minlength: 5,
   },
-
-  lastname: {
-    type: String,
-    maxlength: 50,
-  },
-
-  role: {
-    type: Number,
-    default: 0,
-  },
+  
   // following
   friends: [{ type: String }],
 
@@ -47,15 +38,17 @@ const UserSchema = new mongoose.Schema({
   loginType: String,
 });
 
+/* 1. salt 생성
+ * 2. 생성된 salt로 비밀번호를 암호화 (hash)
+*  3. 암호화된 비밀번호를 유저 스키마에 저장*/
 UserSchema.pre("save", function (next) {
   const user = this;
-  // 비밀번호 암호화
   if (user.isModified("password")) {
-    bcrypt.genSalt(parseInt(SALTROUNDS), function (err, salt) {
+    bcrypt.genSalt(parseInt(SALTROUNDS), function (err, salt) { // 1
       if (err) return next(err);
-      bcrypt.hash(user.password, salt, function (err, hash) {
+      bcrypt.hash(user.password, salt, function (err, hash) { // 2
         if (err) return next(err);
-        user.password = hash;
+        user.password = hash; // 3
         next();
       });
     });
@@ -64,14 +57,15 @@ UserSchema.pre("save", function (next) {
   }
 });
 
+// 비밀번호 비교
 UserSchema.methods.comparePassword = function (plainPassword, cb) {
-  // 비밀번호 비교
   bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
     if (err) return cb(err);
     cb(null, isMatch);
   });
 };
 
+// jwt 토큰 생성
 UserSchema.methods.generateToken = function (cb) {
   const token = jwt.sign(this._id.toHexString(), SECRET_TOKEN);
   this.token = token;
@@ -80,7 +74,7 @@ UserSchema.methods.generateToken = function (cb) {
     cb(null, user);
   });
 };
-
+// 요청한 토큰과 일치하는 jwt 토큰을 가진 유저 찾기
 UserSchema.statics.findByToken = function (token, cb) {
   let user = this;
   // 토큰을 복호화해서 유저 정보 가져오기

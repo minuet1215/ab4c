@@ -41,7 +41,7 @@ function HeartButton({ modalContent, setModalContent }) {
           margin: "auto",
           marginLeft: -20,
           fontWeight: "bold",
-          fontSize: "24px",
+          fontSize: "3vh",
         }}
       >
         {totalLike}

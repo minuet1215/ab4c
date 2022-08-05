@@ -50,8 +50,8 @@ code {
 }
 
 .img_container {
-  width: 200px;
-  padding: 20px;
+  width: 15vh;
+  padding: 2vh;
 }
 .wrap_img {
   box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5);
@@ -115,7 +115,7 @@ code {
   height: 82%;
 }
 .modal_img {
-  width: 100%;
+  width: 100vh;
   height: 100%;
   object-fit: contain;
 }
