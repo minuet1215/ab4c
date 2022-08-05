@@ -130,4 +130,20 @@ imageRouter.patch("/:imageId/like", async (req, res) => {
   }
 });
 
+///////////////////////////////////////////////////////
+imageRouter.patch("/album/public", async (req, res) => {
+  try {
+    // if (!req.body.user) throw new Error("권한이 없습니다.");
+    if (!mongoose.isValidObjectId(req.body.img.desc))
+      throw new Error("올바르지 않은 이미지 ID입니다.");
+    const image = await Image.findOneAndUpdate({ _id: req.body.img.desc }, [
+      { $set: { public: { $eq: [false, "$public"] } } },
+    ]);
+    console.log(image.public);
+    res.json({ message: "성공", image });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 module.exports = imageRouter;

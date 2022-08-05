@@ -14,11 +14,6 @@ const Background = styled.div`
   justify-content: center;
 `;
 
-// const LoadingText = styled.div`
-//   font: 1rem "Noto Sans KR";
-//   text-align: center;
-// `;
-
 export const Loading = () => {
   return (
     <Background>

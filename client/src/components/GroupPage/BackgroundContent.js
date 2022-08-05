@@ -38,7 +38,7 @@ const BackgroundContent = forwardRef((props, ref) => {
             onClick={() => {
               props.setImgBase64(image.src);
             }}
-          ></img>
+          />
         );
       })}
       <input

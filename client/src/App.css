@@ -6,6 +6,10 @@
 .modalRadius .ant-modal-header {
   border-radius: 10px;
 }
+.ant-switch.PublicBtn.ant-switch-checked {
+  background-color: #fc8da1;
+  display: inline-block;
+}
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
   color: #fc8da1 !important;

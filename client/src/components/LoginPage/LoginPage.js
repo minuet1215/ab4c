@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../_actions/user_action";
 import { Form, Input } from "antd";
 import MyHeader from "../Header/Header";
-import Kakao from "../../controller/Kakao";
 import { toast } from "react-toastify";
 
 function LoginPage() {
