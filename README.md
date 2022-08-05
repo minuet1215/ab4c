@@ -19,7 +19,6 @@
 ![image](https://user-images.githubusercontent.com/76905528/182895017-87a014d1-23ef-4b3d-bb2d-c1fae8bb2c2e.png)
 ![image](https://user-images.githubusercontent.com/76905528/182993679-3d3c296b-70e6-4ff1-aa94-aa0b0d5182d8.png)
 
-# 🔍 서비스 소개
 # 🛠️ 아키텍쳐
 ![image](https://user-images.githubusercontent.com/76905528/182911351-af6e27b1-a21f-4f09-898e-5e21145549f3.png)
 
