@@ -15,6 +15,7 @@ function MyAlbum() {
   const [isModalVisible, setModalVisible] = useState(false);
   const showModal = (contents) => {
     setClickedImg(contents);
+    console.log("contents:", contents.isPublic);
   };
 
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ function MyAlbum() {
       isPublic: item.public,
     });
   });
-  console.log(data.datas);
+  // console.log(data.datas);
   return (
     <div className="outer_container">
       <div>{loading ? <Loading /> : null}</div>

@@ -4,9 +4,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function SwitchPublic(modalContent) {
-  const [isPublic, setIsPublic] = useState(modalContent.isPublic); // true가 공개라면
+  const [isPublic, setIsPublic] = useState(modalContent.img.isPublic); // true가 공개라면
+  console.log("isPublic :", modalContent);
 
-  const publicHandler = (checked) => {
+  const publicHandler = () => {
     axios
       .patch("/api/images/album/public/", modalContent)
       .then((res) => {
@@ -16,15 +17,13 @@ function SwitchPublic(modalContent) {
   };
   return (
     <>
-      <Switch defaultChecked onChange={publicHandler} />
-      {/* <button
-        className="PubBtn"
-        onClick={() => {
-          publicHandler();
-        }}
-      > */}
-      공개
-      {/* </button> */}
+      <Switch
+        className="PublicBtn"
+        checkedChildren="공개"
+        unCheckedChildren="비공개"
+        defaultChecked={isPublic}
+        onChange={publicHandler}
+      />
     </>
   );
 }

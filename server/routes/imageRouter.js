@@ -139,7 +139,7 @@ imageRouter.patch("/album/public", async (req, res) => {
     const image = await Image.findOneAndUpdate({ _id: req.body.img.desc }, [
       { $set: { public: { $eq: [false, "$public"] } } },
     ]);
-
+    console.log(image.public);
     res.json({ message: "성공", image });
   } catch (err) {
     res.status(400).json({ message: err.message });
