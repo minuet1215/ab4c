@@ -60,7 +60,7 @@
 > > `models/`: DB Schema
 > >
 > > `routes/`: route 관리
->
-> `package.json` : 백 관련 모듈, 스크립트 등등
+> >
+> > `package.json` : 백 관련 모듈, 스크립트 등등
 
 <hr>
