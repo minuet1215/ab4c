@@ -20,11 +20,11 @@
 ![image](https://user-images.githubusercontent.com/76905528/182993679-3d3c296b-70e6-4ff1-aa94-aa0b0d5182d8.png)
 
 # 🛠️ 아키텍쳐
-![image](https://user-images.githubusercontent.com/76905528/182911351-af6e27b1-a21f-4f09-898e-5e21145549f3.png)
+
+![아키텍쳐](https://user-images.githubusercontent.com/96639305/183351848-a4b642e9-8f84-431c-9a60-3d7d8c5199c7.png)
 
 # 🕶 포스터
-![github](https://user-images.githubusercontent.com/76905528/182648293-71c6cdc3-8203-4dce-81c6-a8b655a05a42.png)
-
+![github](https://user-images.githubusercontent.com/96639305/183351685-8431ca29-9139-4be8-857c-718d54c2c4a8.png)
 
 
 
